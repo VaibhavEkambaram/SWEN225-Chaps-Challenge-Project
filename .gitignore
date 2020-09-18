@@ -39,3 +39,4 @@ Thumbs.db
 # Directories #
 ###############
 .idea/
+out/
