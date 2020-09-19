@@ -1,7 +1,20 @@
 package nz.ac.vuw.ecs.swen225.gp20.application;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.EmptyBorder;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
@@ -19,7 +32,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     JPanel rightPanel;
 
     public GraphicalInterface() {
-        super("Chap's Challenge!");
+        super("Chaps Challenge");
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -63,12 +76,16 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         tableMenuBar.add(optionsMenu);
 
 
-        JPanel p = new JPanel(new BorderLayout());
+        JPanel p = new JPanel(new BorderLayout(20,0));
 
+
+
+
+        p.setBorder(new EmptyBorder(30, 30, 30, 30));
         centrePanel = new JPanel();
-        rightPanel = new JPanel(new GridLayout(0,1));
+        rightPanel = new JPanel(new GridLayout(8,1));
 
-        rightPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 
 
 
