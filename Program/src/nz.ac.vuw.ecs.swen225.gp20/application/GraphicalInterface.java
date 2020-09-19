@@ -15,6 +15,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     List<Integer> pressedKeys = new ArrayList<>();
 
 
+    JPanel centrePanel;
+    JPanel rightPanel;
+
     public GraphicalInterface() {
         super("Chap's Challenge!");
 
@@ -62,17 +65,33 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         JPanel p = new JPanel(new BorderLayout());
 
-        JPanel centrePanel = new JPanel();
-        JPanel rightPanel = new JPanel();
+        centrePanel = new JPanel();
+        rightPanel = new JPanel(new GridLayout(0,1));
 
-        p.add(rightPanel,BorderLayout.EAST);
-        p.add(centrePanel,BorderLayout.CENTER);
+        rightPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        rightPanel.setPreferredSize(new Dimension(200, 0));
-        centrePanel.setPreferredSize(new Dimension(600, 600));
+
+
+        rightPanel.add(new JLabel("Level"));
+        rightPanel.add(new JTextArea());
+        rightPanel.add(new JLabel("Time"));
+        rightPanel.add(new JTextArea());
+        rightPanel.add(new JLabel("Chips Left"));
+        rightPanel.add(new JTextArea());
+
+
+
+
+
+        p.add(rightPanel, BorderLayout.EAST);
+        p.add(centrePanel, BorderLayout.CENTER);
+
+        rightPanel.setPreferredSize(new Dimension(215, 0));
+        centrePanel.setPreferredSize(new Dimension(585, 600));
         rightPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         centrePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
+        centrePanel.setBackground(new Color(3,192,60));
 
 
         getContentPane().add(p);
@@ -81,14 +100,17 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         setLocationByPlatform(true);
 
 
-        setPreferredSize(new Dimension(800,600));
+        setPreferredSize(new Dimension(800, 600));
+        setMinimumSize(new Dimension(600,450));
         pack();
         setVisible(true);
 
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                System.out.println("Window resized to width: "+ getBounds().getSize().getWidth() + " height: "+ getBounds().getSize().getHeight());
+                rightPanel.setMinimumSize(new Dimension((int) (getBounds().getSize().getWidth() * 0.26875), 0));
+                centrePanel.setMinimumSize(new Dimension((int) (getBounds().getSize().getWidth() * 0.73125), 600));
+                repaint();
             }
         });
 
@@ -98,16 +120,21 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-
     }
 
+    /**
+     * Detect Key Presses for keyboard shortcuts and perform actions if applicable
+     * @param e key event
+     */
     @Override
     public void keyPressed(KeyEvent e) {
 
+        // add keys to array of pressed keys
         if (!pressedKeys.contains(e.getKeyCode())) {
             pressedKeys.add(e.getKeyCode());
         }
 
+        // Perform action based on keys that are currently pressed by checking the array of pressed keys
         if (pressedKeys.size() == 2) {
             if (pressedKeys.contains(17) && pressedKeys.contains(88)) {
                 System.out.println("exit the game, the current game state will be lost, the next time the game is started, it will resume from the last unfinished level");
@@ -137,6 +164,13 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         }
     }
 
+
+    /**
+     * Detect Key Released.
+     * If a key has been released, then remove it from the array of pressed keys
+     *
+     * @param e key event
+     */
     @Override
     public void keyReleased(KeyEvent e) {
         if (pressedKeys.contains(e.getKeyCode())) {
