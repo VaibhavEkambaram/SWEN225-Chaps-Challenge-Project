@@ -3,15 +3,11 @@ package nz.ac.vuw.ecs.swen225.gp20.application;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GraphicalInterface extends JFrame implements KeyListener {
-
 
     List<Integer> pressedKeys = new ArrayList<>();
 
@@ -88,11 +84,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
 
         rightPanel.add(level);
-       // rightPanel.add(new JTextArea());
         rightPanel.add(time);
-       // rightPanel.add(new JTextArea());
         rightPanel.add(chipsLeft);
-       // rightPanel.add(new JTextArea());
 
 
 
@@ -112,22 +105,47 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         centrePanel.setPreferredSize(new Dimension(585, 600));
         rightPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         centrePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        secondRightPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         centrePanel.setBackground(Color.LIGHT_GRAY);
         centrePanel.setBorder(BorderFactory.createRaisedBevelBorder());
         p.setBackground(new Color(3,192,60));
         rightPanel.setBackground(Color.LIGHT_GRAY);
         rightPanel.setBorder(BorderFactory.createRaisedBevelBorder());
+        secondRightPanel.setBorder(BorderFactory.createRaisedBevelBorder());
 
 
         JButton upButton = new JButton("^");
-
+        upButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("UP");
+            }
+        });
 
         JButton downButton = new JButton("v");
+        downButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("DOWN");
+            }
+        });
 
         JButton leftButton = new JButton("<");
+        leftButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("LEFT");
+            }
+        });
 
         JButton rightButton = new JButton(">");
+        rightButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("RIGHT");
+            }
+        });
 
 
         secondRightPanel.add(new JLabel());
