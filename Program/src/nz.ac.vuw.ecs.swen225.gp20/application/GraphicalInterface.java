@@ -12,9 +12,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     List<Integer> pressedKeys = new ArrayList<>();
 
 
-    JPanel centrePanel;
+    JPanel gamePanel;
+    JPanel informationPanel;
     JPanel rightPanel;
-    JPanel rightPanelMain;
 
     public GraphicalInterface() {
         super("Chaps Challenge");
@@ -28,58 +28,59 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 
-        addKeyListener(this);
+
 
 
         final JMenuBar tableMenuBar = new JMenuBar();
         this.setJMenuBar(tableMenuBar);
 
-
+        // ------------------------------------------------------------------------------------------------
+        // Menu Bar Structure
+        // ------------------------------------------------------------------------------------------------
         final JMenu gameMenu = new JMenu("Game");
 
         final JMenuItem newGameMenu = new JMenuItem("New Game (Ctrl-1)");
-        gameMenu.add(newGameMenu);
-
         final JMenuItem newGameFromLastLevelMenu = new JMenuItem("New Game from Last Level (Ctrl-P)");
-        gameMenu.add(newGameFromLastLevelMenu);
-
         final JMenuItem resumeASavedGameMenu = new JMenuItem("Resume Saved Game (Ctrl-R)");
-        gameMenu.add(resumeASavedGameMenu);
-
         final JMenuItem saveAndExitGameMenu = new JMenuItem("Save and Exit (Ctrl-S)");
-        gameMenu.add(saveAndExitGameMenu);
-
         final JMenuItem exitMenuItemMenu = new JMenuItem("Exit (Ctrl-X)");
-        gameMenu.add(exitMenuItemMenu);
 
+        gameMenu.add(newGameMenu);
+        gameMenu.add(newGameFromLastLevelMenu);
+        gameMenu.add(resumeASavedGameMenu);
+        gameMenu.add(saveAndExitGameMenu);
+        gameMenu.add(exitMenuItemMenu);
+        // ------------------------------------------------------------------------------------------------
         final JMenu optionsMenu = new JMenu("Options");
 
         final JMenuItem gamePauseMenu = new JMenuItem("Toggle Game Pause");
         optionsMenu.add(gamePauseMenu);
+        // ------------------------------------------------------------------------------------------------
+        final JMenu helpMenu = new JMenu("Help");
+
+        final JMenuItem howToPlayMenu = new JMenuItem("How to Play");
+        final JMenuItem aboutMenu = new JMenuItem("About");
+
+        helpMenu.add(howToPlayMenu);
+        helpMenu.add(aboutMenu);
+        // ------------------------------------------------------------------------------------------------
 
         tableMenuBar.add(gameMenu);
         tableMenuBar.add(optionsMenu);
-
-        final JMenu helpMenu = new JMenu("Help");
         tableMenuBar.add(helpMenu);
 
-        final JMenuItem howToPlayMenu = new JMenuItem("How to Play");
-        helpMenu.add(howToPlayMenu);
 
-        final JMenuItem aboutMenu = new JMenuItem("About");
-        helpMenu.add(aboutMenu);
+        JPanel mainPanel = new JPanel(new BorderLayout(20,0));
+        mainPanel.setBorder(new EmptyBorder(30, 30, 30, 30));
+        JPanel movementPanel = new JPanel(new GridLayout(2,3));
 
+        gamePanel = new JPanel();
 
-        JPanel p = new JPanel(new BorderLayout(20,0));
+        rightPanel = new JPanel(new BorderLayout());
+        informationPanel = new JPanel();
+        informationPanel.setLayout(new GridLayout(8,1));
+        informationPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-
-
-
-        p.setBorder(new EmptyBorder(30, 30, 30, 30));
-        centrePanel = new JPanel();
-
-        rightPanelMain = new JPanel(new BorderLayout());
-        rightPanel = new JPanel(new GridLayout(8,1));
 
 
         Font  f1  = new Font(Font.MONOSPACED, Font.BOLD,  20);
@@ -90,41 +91,49 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         JLabel chipsLeft = new JLabel("CHIPS LEFT",JLabel.CENTER);
         chipsLeft.setFont(f1);
 
+        JLabel label1 = new JLabel("undefined");
+        JLabel label2 = new JLabel("undefined");
+        JLabel label3 = new JLabel("undefined");
+
+        label1.setHorizontalAlignment(SwingConstants.CENTER);
+        label2.setHorizontalAlignment(SwingConstants.CENTER);
+        label3.setHorizontalAlignment(SwingConstants.CENTER);
+
+        informationPanel.add(level);
+        informationPanel.add(label1);
+        informationPanel.add(time);
+        informationPanel.add(label2);
+        informationPanel.add(chipsLeft);
+        informationPanel.add(label3);
 
 
-        rightPanel.add(level);
-        rightPanel.add(time);
-        rightPanel.add(chipsLeft);
+
+
+        rightPanel.add(informationPanel,BorderLayout.CENTER);
 
 
 
-        rightPanelMain.add(rightPanel,BorderLayout.CENTER);
-
-
-        JPanel secondRightPanel = new JPanel(new GridLayout(2,3));
-        rightPanelMain.add(secondRightPanel,BorderLayout.SOUTH);
-        secondRightPanel.setPreferredSize(new Dimension(215, 120));
+        rightPanel.add(movementPanel,BorderLayout.SOUTH);
+        movementPanel.setPreferredSize(new Dimension(215, 120));
 
 
 
-        p.add(rightPanelMain, BorderLayout.EAST);
-        p.add(centrePanel, BorderLayout.CENTER);
+        mainPanel.add(rightPanel, BorderLayout.EAST);
+        mainPanel.add(gamePanel, BorderLayout.CENTER);
 
-        rightPanel.setPreferredSize(new Dimension(215, 480));
-        centrePanel.setPreferredSize(new Dimension(585, 600));
-        rightPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        centrePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        secondRightPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        informationPanel.setPreferredSize(new Dimension(215, 480));
+        gamePanel.setPreferredSize(new Dimension(585, 600));
 
-        centrePanel.setBackground(Color.LIGHT_GRAY);
-        centrePanel.setBorder(BorderFactory.createRaisedBevelBorder());
-        p.setBackground(new Color(3,192,60));
-        rightPanel.setBackground(Color.LIGHT_GRAY);
-        rightPanel.setBorder(BorderFactory.createRaisedBevelBorder());
-        secondRightPanel.setBorder(BorderFactory.createRaisedBevelBorder());
+        gamePanel.setBackground(Color.LIGHT_GRAY);
+        gamePanel.setBorder(BorderFactory.createRaisedBevelBorder());
+        mainPanel.setBackground(new Color(3,192,60));
+        informationPanel.setBackground(Color.LIGHT_GRAY);
+        informationPanel.setBorder(BorderFactory.createRaisedBevelBorder());
+        movementPanel.setBorder(BorderFactory.createRaisedBevelBorder());
 
 
         JButton upButton = new JButton("^");
+        upButton.setToolTipText("Move Chap Up");
         upButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -133,6 +142,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         });
 
         JButton downButton = new JButton("v");
+        downButton.setToolTipText("Move Chap Down");
         downButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -141,6 +151,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         });
 
         JButton leftButton = new JButton("<");
+        leftButton.setToolTipText("Move Chap to the Left");
         leftButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -149,6 +160,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         });
 
         JButton rightButton = new JButton(">");
+        rightButton.setToolTipText("Move Chap to the Right");
         rightButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -157,14 +169,14 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         });
 
 
-        secondRightPanel.add(new JLabel());
-        secondRightPanel.add(upButton);
-        secondRightPanel.add(new JLabel());
-        secondRightPanel.add(leftButton);
-        secondRightPanel.add(downButton);
-        secondRightPanel.add(rightButton);
+        movementPanel.add(new JLabel());
+        movementPanel.add(upButton);
+        movementPanel.add(new JLabel());
+        movementPanel.add(leftButton);
+        movementPanel.add(downButton);
+        movementPanel.add(rightButton);
 
-        rightPanelMain.setFocusable(false);
+        //rightPanel.setFocusable(false);
         upButton.setFocusable(false);
         downButton.setFocusable(false);
         leftButton.setFocusable(false);
@@ -173,9 +185,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
 
 
-        getContentPane().add(p);
-
-
+        getContentPane().add(mainPanel);
+        addKeyListener(this);
         setLocationByPlatform(true);
 
 
@@ -189,8 +200,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                rightPanelMain.setMinimumSize(new Dimension((int) (getBounds().getSize().getWidth() * 0.26875), 300));
-                centrePanel.setMinimumSize(new Dimension((int) (getBounds().getSize().getWidth() * 0.73125), 600));
+                rightPanel.setMinimumSize(new Dimension((int) (getBounds().getSize().getWidth() * 0.26875), 300));
+                gamePanel.setMinimumSize(new Dimension((int) (getBounds().getSize().getWidth() * 0.73125), 600));
                 repaint();
             }
         });
