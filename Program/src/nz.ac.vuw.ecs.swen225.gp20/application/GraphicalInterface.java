@@ -1,20 +1,8 @@
 package nz.ac.vuw.ecs.swen225.gp20.application;
 
-import javax.swing.BorderFactory;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
@@ -30,6 +18,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
     JPanel centrePanel;
     JPanel rightPanel;
+    JPanel rightPanelMain;
 
     public GraphicalInterface() {
         super("Chaps Challenge");
@@ -83,32 +72,78 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         p.setBorder(new EmptyBorder(30, 30, 30, 30));
         centrePanel = new JPanel();
+
+        rightPanelMain = new JPanel(new BorderLayout());
         rightPanel = new JPanel(new GridLayout(8,1));
 
 
+        Font  f1  = new Font(Font.MONOSPACED, Font.BOLD,  20);
+        JLabel level = new JLabel("LEVEL",JLabel.CENTER);
+        level.setFont(f1);
+        JLabel time = new JLabel("TIME",JLabel.CENTER);
+        time.setFont(f1);
+        JLabel chipsLeft = new JLabel("CHIPS LEFT",JLabel.CENTER);
+        chipsLeft.setFont(f1);
 
 
 
-        rightPanel.add(new JLabel("Level"));
-        rightPanel.add(new JTextArea());
-        rightPanel.add(new JLabel("Time"));
-        rightPanel.add(new JTextArea());
-        rightPanel.add(new JLabel("Chips Left"));
-        rightPanel.add(new JTextArea());
+        rightPanel.add(level);
+       // rightPanel.add(new JTextArea());
+        rightPanel.add(time);
+       // rightPanel.add(new JTextArea());
+        rightPanel.add(chipsLeft);
+       // rightPanel.add(new JTextArea());
 
 
 
+        rightPanelMain.add(rightPanel,BorderLayout.CENTER);
 
 
-        p.add(rightPanel, BorderLayout.EAST);
+        JPanel secondRightPanel = new JPanel(new GridLayout(2,3));
+        rightPanelMain.add(secondRightPanel,BorderLayout.SOUTH);
+        secondRightPanel.setPreferredSize(new Dimension(215, 120));
+
+
+
+        p.add(rightPanelMain, BorderLayout.EAST);
         p.add(centrePanel, BorderLayout.CENTER);
 
-        rightPanel.setPreferredSize(new Dimension(215, 0));
+        rightPanel.setPreferredSize(new Dimension(215, 480));
         centrePanel.setPreferredSize(new Dimension(585, 600));
         rightPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         centrePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-        centrePanel.setBackground(new Color(3,192,60));
+        centrePanel.setBackground(Color.LIGHT_GRAY);
+        centrePanel.setBorder(BorderFactory.createRaisedBevelBorder());
+        p.setBackground(new Color(3,192,60));
+        rightPanel.setBackground(Color.LIGHT_GRAY);
+        rightPanel.setBorder(BorderFactory.createRaisedBevelBorder());
+
+
+        JButton upButton = new JButton("^");
+
+
+        JButton downButton = new JButton("v");
+
+        JButton leftButton = new JButton("<");
+
+        JButton rightButton = new JButton(">");
+
+
+        secondRightPanel.add(new JLabel());
+        secondRightPanel.add(upButton);
+        secondRightPanel.add(new JLabel());
+        secondRightPanel.add(leftButton);
+        secondRightPanel.add(downButton);
+        secondRightPanel.add(rightButton);
+
+        rightPanelMain.setFocusable(false);
+        upButton.setFocusable(false);
+        downButton.setFocusable(false);
+        leftButton.setFocusable(false);
+        rightButton.setFocusable(false);
+
+
 
 
         getContentPane().add(p);
@@ -125,7 +160,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                rightPanel.setMinimumSize(new Dimension((int) (getBounds().getSize().getWidth() * 0.26875), 0));
+                rightPanelMain.setMinimumSize(new Dimension((int) (getBounds().getSize().getWidth() * 0.26875), 300));
                 centrePanel.setMinimumSize(new Dimension((int) (getBounds().getSize().getWidth() * 0.73125), 600));
                 repaint();
             }
