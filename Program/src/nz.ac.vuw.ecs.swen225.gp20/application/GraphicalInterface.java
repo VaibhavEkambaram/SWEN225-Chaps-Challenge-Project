@@ -37,19 +37,19 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         final JMenu gameMenu = new JMenu("Game");
 
-        final JMenuItem newGameMenu = new JMenuItem("Start a New Game");
+        final JMenuItem newGameMenu = new JMenuItem("New Game (Ctrl-1)");
         gameMenu.add(newGameMenu);
 
-        final JMenuItem newGameFromLastLevelMenu = new JMenuItem("Start a New Game from Last Played Level");
+        final JMenuItem newGameFromLastLevelMenu = new JMenuItem("New Game from Last Level (Ctrl-P)");
         gameMenu.add(newGameFromLastLevelMenu);
 
-        final JMenuItem resumeASavedGameMenu = new JMenuItem("Resume a Saved Game");
+        final JMenuItem resumeASavedGameMenu = new JMenuItem("Resume Saved Game (Ctrl-R)");
         gameMenu.add(resumeASavedGameMenu);
 
-        final JMenuItem saveAndExitGameMenu = new JMenuItem("Save and Exit Game");
+        final JMenuItem saveAndExitGameMenu = new JMenuItem("Save and Exit (Ctrl-S)");
         gameMenu.add(saveAndExitGameMenu);
 
-        final JMenuItem exitMenuItemMenu = new JMenuItem("Force Quit and Exit Game");
+        final JMenuItem exitMenuItemMenu = new JMenuItem("Exit (Ctrl-X)");
         gameMenu.add(exitMenuItemMenu);
 
         final JMenu optionsMenu = new JMenu("Options");
@@ -59,6 +59,15 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         tableMenuBar.add(gameMenu);
         tableMenuBar.add(optionsMenu);
+
+        final JMenu helpMenu = new JMenu("Help");
+        tableMenuBar.add(helpMenu);
+
+        final JMenuItem howToPlayMenu = new JMenuItem("How to Play");
+        helpMenu.add(howToPlayMenu);
+
+        final JMenuItem aboutMenu = new JMenuItem("About");
+        helpMenu.add(aboutMenu);
 
 
         JPanel p = new JPanel(new BorderLayout(20,0));
@@ -174,6 +183,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         setMinimumSize(new Dimension(600,450));
         pack();
         setVisible(true);
+
+
 
         addComponentListener(new ComponentAdapter() {
             @Override
