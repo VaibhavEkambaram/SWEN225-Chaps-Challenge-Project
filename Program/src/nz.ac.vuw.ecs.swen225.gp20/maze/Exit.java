@@ -11,4 +11,7 @@ public class Exit extends Tile {
     public boolean action(Player p) {
         return isPassable;
     }
+
+    @Override
+    public String toString() {return "exit";}
 }
