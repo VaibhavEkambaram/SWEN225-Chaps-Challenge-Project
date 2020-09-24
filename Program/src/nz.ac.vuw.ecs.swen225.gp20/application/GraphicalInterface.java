@@ -6,16 +6,19 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class GraphicalInterface extends JFrame implements KeyListener {
 
     List<Integer> pressedKeys = new ArrayList<>();
 
-
     JPanel gamePanel;
     JPanel informationPanel;
     JPanel rightPanel;
+
+    JLabel timeLabel;
+    JLabel levelLabel;
+
+    Game currentGame;
 
     public GraphicalInterface() {
         super("Chaps Challenge");
@@ -29,9 +32,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 
-
-
-
         final JMenuBar tableMenuBar = new JMenuBar();
         this.setJMenuBar(tableMenuBar);
 
@@ -41,6 +41,19 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         final JMenu gameMenu = new JMenu("Game");
 
         final JMenuItem newGameMenu = new JMenuItem("New Game (Ctrl-1)");
+
+        newGameMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                onNewGame();
+            }
+        });
+
+
+
+
+
+
         final JMenuItem newGameFromLastLevelMenu = new JMenuItem("New Game from Last Level (Ctrl-P)");
         final JMenuItem resumeASavedGameMenu = new JMenuItem("Resume Saved Game (Ctrl-R)");
         final JMenuItem saveAndExitGameMenu = new JMenuItem("Save and Exit (Ctrl-S)");
@@ -81,7 +94,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         tableMenuBar.add(optionsMenu);
         tableMenuBar.add(helpMenu);
 
-
         JPanel mainPanel = new JPanel(new BorderLayout(20,0));
         mainPanel.setBorder(new EmptyBorder(30, 30, 30, 30));
         JPanel movementPanel = new JPanel(new GridLayout(2,3));
@@ -93,50 +105,41 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         informationPanel.setLayout(new GridLayout(9,1));
         informationPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-
-
-        Font  f1  = new Font(Font.MONOSPACED, Font.BOLD,  20);
+        Font  infoTextFont  = new Font(Font.MONOSPACED, Font.BOLD,  20);
         JLabel level = new JLabel("LEVEL",JLabel.CENTER);
-        level.setFont(f1);
+        level.setFont(infoTextFont);
         JLabel time = new JLabel("TIME",JLabel.CENTER);
-        time.setFont(f1);
+        time.setFont(infoTextFont);
         JLabel chipsLeft = new JLabel("CHIPS LEFT",JLabel.CENTER);
-        chipsLeft.setFont(f1);
+        chipsLeft.setFont(infoTextFont);
 
-        JLabel label1 = new JLabel("undefined");
-        JLabel label2 = new JLabel("undefined");
+        levelLabel = new JLabel("undefined");
+        timeLabel = new JLabel("undefined");
         JLabel label3 = new JLabel("undefined");
         JLabel label4 = new JLabel("chips placeholder");
 
-        label1.setHorizontalAlignment(SwingConstants.CENTER);
-        label2.setHorizontalAlignment(SwingConstants.CENTER);
+        levelLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        timeLabel.setHorizontalAlignment(SwingConstants.CENTER);
         label3.setHorizontalAlignment(SwingConstants.CENTER);
 
         informationPanel.add(level);
-        informationPanel.add(label1);
+        informationPanel.add(levelLabel);
         informationPanel.add(time);
-        informationPanel.add(label2);
+        informationPanel.add(timeLabel);
         informationPanel.add(chipsLeft);
         informationPanel.add(label3);
         informationPanel.add(label4);
 
-
-
-
         rightPanel.add(informationPanel,BorderLayout.CENTER);
 
-
-
         rightPanel.add(movementPanel,BorderLayout.SOUTH);
-        movementPanel.setPreferredSize(new Dimension(215, 120));
-
-
+        movementPanel.setPreferredSize(new Dimension(240, 120));
 
         mainPanel.add(rightPanel, BorderLayout.EAST);
         mainPanel.add(gamePanel, BorderLayout.CENTER);
 
-        informationPanel.setPreferredSize(new Dimension(215, 480));
-        gamePanel.setPreferredSize(new Dimension(585, 600));
+        informationPanel.setPreferredSize(new Dimension(240, 480));
+        gamePanel.setPreferredSize(new Dimension(560, 600));
 
         gamePanel.setBackground(Color.LIGHT_GRAY);
         gamePanel.setBorder(BorderFactory.createRaisedBevelBorder());
@@ -190,14 +193,10 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         movementPanel.add(downButton);
         movementPanel.add(rightButton);
 
-        //rightPanel.setFocusable(false);
         upButton.setFocusable(false);
         downButton.setFocusable(false);
         leftButton.setFocusable(false);
         rightButton.setFocusable(false);
-
-
-
 
         getContentPane().add(mainPanel);
         addKeyListener(this);
@@ -210,17 +209,14 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         setVisible(true);
 
 
-
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                rightPanel.setMinimumSize(new Dimension((int) (getBounds().getSize().getWidth() * 0.26875), 300));
-                gamePanel.setMinimumSize(new Dimension((int) (getBounds().getSize().getWidth() * 0.73125), 600));
+                rightPanel.setMinimumSize(new Dimension((int) (getBounds().getSize().getWidth() * 0.3), (int) (getBounds().getSize().getHeight() * 0.5)));
+                gamePanel.setMinimumSize(new Dimension((int) (getBounds().getSize().getWidth() * 0.7), (int) (getBounds().getSize().getHeight())));
                 repaint();
             }
         });
-
-
     }
 
 
@@ -251,7 +247,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             } else if (pressedKeys.contains(17) && pressedKeys.contains(80)) {
                 System.out.println("Start a new game at the last unfinished level");
             } else if (pressedKeys.contains(17) && pressedKeys.contains(49)) {
-                System.out.println("start a new game at level 1");
+                onNewGame();
             }
         } else if (pressedKeys.size() == 1) {
             if (pressedKeys.contains(32)) {
@@ -271,6 +267,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     }
 
 
+
     /**
      * Detect Key Released.
      * If a key has been released, then remove it from the array of pressed keys
@@ -282,5 +279,23 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         if (pressedKeys.contains(e.getKeyCode())) {
             pressedKeys.remove((Integer) e.getKeyCode());
         }
+    }
+
+
+
+
+    public void onNewGame(){
+        System.out.println("start a new game at level 1");
+
+        if(currentGame!=null){
+            currentGame.terminateTimer();
+        }
+
+        currentGame = new Game(30,"$levelName",timeLabel,levelLabel);
+
+    }
+
+    public void onNewGameFromLastLevel(){
+        new Game(30,"$levelName",timeLabel,levelLabel);
     }
 }
