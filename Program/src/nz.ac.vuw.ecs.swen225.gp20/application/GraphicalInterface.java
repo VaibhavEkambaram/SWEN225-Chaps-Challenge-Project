@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class GraphicalInterface extends JFrame implements KeyListener {
 
@@ -59,6 +60,17 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         final JMenu helpMenu = new JMenu("Help");
 
         final JMenuItem howToPlayMenu = new JMenuItem("How to Play");
+        howToPlayMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JPanel fields = new JPanel(new GridLayout(0,1));
+
+                fields.add(new JLabel("Hello and welcome to Chaps Challenge. Here is how to play the game:"));
+
+
+                JOptionPane.showMessageDialog(null, fields, "How to Play", JOptionPane.PLAIN_MESSAGE);
+            }
+        });
         final JMenuItem aboutMenu = new JMenuItem("About");
 
         helpMenu.add(howToPlayMenu);
@@ -78,7 +90,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         rightPanel = new JPanel(new BorderLayout());
         informationPanel = new JPanel();
-        informationPanel.setLayout(new GridLayout(8,1));
+        informationPanel.setLayout(new GridLayout(9,1));
         informationPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 
@@ -94,6 +106,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         JLabel label1 = new JLabel("undefined");
         JLabel label2 = new JLabel("undefined");
         JLabel label3 = new JLabel("undefined");
+        JLabel label4 = new JLabel("chips placeholder");
 
         label1.setHorizontalAlignment(SwingConstants.CENTER);
         label2.setHorizontalAlignment(SwingConstants.CENTER);
@@ -105,6 +118,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         informationPanel.add(label2);
         informationPanel.add(chipsLeft);
         informationPanel.add(label3);
+        informationPanel.add(label4);
 
 
 
