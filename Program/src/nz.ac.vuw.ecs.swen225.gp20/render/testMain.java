@@ -1,8 +1,10 @@
 package nz.ac.vuw.ecs.swen225.gp20.render;
 
-public class renderTest {
+import javax.swing.*;
+
+public class testMain {
 
     public static void main(String[] args) {
-        new BoardRender();
+        new TestRender();
     }
 }

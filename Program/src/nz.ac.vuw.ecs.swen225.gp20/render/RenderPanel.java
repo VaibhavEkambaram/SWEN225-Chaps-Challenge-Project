@@ -1,20 +1,31 @@
 package nz.ac.vuw.ecs.swen225.gp20.render;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class RenderPanel extends JPanel {
 
-    private JLabel[][] grid;
-    private JPanel chipGrid;
-    private JPanel innerPanel;
-
+    // Find Tile
+    private String[][] currentBoard;
     private final TileFinder tileFinder;
 
-    public RenderPanel() {
+    // Size of Grid
+    private final int rows;
+    private final int cols;
+
+    // Render Display
+    private JLabel[][] tileGrid;
+    private JPanel displayGrid;
+    private JPanel innerPanel;
+
+    public RenderPanel(int rows, int cols) {
         this.tileFinder = new TileFinder();
+        this.rows = rows;
+        this.cols = cols;
+
         makeInnerPanel();
+        this.add(innerPanel);
+        this.setVisible(true);
     }
 
     /**
@@ -22,44 +33,45 @@ public class RenderPanel extends JPanel {
      * @return
      */
     private void makeInnerPanel() {
-        grid = new JLabel[0][0];
-
+        tileGrid = new JLabel[rows][cols];
+        displayGrid = new JPanel();
         innerPanel = new JPanel(new BorderLayout());
-        innerPanel.add(chipGrid, BorderLayout.CENTER);
-        this.add(innerPanel);
+        createGrid();
+        innerPanel.add(displayGrid, BorderLayout.CENTER);
     }
 
-    public void refreshBoard(String[][] currentBoard) {
-        int width = currentBoard.length;
-        int height = currentBoard[0].length;
-        createGrid(width, height);
-        for (int row = 0; row < width; row ++) {
-            for (int col = 0; col < height; col ++) {
-                grid[row][col].setIcon(tileFinder.getTile(currentBoard[row][col]));
+    public void setBoard(String[][] currentBoard) {
+        this.currentBoard = currentBoard;
+        repaint();
+    }
+
+    private void createGrid() {
+        tileGrid = new JLabel[rows][cols];
+
+        for (int row = 0; row < cols; row++) {
+            for (int col = 0; col < rows; col++) {
+                tileGrid[row][col] = new JLabel(tileFinder.getTile("empty"));
+            }
+        }
+
+        displayGrid = new JPanel(new GridLayout(cols, rows, 1, 1));
+        for (int row = 0; row < cols; row++) {
+            for (int col = 0; col < rows; col++) {
+                displayGrid.add(tileGrid[row][col]);
             }
         }
     }
 
-    private void createGrid(int width, int height) {
-        grid = new JLabel[width][height];
-
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                grid[x][y] = new JLabel(tileFinder.getTile("empty"));
-            }
-        }
-
-        chipGrid = new JPanel(new GridLayout(height, width, 1, 1));
-        chipGrid.setBorder(new EmptyBorder(15, 15, 15, 15));
-        for (int row = 0; row < height; row++) {
-            for (int col = 0; col < width; col++) {
-                chipGrid.add(grid[row][col]);
+    public void paint(Graphics g) {
+        int size = this.getWidth() < this.getHeight() ? this.getWidth()/cols : this.getHeight()/rows;
+        super.paint(g);
+        for (int row = 0; row < cols; row ++) {
+            for (int col = 0; col < rows; col ++) {
+                ImageIcon foundTile = tileFinder.getTile(currentBoard[row][col]);
+                Image resizeImage = foundTile.getImage().getScaledInstance(size, size, Image.SCALE_SMOOTH);
+                tileGrid[row][col].setIcon(new ImageIcon(resizeImage));
             }
         }
     }
-
-
-
-
 
 }

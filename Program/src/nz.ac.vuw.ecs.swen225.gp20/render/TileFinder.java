@@ -28,6 +28,9 @@ public class TileFinder {
     private final ImageIcon key_red = makeImageIcon("/items/keys/key_red.png");
 
     public ImageIcon getTile(String tileName) {
+        if (tileName == null) {
+            return empty;
+        }
         if (tileName.startsWith("chip")) {
             return getChip(tileName);
         } else if (tileName.startsWith("key")) {
