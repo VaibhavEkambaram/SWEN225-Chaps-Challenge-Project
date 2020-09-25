@@ -1,5 +1,8 @@
 package nz.ac.vuw.ecs.swen225.gp20.application;
 
+import nz.ac.vuw.ecs.swen225.gp20.maze.Board;
+import nz.ac.vuw.ecs.swen225.gp20.maze.Player;
+
 import javax.swing.*;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -8,6 +11,12 @@ public class Game {
     private int counter;
     private Timer timer;
     boolean gamePaused = false;
+
+    Board board;
+    Player player;
+
+
+
 
     public Game(int countFromFile, int chipsLeft, String levelName, JLabel timeLabel, JLabel levelLabel, JLabel chipsLeftLabel) {
         this.counter = countFromFile;
@@ -40,5 +49,13 @@ public class Game {
 
     public void setGamePaused(boolean value) {
         gamePaused = value;
+    }
+
+    public Board getBoard(){
+        return board;
+    }
+
+    public Player getPlayer(){
+        return player;
     }
 }
