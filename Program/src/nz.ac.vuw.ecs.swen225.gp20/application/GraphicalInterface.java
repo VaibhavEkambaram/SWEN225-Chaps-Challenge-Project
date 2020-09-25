@@ -75,8 +75,26 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         final JMenu recordAndReplayMenu = new JMenu("Record and Replay");
         final JMenuItem startRecordingMenu = new JMenuItem("Start Recording");
+        startRecordingMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
         final JMenuItem stopRecordingMenu = new JMenuItem("Stop Recording");
+        stopRecordingMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
         final JMenuItem loadRecordedMenu = new JMenuItem("Load Recorded Game");
+        loadRecordedMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
 
         optionsMenu.add(gamePauseMenu);
         optionsMenu.add(recordAndReplayMenu);
