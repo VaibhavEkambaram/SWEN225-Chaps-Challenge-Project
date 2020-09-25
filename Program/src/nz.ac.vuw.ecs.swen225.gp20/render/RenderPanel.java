@@ -28,10 +28,6 @@ public class RenderPanel extends JPanel {
         this.setVisible(true);
     }
 
-    /**
-     * This method is used to create the outermost panel.
-     * @return
-     */
     private void makeInnerPanel() {
         tileGrid = new JLabel[rows][cols];
         displayGrid = new JPanel();
@@ -48,15 +44,15 @@ public class RenderPanel extends JPanel {
     private void createGrid() {
         tileGrid = new JLabel[rows][cols];
 
-        for (int row = 0; row < cols; row++) {
-            for (int col = 0; col < rows; col++) {
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
                 tileGrid[row][col] = new JLabel(tileFinder.getTile("empty"));
             }
         }
 
-        displayGrid = new JPanel(new GridLayout(cols, rows, 1, 1));
-        for (int row = 0; row < cols; row++) {
-            for (int col = 0; col < rows; col++) {
+        displayGrid = new JPanel(new GridLayout(rows, cols, 1, 1));
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
                 displayGrid.add(tileGrid[row][col]);
             }
         }
@@ -65,8 +61,8 @@ public class RenderPanel extends JPanel {
     public void paint(Graphics g) {
         int size = this.getWidth() < this.getHeight() ? this.getWidth()/cols : this.getHeight()/rows;
         super.paint(g);
-        for (int row = 0; row < cols; row ++) {
-            for (int col = 0; col < rows; col ++) {
+        for (int row = 0; row < rows; row ++) {
+            for (int col = 0; col < cols; col ++) {
                 ImageIcon foundTile = tileFinder.getTile(currentBoard[row][col]);
                 Image resizeImage = foundTile.getImage().getScaledInstance(size, size, Image.SCALE_SMOOTH);
                 tileGrid[row][col].setIcon(new ImageIcon(resizeImage));

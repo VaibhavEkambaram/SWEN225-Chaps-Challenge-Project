@@ -52,7 +52,6 @@ public class TileFinder {
         }
     }
 
-
     private ImageIcon makeImageIcon(String filename) {
         // using the URL means the image loads when stored
         // in a jar or expanded into individual files.
