@@ -17,8 +17,11 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
     JLabel timeLabel;
     JLabel levelLabel;
+    JLabel chipsLeftLabel;
 
     Game currentGame;
+
+    boolean gamePaused = false;
 
     public GraphicalInterface() {
         super("Chaps Challenge");
@@ -68,6 +71,12 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         final JMenu optionsMenu = new JMenu("Options");
 
         final JMenuItem gamePauseMenu = new JMenuItem("Toggle Game Pause");
+        gamePauseMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                onPauseGame();
+            }
+        });
         optionsMenu.add(gamePauseMenu);
         // ------------------------------------------------------------------------------------------------
         final JMenu helpMenu = new JMenu("Help");
@@ -115,19 +124,19 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         levelLabel = new JLabel("undefined");
         timeLabel = new JLabel("undefined");
-        JLabel label3 = new JLabel("undefined");
+        chipsLeftLabel = new JLabel("undefined");
         JLabel label4 = new JLabel("chips placeholder");
 
         levelLabel.setHorizontalAlignment(SwingConstants.CENTER);
         timeLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        label3.setHorizontalAlignment(SwingConstants.CENTER);
+        chipsLeftLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         informationPanel.add(level);
         informationPanel.add(levelLabel);
         informationPanel.add(time);
         informationPanel.add(timeLabel);
         informationPanel.add(chipsLeft);
-        informationPanel.add(label3);
+        informationPanel.add(chipsLeftLabel);
         informationPanel.add(label4);
 
         rightPanel.add(informationPanel,BorderLayout.CENTER);
@@ -252,6 +261,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         } else if (pressedKeys.size() == 1) {
             if (pressedKeys.contains(32)) {
                 System.out.println("Pause the game and display a \"game is paused\" dialog");
+                onPauseGame();
             } else if (pressedKeys.contains(27)) {
                 System.out.println("close the \"game is paused\" dialog and resume the game");
             } else if (pressedKeys.contains(38)) {
@@ -291,11 +301,24 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             currentGame.terminateTimer();
         }
 
-        currentGame = new Game(30,"$levelName",timeLabel,levelLabel);
+        currentGame = new Game(30,-1,"$levelName",timeLabel,levelLabel,chipsLeftLabel);
 
     }
 
     public void onNewGameFromLastLevel(){
-        new Game(30,"$levelName",timeLabel,levelLabel);
+
+    }
+
+    public void onPauseGame(){
+        JLabel pausedLabel = new JLabel("Game Paused");
+
+        if(gamePaused){
+            gamePaused = false;
+            currentGame.setGamePaused(false);
+        } else {
+            gamePaused = true;
+            currentGame.setGamePaused(true);
+
+        }
     }
 }
