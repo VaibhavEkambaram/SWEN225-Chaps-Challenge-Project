@@ -32,6 +32,10 @@ public class Game {
         timer.scheduleAtFixedRate(task, 0, 1000); //1000ms = 1sec
     }
 
+    public int getTimeLeft(){
+        return counter;
+    }
+
     public void terminateTimer() {
         timer.cancel();
     }
