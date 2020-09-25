@@ -8,6 +8,16 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Game {
+
+
+    public enum GameState {
+        PREGAME, RUNNING, PAUSED
+    }
+
+
+
+
+
     private int counter;
     private Timer timer;
     boolean gamePaused = false;
@@ -33,6 +43,9 @@ public class Game {
                     chipsLeftLabel.setText(String.valueOf(chipsLeft));
                     counter--;
                     timeLabel.setText(String.valueOf(counter));
+                } else if (!gamePaused) {
+                    timer.cancel();
+                    System.out.println("time is up!");
                 }
             }
         };
