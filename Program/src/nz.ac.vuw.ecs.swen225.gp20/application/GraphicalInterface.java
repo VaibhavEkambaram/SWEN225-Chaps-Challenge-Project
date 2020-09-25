@@ -1,5 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp20.application;
 
+import nz.ac.vuw.ecs.swen225.gp20.render.RenderPanel;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -127,7 +129,19 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         mainPanel.setBorder(new EmptyBorder(30, 30, 30, 30));
         movementPanel = new JPanel(new GridLayout(2, 3));
 
-        gamePanel = new JPanel();
+
+
+        // TODO: testing board draw
+        String[][] board = new String[9][9];
+
+
+        gamePanel = new JPanel(new GridLayout(1,1));
+        RenderPanel testRenderPanel = new RenderPanel(9,9);
+        gamePanel.add(testRenderPanel);
+        board[0][0] = "floor";
+
+        testRenderPanel.setBoard(board);
+
 
         rightPanel = new JPanel(new BorderLayout());
         informationPanel = new JPanel();
