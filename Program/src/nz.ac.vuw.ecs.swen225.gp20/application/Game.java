@@ -10,18 +10,18 @@ public class Game {
     private Timer timer;
     boolean gamePaused = false;
 
-    public Game(int countFromFile,int chipsLeft,String levelName,JLabel timeLabel,JLabel levelLabel,JLabel chipsLeftLabel) {
+    public Game(int countFromFile, int chipsLeft, String levelName, JLabel timeLabel, JLabel levelLabel, JLabel chipsLeftLabel) {
         this.levelName = levelName;
         this.counter = countFromFile;
-        this.counter+= 1;
+        this.counter += 1;
 
 
         levelLabel.setText(levelName);
 
         timer = new Timer();
 
-        TimerTask task = new TimerTask(){
-            public void run(){
+        TimerTask task = new TimerTask() {
+            public void run() {
                 if (counter > 0 && !gamePaused) {
                     chipsLeftLabel.setText(String.valueOf(chipsLeft));
                     counter--;
@@ -32,11 +32,11 @@ public class Game {
         timer.scheduleAtFixedRate(task, 0, 1000); //1000ms = 1sec
     }
 
-    public void terminateTimer(){
+    public void terminateTimer() {
         timer.cancel();
     }
 
-    public void setGamePaused(boolean value){
+    public void setGamePaused(boolean value) {
         gamePaused = value;
     }
 }

@@ -14,6 +14,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     JPanel gamePanel;
     JPanel informationPanel;
     JPanel rightPanel;
+    JPanel movementPanel;
 
     JLabel timeLabel;
     JLabel levelLabel;
@@ -45,16 +46,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         final JMenuItem newGameMenu = new JMenuItem("New Game (Ctrl-1)");
 
-        newGameMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                onNewGame();
-            }
-        });
-
-
-
-
+        newGameMenu.addActionListener(e ->
+                onNewGame()
+        );
 
 
         final JMenuItem newGameFromLastLevelMenu = new JMenuItem("New Game from Last Level (Ctrl-P)");
@@ -70,28 +64,36 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         // ------------------------------------------------------------------------------------------------
         final JMenu optionsMenu = new JMenu("Options");
 
-        final JMenuItem gamePauseMenu = new JMenuItem("Toggle Game Pause");
-        gamePauseMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                onPauseGame();
-            }
+        final JCheckBoxMenuItem gamePauseMenu = new JCheckBoxMenuItem("Toggle Game Pause");
+        gamePauseMenu.setState(false);
+
+        gamePauseMenu.addActionListener(e -> {
+            boolean paused = onPauseGame();
+            gamePauseMenu.setState(paused);
+
         });
+
+        final JMenu recordAndReplayMenu = new JMenu("Record and Replay");
+        final JMenuItem startRecordingMenu = new JMenuItem("Start Recording");
+        final JMenuItem stopRecordingMenu = new JMenuItem("Stop Recording");
+        final JMenuItem loadRecordedMenu = new JMenuItem("Load Recorded Game");
+
         optionsMenu.add(gamePauseMenu);
+        optionsMenu.add(recordAndReplayMenu);
+        recordAndReplayMenu.add(startRecordingMenu);
+        recordAndReplayMenu.add(stopRecordingMenu);
+        recordAndReplayMenu.add(loadRecordedMenu);
         // ------------------------------------------------------------------------------------------------
         final JMenu helpMenu = new JMenu("Help");
 
         final JMenuItem howToPlayMenu = new JMenuItem("How to Play");
-        howToPlayMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JPanel fields = new JPanel(new GridLayout(0,1));
+        howToPlayMenu.addActionListener(e -> {
+            JPanel fields = new JPanel(new GridLayout(0, 1));
 
-                fields.add(new JLabel("Hello and welcome to Chaps Challenge. Here is how to play the game:"));
+            fields.add(new JLabel("Hello and welcome to Chaps Challenge. Here is how to play the game:"));
 
 
-                JOptionPane.showMessageDialog(null, fields, "How to Play", JOptionPane.PLAIN_MESSAGE);
-            }
+            JOptionPane.showMessageDialog(null, fields, "How to Play", JOptionPane.PLAIN_MESSAGE);
         });
         final JMenuItem aboutMenu = new JMenuItem("About");
 
@@ -103,29 +105,30 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         tableMenuBar.add(optionsMenu);
         tableMenuBar.add(helpMenu);
 
-        JPanel mainPanel = new JPanel(new BorderLayout(20,0));
+        JPanel mainPanel = new JPanel(new BorderLayout(20, 0));
         mainPanel.setBorder(new EmptyBorder(30, 30, 30, 30));
-        JPanel movementPanel = new JPanel(new GridLayout(2,3));
+        movementPanel = new JPanel(new GridLayout(2, 3));
 
         gamePanel = new JPanel();
 
         rightPanel = new JPanel(new BorderLayout());
         informationPanel = new JPanel();
-        informationPanel.setLayout(new GridLayout(9,1));
+        informationPanel.setLayout(new GridLayout(9, 1));
         informationPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        Font  infoTextFont  = new Font(Font.MONOSPACED, Font.BOLD,  20);
-        JLabel level = new JLabel("LEVEL",JLabel.CENTER);
+        Font infoTextFont = new Font(Font.MONOSPACED, Font.BOLD, 20);
+        JLabel level = new JLabel("LEVEL", JLabel.CENTER);
         level.setFont(infoTextFont);
-        JLabel time = new JLabel("TIME",JLabel.CENTER);
+        JLabel time = new JLabel("TIME", JLabel.CENTER);
         time.setFont(infoTextFont);
-        JLabel chipsLeft = new JLabel("CHIPS LEFT",JLabel.CENTER);
+        JLabel chipsLeft = new JLabel("CHIPS LEFT", JLabel.CENTER);
         chipsLeft.setFont(infoTextFont);
 
         levelLabel = new JLabel("undefined");
         timeLabel = new JLabel("undefined");
         chipsLeftLabel = new JLabel("undefined");
-        JLabel label4 = new JLabel("chips placeholder");
+        JLabel label4 = new JLabel("   Items Collected");
+        JLabel label5 = new JLabel("CollectedItemString");
 
         levelLabel.setHorizontalAlignment(SwingConstants.CENTER);
         timeLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -139,9 +142,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         informationPanel.add(chipsLeftLabel);
         informationPanel.add(label4);
 
-        rightPanel.add(informationPanel,BorderLayout.CENTER);
+        rightPanel.add(informationPanel, BorderLayout.CENTER);
 
-        rightPanel.add(movementPanel,BorderLayout.SOUTH);
+        rightPanel.add(movementPanel, BorderLayout.SOUTH);
         movementPanel.setPreferredSize(new Dimension(240, 120));
 
         mainPanel.add(rightPanel, BorderLayout.EAST);
@@ -152,7 +155,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         gamePanel.setBackground(Color.LIGHT_GRAY);
         gamePanel.setBorder(BorderFactory.createRaisedBevelBorder());
-        mainPanel.setBackground(new Color(3,192,60));
+        mainPanel.setBackground(new Color(3, 192, 60));
         informationPanel.setBackground(Color.LIGHT_GRAY);
         informationPanel.setBorder(BorderFactory.createRaisedBevelBorder());
         movementPanel.setBorder(BorderFactory.createRaisedBevelBorder());
@@ -160,39 +163,19 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         JButton upButton = new JButton("^");
         upButton.setToolTipText("Move Chap Up");
-        upButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("UP");
-            }
-        });
+        upButton.addActionListener(e -> System.out.println("UP"));
 
         JButton downButton = new JButton("v");
         downButton.setToolTipText("Move Chap Down");
-        downButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("DOWN");
-            }
-        });
+        downButton.addActionListener(e -> System.out.println("DOWN"));
 
         JButton leftButton = new JButton("<");
         leftButton.setToolTipText("Move Chap to the Left");
-        leftButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("LEFT");
-            }
-        });
+        leftButton.addActionListener(e -> System.out.println("LEFT"));
 
         JButton rightButton = new JButton(">");
         rightButton.setToolTipText("Move Chap to the Right");
-        rightButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("RIGHT");
-            }
-        });
+        rightButton.addActionListener(e -> System.out.println("RIGHT"));
 
 
         movementPanel.add(new JLabel());
@@ -213,19 +196,23 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
 
         setPreferredSize(new Dimension(800, 600));
-        setMinimumSize(new Dimension(600,450));
-        pack();
-        setVisible(true);
+        setMinimumSize(new Dimension(600, 450));
 
 
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                rightPanel.setMinimumSize(new Dimension((int) (getBounds().getSize().getWidth() * 0.3), (int) (getBounds().getSize().getHeight() * 0.5)));
                 gamePanel.setMinimumSize(new Dimension((int) (getBounds().getSize().getWidth() * 0.7), (int) (getBounds().getSize().getHeight())));
+                movementPanel.setMinimumSize(new Dimension((int) (getBounds().getSize().getWidth() * 0.3), (int) (getBounds().getSize().getHeight() * 0.2)));
+                informationPanel.setMinimumSize(new Dimension((int) (getBounds().getSize().getWidth() * 0.4), (int) (getBounds().getSize().getHeight() * 0.6)));
+                rightPanel.setMinimumSize(new Dimension((int) (getBounds().getSize().getWidth() * 0.3), (int) (getBounds().getSize().getHeight() * 0.5)));
                 repaint();
             }
         });
+
+
+        pack();
+        setVisible(true);
     }
 
 
@@ -235,6 +222,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
     /**
      * Detect Key Presses for keyboard shortcuts and perform actions if applicable
+     *
      * @param e key event
      */
     @Override
@@ -277,7 +265,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     }
 
 
-
     /**
      * Detect Key Released.
      * If a key has been released, then remove it from the array of pressed keys
@@ -292,33 +279,31 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     }
 
 
-
-
-    public void onNewGame(){
+    public void onNewGame() {
         System.out.println("start a new game at level 1");
 
-        if(currentGame!=null){
+        if (currentGame != null) {
             currentGame.terminateTimer();
         }
 
-        currentGame = new Game(30,-1,"$levelName",timeLabel,levelLabel,chipsLeftLabel);
+        currentGame = new Game(30, -1, "$levelName", timeLabel, levelLabel, chipsLeftLabel);
 
     }
 
-    public void onNewGameFromLastLevel(){
+    public void onNewGameFromLastLevel() {
 
     }
 
-    public void onPauseGame(){
-        JLabel pausedLabel = new JLabel("Game Paused");
+    public boolean onPauseGame() {
 
-        if(gamePaused){
+        if (gamePaused) {
             gamePaused = false;
             currentGame.setGamePaused(false);
+            return false;
         } else {
             gamePaused = true;
             currentGame.setGamePaused(true);
-
+            return true;
         }
     }
 }
