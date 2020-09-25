@@ -28,17 +28,17 @@ public class RenderPanel extends JPanel {
         this.setVisible(true);
     }
 
+    public void setBoard(String[][] currentBoard) {
+        this.currentBoard = currentBoard;
+        repaint();
+    }
+
     private void makeInnerPanel() {
         tileGrid = new JLabel[rows][cols];
         displayGrid = new JPanel();
         innerPanel = new JPanel(new BorderLayout());
         createGrid();
         innerPanel.add(displayGrid, BorderLayout.CENTER);
-    }
-
-    public void setBoard(String[][] currentBoard) {
-        this.currentBoard = currentBoard;
-        repaint();
     }
 
     private void createGrid() {
