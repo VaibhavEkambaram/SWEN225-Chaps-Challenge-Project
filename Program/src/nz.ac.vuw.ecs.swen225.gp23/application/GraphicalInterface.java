@@ -57,23 +57,55 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         // ------------------------------------------------------------------------------------------------
         final JMenu gameMenu = new JMenu("Game");
 
-        final JMenuItem newGameMenu = new JMenuItem("New Game (Ctrl-1)");
 
-        newGameMenu.addActionListener(e ->
-                onNewGame()
-        );
+        final JMenuItem newMenu = new JMenuItem("New Game");
+        KeyStroke newGameKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_1, KeyEvent.CTRL_DOWN_MASK); // Ctrl-1
+        newMenu.setAccelerator(newGameKeyStroke);
+        newMenu.addActionListener(e -> {
+            onNewGame();
+        });
+
+        final JMenuItem newFromLastLevelMenu = new JMenuItem("New Game from Last Level");
+        KeyStroke newGameFromLastLevelStroke = KeyStroke.getKeyStroke(KeyEvent.VK_P,KeyEvent.CTRL_DOWN_MASK);
+        newFromLastLevelMenu.setAccelerator(newGameFromLastLevelStroke);
+        newFromLastLevelMenu.addActionListener(e -> {
+            System.out.println("new game from level");
+        });
 
 
-        final JMenuItem newGameFromLastLevelMenu = new JMenuItem("New Game from Last Level (Ctrl-P)");
-        final JMenuItem resumeASavedGameMenu = new JMenuItem("Resume Saved Game (Ctrl-R)");
-        final JMenuItem saveAndExitGameMenu = new JMenuItem("Save and Exit (Ctrl-S)");
-        final JMenuItem exitMenuItemMenu = new JMenuItem("Exit (Ctrl-X)");
+        final JMenuItem resumeSavedMenu = new JMenuItem("Resume Saved Game");
+        KeyStroke resumeASavedGameStroke = KeyStroke.getKeyStroke(KeyEvent.VK_R,KeyEvent.CTRL_DOWN_MASK);
+        resumeSavedMenu.setAccelerator(resumeASavedGameStroke);
+        resumeSavedMenu.addActionListener(e -> {
+            System.out.println("resume a saved game using persistence");
+        });
 
-        gameMenu.add(newGameMenu);
-        gameMenu.add(newGameFromLastLevelMenu);
-        gameMenu.add(resumeASavedGameMenu);
-        gameMenu.add(saveAndExitGameMenu);
-        gameMenu.add(exitMenuItemMenu);
+        final JMenuItem saveAndExitMenu = new JMenuItem("Save and Exit");
+        KeyStroke saveAndExitStroke = KeyStroke.getKeyStroke(KeyEvent.VK_S,KeyEvent.CTRL_DOWN_MASK);
+        saveAndExitMenu.setAccelerator(saveAndExitStroke);
+        saveAndExitMenu.addActionListener(e -> {
+            System.out.println("save and exit game using persistence");
+            System.exit(0);
+        });
+
+
+
+
+        final JMenuItem exitMenu = new JMenuItem("Exit");
+        KeyStroke exitMenuStroke = KeyStroke.getKeyStroke(KeyEvent.VK_X,KeyEvent.CTRL_DOWN_MASK);
+        exitMenu.setAccelerator(exitMenuStroke);
+        exitMenu.addActionListener(e -> {
+            System.out.println("exit the game, the current game state will be lost, the next time the game is started, it will resume from the last unfinished level");
+            System.exit(0);
+        });
+
+
+
+        gameMenu.add(newMenu);
+        gameMenu.add(newFromLastLevelMenu);
+        gameMenu.add(resumeSavedMenu);
+        gameMenu.add(saveAndExitMenu);
+        gameMenu.add(exitMenu);
         // ------------------------------------------------------------------------------------------------
         final JMenu optionsMenu = new JMenu("Options");
 
@@ -272,19 +304,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         }
 
         // Perform action based on keys that are currently pressed by checking the array of pressed keys
-        if (pressedKeys.size() == 2) {
-            if (pressedKeys.contains(17) && pressedKeys.contains(88)) {
-                System.out.println("exit the game, the current game state will be lost, the next time the game is started, it will resume from the last unfinished level");
-            } else if (pressedKeys.contains(17) && pressedKeys.contains(83)) {
-                System.out.println("exit the game, saves the game state, game will resume next time the application will be started");
-            } else if (pressedKeys.contains(17) && pressedKeys.contains(82)) {
-                System.out.println("Resume a saved game");
-            } else if (pressedKeys.contains(17) && pressedKeys.contains(80)) {
-                System.out.println("Start a new game at the last unfinished level");
-            } else if (pressedKeys.contains(17) && pressedKeys.contains(49)) {
-                onNewGame();
-            }
-        } else if (pressedKeys.size() == 1) {
+        if (pressedKeys.size() == 1) {
             if (pressedKeys.contains(32)) {
                 System.out.println("Pause the game and display a \"game is paused\" dialog");
                 onPauseGame();
