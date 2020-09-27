@@ -1,6 +1,7 @@
-package nz.ac.vuw.ecs.swen225.gp20.render;
+package nz.ac.vuw.ecs.swen225.gp23.render;
 
 public enum Tiles {
+    EMPTY,
     CHIP_LEFT, CHIP_RIGHT, CHIP_UP, CHIP_DOWN,
     CHIP, FLOOR, WALL, BLOCK, CLONE_BLOCK, ICE_BLOCK,
     BUG, FIREBALL, PINK_BALL, TANK, GLIDER, RED_TEETH, WALKER, BLOB, PARAMECIUM,

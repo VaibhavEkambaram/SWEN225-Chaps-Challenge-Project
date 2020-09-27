@@ -1,8 +1,8 @@
-package nz.ac.vuw.ecs.swen225.gp20.recnplay;
+package nz.ac.vuw.ecs.swen225.gp23.recnplay;
 
-import nz.ac.vuw.ecs.swen225.gp20.application.Game;
-import nz.ac.vuw.ecs.swen225.gp20.maze.Tile;
-import nz.ac.vuw.ecs.swen225.gp20.persistence.readWrite;
+import nz.ac.vuw.ecs.swen225.gp23.application.Game;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
+import nz.ac.vuw.ecs.swen225.gp23.persistence.readWrite;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;

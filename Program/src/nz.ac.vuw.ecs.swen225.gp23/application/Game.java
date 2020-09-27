@@ -1,13 +1,23 @@
-package nz.ac.vuw.ecs.swen225.gp20.application;
+package nz.ac.vuw.ecs.swen225.gp23.application;
 
-import nz.ac.vuw.ecs.swen225.gp20.maze.Board;
-import nz.ac.vuw.ecs.swen225.gp20.maze.Player;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Player;
 
 import javax.swing.*;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class Game {
+
+
+    public enum GameState {
+        PREGAME, RUNNING, PAUSED
+    }
+
+
+
+
+
     private int counter;
     private Timer timer;
     boolean gamePaused = false;
@@ -33,6 +43,9 @@ public class Game {
                     chipsLeftLabel.setText(String.valueOf(chipsLeft));
                     counter--;
                     timeLabel.setText(String.valueOf(counter));
+                } else if (!gamePaused) {
+                    timer.cancel();
+                    System.out.println("time is up!");
                 }
             }
         };
