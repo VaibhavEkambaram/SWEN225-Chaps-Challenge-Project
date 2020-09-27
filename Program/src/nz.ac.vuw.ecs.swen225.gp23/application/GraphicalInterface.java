@@ -168,6 +168,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         RenderPanel testRenderPanel = new RenderPanel(9, 9);
         gamePanel.add(testRenderPanel);
         board[0][0] = "floor";
+        board[0][1] = "wall";
 
         testRenderPanel.setBoard(board);
 
