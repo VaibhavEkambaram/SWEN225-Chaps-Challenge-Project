@@ -29,6 +29,11 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     private final JLabel levelLabel;
     private final JLabel chipsLeftLabel;
 
+    JButton upButton;
+    JButton downButton;
+    JButton leftButton;
+    JButton rightButton;
+
     private Game currentGame;
 
     boolean gamePaused = false;
@@ -40,11 +45,13 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     public GraphicalInterface() {
         super("Chaps Challenge");
 
+
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
+
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -57,55 +64,44 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         // ------------------------------------------------------------------------------------------------
         final JMenu gameMenu = new JMenu("Game");
 
-
         final JMenuItem newMenu = new JMenuItem("New Game");
-        KeyStroke newGameKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_1, KeyEvent.CTRL_DOWN_MASK); // Ctrl-1
-        newMenu.setAccelerator(newGameKeyStroke);
+        newMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, KeyEvent.CTRL_DOWN_MASK));
         newMenu.addActionListener(e -> {
             onNewGame();
         });
 
         final JMenuItem newFromLastLevelMenu = new JMenuItem("New Game from Last Level");
-        KeyStroke newGameFromLastLevelStroke = KeyStroke.getKeyStroke(KeyEvent.VK_P,KeyEvent.CTRL_DOWN_MASK);
-        newFromLastLevelMenu.setAccelerator(newGameFromLastLevelStroke);
+        newFromLastLevelMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK));
         newFromLastLevelMenu.addActionListener(e -> {
             System.out.println("new game from level");
         });
 
-
         final JMenuItem resumeSavedMenu = new JMenuItem("Resume Saved Game");
-        KeyStroke resumeASavedGameStroke = KeyStroke.getKeyStroke(KeyEvent.VK_R,KeyEvent.CTRL_DOWN_MASK);
-        resumeSavedMenu.setAccelerator(resumeASavedGameStroke);
+        resumeSavedMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK));
         resumeSavedMenu.addActionListener(e -> {
             System.out.println("resume a saved game using persistence");
         });
 
         final JMenuItem saveAndExitMenu = new JMenuItem("Save and Exit");
-        KeyStroke saveAndExitStroke = KeyStroke.getKeyStroke(KeyEvent.VK_S,KeyEvent.CTRL_DOWN_MASK);
-        saveAndExitMenu.setAccelerator(saveAndExitStroke);
+        saveAndExitMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK));
         saveAndExitMenu.addActionListener(e -> {
             System.out.println("save and exit game using persistence");
             System.exit(0);
         });
 
-
-
-
         final JMenuItem exitMenu = new JMenuItem("Exit");
-        KeyStroke exitMenuStroke = KeyStroke.getKeyStroke(KeyEvent.VK_X,KeyEvent.CTRL_DOWN_MASK);
-        exitMenu.setAccelerator(exitMenuStroke);
+        exitMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK));
         exitMenu.addActionListener(e -> {
             System.out.println("exit the game, the current game state will be lost, the next time the game is started, it will resume from the last unfinished level");
             System.exit(0);
         });
-
-
 
         gameMenu.add(newMenu);
         gameMenu.add(newFromLastLevelMenu);
         gameMenu.add(resumeSavedMenu);
         gameMenu.add(saveAndExitMenu);
         gameMenu.add(exitMenu);
+
         // ------------------------------------------------------------------------------------------------
         final JMenu optionsMenu = new JMenu("Options");
 
@@ -226,21 +222,23 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         movementPanel.setBorder(BorderFactory.createRaisedBevelBorder());
 
 
-        JButton upButton = new JButton("^");
+        upButton = new JButton("^");
         upButton.setToolTipText("Move Chap Up");
         upButton.addActionListener(e -> System.out.println("UP"));
 
-        JButton downButton = new JButton("v");
+        downButton = new JButton("v");
         downButton.setToolTipText("Move Chap Down");
         downButton.addActionListener(e -> System.out.println("DOWN"));
 
-        JButton leftButton = new JButton("<");
+        leftButton = new JButton("<");
         leftButton.setToolTipText("Move Chap to the Left");
         leftButton.addActionListener(e -> System.out.println("LEFT"));
 
-        JButton rightButton = new JButton(">");
+        rightButton = new JButton(">");
         rightButton.setToolTipText("Move Chap to the Right");
         rightButton.addActionListener(e -> System.out.println("RIGHT"));
+
+
 
 
         movementPanel.add(new JLabel());
@@ -262,23 +260,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         setPreferredSize(new Dimension(800, 600));
         setMinimumSize(new Dimension(600, 450));
-
-
-        addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-
-
-                //gamePanel.setMinimumSize(new Dimension((int) (getBounds().getSize().getWidth() * 0.7), (int) (getBounds().getSize().getHeight())));
-                //movementPanel.setMinimumSize(new Dimension((int) (getBounds().getSize().getWidth() * 0.3), (int) (getBounds().getSize().getHeight() * 0.2)));
-                //informationPanel.setMinimumSize(new Dimension((int) (getBounds().getSize().getWidth() * 0.4), (int) (getBounds().getSize().getHeight() * 0.6)));
-                //rightPanel.setMinimumSize(new Dimension((int) (getBounds().getSize().getWidth() * 0.3), (int) (getBounds().getSize().getHeight() * 0.5)));
-
-
-                repaint();
-            }
-
-        });
 
 
         pack();
@@ -344,13 +325,10 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             currentGame.terminateTimer();
         }
 
-        currentGame = new Game(5, -1, "$levelName", timeLabel, levelLabel, chipsLeftLabel);
+        currentGame = new Game(60, -1, "$levelName", timeLabel, levelLabel, chipsLeftLabel,this);
 
     }
 
-    public void onNewGameFromLastLevel() {
-
-    }
 
     public boolean onPauseGame() {
 
@@ -364,4 +342,13 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             return true;
         }
     }
+
+    public void setMovementButtonVisibility(boolean value){
+        upButton.setEnabled(value);
+        downButton.setEnabled(value);
+        leftButton.setEnabled(value);
+        rightButton.setEnabled(value);
+    }
+
+
 }
