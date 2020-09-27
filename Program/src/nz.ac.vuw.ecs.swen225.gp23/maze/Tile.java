@@ -1,5 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp23.maze;
 
+import javax.json.JsonReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,8 @@ public abstract class Tile {
     //Abstract methods
     public abstract boolean action(Player p); //validates whether a player can complete the requested action
     public abstract String toString();
+    public abstract String getJson(); //generates json string for a given tile
+    public abstract Tile jsonToTile(JsonReader json); //sets properties for a tile based on json input
 
     //Getters and setters
     public int getXLoc(){return this.xLoc;}
@@ -48,4 +51,7 @@ public abstract class Tile {
     public void setImage(String imageURL){
         this.image = imageURL;
     }
+
+    public Tiles getType(){return type;}
+    public void setType(Tiles newType){this.type = newType;}
 }

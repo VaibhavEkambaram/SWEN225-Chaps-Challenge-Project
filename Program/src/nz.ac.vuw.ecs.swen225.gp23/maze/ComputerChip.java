@@ -1,5 +1,13 @@
 package nz.ac.vuw.ecs.swen225.gp23.maze;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonReader;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
+
 public class ComputerChip extends Tile {
     private boolean pickedUp = false;
 
@@ -21,6 +29,35 @@ public class ComputerChip extends Tile {
 
     @Override
     public String toString() {return "computer_chip";}
+
+    @Override
+    public String getJson() {
+        JsonObjectBuilder builder = Json.createObjectBuilder()
+                .add("isPassable", getPassable())
+                .add("type", getType().toString())
+                .add("xLoc", getXLoc())
+                .add("yLoc", getYLoc())
+                .add("image", getImage())
+                .add("pickedUp", getPickedUp());
+
+        try (Writer writer = new StringWriter()) {
+            Json.createWriter(writer).write(builder.build());
+            return writer.toString();
+        } catch (IOException e) {
+            throw new Error("Error parsing " + this.toString() + " to json");
+        }
+    }
+
+    @Override
+    public Tile jsonToTile(JsonReader json) {
+        JsonObject tile = json.readObject();
+        isPassable = tile.getBoolean("isPassable");
+        setXLoc(tile.getInt("xLoc"));
+        setYLoc(tile.getInt("yLoc"));
+        image = tile.getString("image");
+        pickedUp = tile.getBoolean("pickedUp");
+        return this;
+    }
 
     //Getters and setters
     public boolean getPickedUp(){return pickedUp;}
