@@ -21,7 +21,7 @@ public class readWrite {
         JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
 
         for(Tile[] t : b.getTilesXY()){
-            arrayBuilder.add(t.getJson());
+          //  arrayBuilder.add(t.getJson());
         }
 
         JsonObjectBuilder builder = Json.createObjectBuilder().add("boardSize", b.getBoardDimension()).add("allTiles", arrayBuilder);
@@ -41,9 +41,9 @@ public class readWrite {
             arrayBuilder.add(l);
         }
 
-       builder = Json.createObjectBuilder().add("location", p.getCurrentTile().getJson())
-             .add("inventory", arrayBuilder)
-             .add("treasures", p.getTreasures());
+      // builder = Json.createObjectBuilder().add("location", p.getCurrentTile().getJson())
+          //   .add("inventory", arrayBuilder)
+          //   .add("treasures", p.getTreasures());
 
         try(Writer w = new StringWriter()){
             Json.createWriter(w).write(builder.build());
@@ -54,7 +54,7 @@ public class readWrite {
 
         arrayBuilder = Json.createArrayBuilder();
 
-      builder = Json.createObjectBuilder().add("level", game.getLevel())
+     /* builder = Json.createObjectBuilder().add("level", game.getLevel())
                 .add("timeLeft", game.getTimeLeft())
                 .add("board", Board)
                 .add("player", Player)
@@ -80,7 +80,7 @@ public class readWrite {
             BufferedReader bR = new BufferedReader(iR);
             String line = bR.readLine();
             if(line == null){
-                line = ;
+           //     line = ;
             }
             Game g = loadStateFromJsonFIle(line, game);
             iR.close();
@@ -89,11 +89,11 @@ public class readWrite {
 
     }
 
-   public static Game loadState(String save, Game game){
+   //public static Game loadState(String save, Game game){
 
-    }
+  //  }
 
-    public static Tile createTile(String t){
+   // public static Tile createTile(String t){
 
-    }
+  //  }
 }
