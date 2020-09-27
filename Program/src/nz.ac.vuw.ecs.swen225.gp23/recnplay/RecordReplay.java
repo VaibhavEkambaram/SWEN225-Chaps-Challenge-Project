@@ -4,9 +4,7 @@ import nz.ac.vuw.ecs.swen225.gp23.application.Game;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.readWrite;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObjectBuilder;
+import javax.json.*;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -16,34 +14,36 @@ import java.util.ArrayList;
  *
  * @author Tyla Turner - 300473374
  */
-public class Record {
+public class RecordReplay {
 
     private static ArrayList<Tile.Directions> movements = new ArrayList<>();
     private static ArrayList<Integer> actors = new ArrayList<>();
     private static String saveFile;
     private static String state;
 
-    private static boolean isRecording;
-    private static boolean isRunning;
+    private static boolean isGameRecording;
+    private static boolean isGameRunning;
+
+    private static long delay = 100;
 
     static Thread thread;
 
     public static void newSave(Game g, String s){
         saveFile = s;
-        isRecording = true;
+        isGameRecording = true;
         movements.clear();
         state = readWrite.getGameState(g);
     }
 
     public static void addMoves(Tile.Directions d){
-        if (isRecording){
+        if (isGameRecording){
             movements.add(d);
             actors.add(0);
         }
     }
 
     public static void saveRecording(Game g)  {
-        if (isRecording){
+        if (isGameRecording){
             JsonArrayBuilder a = Json.createArrayBuilder();
 
             for (int i = 0; i < actors.size(); i++){
@@ -68,13 +68,13 @@ public class Record {
             catch(IOException e){
                 throw new Error("Movements were unable to save." + e);
             }
-            isRecording = false;
+            isGameRecording = false;
         }
     }
 
     public static void endRecording(){
-        isRecording = false;
-        isRunning = false;
+        isGameRecording = false;
+        isGameRunning = false;
         saveFile = null;
         movements.clear();
         actors.clear();
@@ -83,13 +83,76 @@ public class Record {
     }
 
     public static void storeActorMove(Tile.Directions d, int id){
-        if(isRecording){
+        if(isGameRecording){
             movements.add(d);
             actors.add(id);
         }
     }
+
+    //=============================================================================================
+
+
+    public static void loadRecord(String saveFile, Game g){
+        JsonObject obj = null;
+
+        try{
+            readWrite.loadStateFromJsonFIle(saveFile, g);
+            movements.clear();
+            actors.clear();
+
+            try {
+                BufferedReader br = new BufferedReader(new FileReader(saveFile));
+                JsonReader jr = Json.createReader(new StringReader(br.readLine()));
+                br.close();
+                obj = jr.readObject();
+            } catch (IOException e) {
+                System.out.println("There was an error reading from JSON file." + e);
+            }
+
+            //JsonArray movesArray = obj
+        }
+        catch(IOException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public static void setDelay(long d){
+        delay = d;
+    }
+
+    public static boolean getIsGameRunning(){
+        return isGameRunning;
+    }
+
+
+
+
+
+
+
+
+
+
+
     public static boolean getIsRunning(){
-        return isRunning;
+        return isGameRunning;
     }
 
     public static ArrayList<Tile.Directions> getMovements() {
