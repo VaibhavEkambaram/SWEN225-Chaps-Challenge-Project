@@ -80,7 +80,7 @@ public class readWrite {
             BufferedReader bR = new BufferedReader(iR);
             String line = bR.readLine();
             if(line == null){
-                line = "";
+                line = ;
             }
             Game g = loadStateFromJsonFIle(line, game);
             iR.close();
