@@ -9,43 +9,40 @@ import java.util.TimerTask;
 
 public class Game {
 
-    private Board board;
-    private Player player;
 
-    private int levelNumber;
-    private int countdownTimer;
-
-    private boolean gamePaused;
-
-    private Timer timer;
-
-
-    public Game(int countFromFile, int chipsLeft, String levelName, JLabel timeLabel, JLabel levelLabel, JLabel chipsLeftLabel, GraphicalInterface gui) {
-        this.countdownTimer = (countFromFile + 1);
-        this.gamePaused = false;
-
-        levelLabel.setText(levelName);
-
-        runTimer(timeLabel);
+    public enum GameState {
+        PREGAME, RUNNING, PAUSED
     }
 
 
-    /**
-     * Execute countdown timer.
-     * This timer controls the countdown of the game and updates the GUI time label accordingly. This countdown also
-     * accounts for the game being paused, with the countdown only continuing when un-paused.
-     * This function operates in an asynchronous manner to the main game interface, so is able to operate independently
-     * of graphics redraw calls.
-     */
-    public void runTimer(JLabel timeLabel) {
+
+
+
+    private int counter;
+    private Timer timer;
+    boolean gamePaused = false;
+
+    Board board;
+    Player player;
+
+
+
+
+    public Game(int countFromFile, int chipsLeft, String levelName, JLabel timeLabel, JLabel levelLabel, JLabel chipsLeftLabel) {
+        this.counter = countFromFile;
+        this.counter += 1;
+
+
+        levelLabel.setText(levelName);
+
         timer = new Timer();
+
         TimerTask task = new TimerTask() {
             public void run() {
-                // increment timer down if there is still time remaining and the game has not been paused
-                if (countdownTimer > 0 && !gamePaused) {
-                    countdownTimer--;
-                    // update gui time label
-                    timeLabel.setText(String.valueOf(countdownTimer));
+                if (counter > 0 && !gamePaused) {
+                    chipsLeftLabel.setText(String.valueOf(chipsLeft));
+                    counter--;
+                    timeLabel.setText(String.valueOf(counter));
                 } else if (!gamePaused) {
                     timer.cancel();
                     System.out.println("time is up!");
@@ -55,9 +52,8 @@ public class Game {
         timer.scheduleAtFixedRate(task, 0, 1000); //1000ms = 1sec
     }
 
-
-    public int getTimeLeft() {
-        return countdownTimer;
+    public int getTimeLeft(){
+        return counter;
     }
 
     public void terminateTimer() {
@@ -68,11 +64,11 @@ public class Game {
         gamePaused = value;
     }
 
-    public Board getBoard() {
+    public Board getBoard(){
         return board;
     }
 
-    public Player getPlayer() {
+    public Player getPlayer(){
         return player;
     }
 }
