@@ -27,6 +27,7 @@ public abstract class Tile {
     //Abstract methods
     public abstract boolean action(Player p); //validates whether a player can complete the requested action
     public abstract String toString();
+    public abstract String getJson();
 
     //Getters and setters
     public int getXLoc(){return this.xLoc;}
@@ -48,4 +49,6 @@ public abstract class Tile {
     public void setImage(String imageURL){
         this.image = imageURL;
     }
+
+    public Tiles getType(){return type;}
 }
