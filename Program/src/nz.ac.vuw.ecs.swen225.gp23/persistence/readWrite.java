@@ -26,7 +26,9 @@ public class readWrite {
         JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
 
         for(Tile[] t : b.getTilesXY()){
-            arrayBuilder.add(t.);
+            for(Tile i : t){
+                arrayBuilder.add(i.getJson());
+            }
         }
 
         JsonObjectBuilder builder = Json.createObjectBuilder().add("boardSize", b.getBoardDimension()).add("allTiles", arrayBuilder);
@@ -59,7 +61,7 @@ public class readWrite {
 
         arrayBuilder = Json.createArrayBuilder();
 
-      builder = Json.createObjectBuilder().add("level", game.getLevel())
+      builder = Json.createObjectBuilder().add("level", game.getLevelNumber())
                 .add("timeLeft", game.getTimeLeft())
                 .add("board", Board)
                 .add("player", Player)

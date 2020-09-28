@@ -101,7 +101,7 @@ public class Game {
     }
 
     public int getLevelNumber(){
-        return levelNumber;
+        return board.getCurrentLevel();
     }
 
     public void setLevelNumber(int number){
