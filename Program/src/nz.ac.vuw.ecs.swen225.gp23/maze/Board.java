@@ -19,11 +19,11 @@ public class Board {
     }
 
     public void setup(){
-        readWrite.loadState("Program/srclevels/level1.json",game);
-        setAdjacent();
+        //readWrite.loadState("Program/srclevels/level1.json",game);
+        setAdjacentTiles();
     }
 
-    public void setAdjacent(){
+    public void setAdjacentTiles(){
        for(int x = 0; x < boardDimension; x++){
            for(int y = 0; y < boardDimension; y++){
                Tile t = tilesXY[x][y];

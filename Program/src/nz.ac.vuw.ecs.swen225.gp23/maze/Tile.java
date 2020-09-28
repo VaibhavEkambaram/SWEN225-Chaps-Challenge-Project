@@ -33,6 +33,14 @@ public abstract class Tile {
     public abstract Tile jsonToTile(JsonReader json); //sets properties for a tile based on json input
 
     //Getters and setters
+    public Tile getDirection(Directions d){ //gets the adjacent tile in a given direction
+        if (adjacentTiles.size() < 4) {
+            return null;
+        } else {
+            return adjacentTiles.get(d.ordinal());
+        }
+    }
+
     public int getXLoc(){return this.xLoc;}
     public void setXLoc(int xLoc){
         this.xLoc = xLoc;
