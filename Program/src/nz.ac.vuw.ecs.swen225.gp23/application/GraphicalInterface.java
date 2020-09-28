@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,7 +78,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         final JMenuItem newFromLastLevelMenu = new JMenuItem("New Game from Last Level");
         newFromLastLevelMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK));
         newFromLastLevelMenu.addActionListener(e -> {
-            System.out.println("new game from level");
+            gameLoad();
         });
 
         final JMenuItem resumeSavedMenu = new JMenuItem("Resume Saved Game");
@@ -323,6 +324,23 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         }
     }
 
+
+    /**
+     * GUI for loading the game
+     * @return chosen file
+     */
+    public boolean gameLoad(){
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new File("."));
+        chooser.setDialogTitle("File Load");
+        chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+
+        if(chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
+            currentGame.setFileLoad(chooser.getSelectedFile());
+            return true;
+        }
+        return false;
+    }
 
     public void onNewGame() {
         if (currentGame != null) {
