@@ -1,5 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp23.persistence;
 
+import com.google.gson.Gson;
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Player;
@@ -9,6 +10,9 @@ import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Map;
 
 /**
  * Class for reading and writing from JSON files
@@ -93,6 +97,26 @@ public class readWrite {
             iR.close();
             bR.close();
             return g;
+
+    }
+
+    public void readFile(){
+        try{
+            Gson gson = new Gson();
+
+            Reader reader = Files.newBufferedReader(Paths.get("level1.json"));
+
+            Map<?, ?> map = gson.fromJson(reader, Map.class);
+
+            for(Map.Entry<?, ?> entry : map.entrySet()){
+                System.out.println(entry.getKey() + "=" + entry.getValue());
+
+            }
+
+            reader.close();
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
 
     }
 

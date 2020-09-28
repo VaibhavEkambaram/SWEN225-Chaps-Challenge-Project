@@ -55,6 +55,8 @@ public class Game {
         boardRenderPanel.setBoard(board);
     }
 
+
+
     public void gameLoad(){
         if(gui.gameLoad()){
             try{
