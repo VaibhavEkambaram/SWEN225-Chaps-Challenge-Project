@@ -25,14 +25,11 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     private final JPanel informationPanel;
     private final JPanel movementPanel;
 
-    private final JLabel timeLabel;
-    private final JLabel levelLabel;
-    private final JLabel chipsLeftLabel;
+    RenderPanel renderPanel;
 
-    JButton upButton;
-    JButton downButton;
-    JButton leftButton;
-    JButton rightButton;
+    private final JLabel timeLabel, levelLabel, chipsLeftLabel;
+    JButton upButton, downButton, leftButton, rightButton;
+
 
     private Game currentGame;
 
@@ -46,14 +43,19 @@ public class GraphicalInterface extends JFrame implements KeyListener {
      */
     public GraphicalInterface(Application application) {
         super("Chaps Challenge");
+
+        // carry through persistent application class to keep track of game state
         this.application = application;
 
-
+        // Set java swing theme to native operating system theme
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
+
+        setPreferredSize(new Dimension(800, 600));
+        setMinimumSize(new Dimension(600, 450));
 
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -120,14 +122,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
                 paused = true;
                 onPauseGame(true);
             }
-
-
-
-
-
-
             gamePauseMenu.setState(paused);
-
         });
 
         final JMenu recordAndReplayMenu = new JMenu("Record and Replay");
@@ -181,11 +176,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
 
         gamePanel = new JPanel(new GridLayout(1, 1));
-        RenderPanel testRenderPanel = new RenderPanel(9, 9);
-        gamePanel.add(testRenderPanel);
-        board[0][0] = "floor";
-
-        testRenderPanel.setBoard(board);
 
 
         rightPanel = new JPanel(new BorderLayout());
@@ -274,8 +264,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         setLocationByPlatform(true);
 
 
-        setPreferredSize(new Dimension(800, 600));
-        setMinimumSize(new Dimension(600, 450));
+
 
 
         pack();
@@ -337,11 +326,20 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
     public void onNewGame() {
         if (currentGame != null) {
+            application.transitionToInit();
             currentGame.terminateTimer();
+            gamePanel.remove(renderPanel);
+            renderPanel = null;
         }
+
+
 
         currentGame = new Game(60, -1,this);
         application.transitionToRunning();
+
+
+
+
 
     }
 
@@ -387,5 +385,10 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         return levelLabel;
     }
 
-
+    public void setRenderPanel(RenderPanel renderPanel) {
+        this.renderPanel = renderPanel;
+        if(renderPanel!=null){
+            gamePanel.add(renderPanel);
+        }
+    }
 }

@@ -2,6 +2,7 @@ package nz.ac.vuw.ecs.swen225.gp23.application;
 
 import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Player;
+import nz.ac.vuw.ecs.swen225.gp23.render.RenderPanel;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -31,7 +32,21 @@ public class Game {
         this.levelNumber = levelNumber;
         gui.getLevelLabel().setText(String.valueOf(levelNumber));
 
+        initBoardRenderer();
         runTimer();
+    }
+
+
+    public void initBoardRenderer(){
+        RenderPanel boardRenderPanel = new RenderPanel(9, 9);
+
+        String[][] board = new String[9][9];
+
+        gui.setRenderPanel(boardRenderPanel);
+
+        board[0][0] = "floor";
+
+        boardRenderPanel.setBoard(board);
     }
 
 
