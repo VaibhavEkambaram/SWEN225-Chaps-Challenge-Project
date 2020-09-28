@@ -1,6 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp23.application;
 
 import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.Persistence;
 import nz.ac.vuw.ecs.swen225.gp23.render.RenderPanel;
 
@@ -232,19 +233,19 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         upButton = new JButton("^");
         upButton.setToolTipText("Move Chap Up");
-        upButton.addActionListener(e -> System.out.println("UP"));
+        upButton.addActionListener(e -> currentGame.onMovement(Tile.Directions.Up));
 
         downButton = new JButton("v");
         downButton.setToolTipText("Move Chap Down");
-        downButton.addActionListener(e -> System.out.println("DOWN"));
+        downButton.addActionListener(e -> currentGame.onMovement(Tile.Directions.Down));
 
         leftButton = new JButton("<");
         leftButton.setToolTipText("Move Chap to the Left");
-        leftButton.addActionListener(e -> System.out.println("LEFT"));
+        leftButton.addActionListener(e -> currentGame.onMovement(Tile.Directions.Left));
 
         rightButton = new JButton(">");
         rightButton.setToolTipText("Move Chap to the Right");
-        rightButton.addActionListener(e -> System.out.println("RIGHT"));
+        rightButton.addActionListener(e -> currentGame.onMovement(Tile.Directions.Right));
 
 
 
@@ -300,13 +301,13 @@ public class GraphicalInterface extends JFrame implements KeyListener {
                 System.out.println("close the \"game is paused\" dialog and resume the game");
                 onPauseGame(false);
             } else if (pressedKeys.contains(38)) {
-                System.out.println("UP");
+                currentGame.onMovement(Tile.Directions.Up);
             } else if (pressedKeys.contains(40)) {
-                System.out.println("DOWN");
+                currentGame.onMovement(Tile.Directions.Down);
             } else if (pressedKeys.contains(37)) {
-                System.out.println("LEFT");
+                currentGame.onMovement(Tile.Directions.Left);
             } else if (pressedKeys.contains(39)) {
-                System.out.println("RIGHT");
+                currentGame.onMovement(Tile.Directions.Right);
             }
         }
     }
