@@ -38,12 +38,15 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
     boolean gamePaused = false;
 
+    Application application;
+
     /**
      * Interface Constructor Method.
      * Creates GUI structure and assigns listeners to buttons and menus
      */
-    public GraphicalInterface() {
+    public GraphicalInterface(Application application) {
         super("Chaps Challenge");
+        this.application = application;
 
 
         try {
@@ -54,7 +57,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-
 
         final JMenuBar tableMenuBar = new JMenuBar();
         this.setJMenuBar(tableMenuBar);
@@ -168,7 +170,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         RenderPanel testRenderPanel = new RenderPanel(9, 9);
         gamePanel.add(testRenderPanel);
         board[0][0] = "floor";
-        board[0][1] = "wall";
 
         testRenderPanel.setBoard(board);
 
@@ -320,13 +321,12 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
 
     public void onNewGame() {
-        System.out.println("start a new game at level 1");
-
         if (currentGame != null) {
             currentGame.terminateTimer();
         }
 
         currentGame = new Game(60, -1, "$levelName", timeLabel, levelLabel, chipsLeftLabel,this);
+        application.transitionToRunning();
 
     }
 
@@ -349,6 +349,16 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         downButton.setEnabled(value);
         leftButton.setEnabled(value);
         rightButton.setEnabled(value);
+    }
+
+
+    public void updateDisplay(){
+        System.out.println("Current game state: "+ application.getState());
+
+        if(application.getState().equals(Application.gameStates.IDLE)){
+            setMovementButtonVisibility(false);
+        }
+
     }
 
 
