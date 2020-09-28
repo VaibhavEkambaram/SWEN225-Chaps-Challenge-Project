@@ -1,25 +1,25 @@
 package nz.ac.vuw.ecs.swen225.gp23.maze;
 
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
+import nz.ac.vuw.ecs.swen225.gp23.persistence.levelM;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.readWrite;
 
 import java.awt.*;
 import java.util.List;
 
 public class Board {
+    private int viewSize = 9; //the number of tiles in view
     private int boardDimension = 20; //height and width of board (in tiles)
-    public int viewSize = 9; //the number of tiles in view
-
     private Tile[][] tilesXY = new Tile[boardDimension][boardDimension];
-
     private Game game;
+    private int chipCount;
 
     public Board(Game game){
         this.game = game;
     }
 
     public void setup(){
-        //readWrite.loadState("Program/srclevels/level1.json",game);
+
         setAdjacentTiles();
     }
 
@@ -91,4 +91,5 @@ public class Board {
         this.boardDimension = newBoardDimension;
     }
 
+    public int getCurrentLevel(){return levelM.getIntOfCurrentLevel();}
 }
