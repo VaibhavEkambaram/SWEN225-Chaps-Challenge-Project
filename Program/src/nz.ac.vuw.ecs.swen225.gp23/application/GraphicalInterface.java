@@ -3,6 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp23.application;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.Persistence;
+import nz.ac.vuw.ecs.swen225.gp23.recnplay.RecordReplay;
 import nz.ac.vuw.ecs.swen225.gp23.render.RenderPanel;
 
 import javax.swing.*;
@@ -128,17 +129,22 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             gamePauseMenu.setState(paused);
         });
 
+
+
         final JMenu recordAndReplayMenu = new JMenu("Record and Replay");
         final JMenuItem startRecordingMenu = new JMenuItem("Start Recording");
         startRecordingMenu.addActionListener(e -> {
+            RecordReplay.newSave(currentGame,"new save");
 
         });
-        final JMenuItem stopRecordingMenu = new JMenuItem("Stop Recording");
+        final JMenuItem stopRecordingMenu = new JMenuItem("Save Recording");
         stopRecordingMenu.addActionListener(e -> {
+            RecordReplay.saveRecording(currentGame);
 
         });
         final JMenuItem loadRecordedMenu = new JMenuItem("Load Recorded Game");
         loadRecordedMenu.addActionListener(e -> {
+            RecordReplay.loadRecord("new save",currentGame);
 
         });
 
