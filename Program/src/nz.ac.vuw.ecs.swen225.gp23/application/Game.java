@@ -18,15 +18,21 @@ public class Game {
     private boolean gamePaused;
 
     private Timer timer;
+    GraphicalInterface gui;
 
 
-    public Game(int countFromFile, int chipsLeft, String levelName, JLabel timeLabel, JLabel levelLabel, JLabel chipsLeftLabel, GraphicalInterface gui) {
+
+
+
+
+    public Game(int countFromFile,int levelNumber, GraphicalInterface gui) {
         this.countdownTimer = (countFromFile + 1);
         this.gamePaused = false;
+        this.gui = gui;
+        this.levelNumber = levelNumber;
+        gui.getLevelLabel().setText(String.valueOf(levelNumber));
 
-        levelLabel.setText(levelName);
-
-        runTimer(timeLabel);
+        runTimer();
     }
 
 
@@ -37,7 +43,7 @@ public class Game {
      * This function operates in an asynchronous manner to the main game interface, so is able to operate independently
      * of graphics redraw calls.
      */
-    public void runTimer(JLabel timeLabel) {
+    public void runTimer() {
         timer = new Timer();
         TimerTask task = new TimerTask() {
             public void run() {
@@ -45,7 +51,7 @@ public class Game {
                 if (countdownTimer > 0 && !gamePaused) {
                     countdownTimer--;
                     // update gui time label
-                    timeLabel.setText(String.valueOf(countdownTimer));
+                    gui.getTimeLabel().setText(String.valueOf(countdownTimer));
                 } else if (!gamePaused) {
                     timer.cancel();
                     System.out.println("time is up!");
@@ -79,4 +85,13 @@ public class Game {
     public void setTimeLeft(int countdownTimer) {
         this.countdownTimer = countdownTimer;
     }
+
+    public int getLevelNumber(){
+        return levelNumber;
+    }
+
+    public void setLevelNumber(int number){
+        this.levelNumber = number;
+    }
+
 }

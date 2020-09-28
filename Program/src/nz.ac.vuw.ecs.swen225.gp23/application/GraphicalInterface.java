@@ -340,7 +340,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             currentGame.terminateTimer();
         }
 
-        currentGame = new Game(60, -1, "$levelName", timeLabel, levelLabel, chipsLeftLabel,this);
+        currentGame = new Game(60, -1,this);
         application.transitionToRunning();
 
     }
@@ -377,6 +377,14 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             setMovementButtonVisibility(true);
         }
 
+    }
+
+    public JLabel getTimeLabel(){
+        return timeLabel;
+    }
+
+    public JLabel getLevelLabel(){
+        return levelLabel;
     }
 
 
