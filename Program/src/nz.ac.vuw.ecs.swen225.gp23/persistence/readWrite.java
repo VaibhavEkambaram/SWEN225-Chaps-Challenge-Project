@@ -10,6 +10,11 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 import java.io.*;
 
+/**
+ * Class for reading and writing from JSON files
+ * @author Rahul Mahasuriya 300473482
+ */
+
 public class readWrite {
 
     public static String getGameState(Game game){
@@ -58,7 +63,7 @@ public class readWrite {
                 .add("timeLeft", game.getTimeLeft())
                 .add("board", Board)
                 .add("player", Player)
-                .add("mobs", arrayBuilder);*/
+                .add("mobs", arrayBuilder);
 
         try(Writer w = new StringWriter()){
             Json.createWriter(w).write(builder.build());
@@ -80,7 +85,7 @@ public class readWrite {
             BufferedReader bR = new BufferedReader(iR);
             String line = bR.readLine();
             if(line == null){
-                line = ;
+                line = "";
             }
             Game g = loadStateFromJsonFIle(line, game);
             iR.close();
@@ -90,10 +95,10 @@ public class readWrite {
     }
 
    public static Game loadState(String save, Game game){
-
+        return null;
     }
 
     public static Tile createTile(String t){
-
+        return null;
     }
 }
