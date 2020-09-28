@@ -5,16 +5,22 @@ import nz.ac.vuw.ecs.swen225.gp23.application.Main;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import java.io.File;
 
+/**
+ * Audio Modile
+ * Used to play audio
+ *
+ * @author Cameron Li
+ */
 public class AudioModule {
-    private final String chip_1 = ("/Chip_1.wav");
-    private final String chip_2 = ("/Chip_2.wav");
-    private final String canyon = ("/Canyon.wav");
+    private Clip backgroundClip; // Clip used for background music/soundtracks (looping)
+    private Clip effectClip; // Clip used for sound effects (non-looping)
 
-    private Clip backgroundClip;
-    private Clip effectClip;
-
+    /**
+     * Constructor, initialise the Clips
+     *
+     * @author Cameron Li
+     */
     public AudioModule() {
         try {
             backgroundClip = AudioSystem.getClip();
@@ -24,26 +30,16 @@ public class AudioModule {
         }
     }
 
-    private void findSound(String filename) {
-        // using the URL means the image loads when stored
-        // in a jar or expanded into individual files.
-        if (filename.equals("chip_1") || filename.equals("chip_1.wav")) {
-            playSoundTrack(chip_1);
-        } else if (filename.equals("chip_2") || filename.equals("chip_2.wav")) {
-            playSoundTrack(chip_2);
-        } else if (filename.equals("canyon") || filename.equals("canyon.wav")) {
-            playSoundTrack(canyon);
-        } else {
-            throw new Error("Unknown audio file " + filename);
-        }
-    }
-
+    /**
+     * Play specified audio file from url string
+     * Audio file is played on background clip and loops
+     *
+     * @author Cameron Li
+     */
     public void playSoundTrack(final String audioFile) {
         try {
             if (backgroundClip.isOpen()) {
-                backgroundClip.close();
-                backgroundClip.stop();
-                backgroundClip.setFramePosition(0);
+                resetSoundTrack();
             }
             AudioInputStream inputStream = AudioSystem.getAudioInputStream(Main.class.getResourceAsStream(audioFile));
             backgroundClip.open(inputStream);
@@ -53,6 +49,13 @@ public class AudioModule {
         }
     }
 
+    /**
+     * Play specified audio file from url string
+     * Audio file is played on effects clip, does not loop
+     * @param audioFile
+     *
+     * @author Cameron Li
+     */
     public void playSound(final String audioFile) {
         try {
             AudioInputStream inputStream = AudioSystem.getAudioInputStream(Main.class.getResourceAsStream(audioFile));
@@ -62,4 +65,48 @@ public class AudioModule {
             System.err.println(e.getMessage());
         }
     }
+
+    /**
+     * Pause the current sound track on the background clip
+     *
+     * @author Cameron Li
+     */
+    public void pauseSoundTrack() {
+        try {
+            backgroundClip.stop();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Resume/play the current sound track on the background clip
+     * Loops
+     *
+     * @author Cameron Li
+     */
+    public void playSoundTrack() {
+        try {
+            backgroundClip.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Reset the sound track of the background clip
+     * Does not play anything anymore
+     *
+     * @author Cameron Li
+     */
+    public void resetSoundTrack() {
+        try {
+            backgroundClip.stop();
+            backgroundClip.close();
+            backgroundClip.setFramePosition(0);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 }
