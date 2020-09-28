@@ -1,6 +1,8 @@
 package nz.ac.vuw.ecs.swen225.gp23.persistence;
 
-import java.io.File;
+import javax.json.Json;
+import javax.json.stream.JsonParser;
+import java.io.*;
 import java.util.*;
 
 public class levelM {
@@ -11,7 +13,7 @@ public class levelM {
 
 
 
-    public static void loadLevel(assetManager aManager){
+    public static void load(assetManager aManager) throws FileNotFoundException {
         File[] folder = new File("src/levels/").listFiles();
         List<File> files = new ArrayList<>();
         if(folder == null){
@@ -20,9 +22,22 @@ public class levelM {
         for(File f : folder){
             files.add(f);
         }
+
+        JsonParser jsonParser = Json.createParser(new StringReader("[]"));
+
+
         Collections.sort(files);
         for(File f : files){
+            try(FileReader r = new FileReader(f)){
 
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
+
+    public static int getIntOfCurrentLevel(){
+        return currentLevel;
+    }
+
 }
