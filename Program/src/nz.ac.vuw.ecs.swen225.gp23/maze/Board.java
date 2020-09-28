@@ -2,24 +2,20 @@ package nz.ac.vuw.ecs.swen225.gp23.maze;
 
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.levelM;
-import nz.ac.vuw.ecs.swen225.gp23.persistence.readWrite;
-
-import java.awt.*;
-import java.util.List;
 
 public class Board {
     private int viewSize = 9; //the number of tiles in view
     private int boardDimension = 20; //height and width of board (in tiles)
     private Tile[][] tilesXY = new Tile[boardDimension][boardDimension];
     private Game game;
-    private int chipCount;
+    private int chipCount = 0;
 
     public Board(Game game){
         this.game = game;
     }
 
     public void setup(){
-
+        //load level here
         setAdjacentTiles();
     }
 
@@ -73,7 +69,7 @@ public class Board {
     public Tile getPlayerLoc() {
         for (int x = 0; x < boardDimension; x++) {
             for (int y = 0; y < boardDimension; y++) {
-                if (tilesXY[x][y].getImage().startsWith("chap")) {
+                if (tilesXY[x][y].getCurrentImage().startsWith("chap")) {
                     return tilesXY[x][y];
                 }
             }
@@ -89,6 +85,11 @@ public class Board {
     public int getBoardDimension(){return this.boardDimension;}
     public void setBoardDimension(int newBoardDimension){
         this.boardDimension = newBoardDimension;
+    }
+
+    public int getChipCount(){return this.chipCount;}
+    public void setChipCount(int newCount){
+        this.chipCount = newCount;
     }
 
     public int getCurrentLevel(){return levelM.getIntOfCurrentLevel();}

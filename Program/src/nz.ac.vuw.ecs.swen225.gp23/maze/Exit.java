@@ -12,7 +12,8 @@ public class Exit extends Tile {
     public Exit(){
         super(Tiles.Exit);
         this.isPassable = true;
-        this.image = "exit.png";
+        this.currentImage = "exit.png";
+        this.defaultImage = "exit.png";
     }
 
     @Override
@@ -20,8 +21,8 @@ public class Exit extends Tile {
         return isPassable;
     }
 
-    @Override
-    public String toString() {return "exit";}
+    //@Override
+    //public String toString() {return "exit";}
 
     @Override
     public String getJson() {
@@ -30,7 +31,8 @@ public class Exit extends Tile {
                 .add("type", getType().toString())
                 .add("xLoc", getXLoc())
                 .add("yLoc", getYLoc())
-                .add("image", getImage());
+                .add("image", getCurrentImage())
+                .add("defaultImage", getDefaultImage());
 
         try (Writer writer = new StringWriter()) {
             Json.createWriter(writer).write(builder.build());
@@ -46,7 +48,8 @@ public class Exit extends Tile {
         isPassable = tile.getBoolean("isPassable");
         setXLoc(tile.getInt("xLoc"));
         setYLoc(tile.getInt("yLoc"));
-        image = tile.getString("image");
+        currentImage = tile.getString("image");
+        defaultImage = tile.getString("defaultImage");
         return this;
     }
 }

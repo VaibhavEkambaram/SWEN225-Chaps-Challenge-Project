@@ -16,21 +16,22 @@ public class Key extends Tile {
         super(Tiles.Key);
         this.isPassable = true;
         this.colour = colour;
-        this.image = "key_" + colour + ".png";
+        this.currentImage = "key_" + colour + ".png";
+        this.defaultImage = "key_" + colour + ".png";
     }
 
     @Override
     public boolean action(Player p) {
        if(!pickedUp){
            p.addItem(this.toString());
-           image = "empty.png";
+           currentImage = "empty.png";
            pickedUp = true;
        }
        return isPassable;
     }
 
-    @Override
-    public String toString() {return "key_"+colour;}
+    //@Override
+    //public String toString() {return "key_"+colour;}
 
     @Override
     public String getJson() {
@@ -40,7 +41,8 @@ public class Key extends Tile {
                 .add("type", getType().toString())
                 .add("xLoc", getXLoc())
                 .add("yLoc", getYLoc())
-                .add("image", getImage());
+                .add("image", getCurrentImage())
+                .add("defaultImage", getDefaultImage());
 
         try (Writer writer = new StringWriter()) {
             Json.createWriter(writer).write(builder.build());
@@ -57,7 +59,8 @@ public class Key extends Tile {
         isPassable = tile.getBoolean("isPassable");
         setXLoc(tile.getInt("xLoc"));
         setYLoc(tile.getInt("yLoc"));
-        image = tile.getString("image");
+        currentImage = tile.getString("image");
+        defaultImage = tile.getString("defaultImage");
         return this;
     }
 

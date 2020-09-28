@@ -12,14 +12,15 @@ public class Empty extends Tile {
     public Empty(){
         super(Tiles.Empty);
         this.isPassable = true;
-        this.image = "empty.png";
+        this.currentImage = "empty.png";
+        this.defaultImage = "empty.png";
     }
 
     @Override
     public boolean action(Player p) {return isPassable;}
 
-    @Override
-    public String toString() {return "empty";}
+    //@Override
+    //public String toString() {return "empty";}
 
 
     @Override
@@ -29,7 +30,8 @@ public class Empty extends Tile {
                 .add("type", getType().toString())
                 .add("xLoc", getXLoc())
                 .add("yLoc", getYLoc())
-                .add("image", getImage());
+                .add("image", getCurrentImage())
+                .add("defaultImage", getDefaultImage());
 
         try (Writer writer = new StringWriter()) {
             Json.createWriter(writer).write(builder.build());
@@ -45,7 +47,8 @@ public class Empty extends Tile {
         isPassable = tile.getBoolean("isPassable");
         setXLoc(tile.getInt("xLoc"));
         setYLoc(tile.getInt("yLoc"));
-        image = tile.getString("image");
+        currentImage = tile.getString("image");
+        defaultImage = tile.getString("defaultImage");
         return this;
     }
 }
