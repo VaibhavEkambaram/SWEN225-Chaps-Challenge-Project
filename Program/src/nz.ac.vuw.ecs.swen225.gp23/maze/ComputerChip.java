@@ -14,21 +14,22 @@ public class ComputerChip extends Tile {
     public ComputerChip(){
         super(Tiles.ComputerChip);
         this.isPassable = true;
-        this.image = "computer_chip.png";
+        this.currentImage = "computer_chip.png";
+        this.defaultImage = "computer_chip.png";
     }
 
     @Override
     public boolean action(Player p) {
         if(!pickedUp){
             p.pickUpChip();
-            image = "empty.png";
+            currentImage = "empty.png";
             pickedUp = true;
         }
         return isPassable;
     }
 
-    @Override
-    public String toString() {return "computer_chip";}
+    //@Override
+    //public String toString() {return "computer_chip";}
 
     @Override
     public String getJson() {
@@ -37,7 +38,8 @@ public class ComputerChip extends Tile {
                 .add("type", getType().toString())
                 .add("xLoc", getXLoc())
                 .add("yLoc", getYLoc())
-                .add("image", getImage())
+                .add("image", getCurrentImage())
+                .add("defaultImage", getDefaultImage())
                 .add("pickedUp", getPickedUp());
 
         try (Writer writer = new StringWriter()) {
@@ -54,7 +56,8 @@ public class ComputerChip extends Tile {
         isPassable = tile.getBoolean("isPassable");
         setXLoc(tile.getInt("xLoc"));
         setYLoc(tile.getInt("yLoc"));
-        image = tile.getString("image");
+        currentImage = tile.getString("image");
+        defaultImage = tile.getString("defaultImage");
         pickedUp = tile.getBoolean("pickedUp");
         return this;
     }

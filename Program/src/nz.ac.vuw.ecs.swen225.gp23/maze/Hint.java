@@ -12,14 +12,15 @@ public class Hint extends Tile {
     public Hint(){
         super(Tiles.Hint);
         this.isPassable = true;
-        this.image = "hint.png";
+        this.currentImage = "hint.png";
+        this.defaultImage = "hint.png";
     }
 
     @Override
     public boolean action(Player p) {return isPassable;}
 
-    @Override
-    public String toString() {return "hint";}
+    //@Override
+    //public String toString() {return "hint";}
 
     @Override
     public String getJson() {
@@ -28,7 +29,8 @@ public class Hint extends Tile {
                 .add("type", getType().toString())
                 .add("xLoc", getXLoc())
                 .add("yLoc", getYLoc())
-                .add("image", getImage());
+                .add("image", getCurrentImage())
+                .add("defaultImage", getDefaultImage());
 
         try (Writer writer = new StringWriter()) {
             Json.createWriter(writer).write(builder.build());
@@ -44,7 +46,8 @@ public class Hint extends Tile {
         isPassable = tile.getBoolean("isPassable");
         setXLoc(tile.getInt("xLoc"));
         setYLoc(tile.getInt("yLoc"));
-        image = tile.getString("image");
+        currentImage = tile.getString("image");
+        defaultImage = tile.getString("defaultImage");
         return this;
     }
 }

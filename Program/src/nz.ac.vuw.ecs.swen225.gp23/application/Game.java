@@ -21,10 +21,6 @@ public class Game {
     GraphicalInterface gui;
 
 
-
-
-
-
     public Game(int countFromFile,int levelNumber, GraphicalInterface gui) {
         this.countdownTimer = (countFromFile + 1);
         this.gamePaused = false;
@@ -107,5 +103,4 @@ public class Game {
     public void setLevelNumber(int number){
         this.levelNumber = number;
     }
-
 }

@@ -6,9 +6,11 @@ import java.util.List;
 
 public abstract class Tile {
     public boolean isPassable;
+    public boolean hasEntity; //for monsters later
     public int yLoc;
     public int xLoc;
-    public String image; //for imageURL
+    public String currentImage; //for imageURL
+    public String defaultImage;
     public Tiles type;
     public List<Tile> adjacentTiles = new ArrayList<>();
 
@@ -26,9 +28,19 @@ public abstract class Tile {
         this.type = t;
     }
 
+    public void setEntityPresent(String image){
+        this.currentImage = image;
+    }
+    public void setEntityAbsent(){
+        this.currentImage = this.defaultImage;
+    }
+
+    public  String toString(){
+        return currentImage.substring(0, currentImage.length()-4);
+    }
+
     //Abstract methods
     public abstract boolean action(Player p); //validates whether a player can complete the requested action
-    public abstract String toString();
     public abstract String getJson(); //generates json string for a given tile
     public abstract Tile jsonToTile(JsonReader json); //sets properties for a tile based on json input
 
@@ -56,11 +68,16 @@ public abstract class Tile {
         this.isPassable = isPassable;
     }
 
-    public String getImage(){return this.image;}
-    public void setImage(String imageURL){
-        this.image = imageURL;
+    public String getCurrentImage(){return this.currentImage;}
+    public void setCurrentImage(String imageURL){
+        this.currentImage = imageURL;
     }
 
     public Tiles getType(){return type;}
     public void setType(Tiles newType){this.type = newType;}
+
+    public String getDefaultImage(){return  defaultImage;}
+    public void setDefaultImage(String newImage){
+        this.defaultImage = newImage;
+    }
 }

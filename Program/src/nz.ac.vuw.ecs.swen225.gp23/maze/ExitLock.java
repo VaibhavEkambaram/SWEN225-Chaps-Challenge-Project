@@ -14,20 +14,21 @@ public class ExitLock extends Tile {
     public ExitLock(){
         super(Tiles.ExitLock);
         this.isPassable = false;
-        this.image = "exit_lock.png";
+        this.currentImage = "exit_lock.png";
+        this.defaultImage = "exit_lock.png";
     }
 
     @Override
     public boolean action(Player p) {
         if(chipsNeeded == p.getChips()){
-            image = "empty.png";
+            currentImage = "empty.png";
             isPassable = true;
         }
         return isPassable;
     }
 
-    @Override
-    public String toString() {return "exit_lock";}
+    //@Override
+    //public String toString() {return "exit_lock";}
 
     @Override
     public String getJson() {
@@ -37,7 +38,8 @@ public class ExitLock extends Tile {
                 .add("type", getType().toString())
                 .add("xLoc", getXLoc())
                 .add("yLoc", getYLoc())
-                .add("image", getImage());
+                .add("image", getCurrentImage())
+                .add("defaultImage", getDefaultImage());
 
         try (Writer writer = new StringWriter()) {
             Json.createWriter(writer).write(builder.build());
@@ -54,7 +56,8 @@ public class ExitLock extends Tile {
         isPassable = tile.getBoolean("isPassable");
         setXLoc(tile.getInt("xLoc"));
         setYLoc(tile.getInt("yLoc"));
-        image = tile.getString("image");
+        currentImage = tile.getString("image");
+        defaultImage = tile.getString("defaultImage");
         return this;
     }
 
