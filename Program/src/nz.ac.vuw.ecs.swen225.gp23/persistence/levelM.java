@@ -1,8 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp23.persistence;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.io.File;
+import java.util.*;
 
 public class levelM {
     private static ArrayList<String> lDesc = new ArrayList<>();
@@ -10,7 +9,20 @@ public class levelM {
     @SuppressWarnings("rawtypes")
     static Set<Class> cSet = new HashSet<>();
 
-    private static final String pathForAsset = "Program/src/nz.ac.vuw.ecs.swen225.gp23/render/tile_images"
 
-    public static void loadLevel(assetManager
+
+    public static void loadLevel(assetManager aManager){
+        File[] folder = new File("src/levels/").listFiles();
+        List<File> files = new ArrayList<>();
+        if(folder == null){
+            return;
+        }
+        for(File f : folder){
+            files.add(f);
+        }
+        Collections.sort(files);
+        for(File f : files){
+
+        }
+    }
 }
