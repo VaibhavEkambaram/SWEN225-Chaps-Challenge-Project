@@ -16,6 +16,9 @@ public class TileFinder {
     private final ImageIcon floor = makeImageIcon("/tiles/floor.png");
     private final ImageIcon wall = makeImageIcon("/tiles/wall.png");
     private final ImageIcon block = makeImageIcon("/tiles/block.png");
+    private final ImageIcon exit = makeImageIcon("/tiles/exit.png");
+    private final ImageIcon exit_lock = makeImageIcon("/tiles/exit_lock.png");
+    private final ImageIcon fire = makeImageIcon("/tiles/fire.png");
 
     // Chip
     private final ImageIcon chip_up = makeImageIcon("/chip/chip_up.png");
@@ -85,6 +88,12 @@ public class TileFinder {
                 return wall;
             case "block":
                 return block;
+            case "exit":
+                return exit;
+            case "exit_lock":
+                return exit_lock;
+            case "fire":
+                return fire;
             // Chip
             default:
                 throw new Error("TileFinder getTile() - No such tile as: " + tileName);
