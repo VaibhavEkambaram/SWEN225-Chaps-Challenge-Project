@@ -1,8 +1,8 @@
 package nz.ac.vuw.ecs.swen225.gp23.application;
 
-import com.google.gson.Gson;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Player;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
 import nz.ac.vuw.ecs.swen225.gp23.render.RenderPanel;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.assetManager;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.levelM;
@@ -10,10 +10,6 @@ import nz.ac.vuw.ecs.swen225.gp23.persistence.readWrite;
 
 
 import java.io.File;
-import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -30,17 +26,14 @@ public class Game {
     private Timer timer;
     GraphicalInterface gui;
 
-    private File fileLoad;
 
-
-
-    public Game(int countFromFile,int levelNumber, GraphicalInterface gui) {
+    public Game(int countFromFile,int levelNumber, GraphicalInterface gui, Board board) {
+        this.board = board;
         this.countdownTimer = (countFromFile + 1);
         this.gamePaused = false;
         this.gui = gui;
         this.levelNumber = levelNumber;
         gui.getLevelLabel().setText(String.valueOf(levelNumber));
-        gameLoad();
         initBoardRenderer();
         runTimer();
     }
@@ -50,32 +43,40 @@ public class Game {
     public void initBoardRenderer(){
         assetManager aM = new assetManager();
         levelM.load(aM);
-        RenderPanel boardRenderPanel = new RenderPanel(9, 9);
+        RenderPanel boardRenderPanel = new RenderPanel(14, 15);
 
-        String[][] board = new String[9][9];
+        //String[][] board = new String[9][9];
 
         gui.setRenderPanel(boardRenderPanel);
 
-        board[0][0] = "floor";
-
-        boardRenderPanel.setBoard(board);
-    }
+        //board[0][0] = "floor";
 
 
+        int width = board.getTilesXY().length;
+        int height = board.getTilesXY()[0].length;
 
-    public void gameLoad(){
+        System.out.println(width + " "+height);
 
-        if(gui.gameLoad()){
-            try{
-                readWrite.loadStateFromJsonFile(/*fileLoad.getAbsolutePath(), this*/);
-            } catch (Exception e){
-                return;
+        String[][] tempBoard = new String[14][15];
+
+        for(int i=0; i < 14; i++) {
+            for (int j = 0; j < 15; j++) {
+                tempBoard[i][j] = "floor";
             }
-            System.out.println("Loaded");
         }
 
-    }
 
+        for(int i=0; i < 14; i++){
+            for(int j=0; j < 15; j++){
+                if(board.getTile(i,j)!=null) {
+                    tempBoard[i][j] = board.getTile(i, j).toString();
+                    //System.out.println(board.getTile(i, j).toString());
+                }
+            }
+        }
+
+        boardRenderPanel.setBoard(tempBoard);
+    }
 
 
     /**
@@ -102,14 +103,6 @@ public class Game {
         };
         timer.scheduleAtFixedRate(task, 0, 1000); //1000ms = 1sec
     }
-
-
-
-    public void setFileLoad(File fileLoad){
-        this.fileLoad = fileLoad;
-    }
-
-
 
 
 
