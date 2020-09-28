@@ -92,7 +92,7 @@
 		"type" : "Wall",
 		"xLoc" : 2,
 		"yLoc" : 1,
-		"image" : "floor.png",
+		"image" : "floor.png"
 		},
 		{
 		"isPassable" : false,
@@ -169,14 +169,14 @@
 		"type" : "floor",
 		"xLoc" : 4,
 		"yLoc" : 7,
-		"image" : "floor.png",
+		"image" : "floor.png"
 		},
 		{
 		"isPassable" : false,
 		"type" : "Wall",
 		"xLoc" : 4,
 		"yLoc" : 8,
-		"image" : "floor.png",
+		"image" : "floor.png"
 		},
 		{
 		"isPassable" : false,
@@ -204,7 +204,7 @@
 		"type" : "floor",
 		"xLoc" : 6,
 		"yLoc" : 2,
-		"image" : "floor.png",
+		"image" : "floor.png"
 		},
 		{
 		"isPassable" : false,
@@ -246,7 +246,7 @@
 		"type" : "Wall",
 		"xLoc" : 7,
 		"yLoc" : 1,
-		"image" : "floor.png",
+		"image" : "floor.png"
 		},
 		{
 		"isPassable" : false,
@@ -302,7 +302,7 @@
 		"type" : "Wall",
 		"xLoc" : 8,
 		"yLoc" : 1,
-		"image" : "floor.png",
+		"image" : "floor.png"
 		},
 		{
 		"isPassable" : false,
@@ -573,7 +573,7 @@
 		"xLoc" : 8,
 		"yLoc" : 4,
 		"image" : "exit.png"
-		},
+		}
 		]
     	},
 		"player" : {
@@ -585,7 +585,7 @@
 			"image" : "chip_down.png"
 		},
 		"inventory" : [],
-		"treasures" : 0,
+		"treasures" : 0
 
 		}
 }
