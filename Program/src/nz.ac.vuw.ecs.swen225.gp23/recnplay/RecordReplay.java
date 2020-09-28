@@ -129,7 +129,7 @@ public class RecordReplay {
     public static void loadRecord(String saveFile, Game g){
         JsonObject obj = null;
 
-        readWrite.loadStateFromJsonFile(/*saveFile, g*/);
+        //readWrite.loadStateFromJsonFile(/*saveFile, g*/);
         movements.clear();
         actors.clear();
 
