@@ -3,7 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp23.application;
 public class Application {
 
     public enum gameStates {
-        IDLE, RUNNING
+        IDLE, RUNNING, PAUSED
     }
 
     private gameStates state;
@@ -35,6 +35,7 @@ public class Application {
             throw new Error("Excepted running, but found state "+ state.toString());
         }
     }
+
 
 
     public gameStates getState(){

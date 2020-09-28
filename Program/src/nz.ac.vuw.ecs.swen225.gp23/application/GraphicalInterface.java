@@ -111,7 +111,21 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         gamePauseMenu.setState(false);
 
         gamePauseMenu.addActionListener(e -> {
-            boolean paused = onPauseGame();
+            boolean paused;
+
+            if(gamePaused){
+                paused = false;
+                onPauseGame(false);
+            } else {
+                paused = true;
+                onPauseGame(true);
+            }
+
+
+
+
+
+
             gamePauseMenu.setState(paused);
 
         });
@@ -290,9 +304,10 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         if (pressedKeys.size() == 1) {
             if (pressedKeys.contains(32)) {
                 System.out.println("Pause the game and display a \"game is paused\" dialog");
-                onPauseGame();
+                onPauseGame(true);
             } else if (pressedKeys.contains(27)) {
                 System.out.println("close the \"game is paused\" dialog and resume the game");
+                onPauseGame(false);
             } else if (pressedKeys.contains(38)) {
                 System.out.println("UP");
             } else if (pressedKeys.contains(40)) {
@@ -331,16 +346,16 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     }
 
 
-    public boolean onPauseGame() {
+    public void onPauseGame(boolean value) {
 
-        if (gamePaused) {
-            gamePaused = false;
-            currentGame.setGamePaused(false);
-            return false;
-        } else {
-            gamePaused = true;
-            currentGame.setGamePaused(true);
-            return true;
+        if(application.getState().equals(Application.gameStates.RUNNING)) {
+            if (value) {
+                gamePaused = true;
+                currentGame.setGamePaused(true);
+            } else {
+                gamePaused = false;
+                currentGame.setGamePaused(false);
+            }
         }
     }
 
@@ -357,6 +372,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         if(application.getState().equals(Application.gameStates.IDLE)){
             setMovementButtonVisibility(false);
+
+        } else if(application.getState().equals(Application.gameStates.RUNNING)){
+            setMovementButtonVisibility(true);
         }
 
     }
