@@ -43,37 +43,41 @@ public class Game {
     public void initBoardRenderer(){
         assetManager aM = new assetManager();
         levelM.load(aM);
-        RenderPanel boardRenderPanel = new RenderPanel(14, 15);
-
-        //String[][] board = new String[9][9];
-
-        gui.setRenderPanel(boardRenderPanel);
-
-        //board[0][0] = "floor";
+        RenderPanel boardRenderPanel = new RenderPanel(20, 20);
+         gui.setRenderPanel(boardRenderPanel);
 
 
         int width = board.getTilesXY().length;
         int height = board.getTilesXY()[0].length;
 
-        System.out.println(width + " "+height);
 
-        String[][] tempBoard = new String[14][15];
+        String[][] tempBoard = new String[20][20];
 
-        for(int i=0; i < 14; i++) {
+
+        for(int i=0; i < 20; i++){
+            for(int j=0; j < 20; j++){
+                tempBoard[j][i] = "empty";
+            }
+        }
+
+
+         for(int i=0; i < 14; i++) {
             for (int j = 0; j < 15; j++) {
-                tempBoard[i][j] = "floor";
-            }
-        }
+                System.out.print("|"+board.getTile(j,i).toString()+"|");
+                tempBoard[i][j] = board.getTile(j,i).toString();
+             }
+            System.out.println();
+         }
 
 
-        for(int i=0; i < 14; i++){
-            for(int j=0; j < 15; j++){
-                if(board.getTile(i,j)!=null) {
-                    tempBoard[i][j] = board.getTile(i, j).toString();
-                    //System.out.println(board.getTile(i, j).toString());
-                }
-            }
-        }
+        //  for(int i=0; i < 15; i++){
+        //     for(int j=0; j < 14; j++){
+        //    if(board.getTile(i,j)!=null) {
+        //       tempBoard[i][j] = board.getTile(i, j).toString();
+        //System.out.println(board.getTile(i, j).toString());
+        //    }
+        //  }
+        //   }
 
         boardRenderPanel.setBoard(tempBoard);
     }
@@ -104,6 +108,10 @@ public class Game {
         timer.scheduleAtFixedRate(task, 0, 1000); //1000ms = 1sec
     }
 
+
+    public void onMovement(Tile.Directions direction){
+        System.out.println(direction.toString());
+    }
 
 
     public int getTimeLeft() {

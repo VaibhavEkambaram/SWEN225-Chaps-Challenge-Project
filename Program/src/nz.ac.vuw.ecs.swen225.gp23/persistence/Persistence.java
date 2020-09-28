@@ -7,6 +7,7 @@ import nz.ac.vuw.ecs.swen225.gp23.maze.Empty;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Wall;
 
+import java.awt.*;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -65,9 +66,10 @@ public class Persistence {
         while (sc.hasNext()) {
 
             System.out.print("|");
-            System.out.print(sc.next());
+           // System.out.print(sc.next());
 
             String value = sc.next();
+            System.out.printf(value);
 
             switch (value) {
                 case "_":

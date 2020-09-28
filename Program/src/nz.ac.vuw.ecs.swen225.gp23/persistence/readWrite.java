@@ -98,7 +98,7 @@ public class readWrite {
             Map<?, ?> map = gson.fromJson(reader, Map.class);
 
             for(Map.Entry<?, ?> entry : map.entrySet()){
-                b.getTilesXY()
+               // b.getTilesXY()
                 System.out.println(entry.getKey() + "=" + entry.getValue() + "\n");
 
             }
