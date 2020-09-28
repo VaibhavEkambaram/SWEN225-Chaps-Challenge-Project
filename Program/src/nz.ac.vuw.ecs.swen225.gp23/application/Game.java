@@ -3,7 +3,6 @@ package nz.ac.vuw.ecs.swen225.gp23.application;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Player;
 
-import javax.swing.*;
 import java.util.Timer;
 import java.util.TimerTask;
 
