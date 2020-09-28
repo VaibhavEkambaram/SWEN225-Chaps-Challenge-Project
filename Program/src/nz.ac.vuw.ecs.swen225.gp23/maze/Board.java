@@ -1,11 +1,14 @@
 package nz.ac.vuw.ecs.swen225.gp23.maze;
 
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
+import nz.ac.vuw.ecs.swen225.gp23.persistence.readWrite;
 
+import java.awt.*;
 import java.util.List;
 
 public class Board {
-    private int boardDimension = 9; //height and width of board (in tiles)
+    private int boardDimension = 20; //height and width of board (in tiles)
+    public int viewSize = 9; //the number of tiles in view
 
     private Tile[][] tilesXY = new Tile[boardDimension][boardDimension];
 
@@ -15,10 +18,42 @@ public class Board {
         this.game = game;
     }
 
-    //TODO:JSON level loading
-    //TODO: Make a setup method to populate the board based on JSON levels
+    public void setup(){
+        readWrite.loadState("Program/srclevels/level1.json",game);
+        setAdjacent();
+    }
+
+    public void setAdjacent(){
+       for(int x = 0; x < boardDimension; x++){
+           for(int y = 0; y < boardDimension; y++){
+               Tile t = tilesXY[x][y];
+               int leftOrd = Tile.Directions.Left.ordinal();
+               t.adjacentTiles.add(leftOrd, y != 0 ? tilesXY[x][y - 1] : new Wall());
+               int rightOrd = Tile.Directions.Right.ordinal();
+               t.adjacentTiles.add(rightOrd, y != boardDimension - 1 ? tilesXY[x][y + 1] : new Wall());
+               int upOrd = Tile.Directions.Up.ordinal();
+               t.adjacentTiles.add(upOrd, x != 0 ? tilesXY[x - 1][y] : new Wall());
+               int downOrd = Tile.Directions.Down.ordinal();
+               t.adjacentTiles.add(downOrd, x != boardDimension - 1 ? tilesXY[x + 1][y] : new Wall());
+           }
+       }
+    }
 
     //Getters and setters
+    public String[][] getBoardString(Tile currentTile){
+        String[][] boardString = new String[viewSize][viewSize];
+        for(int x = currentTile.getXLoc() - viewSize/2; x <= currentTile.getXLoc() + viewSize/2; ++x){
+            for(int y = currentTile.getYLoc() - viewSize/2; y <= currentTile.getYLoc() + viewSize/2; ++y) {
+                if (x < 0 || y < 0 || x >= boardDimension || y >= boardDimension) {
+                    boardString[x][y] = new Empty().toString();
+                } else {
+                    boardString[x][y] = tilesXY[x][y].toString();
+                }
+            }
+        }
+        return boardString;
+    }
+
     public void setTile(int x, int y,  Tile t){
         t.setXLoc(x);
         t.setYLoc(y);

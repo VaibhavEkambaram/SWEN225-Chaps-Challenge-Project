@@ -10,10 +10,11 @@ public abstract class Tile {
     public int xLoc;
     public String image; //for imageURL
     public Tiles type;
+    public List<Tile> adjacentTiles = new ArrayList<>();
 
     //Possible types of tiles
     public enum Tiles {
-        Empty, Wall, LockedDoor, Key, Exit, ExitLock, ComputerChip, Hint
+        Empty, Floor, Wall, LockedDoor, Key, Exit, ExitLock, ComputerChip, Hint
     }
 
     //Possible movement directions
