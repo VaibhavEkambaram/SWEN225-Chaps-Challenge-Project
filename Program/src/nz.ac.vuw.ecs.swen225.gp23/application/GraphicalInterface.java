@@ -118,7 +118,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         gamePauseMenu.addActionListener(e -> {
             boolean paused;
 
-            if(gamePaused){
+            if (gamePaused) {
                 paused = false;
                 onPauseGame(false);
             } else {
@@ -248,8 +248,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         rightButton.addActionListener(e -> currentGame.onMovement(Tile.Directions.Right));
 
 
-
-
         movementPanel.add(new JLabel());
         movementPanel.add(upButton);
         movementPanel.add(new JLabel());
@@ -265,9 +263,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         getContentPane().add(mainPanel);
         addKeyListener(this);
         setLocationByPlatform(true);
-
-
-
 
 
         pack();
@@ -327,8 +322,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     }
 
 
-
-
     public void onNewGame() {
         if (currentGame != null) {
             application.transitionToInit();
@@ -340,11 +333,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         Persistence p = new Persistence(currentGame);
         Board board = p.loadFile();
-        currentGame = new Game(60, -1,this,board);
+        currentGame = new Game(60, -1, this, board);
         application.transitionToRunning();
-
-
-
 
 
     }
@@ -352,7 +342,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
     public void onPauseGame(boolean value) {
 
-        if(application.getState().equals(Application.gameStates.RUNNING)) {
+        if (application.getState().equals(Application.gameStates.RUNNING)) {
             if (value) {
                 gamePaused = true;
                 currentGame.setGamePaused(true);
@@ -363,7 +353,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         }
     }
 
-    public void setMovementButtonVisibility(boolean value){
+    public void setMovementButtonVisibility(boolean value) {
         upButton.setEnabled(value);
         downButton.setEnabled(value);
         leftButton.setEnabled(value);
@@ -371,29 +361,29 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     }
 
 
-    public void updateDisplay(){
-        System.out.println("Current game state: "+ application.getState());
+    public void updateDisplay() {
+        System.out.println("Current game state: " + application.getState());
 
-        if(application.getState().equals(Application.gameStates.IDLE)){
+        if (application.getState().equals(Application.gameStates.IDLE)) {
             setMovementButtonVisibility(false);
 
-        } else if(application.getState().equals(Application.gameStates.RUNNING)){
+        } else if (application.getState().equals(Application.gameStates.RUNNING)) {
             setMovementButtonVisibility(true);
         }
 
     }
 
-    public JLabel getTimeLabel(){
+    public JLabel getTimeLabel() {
         return timeLabel;
     }
 
-    public JLabel getLevelLabel(){
+    public JLabel getLevelLabel() {
         return levelLabel;
     }
 
     public void setRenderPanel(RenderPanel renderPanel) {
         this.renderPanel = renderPanel;
-        if(renderPanel!=null){
+        if (renderPanel != null) {
             gamePanel.add(renderPanel);
         }
     }
