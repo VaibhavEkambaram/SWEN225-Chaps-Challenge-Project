@@ -1,5 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp23.application;
 
+import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
+import nz.ac.vuw.ecs.swen225.gp23.persistence.Persistence;
 import nz.ac.vuw.ecs.swen225.gp23.render.RenderPanel;
 
 import javax.swing.*;
@@ -78,7 +80,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         final JMenuItem newFromLastLevelMenu = new JMenuItem("New Game from Last Level");
         newFromLastLevelMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK));
         newFromLastLevelMenu.addActionListener(e -> {
-            gameLoad();
         });
 
         final JMenuItem resumeSavedMenu = new JMenuItem("Resume Saved Game");
@@ -325,22 +326,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     }
 
 
-    /**
-     * GUI for loading the game
-     * @return chosen file
-     */
-    public boolean gameLoad(){
-        JFileChooser chooser = new JFileChooser();
-        chooser.setCurrentDirectory(new File("."));
-        chooser.setDialogTitle("File Load");
-        chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 
-        if(chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
-            currentGame.setFileLoad(chooser.getSelectedFile());
-            return true;
-        }
-        return false;
-    }
 
     public void onNewGame() {
         if (currentGame != null) {
@@ -351,8 +337,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         }
 
 
-
-        currentGame = new Game(60, -1,this);
+        Persistence p = new Persistence(currentGame);
+        Board board = p.loadFile();
+        currentGame = new Game(60, -1,this,board);
         application.transitionToRunning();
 
 
