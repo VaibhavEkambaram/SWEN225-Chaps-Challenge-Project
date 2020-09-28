@@ -1,0 +1,591 @@
+{
+	"level" : 1,
+	"timeleft" : 100,
+	"board" : {
+	"boardSize" : 9,
+	"allTiles" : [ {
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 0,
+		"yLoc" : 0,
+		"image" : "floor.png"
+    	},
+        {
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 0,
+		"yLoc" : 1,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 0,
+		"yLoc" : 2,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 0,
+		"yLoc" : 3,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 0,
+		"yLoc" : 4,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "floor",
+		"xLoc" : 0,
+		"yLoc" : 5,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 0,
+		"yLoc" : 6,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 0,
+		"yLoc" : 7,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 0,
+		"yLoc" : 8,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "floor",
+		"xLoc" : 1,
+		"yLoc" : 6,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "floor",
+		"xLoc" : 1,
+		"yLoc" : 7,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "floor",
+		"xLoc" : 1,
+		"yLoc" : 8,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 2,
+		"yLoc" : 1,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 2,
+		"yLoc" : 2,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 2,
+		"yLoc" : 8,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 3,
+		"yLoc" : 0,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 3,
+		"yLoc" : 6,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 3,
+		"yLoc" : 7,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "floor",
+		"xLoc" : 3,
+		"yLoc" : 8,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "floor",
+		"xLoc" : 4,
+		"yLoc" : 0,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 4,
+		"yLoc" : 1,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 4,
+		"yLoc" : 2,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 4,
+		"yLoc" : 6,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "floor",
+		"xLoc" : 4,
+		"yLoc" : 7,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 4,
+		"yLoc" : 8,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 5,
+		"yLoc" : 8,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 6,
+		"yLoc" : 0,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "floor",
+		"xLoc" : 6,
+		"yLoc" : 1,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "floor",
+		"xLoc" : 6,
+		"yLoc" : 2,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "floor",
+		"xLoc" : 6,
+		"yLoc" : 3,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 6,
+		"yLoc" : 5,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 6,
+		"yLoc" : 6,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 6,
+		"yLoc" : 8,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 7,
+		"yLoc" : 0,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 7,
+		"yLoc" : 1,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "floor",
+		"xLoc" : 7,
+		"yLoc" : 2,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "floor",
+		"xLoc" : 7,
+		"yLoc" : 3,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "floor",
+		"xLoc" : 7,
+		"yLoc" : 5,
+		"image" : "floor.png"
+		},
+        {
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 7,
+		"yLoc" : 6,
+		"image" : "floor.png"
+		},
+        {          
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 7,
+		"yLoc" : 7,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 7,
+		"yLoc" : 8,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 8,
+		"yLoc" : 0,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 8,
+		"yLoc" : 1,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 8,
+		"yLoc" : 2,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 8,
+		"yLoc" : 3,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "floor",
+		"xLoc" : 8,
+		"yLoc" : 5,
+		"image" : "floor.png"
+		},
+		{
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 8,
+		"yLoc" : 6,
+		"image" : "floor.png"
+		},
+        {
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 8,
+		"yLoc" : 7,
+		"image" : "floor.png"
+		},
+        {
+		"isPassable" : false,
+		"type" : "Wall",
+		"xLoc" : 8,
+		"yLoc" : 8,
+		"image" : "floor.png"
+		},
+		{
+		"colour" : "blue",
+		"isPassable" : true,
+		"type" : "Key",
+		"xLoc" : 1,
+		"yLoc" : 0,
+		"image" : "key_blue.png"
+		},
+		{
+		"colour" : "blue",
+		"isPassable" : true,
+		"type" : "Key",
+		"xLoc" : 3,
+		"yLoc" : 1,
+		"image" : "key_blue.png"
+		},
+		{
+		"colour" : "green",
+		"isPassable" : true,
+		"type" : "Key",
+		"xLoc" : 4,
+		"yLoc" : 3,
+		"image" : "key_green.png"
+		},
+		{
+		"colour" : "green",
+		"isPassable" : true,
+		"type" : "Key",
+		"xLoc" : 5,
+		"yLoc" : 1,
+		"image" : "key_green.png"
+		},
+		{
+		"colour" : "green",
+		"locked" : true,
+		"xLoc" : 1,
+		"yLoc" : 2,
+		"image" : "door_key_green.png"
+		},
+		{
+		"colour" : "blue",
+		"locked" : true,
+		"xLoc" : 3,
+		"yLoc" : 2,
+		"image" : "door_key_blue.png"
+		},
+		{
+		"colour" : "blue",
+		"locked" : true,
+		"xLoc" : 5,
+		"yLoc" : 2,
+		"image" : "door_key_blue.png"
+		},
+		{
+		"colour" : "green",
+		"locked" : true,
+		"xLoc" : 5,
+		"yLoc" : 6,
+		"image" : "door_key_green.png"
+		},
+		{
+		"colour" : "red",
+		"locked" : true,
+		"xLoc" : 1,
+		"yLoc" : 2,
+		"image" : "door_key_red.png"
+		},
+        {
+		"isPassable" : true,
+		"type" : "ComputerChip",
+		"xLoc" : 2,
+		"yLoc" : 0,
+		"image" : "computer_chip.png"
+		},
+		{
+		"isPassable" : true,
+		"type" : "ComputerChip",
+		"xLoc" : 5,
+		"yLoc" : 0,
+		"image" : "computer_chip.png"
+		},
+		{
+		"isPassable" : true,
+		"type" : "ComputerChip",
+		"xLoc" : 2,
+		"yLoc" : 7,
+		"image" : "computer_chip.png"
+		},
+		{
+		"isPassable" : true,
+		"type" : "ComputerChip",
+		"xLoc" : 5,
+		"yLoc" : 7,
+		"image" : "computer_chip.png"
+		},
+		{
+		"isPassable" : true,
+		"type" : "Empty",
+		"xLoc" : 1,
+		"yLoc" : 1,
+		"image" : "empty.png"
+		},
+		{
+		"isPassable" : true,
+		"type" : "Empty",
+		"xLoc" : 1,
+		"yLoc" : 3,
+		"image" : "empty.png"
+		},
+		{
+		"isPassable" : true,
+		"type" : "Empty",
+		"xLoc" : 1,
+		"yLoc" : 4,
+		"image" : "empty.png"
+		},
+		{
+		"isPassable" : true,
+		"type" : "Empty",
+		"xLoc" : 1,
+		"yLoc" : 5,
+		"image" : "empty.png"
+		},
+		{
+		"isPassable" : true,
+		"type" : "Empty",
+		"xLoc" : 1,
+		"yLoc" : 1,
+		"image" : "empty.png"
+		},
+		{
+		"isPassable" : true,
+		"type" : "Empty",
+		"xLoc" : 2,
+		"yLoc" : 3,
+		"image" : "empty.png"
+		},
+		{
+		"isPassable" : true,
+		"type" : "Empty",
+		"xLoc" : 2,
+		"yLoc" : 4,
+		"image" : "empty.png"
+		},
+		{
+		"isPassable" : true,
+		"type" : "Empty",
+		"xLoc" : 2,
+		"yLoc" : 5,
+		"image" : "empty.png"
+		},
+		{
+		"isPassable" : true,
+		"type" : "Empty",
+		"xLoc" : 2,
+		"yLoc" : 6,
+		"image" : "empty.png"
+		},	
+		{
+		"isPassable" : true,
+		"type" : "Empty",
+		"xLoc" : 3,
+		"yLoc" : 3,
+		"image" : "empty.png"
+		},	
+		{
+		"isPassable" : true,
+		"type" : "Empty",
+		"xLoc" : 3,
+		"yLoc" : 5,
+		"image" : "empty.png"
+		},	
+		{
+		"isPassable" : true,
+		"type" : "Empty",
+		"xLoc" : 4,
+		"yLoc" : 5,
+		"image" : "empty.png"
+		},	
+		{
+		"isPassable" : true,
+		"type" : "Empty",
+		"xLoc" : 5,
+		"yLoc" : 3,
+		"image" : "empty.png"
+		},	
+		{
+		"isPassable" : true,
+		"type" : "Empty",
+		"xLoc" : 5,
+		"yLoc" : 4,
+		"image" : "empty.png"
+		},	
+		{
+		"isPassable" : true,
+		"type" : "Empty",
+		"xLoc" : 5,
+		"yLoc" : 5,
+		"image" : "empty.png"
+		},	
+		{
+		"isPassable" : true,
+		"type" : "Empty",
+		"xLoc" : 6,
+		"yLoc" : 5,
+		"image" : "empty.png"
+		},	
+		{
+		"isPassable" : false,
+		"type" : "ExitLock",
+		"xLoc" : 7,
+		"yLoc" : 4,
+		"image" : "exit_lock.png"
+		},	
+		{
+		"isPassable" : true,
+		"type" : "Hint",
+		"xLoc" : 3,
+		"yLoc" : 4,
+		"image" : "hint.png"
+		},	
+		{
+		"isPassable" : true,
+		"type" : "Exit",
+		"xLoc" : 8,
+		"yLoc" : 4,
+		"image" : "exit.png"
+		}
+		]
+    	},
+		"player" : {
+		"currentTile" : {
+			"isPassable" : true,
+			"type" : "Empty",
+			"xLoc" : 4,
+			"yLoc" : 4,
+			"image" : "chip_down.png"
+		},
+		"inventory" : [],
+		"treasures" : 0
+
+		}
+}

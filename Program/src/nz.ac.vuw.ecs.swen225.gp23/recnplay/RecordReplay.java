@@ -129,64 +129,59 @@ public class RecordReplay {
     public static void loadRecord(String saveFile, Game g){
         JsonObject obj = null;
 
-        try{
-            readWrite.loadStateFromJsonFIle(saveFile, g);
-            movements.clear();
-            actors.clear();
+        readWrite.loadStateFromJsonFile(/*saveFile, g*/);
+        movements.clear();
+        actors.clear();
 
-            try {
-                BufferedReader br = new BufferedReader(new FileReader(saveFile));
-                JsonReader jr = Json.createReader(new StringReader(br.readLine()));
-                br.close();
-                obj = jr.readObject();
-            } catch (IOException e) {
-                System.out.println("There was an error reading from JSON file." + e);
-            }
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(saveFile));
+            JsonReader jr = Json.createReader(new StringReader(br.readLine()));
+            br.close();
+            obj = jr.readObject();
+        } catch (IOException e) {
+            System.out.println("There was an error reading from JSON file." + e);
+        }
 
-            JsonArray movesArray;
-            if (obj != null) {
-                movesArray = obj.getJsonArray("movements");
-            }
-            else {
-                movesArray = null;
-            }
+        JsonArray movesArray;
+        if (obj != null) {
+            movesArray = obj.getJsonArray("movements");
+        }
+        else {
+            movesArray = null;
+        }
 
-            if(movesArray != null){
-                for(int i = 0; i < movesArray.size(); i++){
-                    JsonObject object = movesArray.getJsonObject(i);
-                    String dir = object.getString("movement");
-                    int actorID = object.getInt("actor");
-                    actors.add(actorID);
+        if(movesArray != null){
+            for(int i = 0; i < movesArray.size(); i++){
+                JsonObject object = movesArray.getJsonObject(i);
+                String dir = object.getString("movement");
+                int actorID = object.getInt("actor");
+                actors.add(actorID);
 
-                    //might need to change to a switch statement
-                    if ("Up".equals(dir)) {
-                        movements.add(Tile.Directions.Up);
-                    } else if ("Down".equals(dir)) {
-                        movements.add(Tile.Directions.Down);
-                    } else if ("Left".equals(dir)) {
-                        movements.add(Tile.Directions.Left);
-                    } else if ("Right".equals(dir)) {
-                        movements.add(Tile.Directions.Right);
-                    }
+                //might need to change to a switch statement
+                if ("Up".equals(dir)) {
+                    movements.add(Tile.Directions.Up);
+                } else if ("Down".equals(dir)) {
+                    movements.add(Tile.Directions.Down);
+                } else if ("Left".equals(dir)) {
+                    movements.add(Tile.Directions.Left);
+                } else if ("Right".equals(dir)) {
+                    movements.add(Tile.Directions.Right);
                 }
             }
-
-            if (movements.size() > 0){
-                isGameRunning = true;
-            }
-            if (obj != null) {
-                timeLeft = obj.getInt("timeLeft");
-            }
-            else {
-                timeLeft = 0;
-            }
-
-            //update board here
-
         }
-        catch(IOException e){
-            System.out.println(e.getMessage());
+
+        if (movements.size() > 0){
+            isGameRunning = true;
         }
+        if (obj != null) {
+            timeLeft = obj.getInt("timeLeft");
+        }
+        else {
+            timeLeft = 0;
+        }
+
+        //update board here
+
     }
 
     /**

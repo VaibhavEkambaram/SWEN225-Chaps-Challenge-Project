@@ -1,5 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp23.application;
 
+import com.google.gson.Gson;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Player;
 import nz.ac.vuw.ecs.swen225.gp23.render.RenderPanel;
@@ -9,6 +10,10 @@ import nz.ac.vuw.ecs.swen225.gp23.persistence.readWrite;
 
 
 import java.io.File;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -41,6 +46,7 @@ public class Game {
     }
 
 
+
     public void initBoardRenderer(){
         assetManager aM = new assetManager();
         levelM.load(aM);
@@ -58,9 +64,10 @@ public class Game {
 
 
     public void gameLoad(){
+
         if(gui.gameLoad()){
             try{
-                readWrite.loadStateFromJsonFIle(fileLoad.getAbsolutePath(), this);
+                readWrite.loadStateFromJsonFile(/*fileLoad.getAbsolutePath(), this*/);
             } catch (Exception e){
                 return;
             }
@@ -68,6 +75,8 @@ public class Game {
         }
 
     }
+
+
 
     /**
      * Execute countdown timer.

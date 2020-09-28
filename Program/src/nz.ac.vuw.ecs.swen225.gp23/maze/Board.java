@@ -6,6 +6,8 @@ import nz.ac.vuw.ecs.swen225.gp23.persistence.levelM;
 public class Board {
     private int viewSize = 9; //the number of tiles in view
     private int boardDimension = 20; //height and width of board (in tiles)
+
+
     private Tile[][] tilesXY = new Tile[boardDimension][boardDimension];
     private Game game;
     private int chipCount = 0;

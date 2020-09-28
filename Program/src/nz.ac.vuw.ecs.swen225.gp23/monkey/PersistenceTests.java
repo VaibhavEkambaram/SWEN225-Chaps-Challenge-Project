@@ -29,11 +29,7 @@ public class PersistenceTests {
     @Test
     public void startGameInvalid(){
         boolean invalid = false;
-        try{
-            readWrite.loadStateFromJsonFIle("invalid.txt", game);
-        }catch (IOException e){
-            invalid = true;
-        }
+        readWrite.loadStateFromJsonFile(/*"invalid.txt", game*/);
         assertTrue(invalid);
     }
 

@@ -14,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
 
+
 /**
  * Class for reading and writing from JSON files
  * @author Rahul Mahasuriya 300473482
@@ -84,7 +85,32 @@ public class readWrite {
 
     }
 
-    public static Game loadStateFromJsonFIle(String fn, Game game)
+    public static void loadStateFromJsonFile(Game game){
+        Board b = game.getBoard();
+
+        try{
+            Gson gson = new Gson();
+
+            //     System.out.println(Paths.get(this.getClass()));
+
+            Reader reader = Files.newBufferedReader(Paths.get("Program/src/levels/level1.json"));
+
+            Map<?, ?> map = gson.fromJson(reader, Map.class);
+
+            for(Map.Entry<?, ?> entry : map.entrySet()){
+                b.getTilesXY()
+                System.out.println(entry.getKey() + "=" + entry.getValue() + "\n");
+
+            }
+
+            reader.close();
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+
+   /* public static Game loadStateFromJsonFIle(String fn, Game game)
         throws IOException{
             InputStream r = new FileInputStream(new File(fn));
             InputStreamReader iR = new InputStreamReader(r);
@@ -98,27 +124,9 @@ public class readWrite {
             bR.close();
             return g;
 
-    }
+    }*/
 
-    public void readFile(){
-        try{
-            Gson gson = new Gson();
 
-            Reader reader = Files.newBufferedReader(Paths.get("level1.json"));
-
-            Map<?, ?> map = gson.fromJson(reader, Map.class);
-
-            for(Map.Entry<?, ?> entry : map.entrySet()){
-                System.out.println(entry.getKey() + "=" + entry.getValue());
-
-            }
-
-            reader.close();
-        } catch (Exception ex){
-            ex.printStackTrace();
-        }
-
-    }
 
    public static Game loadState(String save, Game game){
         return null;
