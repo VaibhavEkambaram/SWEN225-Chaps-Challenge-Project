@@ -44,7 +44,7 @@ public class Game {
         assetManager aM = new assetManager();
         levelM.load(aM);
         RenderPanel boardRenderPanel = new RenderPanel(15, 14);
-       // gui.setRenderPanel(boardRenderPanel);
+        // gui.setRenderPanel(boardRenderPanel);
 
 
 
@@ -52,25 +52,25 @@ public class Game {
         int height = board.getTilesXY()[0].length;
 
 
-      //  String[][] tempBoard = new String[14][15];
+        //  String[][] tempBoard = new String[14][15];
 
-       // for(int i=0; i < 14; i++) {
+        // for(int i=0; i < 14; i++) {
         //    for (int j = 0; j < 15; j++) {
         //        tempBoard[i][j] = "wall";
-       //     }
-       // }
+        //     }
+        // }
 
 
-      //  for(int i=0; i < 15; i++){
-       //     for(int j=0; j < 14; j++){
-           //    if(board.getTile(i,j)!=null) {
-             //       tempBoard[i][j] = board.getTile(i, j).toString();
-                    //System.out.println(board.getTile(i, j).toString());
-            //    }
-          //  }
-     //   }
+        //  for(int i=0; i < 15; i++){
+        //     for(int j=0; j < 14; j++){
+        //    if(board.getTile(i,j)!=null) {
+        //       tempBoard[i][j] = board.getTile(i, j).toString();
+        //System.out.println(board.getTile(i, j).toString());
+        //    }
+        //  }
+        //   }
 
-      //  boardRenderPanel.setBoard(tempBoard);
+        //  boardRenderPanel.setBoard(tempBoard);
     }
 
 
