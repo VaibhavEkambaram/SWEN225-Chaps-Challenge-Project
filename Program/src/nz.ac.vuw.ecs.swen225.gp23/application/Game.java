@@ -112,7 +112,38 @@ public class Game {
 
 
     public void onMovement(Tile.Directions direction){
-        System.out.println(direction.toString());
+        if(gamePaused){
+            return;
+        }
+
+        Tile currentLoc = player.getCurrentTile();
+        Tile nextLoc;
+
+        switch (direction) {
+            case Left:
+                nextLoc = currentLoc.getDirection(Tile.Directions.Left);
+                break;
+            case Right:
+                nextLoc = currentLoc.getDirection(Tile.Directions.Right);
+                break;
+            case Up:
+                nextLoc = currentLoc.getDirection(Tile.Directions.Up);
+                break;
+            case Down:
+                nextLoc = currentLoc.getDirection(Tile.Directions.Down);
+                break;
+            default:
+                nextLoc = null;
+        }
+
+        if(nextLoc == null || !nextLoc.action(player)){
+            currentLoc.setEntityPresent(player.getImage(direction));
+            return;
+        }
+        currentLoc.setEntityAbsent();
+        nextLoc.setEntityPresent(player.getImage(direction));
+        player.setCurrentTile(nextLoc);
+
     }
 
 

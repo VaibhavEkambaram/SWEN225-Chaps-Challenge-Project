@@ -37,4 +37,6 @@ public class Player {
 
     public Tile getCurrentTile(){return currentTile;}
     public void setCurrentTile(Tile newTile){currentTile = newTile;}
+
+    public String getImage(Tile.Directions d){return directionImages.get(d);}
 }
