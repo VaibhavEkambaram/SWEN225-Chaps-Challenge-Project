@@ -2,7 +2,16 @@ package nz.ac.vuw.ecs.swen225.gp23.persistence;
 
 import com.google.gson.Gson;
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
-import nz.ac.vuw.ecs.swen225.gp23.maze.*;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
+import nz.ac.vuw.ecs.swen225.gp23.maze.ComputerChip;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Empty;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Exit;
+import nz.ac.vuw.ecs.swen225.gp23.maze.ExitLock;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Floor;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Hint;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Key;
+import nz.ac.vuw.ecs.swen225.gp23.maze.LockedDoor;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Wall;
 
 
 import java.io.Reader;
@@ -94,10 +103,10 @@ public class Persistence {
                     board.setTile(xValue, yValue, new Key("red"));
                     break;
                 case "_":
-                    board.setTile(xValue,yValue,new Wall());
+                    board.setTile(xValue,yValue,new Floor());
                     break;
                 case "#":
-                    board.setTile(xValue,yValue,new Empty());
+                    board.setTile(xValue,yValue,new Wall());
                     break;
                 case "i":
                     board.setTile(xValue, yValue, new Hint());
