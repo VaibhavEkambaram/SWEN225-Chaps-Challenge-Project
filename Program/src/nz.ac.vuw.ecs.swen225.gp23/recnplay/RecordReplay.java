@@ -195,7 +195,7 @@ public class RecordReplay {
      *
      * @param g - instance of game.
      */
-    public void iterateReplay(Game g){
+    public static void iterateReplay(Game g){
 
         //add try catch for out of bounds?
 
@@ -230,7 +230,7 @@ public class RecordReplay {
      *
      * @param g - instance of game.
      */
-    public void runReplay(Game g){
+    public static void runReplay(Game g){
         Runnable run = () -> {
             while(isGameRunning && movements.size() > 0){
                 try{
