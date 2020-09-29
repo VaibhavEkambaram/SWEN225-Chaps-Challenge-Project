@@ -63,6 +63,24 @@ public class Game {
         board.redraw(boardRenderPanel);
     }
 
+    /**
+     * Create string representation of board
+     * @return string
+     */
+    public String printOutBoard() {
+        StringBuilder text = new StringBuilder();
+        for (int i = 0; i < board.getBoardHeight(); i++) {
+            if (i != 0) {
+                text.append("\n");
+            }
+            for (int j = 0; j < board.getBoardWidth(); j++) {
+                text.append(board.getTile(j, i).toString()).append("|");
+            }
+        }
+
+        return text.toString();
+    }
+
 
     /**
      * Execute countdown timer.
