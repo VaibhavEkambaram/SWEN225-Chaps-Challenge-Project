@@ -2,14 +2,13 @@ Breakpoints for Chaps Challenge
 
 nz.ac.vuw.ecs.swen225.gp23.application
     GraphicalInterface
-        145 - RecordReplay
-        151 - RecordReplay
-        158 - RecordReplay
-        172 - RecordReplay
-        265 - Renderer (Audio)
-        404 - Persistence
-        405 - Maze (Board)
-        409 - RecordReplay
+        144 - RecordReplay
+        150 - RecordReplay
+        157 - RecordReplay
+        171 - RecordReplay
+        264 - Renderer (Audio)
+        407 - Persistence
+        408 - Persistence
 
     Game
         49 - Maze (Player)
