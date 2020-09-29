@@ -1,9 +1,15 @@
 package nz.ac.vuw.ecs.swen225.gp23.render;
 
 public class ChipAudioModule extends AudioModule {
+    // Sound tracks
     private final String chip_1 = ("/Chip_1.wav");
     private final String chip_2 = ("/Chip_2.wav");
     private final String canyon = ("/Canyon.wav");
+
+    // Effects
+    private final String exit = ("/Exit.wav");
+    private final String move = ("/Move.wav");
+    private final String pickup = ("/Bling.wav");
 
     /**
      * Depending on the current level
@@ -20,6 +26,18 @@ public class ChipAudioModule extends AudioModule {
         } else {
             playSoundTrack(chip_1);
         }
+    }
+
+    public void exitEffect() {
+        playSound(exit);
+    }
+
+    public void moveEffect() {
+        playSound(move);
+    }
+
+    public void pickupEffect() {
+        playSound(pickup);
     }
 
     /**
