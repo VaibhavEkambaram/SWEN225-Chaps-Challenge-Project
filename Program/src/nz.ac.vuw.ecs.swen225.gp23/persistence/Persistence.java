@@ -54,7 +54,7 @@ public class Persistence {
     }
 
     public Board readBoard(String maze) {
-        Board board = new Board(game);
+        Board board = new Board(game, boardX, boardY);
 
         Scanner sc = new Scanner(maze).useDelimiter(",");
         int xValue = 0;
