@@ -7,6 +7,7 @@ public class TestRender {
     JFrame testFrame;
     RenderPanel testRenderPanel;
     String[][] board = new String[5][5];
+    ChipAudioModule audio;
 
     public TestRender() {
         this.testFrame = new JFrame();
@@ -18,5 +19,7 @@ public class TestRender {
         board[0][0] = "floor";
         this.testRenderPanel.setBoard(board);
         this.testFrame.pack();
+        audio = new ChipAudioModule();
+        audio.playCurrentLevelTrack(1);
     }
 }
