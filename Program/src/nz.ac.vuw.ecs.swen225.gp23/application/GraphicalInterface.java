@@ -460,4 +460,13 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             gamePanel.add(renderPanel);
         }
     }
+
+    /**
+     * Get Current game
+     *
+     * @return game
+     */
+    public Game getCurrentGame() {
+        return currentGame;
+    }
 }
