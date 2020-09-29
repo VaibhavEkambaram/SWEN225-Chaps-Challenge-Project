@@ -43,26 +43,28 @@ public class Game {
     public void initBoardRenderer(){
         assetManager aM = new assetManager();
         levelM.load(aM);
-        RenderPanel boardRenderPanel = new RenderPanel(20, 20);
+        int boardWidth = board.getBoardWidth();
+        int boardHeight = board.getBoardHeight();
+
+
+
+        RenderPanel boardRenderPanel = new RenderPanel(boardHeight, boardWidth);
          gui.setRenderPanel(boardRenderPanel);
 
 
-        int width = board.getTilesXY().length;
-        int height = board.getTilesXY()[0].length;
+
+        String[][] tempBoard = new String[boardHeight][boardWidth];
 
 
-        String[][] tempBoard = new String[20][20];
-
-
-        for(int i=0; i < 20; i++){
-            for(int j=0; j < 20; j++){
-                tempBoard[j][i] = "empty";
+        for(int i=0; i < boardHeight; i++){
+            for(int j=0; j < boardWidth; j++){
+                tempBoard[i][j] = "empty";
             }
         }
 
 
-         for(int i=0; i < 14; i++) {
-            for (int j = 0; j < 15; j++) {
+         for(int i=0; i < boardHeight; i++) {
+            for (int j = 0; j < boardWidth; j++) {
                 System.out.print("|"+board.getTile(j,i).toString()+"|");
                 tempBoard[i][j] = board.getTile(j,i).toString();
              }
