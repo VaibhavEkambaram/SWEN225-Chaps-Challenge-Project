@@ -2,7 +2,6 @@ package nz.ac.vuw.ecs.swen225.gp23.recnplay;
 
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
-import nz.ac.vuw.ecs.swen225.gp23.persistence.readWrite;
 
 import javax.json.*;
 import java.io.*;
@@ -135,7 +134,6 @@ public class RecordReplay {
     public static void loadRecord(String saveFile, Game g){
         JsonObject obj = null;
 
-        //readWrite.loadStateFromJsonFile(/*saveFile, g*/);
         movements.clear();
         actors.clear();
 
@@ -185,8 +183,10 @@ public class RecordReplay {
         else {
             timeLeft = 0;
         }
+        System.out.println("Movements: " + movements);
+        System.out.println("ActorID: " + actors);
 
-        //update board here
+        //UPDATE BOARD
 
     }
 
@@ -195,7 +195,7 @@ public class RecordReplay {
      *
      * @param g - instance of game.
      */
-    public static void iterateReplay(Game g){
+    public void iterateReplay(Game g){
 
         //add try catch for out of bounds?
 
@@ -203,6 +203,7 @@ public class RecordReplay {
         if(isGameRunning && movements.size() > 0){
             if(actors.get(0) == 0){
                //move the player, need to call move method here parsing in movements.get(0)
+                g.onMovement(movements.get(0));
                 //remove the first iteration
                 movements.remove(0);
                 actors.remove(0);
@@ -229,7 +230,7 @@ public class RecordReplay {
      *
      * @param g - instance of game.
      */
-    public static void runReplay(Game g){
+    public void runReplay(Game g){
         Runnable run = () -> {
             while(isGameRunning && movements.size() > 0){
                 try{

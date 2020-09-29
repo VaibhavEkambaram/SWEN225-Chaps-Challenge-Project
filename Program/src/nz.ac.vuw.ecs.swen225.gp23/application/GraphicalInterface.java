@@ -150,16 +150,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         });
         final JMenuItem loadRecordedMenu = new JMenuItem("Load Recorded Game");
         loadRecordedMenu.addActionListener(e -> {
-            String fileName = JOptionPane.showInputDialog(this, "Enter saved file name (.json will be appended)");
-            if(fileName!=null){
-                RecordReplay.loadRecord(fileName+".json", currentGame);
-            }
-        });
+            RecordReplay.loadRecord("yeet.json", currentGame);
 
-
-        final JMenuItem runReplayMenu = new JMenuItem("Run Recorded Game");
-        runReplayMenu.addActionListener(e -> {
-            RecordReplay.runReplay(currentGame);
         });
 
         optionsMenu.add(gamePauseMenu);
@@ -167,7 +159,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         recordAndReplayMenu.add(startRecordingMenu);
         recordAndReplayMenu.add(stopRecordingMenu);
         recordAndReplayMenu.add(loadRecordedMenu);
-        recordAndReplayMenu.add(runReplayMenu);
         // ------------------------------------------------------------------------------------------------
         final JMenu helpMenu = new JMenu("Help");
 
@@ -320,12 +311,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             }
         }
     }
-
-    public void outOfTime(){
-        JOptionPane.showMessageDialog(null, "Oh no! It appears you have run out of time.", "Ran out of Time", JOptionPane.PLAIN_MESSAGE);
-    }
-
-
 
 
     /**
