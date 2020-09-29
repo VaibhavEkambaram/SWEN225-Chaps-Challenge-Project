@@ -29,13 +29,13 @@ public class Game {
 
     public Game(int countFromFile,int levelNumber, GraphicalInterface gui, Board board) {
         this.board = board;
-        player = new Player(board.getPlayerLoc());
         this.countdownTimer = (countFromFile + 1);
         this.gamePaused = false;
         this.gui = gui;
         this.levelNumber = levelNumber;
         gui.getLevelLabel().setText(String.valueOf(levelNumber));
         board.setAdjacentTiles();
+        player = new Player(board.getPlayerLoc());
         initBoardRenderer();
         runTimer();
     }
@@ -125,14 +125,16 @@ public class Game {
                 nextLoc = null;
         }
 
-        if(nextLoc == null || !nextLoc.action(player)){
-            currentLoc.setEntityPresent(player.getImage(direction));
-            return;
-        }
-        currentLoc.setEntityAbsent();
-        nextLoc.setEntityPresent(player.getImage(direction));
-        player.setCurrentTile(nextLoc);
+        System.out.println("nextLoc: "+ nextLoc.toString());
 
+        if(nextLoc.action(player)){
+            currentLoc.setEntityAbsent();
+            nextLoc.setEntityPresent(player.getImage(direction));
+            player.setCurrentTile(nextLoc);
+            //TODO: Update display here
+        } else {
+            currentLoc.setEntityPresent(player.getImage(direction));
+        }
     }
 
 

@@ -27,13 +27,13 @@ public class Board {
            for(int y = 0; y < boardYDimension; y++){
                Tile t = tilesXY[x][y];
                int leftOrd = Tile.Directions.Left.ordinal();
-               t.adjacentTiles.add(leftOrd, y != 0 ? tilesXY[x][y - 1] : new Wall());
+               t.adjacentTiles.add(leftOrd, x != 0 ? tilesXY[x - 1][y] : new Wall());
                int rightOrd = Tile.Directions.Right.ordinal();
-               t.adjacentTiles.add(rightOrd, y != boardYDimension - 1 ? tilesXY[x][y + 1] : new Wall());
+               t.adjacentTiles.add(rightOrd, x != boardXDimension - 1 ? tilesXY[x + 1][y] : new Wall());
                int upOrd = Tile.Directions.Up.ordinal();
-               t.adjacentTiles.add(upOrd, x != 0 ? tilesXY[x - 1][y] : new Wall());
+               t.adjacentTiles.add(upOrd, y != 0 ? tilesXY[x][y - 1] : new Wall());
                int downOrd = Tile.Directions.Down.ordinal();
-               t.adjacentTiles.add(downOrd, x != boardXDimension - 1 ? tilesXY[x + 1][y] : new Wall());
+               t.adjacentTiles.add(downOrd, y != boardYDimension - 1 ? tilesXY[x][y+1] : new Wall());
            }
        }
     }
@@ -72,7 +72,7 @@ public class Board {
     public Tile getPlayerLoc() {
         for (int x = 0; x < boardXDimension; x++) {
             for (int y = 0; y < boardYDimension; y++) {
-                if (tilesXY[x][y].getCurrentImage().startsWith("chap")) {
+                if (tilesXY[x][y].getCurrentImage().startsWith("chip")) {
                     return tilesXY[x][y];
                 }
             }
@@ -86,8 +86,6 @@ public class Board {
     }
 
     public int getBoardDimension(){return this.boardXDimension;}
-
-
 
     public void setBoardDimension(int newBoardDimension){
         this.boardXDimension = newBoardDimension;

@@ -2,16 +2,7 @@ package nz.ac.vuw.ecs.swen225.gp23.persistence;
 
 import com.google.gson.Gson;
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
-import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
-import nz.ac.vuw.ecs.swen225.gp23.maze.ComputerChip;
-import nz.ac.vuw.ecs.swen225.gp23.maze.Empty;
-import nz.ac.vuw.ecs.swen225.gp23.maze.Exit;
-import nz.ac.vuw.ecs.swen225.gp23.maze.ExitLock;
-import nz.ac.vuw.ecs.swen225.gp23.maze.Floor;
-import nz.ac.vuw.ecs.swen225.gp23.maze.Hint;
-import nz.ac.vuw.ecs.swen225.gp23.maze.Key;
-import nz.ac.vuw.ecs.swen225.gp23.maze.LockedDoor;
-import nz.ac.vuw.ecs.swen225.gp23.maze.Wall;
+import nz.ac.vuw.ecs.swen225.gp23.maze.*;
 
 
 import java.io.Reader;
@@ -119,6 +110,11 @@ public class Persistence {
                     break;
                 case "E":
                     board.setTile(xValue,yValue,new Exit());
+                    break;
+                case "P":
+                    Tile playerStart = new Floor();
+                    playerStart.setEntityPresent("chip_down.png");
+                    board.setTile(xValue,yValue, playerStart);
                     break;
                 default:
                     board.setTile(xValue,yValue,new Empty());
