@@ -16,6 +16,11 @@ nz.ac.vuw.ecs.swen225.gp23.application
         61 - Renderer (Board Renderer)
         109 - RecordReplay
 
+nz.ac.vuw.ecs.swen225.gp23.maze
+    Board
+        68 - Renderer (Board Renderer)
+        132 - Persistence (Level Manager)
+
 
 nz.ac.vuw.ecs.swen225.gp23.persistence
     Persistence
