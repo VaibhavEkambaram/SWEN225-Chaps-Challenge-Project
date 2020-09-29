@@ -1,4 +1,4 @@
-
+Breakpoints for Chaps Challenge
 
 nz.ac.vuw.ecs.swen225.gp23.application
     GraphicalInterface
@@ -17,3 +17,11 @@ nz.ac.vuw.ecs.swen225.gp23.application
         109 - RecordReplay
 
 
+nz.ac.vuw.ecs.swen225.gp23.persistence
+    Persistence
+        71 - Maze (Board)
+
+
+nz.ac.vuw.ecs.swen225.gp23.RecordReplay
+    RecordReplay
+        161 - Maze (Tile)
