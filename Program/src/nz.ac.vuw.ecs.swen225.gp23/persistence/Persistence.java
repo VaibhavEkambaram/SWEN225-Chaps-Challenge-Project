@@ -2,10 +2,7 @@ package nz.ac.vuw.ecs.swen225.gp23.persistence;
 
 import com.google.gson.Gson;
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
-import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
-import nz.ac.vuw.ecs.swen225.gp23.maze.Empty;
-import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
-import nz.ac.vuw.ecs.swen225.gp23.maze.Wall;
+import nz.ac.vuw.ecs.swen225.gp23.maze.*;
 
 import java.awt.*;
 import java.io.Reader;
@@ -72,11 +69,18 @@ public class Persistence {
             System.out.printf(value);
 
             switch (value) {
+
                 case "_":
                     board.setTile(xValue,yValue,new Empty());
                     break;
                 case "#":
                     board.setTile(xValue,yValue,new Wall());
+                    break;
+                case "i":
+                    board.setTile(xValue, yValue, new Hint());
+                    break;
+                case "T":
+                    board.setTile(xValue, yValue, new ComputerChip());
                     break;
                 default:
                     board.setTile(xValue,yValue,new Empty());
