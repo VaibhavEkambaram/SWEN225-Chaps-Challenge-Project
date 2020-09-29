@@ -3,6 +3,7 @@ package test.nz.ac.vuw.ecs.swen225.gp23.monkey;
 import nz.ac.vuw.ecs.swen225.gp23.application.Application;
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
 import nz.ac.vuw.ecs.swen225.gp23.application.GraphicalInterface;
+import nz.ac.vuw.ecs.swen225.gp23.persistence.Persistence;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.readWrite;
 import org.junit.Test;
 
@@ -23,15 +24,6 @@ public class PersistenceTests {
     private static boolean test = false;
     private Game game;
 
-    /**
-     * Invalid game load.
-     */
-    @Test
-    public void startGameInvalid(){
-        boolean invalid = false;
-      //  readWrite.loadStateFromJsonFile(/*"invalid.txt", game*/);
-        assertTrue(invalid);
-    }
 
     /**
      *First time game starts up.
