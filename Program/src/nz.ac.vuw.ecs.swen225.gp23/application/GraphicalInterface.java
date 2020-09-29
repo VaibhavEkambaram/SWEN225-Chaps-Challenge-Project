@@ -137,9 +137,12 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         final JMenu recordAndReplayMenu = new JMenu("Record and Replay");
         final JMenuItem startRecordingMenu = new JMenuItem("Start Recording");
         startRecordingMenu.addActionListener(e -> {
-            RecordReplay.newSave(currentGame, "new save.json");
-
+            String fileName = JOptionPane.showInputDialog(this, "Enter a file name (.json will be appended)");
+            if(fileName!=null){
+                RecordReplay.newSave(currentGame, fileName+".json");
+            }
         });
+
         final JMenuItem stopRecordingMenu = new JMenuItem("Save Recording");
         stopRecordingMenu.addActionListener(e -> {
             RecordReplay.saveRecording(currentGame);
