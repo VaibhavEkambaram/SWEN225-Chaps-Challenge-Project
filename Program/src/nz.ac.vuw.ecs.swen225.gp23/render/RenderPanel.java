@@ -99,7 +99,10 @@ public class RenderPanel extends JPanel {
      * @author Cameron Li.
      */
     public void paint(Graphics g) {
-        int size = this.getWidth() < this.getHeight() ? this.getWidth()/cols : this.getHeight()/rows;
+        int margin = rows < cols ? rows : cols;
+        int width = this.getWidth() - margin;
+        int height = this.getHeight() - margin;
+        int size = width < height ? width/cols : height/rows;
         super.paint(g);
         for (int row = 0; row < rows; row ++) {
             for (int col = 0; col < cols; col ++) {
