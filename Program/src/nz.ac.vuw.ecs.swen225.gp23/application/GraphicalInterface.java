@@ -44,9 +44,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
     private final Application application;
 
-    private ChipAudioModule audio = new ChipAudioModule();
+    private ChipAudioModule audio;
 
-    JLabel pausedLabel = new JLabel("Game has been paused...press ESC to resume");
+    JLabel pausedLabel;
 
     /**
      * Interface Constructor Method.
@@ -64,6 +64,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
+
+        pausedLabel = new JLabel("Game has been paused...press ESC to resume");
+        audio = new ChipAudioModule();
 
         setPreferredSize(new Dimension(800, 600));
         setMinimumSize(new Dimension(600, 450));
@@ -138,8 +141,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         final JMenuItem startRecordingMenu = new JMenuItem("Start Recording");
         startRecordingMenu.addActionListener(e -> {
             String fileName = JOptionPane.showInputDialog(this, "Enter a file name (.json will be appended)");
-            if(fileName!=null){
-                RecordReplay.newSave(currentGame, fileName+".json");
+            if (fileName != null) {
+                RecordReplay.newSave(currentGame, fileName + ".json");
             }
         });
 
@@ -151,18 +154,18 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         final JMenuItem loadRecordedMenu = new JMenuItem("Load Recorded Game");
         loadRecordedMenu.addActionListener(e -> {
             String fileName = JOptionPane.showInputDialog(this, "Enter saved file name (.json will be appended)");
-            if(fileName!=null){
-                RecordReplay.loadRecord(fileName+".json", currentGame);
+            if (fileName != null) {
+                RecordReplay.loadRecord(fileName + ".json", currentGame);
             }
         });
 
 
         final JMenuItem runReplayMenu = new JMenuItem("Run Recorded Game");
         runReplayMenu.addActionListener(e -> {
-            long value = 100;
+            long value;
             String delaySpeedString = JOptionPane.showInputDialog(this, "Enter playback delay speed");
 
-            if(delaySpeedString!=null) {
+            if (delaySpeedString != null) {
                 value = Long.parseLong(delaySpeedString);
                 RecordReplay.setDelay(value);
             }
@@ -287,12 +290,16 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         addKeyListener(this);
         setLocationByPlatform(true);
 
-
         pack();
         setVisible(true);
     }
 
 
+    /**
+     * Key Typed - Doesn't really do anything
+     *
+     * @param e
+     */
     @Override
     public void keyTyped(KeyEvent e) {
     }
@@ -328,11 +335,13 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         }
     }
 
-    public void outOfTime(){
+    /**
+     * Out of time.
+     * Display message when the player has run out of time
+     */
+    public void outOfTime() {
         JOptionPane.showMessageDialog(null, "Oh no! It appears you have run out of time.", "Ran out of Time", JOptionPane.PLAIN_MESSAGE);
     }
-
-
 
 
     /**
@@ -349,6 +358,10 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     }
 
 
+    /**
+     * Generate a New Game.
+     * This class loads from the file using the persistence model.
+     */
     public void onNewGame() {
         if (currentGame != null) {
             application.transitionToInit();
@@ -361,16 +374,20 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         Board board = p.loadFile();
         currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board);
         application.transitionToRunning();
+        // if there is a recording it is removed here to prevent issues arising
         RecordReplay.endRecording();
-
-
     }
 
 
+    /**
+     * Pause the game.
+     * Replace render window with
+     *
+     * @param value set game pause statue
+     */
     public void onPauseGame(boolean value) {
         pausedLabel.setHorizontalAlignment(SwingConstants.CENTER);
         if (application.getState().equals(Application.gameStates.RUNNING)) {
-
             if (value) {
                 gamePaused = true;
                 currentGame.setGamePaused(true);
@@ -388,33 +405,55 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         updateDisplay();
     }
 
-    public void setMovementButtonVisibility(boolean value) {
+    /**
+     * Set the movement buttons enabled on and off
+     *
+     * @param value enabled or disabled
+     */
+    public void setMovementButtonEnabled(boolean value) {
         upButton.setEnabled(value);
         downButton.setEnabled(value);
         leftButton.setEnabled(value);
         rightButton.setEnabled(value);
     }
 
-
+    /**
+     * Update display properties depending on game state.
+     * Does things such as set button visibility depending on game state and pause
+     */
     public void updateDisplay() {
         if (application.getState().equals(Application.gameStates.IDLE)) {
-            setMovementButtonVisibility(false);
+            setMovementButtonEnabled(false);
             gamePanel.remove(pausedLabel);
             gamePaused = false;
-
         } else if (application.getState().equals(Application.gameStates.RUNNING)) {
-            setMovementButtonVisibility(!gamePaused);
+            setMovementButtonEnabled(!gamePaused);
         }
     }
 
+    /**
+     * Get Time Level for game to update.
+     *
+     * @return time label
+     */
     public JLabel getTimeLabel() {
         return timeLabel;
     }
 
+    /**
+     * Get Level Label for game to update.
+     *
+     * @return level label
+     */
     public JLabel getLevelLabel() {
         return levelLabel;
     }
 
+    /**
+     * Add the Render Panel to the Board.
+     *
+     * @param renderPanel render Panel created in game class
+     */
     public void setRenderPanel(RenderPanel renderPanel) {
         this.renderPanel = renderPanel;
         if (renderPanel != null) {

@@ -1,5 +1,19 @@
 
 
-Application - Renderer
-nz.ac.vuw.ecs.swen225.gp23.Game --> Line 46
-nz.ac.vuw.ecs.swen225.gp23.GraphicalInterface --> Line 333
+nz.ac.vuw.ecs.swen225.gp23.application
+    GraphicalInterface
+        145 - RecordReplay
+        151 - RecordReplay
+        158 - RecordReplay
+        172 - RecordReplay
+        265 - Renderer (Audio)
+        404 - Persistence
+        405 - Maze (Board)
+        409 - RecordReplay
+
+    Game
+        49 - Maze (Player)
+        61 - Renderer (Board Renderer)
+        109 - RecordReplay
+
+

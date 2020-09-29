@@ -12,21 +12,33 @@ import nz.ac.vuw.ecs.swen225.gp23.persistence.levelM;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Game Class
+ * Controls and stores information required for a level to function
+ *
+ * @author Vaibhav Ekambaram - 300472561
+ */
 public class Game {
 
+    private RenderPanel boardRenderPanel;
+    private final GraphicalInterface gui;
     private final Board board;
     private final Player player;
 
-    private int countdownTimer;
+    private Timer timer;
 
+    private int countdownTimer;
     private boolean gamePaused;
 
-    private Timer timer;
-    GraphicalInterface gui;
 
-    RenderPanel boardRenderPanel;
-
-
+    /**
+     * Game Constructor
+     *
+     * @param countFromFile countdown duration
+     * @param levelNumber   level number
+     * @param gui           gui class
+     * @param board         board class
+     */
     public Game(int countFromFile, int levelNumber, GraphicalInterface gui, Board board) {
         this.board = board;
         this.countdownTimer = (countFromFile + 1);
@@ -34,29 +46,21 @@ public class Game {
         this.gui = gui;
         gui.getLevelLabel().setText(String.valueOf(levelNumber));
         board.setup();
-        player = new Player(board.getPlayerLoc());
+        this.player = new Player(board.getPlayerLoc());
         initBoardRenderer();
         runTimer();
     }
 
 
+    /**
+     * Initialise the board renderer.
+     */
     public void initBoardRenderer() {
         assetManager aM = new assetManager();
         levelM.load(aM);
-        int boardWidth = board.getBoardWidth();
-        int boardHeight = board.getBoardHeight();
-
-        boardRenderPanel = new RenderPanel(boardHeight, boardWidth);
+        boardRenderPanel = new RenderPanel(board.getBoardHeight(), board.getBoardWidth());
         gui.setRenderPanel(boardRenderPanel);
-
-        String[][] tempBoard = new String[boardHeight][boardWidth];
-
-        for (int i = 0; i < boardHeight; i++) {
-            for (int j = 0; j < boardWidth; j++) {
-                tempBoard[i][j] = board.getTile(j, i).toString();
-            }
-        }
-        boardRenderPanel.setBoard(tempBoard);
+        board.redraw(boardRenderPanel);
     }
 
 
@@ -86,6 +90,11 @@ public class Game {
     }
 
 
+    /**
+     * Move player around the board depending on direction passed in from graphical interface
+     *
+     * @param direction north/south/east/west direction
+     */
     public void onMovement(Tile.Directions direction) {
         if (gamePaused) {
             return;
@@ -123,33 +132,66 @@ public class Game {
         } else {
             currentLoc.setEntityPresent(player.getImage(direction));
         }
-        
+
     }
 
+    /**
+     * Get the amount of time left in the countdown.
+     *
+     * @return timer integer
+     */
     public int getTimeLeft() {
         return countdownTimer;
     }
 
+    /**
+     * Terminate the countdown timer
+     */
     public void terminateTimer() {
         timer.cancel();
     }
 
+    /**
+     * Set paused value
+     *
+     * @param value game paused value
+     */
     public void setGamePaused(boolean value) {
         gamePaused = value;
     }
 
+    /**
+     * Get the current board
+     *
+     * @return board
+     */
     public Board getBoard() {
         return board;
     }
 
+    /**
+     * Get the current player
+     *
+     * @return player
+     */
     public Player getPlayer() {
         return player;
     }
 
+    /**
+     * Set the amount of time left
+     *
+     * @param countdownTimer new timer value
+     */
     public void setTimeLeft(int countdownTimer) {
         this.countdownTimer = countdownTimer;
     }
 
+    /**
+     * Retrieve the level number
+     *
+     * @return level number
+     */
     public int getLevelNumber() {
         return board.getCurrentLevel();
     }
