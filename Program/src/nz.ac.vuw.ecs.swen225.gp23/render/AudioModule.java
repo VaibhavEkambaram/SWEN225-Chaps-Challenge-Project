@@ -58,6 +58,7 @@ public class AudioModule {
      */
     public void playSound(final String audioFile) {
         try {
+            resetEffectsTrack();
             AudioInputStream inputStream = AudioSystem.getAudioInputStream(Main.class.getResourceAsStream(audioFile));
             effectClip.open(inputStream);
             effectClip.start();
