@@ -19,9 +19,6 @@ public class Empty extends Tile {
     @Override
     public boolean action(Player p) {return isPassable;}
 
-    //@Override
-    //public String toString() {return "empty";}
-
 
     @Override
     public String getJson() {

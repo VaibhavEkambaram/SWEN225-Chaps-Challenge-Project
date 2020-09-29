@@ -28,15 +28,12 @@ public class LockedDoor extends Tile {
         }
         if(p.checkItem("key_" + colour)){
             isPassable = true;
-            currentImage = "empty.png";
+            this.defaultImage = "floor.png";
             p.removeItem("key_" + colour);
             locked = false;
         }
         return isPassable;
     }
-
-    //@Override
-    //public String toString() {return "door_key_" + colour;}
 
     @Override
     public String getJson() {

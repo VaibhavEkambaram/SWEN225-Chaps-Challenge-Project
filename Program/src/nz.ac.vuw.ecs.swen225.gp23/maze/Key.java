@@ -24,14 +24,11 @@ public class Key extends Tile {
     public boolean action(Player p) {
        if(!pickedUp){
            p.addItem(this.toString());
-           currentImage = "empty.png";
+           this.defaultImage = "floor.png";
            pickedUp = true;
        }
        return isPassable;
     }
-
-    //@Override
-    //public String toString() {return "key_"+colour;}
 
     @Override
     public String getJson() {

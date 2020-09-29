@@ -22,14 +22,12 @@ public class ComputerChip extends Tile {
     public boolean action(Player p) {
         if(!pickedUp){
             p.pickUpChip();
-            currentImage = "empty.png";
+            this.defaultImage = "floor.png";
             pickedUp = true;
         }
         return isPassable;
     }
 
-    //@Override
-    //public String toString() {return "computer_chip";}
 
     @Override
     public String getJson() {

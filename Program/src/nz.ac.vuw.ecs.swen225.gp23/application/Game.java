@@ -117,33 +117,15 @@ public class Game {
                 nextLoc = null;
         }
 
-        System.out.println("nextLoc: " + nextLoc.toString());
-
         if (nextLoc.action(player)) {
             currentLoc.setEntityAbsent();
             nextLoc.setEntityPresent(player.getImage(direction));
             player.setCurrentTile(nextLoc);
-
-            int boardWidth = board.getBoardWidth();
-            int boardHeight = board.getBoardHeight();
-
-            String[][] tempBoard = new String[boardHeight][boardWidth];
-
-
-            for (int i = 0; i < boardHeight; i++) {
-                for (int j = 0; j < boardWidth; j++) {
-                    tempBoard[i][j] = board.getTile(j, i).toString();
-                }
-            }
-
-
-            boardRenderPanel.setBoard(tempBoard);
-            boardRenderPanel.repaint();
-
-
+            board.redraw(boardRenderPanel);
         } else {
             currentLoc.setEntityPresent(player.getImage(direction));
         }
+        
     }
 
 

@@ -21,14 +21,11 @@ public class ExitLock extends Tile {
     @Override
     public boolean action(Player p) {
         if(chipsNeeded == p.getChips()){
-            currentImage = "empty.png";
+            this.defaultImage = "empty.png";
             isPassable = true;
         }
         return isPassable;
     }
-
-    //@Override
-    //public String toString() {return "exit_lock";}
 
     @Override
     public String getJson() {

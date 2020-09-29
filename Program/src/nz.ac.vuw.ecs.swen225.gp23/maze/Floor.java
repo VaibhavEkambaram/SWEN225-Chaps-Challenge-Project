@@ -19,10 +19,6 @@ public class Floor extends Tile {
     @Override
     public boolean action(Player p) {return isPassable;}
 
-    //@Override
-    //public String toString() {return "floor";}
-
-
     @Override
     public String getJson() {
         JsonObjectBuilder builder = Json.createObjectBuilder()

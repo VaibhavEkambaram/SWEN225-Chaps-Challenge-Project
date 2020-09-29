@@ -19,9 +19,6 @@ public class Hint extends Tile {
     @Override
     public boolean action(Player p) {return isPassable;}
 
-    //@Override
-    //public String toString() {return "hint";}
-
     @Override
     public String getJson() {
         JsonObjectBuilder builder = Json.createObjectBuilder()

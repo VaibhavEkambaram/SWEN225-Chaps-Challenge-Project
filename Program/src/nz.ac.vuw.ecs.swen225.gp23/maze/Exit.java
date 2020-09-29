@@ -21,8 +21,6 @@ public class Exit extends Tile {
         return isPassable;
     }
 
-    //@Override
-    //public String toString() {return "exit";}
 
     @Override
     public String getJson() {

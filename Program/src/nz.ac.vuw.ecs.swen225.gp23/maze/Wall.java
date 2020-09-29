@@ -21,10 +21,7 @@ public class Wall extends Tile {
         return isPassable;
     }
 
-    //@Override
-    //public String toString() {return "floor";}
-
-    @Override
+     @Override
     public String getJson() {
         JsonObjectBuilder builder = Json.createObjectBuilder()
                 .add("isPassable", getPassable())

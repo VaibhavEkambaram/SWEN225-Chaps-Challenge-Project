@@ -3,6 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp23.maze;
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.levelM;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.readWrite;
+import nz.ac.vuw.ecs.swen225.gp23.render.RenderPanel;
 
 public class Board {
     private int viewSize = 9; //the number of tiles in view
@@ -78,6 +79,21 @@ public class Board {
             }
         }
         return null;
+    }
+
+    public void redraw(RenderPanel boardRenderpanel){
+        String[][] tempBoard = new String[boardYDimension][boardXDimension];
+
+
+        for (int i = 0; i < boardYDimension; i++) {
+            for (int j = 0; j < boardXDimension; j++) {
+                tempBoard[i][j] = this.getTile(j, i).toString();
+            }
+        }
+
+
+        boardRenderpanel.setBoard(tempBoard);
+        boardRenderpanel.repaint();
     }
 
     public Tile[][] getTilesXY(){ return this.tilesXY;}
