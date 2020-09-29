@@ -6,10 +6,8 @@ import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
 import nz.ac.vuw.ecs.swen225.gp23.render.RenderPanel;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.assetManager;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.levelM;
-import nz.ac.vuw.ecs.swen225.gp23.persistence.readWrite;
 
 
-import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -18,7 +16,6 @@ public class Game {
     private Board board;
     private Player player;
 
-    private int levelNumber;
     private int countdownTimer;
 
     private boolean gamePaused;
@@ -26,13 +23,14 @@ public class Game {
     private Timer timer;
     GraphicalInterface gui;
 
+    RenderPanel boardRenderPanel;
 
-    public Game(int countFromFile,int levelNumber, GraphicalInterface gui, Board board) {
+
+    public Game(int countFromFile, int levelNumber, GraphicalInterface gui, Board board) {
         this.board = board;
         this.countdownTimer = (countFromFile + 1);
         this.gamePaused = false;
         this.gui = gui;
-        this.levelNumber = levelNumber;
         gui.getLevelLabel().setText(String.valueOf(levelNumber));
         board.setAdjacentTiles();
         player = new Player(board.getPlayerLoc());
@@ -41,33 +39,27 @@ public class Game {
     }
 
 
-
-    public void initBoardRenderer(){
+    public void initBoardRenderer() {
         assetManager aM = new assetManager();
         levelM.load(aM);
         int boardWidth = board.getBoardWidth();
         int boardHeight = board.getBoardHeight();
 
 
-
-        RenderPanel boardRenderPanel = new RenderPanel(boardHeight, boardWidth);
-         gui.setRenderPanel(boardRenderPanel);
-
+        boardRenderPanel = new RenderPanel(boardHeight, boardWidth);
+        gui.setRenderPanel(boardRenderPanel);
 
 
         String[][] tempBoard = new String[boardHeight][boardWidth];
 
 
-
-
-         for(int i=0; i < boardHeight; i++) {
+        for (int i = 0; i < boardHeight; i++) {
             for (int j = 0; j < boardWidth; j++) {
-                System.out.print("|"+board.getTile(j,i).toString()+"|");
-                tempBoard[i][j] = board.getTile(j,i).toString();
-             }
+                System.out.print("|" + board.getTile(j, i).toString() + "|");
+                tempBoard[i][j] = board.getTile(j, i).toString();
+            }
             System.out.println();
-         }
-
+        }
 
 
         boardRenderPanel.setBoard(tempBoard);
@@ -100,8 +92,8 @@ public class Game {
     }
 
 
-    public void onMovement(Tile.Directions direction){
-        if(gamePaused){
+    public void onMovement(Tile.Directions direction) {
+        if (gamePaused) {
             return;
         }
 
@@ -125,13 +117,30 @@ public class Game {
                 nextLoc = null;
         }
 
-        System.out.println("nextLoc: "+ nextLoc.toString());
+        System.out.println("nextLoc: " + nextLoc.toString());
 
-        if(nextLoc.action(player)){
+        if (nextLoc.action(player)) {
             currentLoc.setEntityAbsent();
             nextLoc.setEntityPresent(player.getImage(direction));
             player.setCurrentTile(nextLoc);
-            //TODO: Update display here
+
+            int boardWidth = board.getBoardWidth();
+            int boardHeight = board.getBoardHeight();
+
+            String[][] tempBoard = new String[boardHeight][boardWidth];
+
+
+            for (int i = 0; i < boardHeight; i++) {
+                for (int j = 0; j < boardWidth; j++) {
+                    tempBoard[i][j] = board.getTile(j, i).toString();
+                }
+            }
+
+
+            boardRenderPanel.setBoard(tempBoard);
+            boardRenderPanel.repaint();
+
+
         } else {
             currentLoc.setEntityPresent(player.getImage(direction));
         }
@@ -162,11 +171,7 @@ public class Game {
         this.countdownTimer = countdownTimer;
     }
 
-    public int getLevelNumber(){
+    public int getLevelNumber() {
         return board.getCurrentLevel();
-    }
-
-    public void setLevelNumber(int number){
-        this.levelNumber = number;
     }
 }

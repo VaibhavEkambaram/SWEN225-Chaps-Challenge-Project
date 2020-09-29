@@ -2,7 +2,17 @@ package nz.ac.vuw.ecs.swen225.gp23.persistence;
 
 import com.google.gson.Gson;
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
-import nz.ac.vuw.ecs.swen225.gp23.maze.*;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
+import nz.ac.vuw.ecs.swen225.gp23.maze.ComputerChip;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Empty;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Exit;
+import nz.ac.vuw.ecs.swen225.gp23.maze.ExitLock;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Floor;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Hint;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Key;
+import nz.ac.vuw.ecs.swen225.gp23.maze.LockedDoor;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Wall;
 
 
 import java.io.Reader;
@@ -15,11 +25,13 @@ public class Persistence {
 
     int boardX;
     int boardY;
+    int level;
+    int timeLeft;
     Game game;
     Board board;
 
 
-    public Persistence(Game game){
+    public Persistence(Game game) {
         this.game = game;
     }
 
@@ -37,10 +49,13 @@ public class Persistence {
                 if (entry.getKey().equals("board")) {
                     board = readBoard(entry.getValue().toString());
                 } else if (entry.getKey().equals("boardx")) {
-
                     boardX = (int) (double) entry.getValue();
                 } else if (entry.getKey().equals("boardy")) {
                     boardY = (int) (double) entry.getValue();
+                } else if (entry.getKey().equals("level")) {
+                    level = (int) (double) entry.getValue();
+                } else if (entry.getKey().equals("timeLeft")) {
+                    timeLeft = (int) (double) entry.getValue();
                 }
             }
 
@@ -94,10 +109,10 @@ public class Persistence {
                     board.setTile(xValue, yValue, new Key("red"));
                     break;
                 case "_":
-                    board.setTile(xValue,yValue,new Floor());
+                    board.setTile(xValue, yValue, new Floor());
                     break;
                 case "#":
-                    board.setTile(xValue,yValue,new Wall());
+                    board.setTile(xValue, yValue, new Wall());
                     break;
                 case "i":
                     board.setTile(xValue, yValue, new Hint());
@@ -106,10 +121,10 @@ public class Persistence {
                     board.setTile(xValue, yValue, new ComputerChip());
                     break;
                 case "l":
-                    board.setTile(xValue,yValue, new ExitLock());
+                    board.setTile(xValue, yValue, new ExitLock());
                     break;
                 case "E":
-                    board.setTile(xValue,yValue,new Exit());
+                    board.setTile(xValue, yValue, new Exit());
                     break;
                 case "P":
                     Tile playerStart = new Floor();
@@ -117,7 +132,7 @@ public class Persistence {
                     board.setTile(xValue,yValue, playerStart);
                     break;
                 default:
-                    board.setTile(xValue,yValue,new Empty());
+                    board.setTile(xValue, yValue, new Empty());
                     break;
             }
             xValue++;
@@ -130,6 +145,14 @@ public class Persistence {
             }
         }
         return board;
+    }
+
+    public int getTimeLeft(){
+        return timeLeft;
+    }
+
+    public int getLevel(){
+        return level;
     }
 }
 

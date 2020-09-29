@@ -342,7 +342,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         Persistence p = new Persistence(currentGame);
         Board board = p.loadFile();
-        currentGame = new Game(60, -1, this, board);
+        currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board);
         application.transitionToRunning();
 
 
