@@ -1,4 +1,4 @@
-package nz.ac.vuw.ecs.swen225.gp23.monkey;
+package test.nz.ac.vuw.ecs.swen225.gp23.monkey;
 
 import nz.ac.vuw.ecs.swen225.gp23.application.Application;
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
