@@ -110,6 +110,7 @@ public class Persistence {
                     break;
                 case "E":
                     board.setTile(xValue,yValue,new Exit());
+                    break;
                 default:
                     board.setTile(xValue,yValue,new Empty());
                     break;
