@@ -259,19 +259,39 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         upButton = new JButton("^");
         upButton.setToolTipText("Move Chap Up");
-        upButton.addActionListener(e -> currentGame.onMovement(Tile.Directions.Up));
+        upButton.addActionListener(e -> {
+            if (application.getState().equals(Application.gameStates.RUNNING) && !gamePaused) {
+                currentGame.onMovement(Tile.Directions.Up);
+                audio.moveEffect();
+            }
+        });
 
         downButton = new JButton("v");
         downButton.setToolTipText("Move Chap Down");
-        downButton.addActionListener(e -> currentGame.onMovement(Tile.Directions.Down));
+        downButton.addActionListener(e -> {
+            if (application.getState().equals(Application.gameStates.RUNNING) && !gamePaused) {
+                currentGame.onMovement(Tile.Directions.Down);
+                audio.moveEffect();
+            }
+        });
 
         leftButton = new JButton("<");
         leftButton.setToolTipText("Move Chap to the Left");
-        leftButton.addActionListener(e -> currentGame.onMovement(Tile.Directions.Left));
+        leftButton.addActionListener(e -> {
+            if (application.getState().equals(Application.gameStates.RUNNING) && !gamePaused) {
+                currentGame.onMovement(Tile.Directions.Left);
+                audio.moveEffect();
+            }
+        });
 
         rightButton = new JButton(">");
         rightButton.setToolTipText("Move Chap to the Right");
-        rightButton.addActionListener(e -> currentGame.onMovement(Tile.Directions.Right));
+        rightButton.addActionListener(e -> {
+            if (application.getState().equals(Application.gameStates.RUNNING) && !gamePaused) {
+                currentGame.onMovement(Tile.Directions.Right);
+                audio.moveEffect();
+            }
+        });
 
 
         movementPanel.add(new JLabel());
@@ -324,13 +344,25 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             } else if (pressedKeys.contains(27)) {
                 onPauseGame(false);
             } else if (pressedKeys.contains(38)) {
-                currentGame.onMovement(Tile.Directions.Up);
+                if (application.getState().equals(Application.gameStates.RUNNING) && !gamePaused) {
+                    currentGame.onMovement(Tile.Directions.Up);
+                    audio.moveEffect();
+                }
             } else if (pressedKeys.contains(40)) {
-                currentGame.onMovement(Tile.Directions.Down);
+                if (application.getState().equals(Application.gameStates.RUNNING) && !gamePaused) {
+                    currentGame.onMovement(Tile.Directions.Down);
+                    audio.moveEffect();
+                }
             } else if (pressedKeys.contains(37)) {
-                currentGame.onMovement(Tile.Directions.Left);
+                if (application.getState().equals(Application.gameStates.RUNNING) && !gamePaused) {
+                    currentGame.onMovement(Tile.Directions.Left);
+                    audio.moveEffect();
+                }
             } else if (pressedKeys.contains(39)) {
-                currentGame.onMovement(Tile.Directions.Right);
+                if (application.getState().equals(Application.gameStates.RUNNING) && !gamePaused) {
+                    currentGame.onMovement(Tile.Directions.Right);
+                    audio.moveEffect();
+                }
             }
         }
     }
