@@ -29,11 +29,13 @@ public class Game {
 
     public Game(int countFromFile,int levelNumber, GraphicalInterface gui, Board board) {
         this.board = board;
+        player = new Player(board.getPlayerLoc());
         this.countdownTimer = (countFromFile + 1);
         this.gamePaused = false;
         this.gui = gui;
         this.levelNumber = levelNumber;
         gui.getLevelLabel().setText(String.valueOf(levelNumber));
+        board.setAdjacentTiles();
         initBoardRenderer();
         runTimer();
     }

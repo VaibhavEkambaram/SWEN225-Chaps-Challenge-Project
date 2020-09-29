@@ -97,7 +97,7 @@ public class Persistence {
                     board.setTile(xValue,yValue,new Wall());
                     break;
                 case "#":
-                    board.setTile(xValue,yValue,new Empty());
+                    board.setTile(xValue,yValue,new Floor());
                     break;
                 case "i":
                     board.setTile(xValue, yValue, new Hint());
