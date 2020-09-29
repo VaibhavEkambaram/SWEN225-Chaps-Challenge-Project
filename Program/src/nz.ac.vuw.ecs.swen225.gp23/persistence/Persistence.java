@@ -64,7 +64,6 @@ public class Persistence {
             ex.printStackTrace();
         }
 
-        System.out.println(boardX + " " + boardY);
         return board;
     }
 
@@ -77,11 +76,7 @@ public class Persistence {
 
         while (sc.hasNext()) {
 
-            System.out.print("|");
-            // System.out.print(sc.next());
-
             String value = sc.next();
-            System.out.printf(value);
 
             switch (value) {
                 case "B":
@@ -139,7 +134,6 @@ public class Persistence {
 
             // increment one row down
             if (xValue == boardX) {
-                System.out.print("|\n");
                 xValue = 0;
                 yValue++;
             }

@@ -11,7 +11,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +43,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     Application application;
 
     ChipAudioModule audio = new ChipAudioModule();
+
+    JLabel pausedLabel = new JLabel("Game has been paused...press ESC to resume");
 
     /**
      * Interface Constructor Method.
@@ -78,9 +79,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         final JMenuItem newMenu = new JMenuItem("New Game");
         newMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, KeyEvent.CTRL_DOWN_MASK));
-        newMenu.addActionListener(e -> {
-            onNewGame();
-        });
+        newMenu.addActionListener(e -> onNewGame());
 
         final JMenuItem newFromLastLevelMenu = new JMenuItem("New Game from Last Level");
         newFromLastLevelMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK));
@@ -133,11 +132,10 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         });
 
 
-
         final JMenu recordAndReplayMenu = new JMenu("Record and Replay");
         final JMenuItem startRecordingMenu = new JMenuItem("Start Recording");
         startRecordingMenu.addActionListener(e -> {
-            RecordReplay.newSave(currentGame,"new save");
+            RecordReplay.newSave(currentGame, "new save");
 
         });
         final JMenuItem stopRecordingMenu = new JMenuItem("Save Recording");
@@ -147,7 +145,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         });
         final JMenuItem loadRecordedMenu = new JMenuItem("Load Recorded Game");
         loadRecordedMenu.addActionListener(e -> {
-            RecordReplay.loadRecord("new save",currentGame);
+            RecordReplay.loadRecord("new save", currentGame);
 
         });
 
@@ -181,11 +179,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         JPanel mainPanel = new JPanel(new BorderLayout(20, 0));
         mainPanel.setBorder(new EmptyBorder(50, 50, 50, 50));
         movementPanel = new JPanel(new GridLayout(2, 3));
-
-
-        // TODO: testing board draw
-        String[][] board = new String[9][9];
-
 
         gamePanel = new JPanel(new GridLayout(1, 1));
 
@@ -299,10 +292,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         // Perform action based on keys that are currently pressed by checking the array of pressed keys
         if (pressedKeys.size() == 1) {
             if (pressedKeys.contains(32)) {
-                System.out.println("Pause the game and display a \"game is paused\" dialog");
                 onPauseGame(true);
             } else if (pressedKeys.contains(27)) {
-                System.out.println("close the \"game is paused\" dialog and resume the game");
                 onPauseGame(false);
             } else if (pressedKeys.contains(38)) {
                 currentGame.onMovement(Tile.Directions.Up);
@@ -350,16 +341,27 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
 
     public void onPauseGame(boolean value) {
-
+        pausedLabel.setHorizontalAlignment(SwingConstants.CENTER);
         if (application.getState().equals(Application.gameStates.RUNNING)) {
+
+
             if (value) {
                 gamePaused = true;
                 currentGame.setGamePaused(true);
+                gamePanel.remove(renderPanel);
+                gamePanel.add(pausedLabel,BorderLayout.CENTER);
+                pack();
+                repaint();
             } else {
                 gamePaused = false;
                 currentGame.setGamePaused(false);
+                gamePanel.remove(pausedLabel);
+                gamePanel.add(renderPanel);
+                pack();
+                repaint();
             }
         }
+        updateDisplay();
     }
 
     public void setMovementButtonVisibility(boolean value) {
@@ -371,14 +373,16 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
 
     public void updateDisplay() {
-        System.out.println("Current game state: " + application.getState());
-
         if (application.getState().equals(Application.gameStates.IDLE)) {
             setMovementButtonVisibility(false);
+            gamePanel.remove(pausedLabel);
+            gamePaused = false;
 
         } else if (application.getState().equals(Application.gameStates.RUNNING)) {
-            setMovementButtonVisibility(true);
+            setMovementButtonVisibility(!gamePaused);
         }
+
+
 
     }
 

@@ -13,8 +13,8 @@ import java.util.TimerTask;
 
 public class Game {
 
-    private Board board;
-    private Player player;
+    private final Board board;
+    private final Player player;
 
     private int countdownTimer;
 
@@ -45,7 +45,6 @@ public class Game {
         int boardWidth = board.getBoardWidth();
         int boardHeight = board.getBoardHeight();
 
-
         boardRenderPanel = new RenderPanel(boardHeight, boardWidth);
         gui.setRenderPanel(boardRenderPanel);
 
@@ -55,13 +54,9 @@ public class Game {
 
         for (int i = 0; i < boardHeight; i++) {
             for (int j = 0; j < boardWidth; j++) {
-                System.out.print("|" + board.getTile(j, i).toString() + "|");
                 tempBoard[i][j] = board.getTile(j, i).toString();
             }
-            System.out.println();
         }
-
-
         boardRenderPanel.setBoard(tempBoard);
     }
 
