@@ -38,6 +38,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     private final JButton leftButton;
     private final JButton rightButton;
 
+    final JCheckBoxMenuItem gamePauseMenu;
+
     private Game currentGame;
 
     private boolean gamePaused = false;
@@ -119,7 +121,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         // ------------------------------------------------------------------------------------------------
         final JMenu optionsMenu = new JMenu("Options");
 
-        final JCheckBoxMenuItem gamePauseMenu = new JCheckBoxMenuItem("Toggle Game Pause");
+        gamePauseMenu = new JCheckBoxMenuItem("Toggle Game Pause");
         gamePauseMenu.setState(false);
 
         gamePauseMenu.addActionListener(e -> {
@@ -401,6 +403,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
                 gamePanel.remove(renderPanel);
                 renderPanel = null;
             }
+            gamePauseMenu.setState(false);
 
         }
 
@@ -440,15 +443,19 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             if (value) {
                 gamePaused = true;
                 currentGame.setGamePaused(true);
-                gamePanel.remove(renderPanel);
-                gamePanel.add(pausedLabel, BorderLayout.CENTER);
+                renderPanel.setPaused(true);
+
+
+                //gamePanel.remove(renderPanel);
+                //gamePanel.add(pausedLabel, BorderLayout.CENTER);
             } else {
                 gamePaused = false;
                 currentGame.setGamePaused(false);
-                gamePanel.remove(pausedLabel);
-                gamePanel.add(renderPanel);
+                //gamePanel.remove(pausedLabel);
+                //gamePanel.add(renderPanel);
+                renderPanel.setPaused(false);
             }
-            pack();
+            //pack();
             repaint();
         }
         updateDisplay();

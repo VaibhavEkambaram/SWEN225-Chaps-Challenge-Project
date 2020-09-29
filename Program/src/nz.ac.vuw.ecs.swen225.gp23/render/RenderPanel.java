@@ -18,6 +18,8 @@ public class RenderPanel extends JPanel {
     private final int rows;
     private final int cols;
 
+    private boolean isPaused;
+
     // Render Display
     private JLabel[][] tileGrid;
     private JPanel displayGrid;
@@ -90,6 +92,10 @@ public class RenderPanel extends JPanel {
         }
     }
 
+    public void setPaused(boolean pause) {
+        isPaused = pause;
+    }
+
     /**
      * Paint method.
      * Used to refresh the board along with GUI.
@@ -104,12 +110,29 @@ public class RenderPanel extends JPanel {
         int height = this.getHeight() - margin;
         int size = width < height ? width/cols : height/rows;
         super.paint(g);
-        for (int row = 0; row < rows; row ++) {
-            for (int col = 0; col < cols; col ++) {
-                ImageIcon foundTile = tileFinder.getTile(currentBoard[row][col]);
-                Image resizeImage = foundTile.getImage().getScaledInstance(size, size, Image.SCALE_SMOOTH);
-                tileGrid[row][col].setIcon(new ImageIcon(resizeImage));
+        if (!isPaused) {
+            for (int row = 0; row < rows; row++) {
+                for (int col = 0; col < cols; col++) {
+                    ImageIcon foundTile = tileFinder.getTile(currentBoard[row][col]);
+                    Image resizeImage = foundTile.getImage().getScaledInstance(size, size, Image.SCALE_SMOOTH);
+                    tileGrid[row][col].setIcon(new ImageIcon(resizeImage));
+                }
             }
+        } else {
+            // draw pause string
+            g.setColor(Color.BLACK);
+            g.fillRect(0, 0,  3000, 3000);
+            g.setColor(Color.WHITE);
+            Font font = g.getFont();
+            FontMetrics metrics = g.getFontMetrics(font);
+            // Determine the X coordinate for the text
+            String text = "Game has been paused...press ESC to resume";
+            int x = (this.getWidth() - metrics.stringWidth(text)) / 2;
+            // Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
+            int y = (this.getHeight() - metrics.getHeight())/2;
+            // Set the font
+            g.setFont(font);
+            g.drawString(text, x, y);
         }
     }
 
