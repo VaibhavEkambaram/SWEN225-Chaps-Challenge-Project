@@ -30,19 +30,21 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     private final JPanel informationPanel;
     private final JPanel movementPanel;
 
-    RenderPanel renderPanel;
+    private RenderPanel renderPanel;
 
     private final JLabel timeLabel, levelLabel, chipsLeftLabel;
-    JButton upButton, downButton, leftButton, rightButton;
-
+    private final JButton upButton;
+    private final JButton downButton;
+    private final JButton leftButton;
+    private final JButton rightButton;
 
     private Game currentGame;
 
-    boolean gamePaused = false;
+    private boolean gamePaused = false;
 
-    Application application;
+    private final Application application;
 
-    ChipAudioModule audio = new ChipAudioModule();
+    private ChipAudioModule audio = new ChipAudioModule();
 
     JLabel pausedLabel = new JLabel("Game has been paused...press ESC to resume");
 
@@ -330,7 +332,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             renderPanel = null;
         }
 
-
         Persistence p = new Persistence(currentGame);
         Board board = p.loadFile();
         currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board);
@@ -344,22 +345,19 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         pausedLabel.setHorizontalAlignment(SwingConstants.CENTER);
         if (application.getState().equals(Application.gameStates.RUNNING)) {
 
-
             if (value) {
                 gamePaused = true;
                 currentGame.setGamePaused(true);
                 gamePanel.remove(renderPanel);
-                gamePanel.add(pausedLabel,BorderLayout.CENTER);
-                pack();
-                repaint();
+                gamePanel.add(pausedLabel, BorderLayout.CENTER);
             } else {
                 gamePaused = false;
                 currentGame.setGamePaused(false);
                 gamePanel.remove(pausedLabel);
                 gamePanel.add(renderPanel);
-                pack();
-                repaint();
             }
+            pack();
+            repaint();
         }
         updateDisplay();
     }
@@ -381,9 +379,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         } else if (application.getState().equals(Application.gameStates.RUNNING)) {
             setMovementButtonVisibility(!gamePaused);
         }
-
-
-
     }
 
     public JLabel getTimeLabel() {

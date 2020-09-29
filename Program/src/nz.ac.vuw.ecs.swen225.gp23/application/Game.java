@@ -3,6 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp23.application;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Player;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
+import nz.ac.vuw.ecs.swen225.gp23.recnplay.RecordReplay;
 import nz.ac.vuw.ecs.swen225.gp23.render.RenderPanel;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.assetManager;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.levelM;
@@ -98,15 +99,19 @@ public class Game {
         switch (direction) {
             case Left:
                 nextLoc = currentLoc.getDirection(Tile.Directions.Left);
+                RecordReplay.addMoves(Tile.Directions.Left);
                 break;
             case Right:
                 nextLoc = currentLoc.getDirection(Tile.Directions.Right);
+                RecordReplay.addMoves(Tile.Directions.Right);
                 break;
             case Up:
                 nextLoc = currentLoc.getDirection(Tile.Directions.Up);
+                RecordReplay.addMoves(Tile.Directions.Up);
                 break;
             case Down:
                 nextLoc = currentLoc.getDirection(Tile.Directions.Down);
+                RecordReplay.addMoves(Tile.Directions.Down);
                 break;
             default:
                 nextLoc = null;
