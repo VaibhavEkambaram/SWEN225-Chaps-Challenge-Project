@@ -58,7 +58,7 @@ public class AudioModule {
      */
     public void playSound(final String audioFile) {
         try {
-            resetEffectsTrack();
+            effectClip = AudioSystem.getClip();
             AudioInputStream inputStream = AudioSystem.getAudioInputStream(Main.class.getResourceAsStream(audioFile));
             effectClip.open(inputStream);
             effectClip.start();
@@ -102,25 +102,11 @@ public class AudioModule {
      */
     public void resetSoundTrack() {
         try {
-            backgroundClip.stop();
-            backgroundClip.close();
-            backgroundClip.setFramePosition(0);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    /**
-     * Reset the effect track of the effect clip
-     * Does not play anything anymore
-     *
-     * @author Cameron Li
-     */
-    public void resetEffectsTrack() {
-        try {
-            effectClip.stop();
-            effectClip.close();
-            effectClip.setFramePosition(0);
+            if (backgroundClip.isRunning()) {
+                backgroundClip.stop();
+                backgroundClip.close();
+                backgroundClip.setFramePosition(0);
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

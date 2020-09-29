@@ -8,6 +8,7 @@ public class TestRender {
     RenderPanel testRenderPanel;
     String[][] board = new String[5][5];
     ChipAudioModule audio;
+    JButton stuff;
 
     public TestRender() {
         this.testFrame = new JFrame();
@@ -21,5 +22,13 @@ public class TestRender {
         this.testFrame.pack();
         audio = new ChipAudioModule();
         audio.playCurrentLevelTrack(1);
+
+        stuff = new JButton("Sound effect");
+        stuff.addActionListener(e -> {
+            audio.selectEffect();
+        });
+
+
+        this.testFrame.add(stuff);
     }
 }
