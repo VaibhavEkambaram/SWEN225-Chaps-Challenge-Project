@@ -19,6 +19,8 @@ public class TileFinder {
     private final ImageIcon exit = makeImageIcon("/tiles/exit.png");
     private final ImageIcon exit_lock = makeImageIcon("/tiles/exit_lock.png");
     private final ImageIcon fire = makeImageIcon("/tiles/fire.png");
+    private final ImageIcon computer_chip = makeImageIcon("/items/computer_chip.png");
+    private final ImageIcon hint = makeImageIcon("/tiles/hint.png");
 
     // Chip
     private final ImageIcon chip_up = makeImageIcon("/chip/chip_up.png");
@@ -80,6 +82,10 @@ public class TileFinder {
         }
         switch (tileName) {
             // Basic Tiles
+            case "hint":
+                return hint;
+            case "computer_chip":
+                return computer_chip;
             case "empty":
                 return empty;
             case "floor":
@@ -95,6 +101,7 @@ public class TileFinder {
             case "fire":
                 return fire;
             // Chip
+
             default:
                 throw new Error("TileFinder getTile() - No such tile as: " + tileName);
         }
