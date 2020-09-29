@@ -21,6 +21,12 @@ nz.ac.vuw.ecs.swen225.gp23.persistence
     Persistence
         71 - Maze (Board)
 
+nz.ac.vuw.ecs.swen225.gp23.render
+   Render
+	52 - RenderPanel
+   	39 - AudioModule
+	59 - AudioModule
+
 
 nz.ac.vuw.ecs.swen225.gp23.RecordReplay
     RecordReplay
