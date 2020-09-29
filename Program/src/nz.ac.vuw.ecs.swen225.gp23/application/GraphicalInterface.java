@@ -100,8 +100,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         final JMenuItem saveAndExitMenu = new JMenuItem("Save and Exit");
         saveAndExitMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK));
         saveAndExitMenu.addActionListener(e -> {
-            System.out.println("save and exit game using persistence");
-            System.exit(0);
+            onStopGame();
         });
 
         final JMenuItem exitMenu = new JMenuItem("Exit");
@@ -396,10 +395,13 @@ public class GraphicalInterface extends JFrame implements KeyListener {
      */
     public void onNewGame() {
         if (currentGame != null) {
-            application.transitionToInit();
-            currentGame.terminateTimer();
-            gamePanel.remove(renderPanel);
-            renderPanel = null;
+            if(application.getState().equals(Application.gameStates.RUNNING)){
+                application.transitionToInit();
+                currentGame.terminateTimer();
+                gamePanel.remove(renderPanel);
+                renderPanel = null;
+            }
+
         }
 
         Persistence p = new Persistence(currentGame);
@@ -407,6 +409,21 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board);
         application.transitionToRunning();
         // if there is a recording it is removed here to prevent issues arising
+        RecordReplay.endRecording();
+    }
+
+    /**
+     * Stops the current game
+     */
+    public void onStopGame(){
+        if (currentGame != null) {
+            application.transitionToInit();
+            currentGame.terminateTimer();
+            gamePanel.remove(renderPanel);
+            renderPanel = null;
+            timeLabel.setText("");
+            levelLabel.setText("");
+        }
         RecordReplay.endRecording();
     }
 
