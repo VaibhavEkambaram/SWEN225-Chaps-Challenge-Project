@@ -4,6 +4,7 @@ import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.Persistence;
 import nz.ac.vuw.ecs.swen225.gp23.recnplay.RecordReplay;
+import nz.ac.vuw.ecs.swen225.gp23.render.ChipAudioModule;
 import nz.ac.vuw.ecs.swen225.gp23.render.RenderPanel;
 
 import javax.swing.*;
@@ -41,6 +42,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     boolean gamePaused = false;
 
     Application application;
+
+    ChipAudioModule audio = new ChipAudioModule();
 
     /**
      * Interface Constructor Method.

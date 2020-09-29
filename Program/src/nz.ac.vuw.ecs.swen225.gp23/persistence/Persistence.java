@@ -71,10 +71,10 @@ public class Persistence {
             switch (value) {
 
                 case "_":
-                    board.setTile(xValue,yValue,new Wall());
+                    board.setTile(xValue,yValue,new Floor());
                     break;
                 case "#":
-                    board.setTile(xValue,yValue,new Floor());
+                    board.setTile(xValue,yValue,new Wall());
                     break;
                 case "i":
                     board.setTile(xValue, yValue, new Hint());
