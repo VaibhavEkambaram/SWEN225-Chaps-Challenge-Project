@@ -137,7 +137,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         final JMenu recordAndReplayMenu = new JMenu("Record and Replay");
         final JMenuItem startRecordingMenu = new JMenuItem("Start Recording");
         startRecordingMenu.addActionListener(e -> {
-            RecordReplay.newSave(currentGame, "new save");
+            RecordReplay.newSave(currentGame, "new save.json");
 
         });
         final JMenuItem stopRecordingMenu = new JMenuItem("Save Recording");
@@ -147,7 +147,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         });
         final JMenuItem loadRecordedMenu = new JMenuItem("Load Recorded Game");
         loadRecordedMenu.addActionListener(e -> {
-            RecordReplay.loadRecord("new save", currentGame);
+            RecordReplay.loadRecord("new save.json", currentGame);
 
         });
 
@@ -336,6 +336,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         Board board = p.loadFile();
         currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board);
         application.transitionToRunning();
+        RecordReplay.endRecording();
 
 
     }
