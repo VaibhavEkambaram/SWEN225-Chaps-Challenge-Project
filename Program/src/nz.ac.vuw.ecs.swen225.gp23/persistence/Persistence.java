@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
 import nz.ac.vuw.ecs.swen225.gp23.maze.*;
 
-import java.awt.*;
+
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -71,10 +71,10 @@ public class Persistence {
             switch (value) {
 
                 case "_":
-                    board.setTile(xValue,yValue,new Empty());
+                    board.setTile(xValue,yValue,new Wall());
                     break;
                 case "#":
-                    board.setTile(xValue,yValue,new Wall());
+                    board.setTile(xValue,yValue,new Empty());
                     break;
                 case "i":
                     board.setTile(xValue, yValue, new Hint());
@@ -82,6 +82,8 @@ public class Persistence {
                 case "T":
                     board.setTile(xValue, yValue, new ComputerChip());
                     break;
+                case "E":
+                    board.setTile(xValue,yValue,new Exit());
                 default:
                     board.setTile(xValue,yValue,new Empty());
                     break;
