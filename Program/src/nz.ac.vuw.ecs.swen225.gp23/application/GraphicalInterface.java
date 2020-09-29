@@ -159,6 +159,13 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         final JMenuItem runReplayMenu = new JMenuItem("Run Recorded Game");
         runReplayMenu.addActionListener(e -> {
+            long value = 100;
+            String delaySpeedString = JOptionPane.showInputDialog(this, "Enter playback delay speed");
+
+            if(delaySpeedString!=null) {
+                value = Long.parseLong(delaySpeedString);
+                RecordReplay.setDelay(value);
+            }
             RecordReplay.runReplay(currentGame);
         });
 
