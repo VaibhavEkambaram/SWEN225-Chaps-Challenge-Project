@@ -55,6 +55,12 @@ public class TileFinder {
     private final ImageIcon key_yellow = makeImageIcon("/items/keys/key_yellow.png");
     private final ImageIcon key_red = makeImageIcon("/items/keys/key_red.png");
 
+    // Doors
+    private final ImageIcon door_red = makeImageIcon("/tiles/doors/door_key_red.png");
+    private final ImageIcon door_blue = makeImageIcon("/tiles/doors/door_key_blue.png");
+    private final ImageIcon door_yellow = makeImageIcon("/tiles/doors/door_key_yellow.png");
+    private final ImageIcon door_green = makeImageIcon("/tiles/doors/door_key_green.png");
+
     /**
      * Get an Image from a string.
      *
@@ -79,7 +85,10 @@ public class TileFinder {
             return getBug(tileName);
         } else if (tileName.startsWith("glider")) {
             return getGlider(tileName);
+        } else if (tileName.startsWith("door")) {
+            return getDoor(tileName);
         }
+
         switch (tileName) {
             // Basic Tiles
             case "hint":
@@ -157,6 +166,21 @@ public class TileFinder {
                 return chip_swim_right;
             default:
                 throw new Error("TileFinder getChip() - No such chip as: " + tileName);
+        }
+    }
+
+    private ImageIcon getDoor(String tileName){
+        switch(tileName) {
+            case "door_key_green":
+                return door_green;
+            case "door_key_yellow":
+                return door_yellow;
+            case "door_key_blue":
+                return door_blue;
+            case "door_key_red":
+                return door_red;
+            default:
+                throw new Error("TileFinder getKey() - No such key as: " + tileName);
         }
     }
 
