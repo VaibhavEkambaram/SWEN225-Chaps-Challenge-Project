@@ -32,7 +32,7 @@ public class Game {
         this.gamePaused = false;
         this.gui = gui;
         gui.getLevelLabel().setText(String.valueOf(levelNumber));
-        board.setAdjacentTiles();
+        board.setup();
         player = new Player(board.getPlayerLoc());
         initBoardRenderer();
         runTimer();

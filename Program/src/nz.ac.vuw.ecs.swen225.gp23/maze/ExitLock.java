@@ -21,7 +21,7 @@ public class ExitLock extends Tile {
     @Override
     public boolean action(Player p) {
         if(chipsNeeded == p.getChips()){
-            this.defaultImage = "empty.png";
+            this.defaultImage = "floor.png";
             isPassable = true;
         }
         return isPassable;

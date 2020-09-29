@@ -23,7 +23,12 @@ public class Board {
         this.tilesXY = new Tile[boardXDimension][boardYDimension];
     }
 
-    public void setAdjacentTiles(){
+    public void setup(){
+        setAdjacentTiles();
+        setExitLock();
+    }
+
+    private void setAdjacentTiles(){
        for(int x = 0; x < boardXDimension; x++){
            for(int y = 0; y < boardYDimension; y++){
                Tile t = tilesXY[x][y];
@@ -39,19 +44,38 @@ public class Board {
        }
     }
 
-    //Getters and setters
-    public String[][] getBoardString(Tile currentTile){
-        String[][] boardString = new String[viewSize][viewSize];
-        for(int x = currentTile.getXLoc() - viewSize/2; x <= currentTile.getXLoc() + viewSize/2; ++x){
-            for(int y = currentTile.getYLoc() - viewSize/2; y <= currentTile.getYLoc() + viewSize/2; ++y) {
-                if (x < 0 || y < 0 || x >= boardXDimension || y >= boardYDimension) {
-                    boardString[x][y] = new Empty().toString();
-                } else {
-                    boardString[x][y] = tilesXY[x][y].toString();
+    private void setExitLock(){
+        int exitX = boardXDimension + 1;
+        int exitY = boardYDimension + 1;
+        for (int x = 0; x < boardXDimension; x++) {
+            for (int y = 0; y < boardYDimension; y++) {
+                if(tilesXY[x][y].getCurrentImage().startsWith("computer_chip")){
+                    chipCount++;
+                }
+                if (tilesXY[x][y].getCurrentImage().startsWith("exit_lock")) {
+                    exitX = x;
+                    exitY = y;
                 }
             }
         }
-        return boardString;
+        if(exitX != boardXDimension + 1){
+            ExitLock lock = (ExitLock) tilesXY[exitX][exitY];
+            lock.setChipsNeeded(chipCount);
+            tilesXY[exitX][exitY] = lock;
+        }
+    }
+
+    public void redraw(RenderPanel boardRenderPanel){
+        String[][] tempBoard = new String[boardYDimension][boardXDimension];
+
+        for (int i = 0; i < boardYDimension; i++) {
+            for (int j = 0; j < boardXDimension; j++) {
+                tempBoard[i][j] = this.getTile(j, i).toString();
+            }
+        }
+
+        boardRenderPanel.setBoard(tempBoard);
+        boardRenderPanel.repaint();
     }
 
     public void setTile(int x, int y,  Tile t){
@@ -81,21 +105,6 @@ public class Board {
         return null;
     }
 
-    public void redraw(RenderPanel boardRenderpanel){
-        String[][] tempBoard = new String[boardYDimension][boardXDimension];
-
-
-        for (int i = 0; i < boardYDimension; i++) {
-            for (int j = 0; j < boardXDimension; j++) {
-                tempBoard[i][j] = this.getTile(j, i).toString();
-            }
-        }
-
-
-        boardRenderpanel.setBoard(tempBoard);
-        boardRenderpanel.repaint();
-    }
-
     public Tile[][] getTilesXY(){ return this.tilesXY;}
     public void setTilesXY(Tile[][] newTilesXY){
         this.tilesXY = newTilesXY;
@@ -111,7 +120,6 @@ public class Board {
     public void setChipCount(int newCount){
         this.chipCount = newCount;
     }
-
 
     public int getBoardWidth(){
         return boardXDimension;
