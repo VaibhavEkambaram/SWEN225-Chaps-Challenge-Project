@@ -7,13 +7,20 @@ public class Board {
     private int viewSize = 9; //the number of tiles in view
     private int boardDimension = 20; //height and width of board (in tiles)
 
+    int boardXDimension = 20;
+    int boardYDimension = 20;
 
-    private Tile[][] tilesXY = new Tile[boardDimension][boardDimension];
+
+    private Tile[][] tilesXY;
     private Game game;
     private int chipCount = 0;
 
-    public Board(Game game){
+    public Board(Game game,int x,int y){
         this.game = game;
+        this.boardXDimension = x;
+        this.boardYDimension = y;
+        this.tilesXY = new Tile[boardXDimension][boardYDimension];
+
     }
 
     public void setup(){
@@ -85,6 +92,9 @@ public class Board {
     }
 
     public int getBoardDimension(){return this.boardDimension;}
+
+
+
     public void setBoardDimension(int newBoardDimension){
         this.boardDimension = newBoardDimension;
     }
@@ -92,6 +102,15 @@ public class Board {
     public int getChipCount(){return this.chipCount;}
     public void setChipCount(int newCount){
         this.chipCount = newCount;
+    }
+
+
+    public int getBoardWidth(){
+        return boardXDimension;
+    }
+
+    public int getBoardHeight(){
+        return boardYDimension;
     }
 
     public int getCurrentLevel(){return levelM.getIntOfCurrentLevel();}

@@ -12,8 +12,8 @@ public class Wall extends Tile {
     public Wall(){
         super(Tiles.Wall);
         this.isPassable = false;
-        this.currentImage = "floor.png";
-        this.defaultImage = "floor.png";
+        this.currentImage = "wall.png";
+        this.defaultImage = "wall.png";
     }
 
     @Override
