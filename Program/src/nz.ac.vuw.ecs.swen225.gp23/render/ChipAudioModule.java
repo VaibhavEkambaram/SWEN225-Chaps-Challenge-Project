@@ -10,6 +10,7 @@ public class ChipAudioModule extends AudioModule {
     private final String exit = ("/Exit.wav");
     private final String move = ("/Move.wav");
     private final String pickup = ("/Bling.wav");
+    private final String select = ("/Select.wav");
 
     /**
      * Depending on the current level
@@ -38,6 +39,10 @@ public class ChipAudioModule extends AudioModule {
 
     public void pickupEffect() {
         playSound(pickup);
+    }
+
+    public void selectEffect() {
+        playSound(select);
     }
 
     /**
