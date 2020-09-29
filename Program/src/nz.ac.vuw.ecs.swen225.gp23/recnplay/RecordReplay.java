@@ -39,7 +39,7 @@ public class RecordReplay {
         saveFile = s;
         isGameRecording = true;
         movements.clear();
-        state = readWrite.getGameState(g);
+        //state = readWrite.getGameState(g);
     }
 
     /**
@@ -68,7 +68,10 @@ public class RecordReplay {
                 a.add(o.build());
             }
 
-            JsonObjectBuilder objectBuilder = Json.createObjectBuilder().add("game", state).add("movements", a).add("timeLeft", g.getTimeLeft());
+            //was getting nullpointer here
+            JsonObjectBuilder objectBuilder = Json.createObjectBuilder().add("movements", a).add("timeLeft", g.getTimeLeft());
+
+            //add("game", state)
 
             //Attempt to save the moves to a JSON file
             try(Writer writer = new StringWriter()){
@@ -86,6 +89,7 @@ public class RecordReplay {
                 throw new Error("Movements were unable to save." + e);
             }
             isGameRecording = false;
+            System.out.println("Recorded Movements: " + movements);
         }
     }
 
@@ -100,6 +104,8 @@ public class RecordReplay {
         actors.clear();
         state = null;
         thread = null;
+
+
     }
 
     /**
