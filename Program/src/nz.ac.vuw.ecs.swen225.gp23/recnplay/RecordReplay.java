@@ -38,7 +38,6 @@ public class RecordReplay {
         saveFile = s;
         isGameRecording = true;
         movements.clear();
-        //state = readWrite.getGameState(g);
     }
 
     /**
@@ -67,10 +66,7 @@ public class RecordReplay {
                 a.add(o.build());
             }
 
-            //was getting nullpointer here
             JsonObjectBuilder objectBuilder = Json.createObjectBuilder().add("movements", a).add("timeLeft", g.getTimeLeft());
-
-            //add("game", state)
 
             //Attempt to save the moves to a JSON file
             try(Writer writer = new StringWriter()){
@@ -161,7 +157,6 @@ public class RecordReplay {
                 int actorID = object.getInt("actor");
                 actors.add(actorID);
 
-                //might need to change to a switch statement
                 if ("Up".equals(dir)) {
                     movements.add(Tile.Directions.Up);
                 } else if ("Down".equals(dir)) {
@@ -186,8 +181,6 @@ public class RecordReplay {
         System.out.println("Movements: " + movements);
         System.out.println("ActorID: " + actors);
 
-        //UPDATE BOARD
-
     }
 
     /**
@@ -197,18 +190,16 @@ public class RecordReplay {
      */
     public static void iterateReplay(Game g){
 
-        //add try catch for out of bounds?
+        //TODO:add try catch for out of bounds?
 
         //if there game is running and there are moves to replay
         if(isGameRunning && movements.size() > 0){
             if(actors.get(0) == 0){
-               //move the player, need to call move method here parsing in movements.get(0)
                 g.onMovement(movements.get(0));
-                //remove the first iteration
                 movements.remove(0);
                 actors.remove(0);
             } else {
-                //move the actor
+                //TODO: move the actor
                 movements.remove(0);
                 actors.remove(0);
                 if (movements.size() > 0){
@@ -220,7 +211,6 @@ public class RecordReplay {
                 isGameRunning = false;
                 g.setTimeLeft(timeLeft);
             }
-            //update board
 
         }
     }
