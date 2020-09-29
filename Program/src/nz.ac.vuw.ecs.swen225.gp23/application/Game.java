@@ -49,9 +49,7 @@ public class Game {
         boardRenderPanel = new RenderPanel(boardHeight, boardWidth);
         gui.setRenderPanel(boardRenderPanel);
 
-
         String[][] tempBoard = new String[boardHeight][boardWidth];
-
 
         for (int i = 0; i < boardHeight; i++) {
             for (int j = 0; j < boardWidth; j++) {
@@ -80,7 +78,7 @@ public class Game {
                     gui.getTimeLabel().setText(String.valueOf(countdownTimer));
                 } else if (!gamePaused) {
                     timer.cancel();
-                    System.out.println("time is up!");
+                    gui.outOfTime();
                 }
             }
         };
@@ -127,7 +125,6 @@ public class Game {
         }
         
     }
-
 
     public int getTimeLeft() {
         return countdownTimer;
