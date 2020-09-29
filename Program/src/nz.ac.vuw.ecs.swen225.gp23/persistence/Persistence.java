@@ -54,7 +54,7 @@ public class Persistence {
     }
 
     public Board readBoard(String maze) {
-        Board board = new Board(game, boardX, boardY);
+        Board board = new Board(game,boardX,boardY);
 
         Scanner sc = new Scanner(maze).useDelimiter(",");
         int xValue = 0;
@@ -69,30 +69,7 @@ public class Persistence {
             System.out.printf(value);
 
             switch (value) {
-                case "B":
-                    board.setTile(xValue, yValue, new LockedDoor("blue"));
-                    break;
-                case "G":
-                    board.setTile(xValue, yValue, new LockedDoor("green"));
-                    break;
-                case "R":
-                    board.setTile(xValue, yValue, new LockedDoor("red"));
-                    break;
-                case "Y":
-                    board.setTile(xValue, yValue, new LockedDoor("yellow"));
-                    break;
-                case "g":
-                    board.setTile(xValue, yValue, new Key("green"));
-                    break;
-                case "b":
-                    board.setTile(xValue, yValue, new Key("blue"));
-                    break;
-                case "y":
-                    board.setTile(xValue, yValue, new Key("yellow"));
-                    break;
-                case "r":
-                    board.setTile(xValue, yValue, new Key("red"));
-                    break;
+
                 case "_":
                     board.setTile(xValue,yValue,new Wall());
                     break;
@@ -104,9 +81,6 @@ public class Persistence {
                     break;
                 case "T":
                     board.setTile(xValue, yValue, new ComputerChip());
-                    break;
-                case "l":
-                    board.setTile(xValue,yValue, new ExitLock());
                     break;
                 case "E":
                     board.setTile(xValue,yValue,new Exit());
