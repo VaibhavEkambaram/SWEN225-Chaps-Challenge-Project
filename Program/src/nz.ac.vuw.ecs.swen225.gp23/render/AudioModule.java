@@ -109,4 +109,20 @@ public class AudioModule {
         }
     }
 
+    /**
+     * Reset the effect track of the effect clip
+     * Does not play anything anymore
+     *
+     * @author Cameron Li
+     */
+    public void resetEffectsTrack() {
+        try {
+            effectClip.stop();
+            effectClip.close();
+            effectClip.setFramePosition(0);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 }
