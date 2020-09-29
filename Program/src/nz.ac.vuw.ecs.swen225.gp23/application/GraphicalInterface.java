@@ -426,6 +426,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             renderPanel = null;
             timeLabel.setText("");
             levelLabel.setText("");
+            repaint();
+
         }
         RecordReplay.endRecording();
     }
