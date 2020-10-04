@@ -14,7 +14,6 @@ import javax.sound.sampled.Clip;
  */
 public class AudioModule {
     private Clip backgroundClip; // Clip used for background music/soundtracks (looping)
-    private Clip effectClip; // Clip used for sound effects (non-looping)
 
     /**
      * Constructor, initialise the Clips
@@ -24,7 +23,6 @@ public class AudioModule {
     public AudioModule() {
         try {
             backgroundClip = AudioSystem.getClip();
-            effectClip = AudioSystem.getClip();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -52,18 +50,19 @@ public class AudioModule {
     /**
      * Play specified audio file from url string
      * Audio file is played on effects clip, does not loop
-     * @param audioFile
      *
      * @author Cameron Li
      */
-    public void playSound(final String audioFile) {
+    public void playSound(Clip clip, String audioFile) {
         try {
-            effectClip = AudioSystem.getClip();
-            AudioInputStream inputStream = AudioSystem.getAudioInputStream(Main.class.getResourceAsStream(audioFile));
-            effectClip.open(inputStream);
-            effectClip.start();
+            if (!clip.isOpen()) {
+                AudioInputStream inputStream = AudioSystem.getAudioInputStream(Main.class.getResourceAsStream(audioFile));
+                clip.open(inputStream);
+            }
+            resetEffectTrack(clip);
+            clip.start();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
@@ -112,4 +111,20 @@ public class AudioModule {
         }
     }
 
+    /**
+     * Reset the sound track of the background clip
+     * Does not play anything anymore
+     *
+     * @author Cameron Li
+     */
+    public void resetEffectTrack(Clip clip) {
+        try {
+            if (clip.isRunning()) {
+                clip.stop();
+            }
+            clip.setFramePosition(0);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }

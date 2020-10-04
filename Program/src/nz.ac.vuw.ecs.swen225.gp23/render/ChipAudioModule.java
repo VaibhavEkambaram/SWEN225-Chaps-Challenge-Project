@@ -1,5 +1,11 @@
 package nz.ac.vuw.ecs.swen225.gp23.render;
 
+import nz.ac.vuw.ecs.swen225.gp23.application.Main;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
 public class ChipAudioModule extends AudioModule {
     // Sound tracks
     private final String chip_1 = ("/Chip_1.wav");
@@ -11,6 +17,22 @@ public class ChipAudioModule extends AudioModule {
     private final String move = ("/Move.wav");
     private final String pickup = ("/Bling.wav");
     private final String select = ("/Select.wav");
+
+    private Clip exitClip;
+    private Clip moveClip;
+    private Clip pickupClip;
+    private Clip selectClip;
+
+    public ChipAudioModule() {
+        try {
+            exitClip = AudioSystem.getClip();
+            moveClip = AudioSystem.getClip();
+            pickupClip = AudioSystem.getClip();
+            selectClip = AudioSystem.getClip();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
 
     /**
      * Depending on the current level
@@ -30,19 +52,19 @@ public class ChipAudioModule extends AudioModule {
     }
 
     public void exitEffect() {
-        playSound(exit);
+        playSound(exitClip, exit);
     }
 
     public void moveEffect() {
-        playSound(move);
+        playSound(moveClip, move);
     }
 
     public void pickupEffect() {
-        playSound(pickup);
+        playSound(pickupClip, pickup);
     }
 
     public void selectEffect() {
-        playSound(select);
+        playSound(selectClip, select);
     }
 
     /**
