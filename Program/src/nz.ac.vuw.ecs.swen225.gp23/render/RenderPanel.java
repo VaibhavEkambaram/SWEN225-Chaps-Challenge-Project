@@ -84,7 +84,7 @@ public class RenderPanel extends JPanel {
             }
         }
 
-        displayGrid = new JPanel(new GridLayout(rows, cols, 1, 1));
+        displayGrid = new JPanel(new GridLayout(rows, cols, 0, 0));
         for (int row = 0; row < rows; row++) { // Add JLabels to each tile in the display
             for (int col = 0; col < cols; col++) {
                 displayGrid.add(tileGrid[row][col]);
