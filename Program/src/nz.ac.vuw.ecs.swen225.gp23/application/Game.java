@@ -4,6 +4,7 @@ import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Player;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
 import nz.ac.vuw.ecs.swen225.gp23.recnplay.RecordReplay;
+import nz.ac.vuw.ecs.swen225.gp23.render.ChipAudioModule;
 import nz.ac.vuw.ecs.swen225.gp23.render.RenderPanel;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.assetManager;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.levelM;
@@ -30,6 +31,8 @@ public class Game {
     private int countdownTimer;
     private boolean gamePaused;
 
+    ChipAudioModule audio;
+
 
     /**
      * Game Constructor
@@ -39,11 +42,12 @@ public class Game {
      * @param gui           gui class
      * @param board         board class
      */
-    public Game(int countFromFile, int levelNumber, GraphicalInterface gui, Board board) {
+    public Game(int countFromFile, int levelNumber, GraphicalInterface gui, Board board, ChipAudioModule audio) {
         this.board = board;
         this.countdownTimer = (countFromFile + 1);
         this.gamePaused = false;
         this.gui = gui;
+        this.audio = audio;
         gui.getLevelLabel().setText(String.valueOf(levelNumber));
         board.setup();
         this.player = new Player(board.getPlayerLoc());
@@ -143,6 +147,7 @@ public class Game {
         }
 
         if (nextLoc.action(player)) {
+            audio.moveEffect();
             currentLoc.setEntityAbsent();
             nextLoc.setEntityPresent(player.getImage(direction));
             player.setCurrentTile(nextLoc);

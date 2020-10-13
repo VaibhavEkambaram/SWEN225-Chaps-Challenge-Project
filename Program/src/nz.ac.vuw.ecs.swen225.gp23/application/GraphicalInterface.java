@@ -263,7 +263,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         upButton.addActionListener(e -> {
             if (application.getState().equals(Application.gameStates.RUNNING) && !gamePaused) {
                 currentGame.onMovement(Tile.Directions.Up);
-                audio.moveEffect();
             }
         });
 
@@ -272,7 +271,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         downButton.addActionListener(e -> {
             if (application.getState().equals(Application.gameStates.RUNNING) && !gamePaused) {
                 currentGame.onMovement(Tile.Directions.Down);
-                audio.moveEffect();
             }
         });
 
@@ -281,7 +279,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         leftButton.addActionListener(e -> {
             if (application.getState().equals(Application.gameStates.RUNNING) && !gamePaused) {
                 currentGame.onMovement(Tile.Directions.Left);
-                audio.moveEffect();
             }
         });
 
@@ -290,7 +287,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         rightButton.addActionListener(e -> {
             if (application.getState().equals(Application.gameStates.RUNNING) && !gamePaused) {
                 currentGame.onMovement(Tile.Directions.Right);
-                audio.moveEffect();
             }
         });
 
@@ -347,22 +343,18 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             } else if (pressedKeys.contains(38)) {
                 if (application.getState().equals(Application.gameStates.RUNNING) && !gamePaused) {
                     currentGame.onMovement(Tile.Directions.Up);
-                    audio.moveEffect();
                 }
             } else if (pressedKeys.contains(40)) {
                 if (application.getState().equals(Application.gameStates.RUNNING) && !gamePaused) {
                     currentGame.onMovement(Tile.Directions.Down);
-                    audio.moveEffect();
                 }
             } else if (pressedKeys.contains(37)) {
                 if (application.getState().equals(Application.gameStates.RUNNING) && !gamePaused) {
                     currentGame.onMovement(Tile.Directions.Left);
-                    audio.moveEffect();
                 }
             } else if (pressedKeys.contains(39)) {
                 if (application.getState().equals(Application.gameStates.RUNNING) && !gamePaused) {
                     currentGame.onMovement(Tile.Directions.Right);
-                    audio.moveEffect();
                 }
             }
         }
@@ -409,7 +401,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         Persistence p = new Persistence(currentGame);
         Board board = p.loadFile();
-        currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board);
+        currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board,audio);
         application.transitionToRunning();
         // if there is a recording it is removed here to prevent issues arising
         RecordReplay.endRecording();
