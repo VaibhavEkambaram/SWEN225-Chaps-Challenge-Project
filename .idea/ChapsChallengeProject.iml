@@ -11,6 +11,7 @@
       <sourceFolder url="file://$MODULE_DIR$/Program/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Program/src/nz.ac.vuw.ecs.swen225.gp23/render/tile_images" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/Program/src/nz.ac.vuw.ecs.swen225.gp23/render/audio" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/Program/src/nz.ac.vuw.ecs.swen225.gp23/application/icons" type="java-resource" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
