@@ -57,8 +57,8 @@ public class RenderPanel extends JPanel {
     public void setBoard(Board currentBoard) {
         displayBoard = new String[this.rows][this.cols];
         Tile centerTile = currentBoard.getPlayerLoc();
-        int centerRow = centerTile.getXLoc();
-        int centerCol = centerTile.getYLoc();
+        int centerRow = centerTile.getYLoc();
+        int centerCol = centerTile.getXLoc();
         int rowRadius = (this.rows)/2;
         int colRadius = (this.cols)/2;
         int startRow = centerRow - rowRadius;
