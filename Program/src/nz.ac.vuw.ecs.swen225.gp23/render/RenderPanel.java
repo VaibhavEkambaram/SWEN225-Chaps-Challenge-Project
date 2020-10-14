@@ -55,20 +55,26 @@ public class RenderPanel extends JPanel {
      * @author Cameron Li
      */
     public void setBoard(Board currentBoard) {
+        displayBoard = new String[this.rows][this.cols];
         Tile centerTile = currentBoard.getPlayerLoc();
         int centerRow = centerTile.getXLoc();
         int centerCol = centerTile.getYLoc();
-        int xRadius = (this.getWidth() - 1)/2;
-        int yRadius = (this.getHeight() - 1)/2;
-        for (int row = centerRow - xRadius; row < centerRow + xRadius; row++) {
-            for (int col = centerCol - yRadius; col < centerCol + yRadius; col++) {
-                Tile currentTile = currentBoard.getTile(row, col);
-                if (currentTile.equals(null)) {
+        int rowRadius = (this.rows)/2;
+        int colRadius = (this.cols)/2;
+        int startRow = centerRow - rowRadius;
+        int startCol = centerCol - colRadius;
+        for (int row = 0; row < this.rows; row++) {
+            int tempCol = startCol;
+            for (int col = 0; col < this.cols; col++) {
+                Tile currentTile = currentBoard.getTile(tempCol, startRow);
+                if (currentTile == null) {
                     displayBoard[row][col] = "empty";
                 } else {
                     displayBoard[row][col] = currentTile.toString();
                 }
+                tempCol++;
             }
+            startRow++;
         }
         repaint();
     }

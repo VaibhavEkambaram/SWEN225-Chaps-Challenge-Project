@@ -63,9 +63,9 @@ public class Game {
     public void initBoardRenderer() {
         assetManager aM = new assetManager();
         levelM.load(aM);
-        boardRenderPanel = new RenderPanel(board.getBoardHeight(), board.getBoardWidth());
+        boardRenderPanel = new RenderPanel(9, 9);
         gui.setRenderPanel(boardRenderPanel);
-        board.redraw(boardRenderPanel);
+        boardRenderPanel.setBoard(board);
     }
 
     /**
@@ -152,7 +152,7 @@ public class Game {
             currentLoc.setEntityAbsent();
             nextLoc.setEntityPresent(player.getImage(direction));
             player.setCurrentTile(nextLoc);
-            board.redraw(boardRenderPanel);
+            boardRenderPanel.setBoard(board);
         } else {
             currentLoc.setEntityPresent(player.getImage(direction));
         }
