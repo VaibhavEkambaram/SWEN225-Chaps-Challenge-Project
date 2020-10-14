@@ -5,6 +5,9 @@ import nz.ac.vuw.ecs.swen225.gp23.persistence.levelM;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.readWrite;
 import nz.ac.vuw.ecs.swen225.gp23.render.RenderPanel;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Board {
     private int viewSize = 9; //the number of tiles in view
 
@@ -74,7 +77,7 @@ public class Board {
             }
         }
 
-        boardRenderPanel.setBoard(tempBoard);
+        //boardRenderPanel.setBoard(tempBoard);
         boardRenderPanel.repaint();
     }
 

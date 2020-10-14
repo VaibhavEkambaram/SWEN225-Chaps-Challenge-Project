@@ -1,5 +1,8 @@
 package nz.ac.vuw.ecs.swen225.gp23.render;
 
+import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -11,7 +14,7 @@ import java.awt.*;
 public class RenderPanel extends JPanel {
 
     // Find Tile
-    private String[][] currentBoard; // Current board state to display
+    private String[][] displayBoard; // Current board state to display
     private final TileFinder tileFinder;
 
     // Size of Grid
@@ -51,8 +54,22 @@ public class RenderPanel extends JPanel {
      *
      * @author Cameron Li
      */
-    public void setBoard(String[][] currentBoard) {
-        this.currentBoard = currentBoard;
+    public void setBoard(Board currentBoard) {
+        Tile centerTile = currentBoard.getPlayerLoc();
+        int centerRow = centerTile.getXLoc();
+        int centerCol = centerTile.getYLoc();
+        int xRadius = (this.getWidth() - 1)/2;
+        int yRadius = (this.getHeight() - 1)/2;
+        for (int row = centerRow - xRadius; row < centerRow + xRadius; row++) {
+            for (int col = centerCol - yRadius; col < centerCol + yRadius; col++) {
+                Tile currentTile = currentBoard.getTile(row, col);
+                if (currentTile.equals(null)) {
+                    displayBoard[row][col] = "empty";
+                } else {
+                    displayBoard[row][col] = currentTile.toString();
+                }
+            }
+        }
         repaint();
     }
 
@@ -113,7 +130,7 @@ public class RenderPanel extends JPanel {
         if (!isPaused) {
             for (int row = 0; row < rows; row++) {
                 for (int col = 0; col < cols; col++) {
-                    ImageIcon foundTile = tileFinder.getTile(currentBoard[row][col]);
+                    ImageIcon foundTile = tileFinder.getTile(displayBoard[row][col]);
                     Image resizeImage = foundTile.getImage().getScaledInstance(size, size, Image.SCALE_SMOOTH);
                     tileGrid[row][col].setIcon(new ImageIcon(resizeImage));
                 }

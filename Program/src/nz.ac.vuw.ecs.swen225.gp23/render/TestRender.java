@@ -17,8 +17,6 @@ public class TestRender {
         this.testFrame.add(testRenderPanel);
         this.testFrame.setVisible(true);
 
-        board[0][0] = "floor";
-        this.testRenderPanel.setBoard(board);
         this.testFrame.pack();
         audio = new ChipAudioModule();
         audio.playCurrentLevelTrack(1);
