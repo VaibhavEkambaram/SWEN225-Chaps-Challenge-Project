@@ -242,6 +242,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         informationPanel.add(chipsLeft);
         informationPanel.add(chipsLeftLabel);
         informationPanel.add(label4);
+        JPanel itemPanel = new JPanel(new GridLayout(6,3));
+        informationPanel.add(itemPanel);
+
 
         rightPanel.add(informationPanel, BorderLayout.CENTER);
 
@@ -484,6 +487,35 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             setMovementButtonEnabled(!gamePaused);
         }
     }
+
+
+
+
+    public static void levelCompleteMessage(){
+
+        String[] options = new String[] {"Next Level", "Play Again","Save and Exit","Exit"};
+
+
+        JPanel fields = new JPanel(new GridLayout(0, 1));
+        fields.add(new JLabel("You have completed level x"));
+        fields.add(new JLabel("You collected x items in xx seconds (xx seconds remaining)"));
+        int response = JOptionPane.showOptionDialog(null, fields, "Level Complete!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+        System.out.println(response);
+
+        if(response >= 0 && response <= 3) {
+            String choice = options[response];
+            System.out.println(choice);
+        }
+
+    }
+
+    public static void main(String args[]){
+        GraphicalInterface.levelCompleteMessage();
+    }
+
+
+
+
 
     /**
      * Get Time Level for game to update.

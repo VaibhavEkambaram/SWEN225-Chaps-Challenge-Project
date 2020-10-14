@@ -1,6 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp23.application;
 
 import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Exit;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Player;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
 import nz.ac.vuw.ecs.swen225.gp23.recnplay.RecordReplay;
@@ -154,6 +155,11 @@ public class Game {
             board.redraw(boardRenderPanel);
         } else {
             currentLoc.setEntityPresent(player.getImage(direction));
+        }
+
+        if(player.getCurrentTile() instanceof Exit){
+            System.out.println("End");
+            gui.levelCompleteMessage();
         }
 
     }
