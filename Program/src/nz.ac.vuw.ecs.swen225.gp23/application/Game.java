@@ -1,7 +1,9 @@
 package nz.ac.vuw.ecs.swen225.gp23.application;
 
 import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
+import nz.ac.vuw.ecs.swen225.gp23.maze.ComputerChip;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Exit;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Hint;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Player;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
 import nz.ac.vuw.ecs.swen225.gp23.recnplay.RecordReplay;
@@ -9,7 +11,6 @@ import nz.ac.vuw.ecs.swen225.gp23.render.ChipAudioModule;
 import nz.ac.vuw.ecs.swen225.gp23.render.RenderPanel;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.assetManager;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.levelM;
-
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -30,6 +31,7 @@ public class Game {
     private Timer timer;
 
     private int countdownTimer;
+    private int levelNumber;
     private boolean gamePaused;
 
     ChipAudioModule audio;
@@ -49,11 +51,15 @@ public class Game {
         this.gamePaused = false;
         this.gui = gui;
         this.audio = audio;
+        this.levelNumber = levelNumber;
+        gui.updateInventory();
         gui.getLevelLabel().setText(String.valueOf(levelNumber));
         board.setup();
         this.player = new Player(board.getPlayerLoc());
         initBoardRenderer();
         runTimer();
+
+        gui.setChipsLeftLabel(board.getChipCount());
     }
 
 
@@ -70,6 +76,7 @@ public class Game {
 
     /**
      * Create string representation of board
+     *
      * @return string
      */
     public String printOutBoard() {
@@ -159,11 +166,17 @@ public class Game {
         }
         gui.updateInventory();
 
-        if(player.getCurrentTile() instanceof Exit){
-            System.out.println("End");
-            gui.levelCompleteMessage();
-        }
+        Tile currentTile = player.getCurrentTile();
 
+        if(currentTile instanceof Hint){
+            System.out.println("This is a hint!");
+        } else if (currentTile instanceof ComputerChip){
+            gui.setChipsLeftLabel(board.getChipCount() - player.getChips());
+        } else if (currentTile instanceof Exit){
+            if(board.getChipCount() - player.getChips() == 0){
+                gui.levelCompleteMessage(levelNumber,countdownTimer);
+            }
+        }
     }
 
     /**

@@ -10,7 +10,6 @@ import nz.ac.vuw.ecs.swen225.gp23.render.TileFinder;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.URL;
@@ -48,6 +47,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     private Game currentGame;
 
     private boolean gamePaused = false;
+    private boolean audioStatus = true;
 
     private final Application application;
 
@@ -143,6 +143,10 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         });
 
 
+        JCheckBoxMenuItem gameAudioMenu = new JCheckBoxMenuItem("Toggle Game Audio");
+        gameAudioMenu.setState(true);
+
+
         final JMenu recordAndReplayMenu = new JMenu("Record and Replay");
 
 
@@ -182,6 +186,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         });
 
         optionsMenu.add(gamePauseMenu);
+        optionsMenu.add(gameAudioMenu);
         optionsMenu.add(recordAndReplayMenu);
         recordAndReplayMenu.add(startRecordingMenu);
         recordAndReplayMenu.add(stopRecordingMenu);
@@ -214,7 +219,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         movementPanel = new JPanel(new GridLayout(2, 3));
 
         gamePanel = new JPanel(new GridLayout(1, 1));
-        gamePanel.setBorder(new EmptyBorder(0,0,0,0));
+        gamePanel.setBorder(new EmptyBorder(0, 0, 0, 0));
 
 
         rightPanel = new JPanel(new BorderLayout());
@@ -248,33 +253,11 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         timePanel.add(timeLabel, BorderLayout.CENTER);
 
 
-
-        /*
-        JPanel timeReadoutPanel = new JPanel(new GridLayout(1, 3));
-        timeReadoutPanel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-        timeReadoutPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
-//        ImageIcon image = new ImageIcon(makeImageIcon("/record/0.png").getImage().getScaledInstance(65, 65, Image.SCALE_DEFAULT));
-        JLabel label = new JLabel("", JLabel.CENTER);
-        //label.setIcon(image);
-        timeReadoutPanel.add(label);
-        // ImageIcon image2 = new ImageIcon(makeImageIcon("/record/1.png").getImage().getScaledInstance(65, 65, Image.SCALE_DEFAULT));
-        JLabel label2 = new JLabel("", JLabel.CENTER);
-        //label2.setIcon(image2);
-        timeReadoutPanel.add(label2);
-        // ImageIcon image3 = new ImageIcon(makeImageIcon("/record/2.png").getImage().getScaledInstance(65, 65, Image.SCALE_DEFAULT));
-        JLabel label3 = new JLabel("", JLabel.CENTER);
-        //label3.setIcon(image3);
-        timeReadoutPanel.add(label3);
-
-
-        // timePanel.add(timeReadoutPanel,BorderLayout.CENTER);
-        */
-
         timePanel.setMinimumSize(new Dimension(240, 50));
         timePanel.setPreferredSize(new Dimension(240, 100));
         timePanel.setMaximumSize(new Dimension(240, 100));
 
-        JPanel chipsLeftPanel = new JPanel();
+        JPanel chipsLeftPanel = new JPanel(new GridLayout(2, 1));
         chipsLeftPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         JLabel chipsLeft = new JLabel("Items Remaining", JLabel.CENTER);
         chipsLeft.setAlignmentX(JLabel.CENTER_ALIGNMENT);
@@ -283,6 +266,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         chipsLeftPanel.setPreferredSize(new Dimension(240, 100));
         chipsLeftPanel.setMaximumSize(new Dimension(240, 100));
 
+        chipsLeftLabel = new JLabel("", JLabel.CENTER);
+        chipsLeftLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        chipsLeftPanel.add(chipsLeftLabel);
 
         itemsPanel = new JPanel();
         itemsPanel.setLayout(new BoxLayout(itemsPanel, BoxLayout.Y_AXIS));
@@ -290,9 +276,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         JLabel items = new JLabel("Inventory", JLabel.CENTER);
         items.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         itemsPanel.add(items);
-
-
-        updateInventory();
 
 
         itemsPanel.setMinimumSize(new Dimension(240, 120));
@@ -304,27 +287,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         informationPanel.add(timePanel);
         informationPanel.add(chipsLeftPanel);
         informationPanel.add(itemsPanel);
-
-
-        // informationPanel.add(new JPanel());
-        //  informationPanel.add(new JPanel());
-        // informationPanel.add(new JPanel());
-
-
-        //JLabel time = new JLabel("TIME");
-        //    JLabel chipsLeft = new JLabel("ITEMS LEFT");
-
-
-        chipsLeftLabel = new JLabel("undefined");
-
-        //   informationPanel.add(level);
-        //  informationPanel.add(levelLabel);
-
-
-        //informationPanel.add(time);
-        //informationPanel.add(timeLabel);
-        //  informationPanel.add(chipsLeft);
-        //informationPanel.add(chipsLeftLabel);
 
         rightPanel.add(informationPanel, BorderLayout.CENTER);
 
@@ -338,7 +300,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         gamePanel.setPreferredSize(new Dimension(560, 560));
 
         gamePanel.setBackground(Color.LIGHT_GRAY);
-        //  gamePanel.setBorder(BorderFactory.createRaisedBevelBorder());
         mainPanel.setBackground(new Color(25, 25, 112));
         informationPanel.setBackground(Color.LIGHT_GRAY);
         informationPanel.setBorder(BorderFactory.createRaisedBevelBorder());
@@ -410,26 +371,15 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         itemsGrid = new JPanel(new GridLayout(0, 4));
         itemsPanel.add(itemsGrid);
 
-
         if (currentGame != null) {
             ArrayList<String> inventory = (ArrayList<String>) currentGame.getPlayer().getInventory();
-
-            for (String s : inventory) {
+            inventory.forEach(s -> {
                 JLabel label = new JLabel("", JLabel.CENTER);
                 ImageIcon image = new ImageIcon(finder.getTile(s).getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
                 label.setIcon(image);
                 itemsGrid.add(label);
-
-            }
+            });
         }
-
-
-        // for(int i=0; i < 12; i++) {
-        //
-        //     JLabel label = new JLabel("",JLabel.CENTER);
-        //     label.setIcon(image);
-        //      itemsGrid.add(label);
-        //  }
     }
 
 
@@ -559,18 +509,11 @@ public class GraphicalInterface extends JFrame implements KeyListener {
                 gamePaused = true;
                 currentGame.setGamePaused(true);
                 renderPanel.setPaused(true);
-
-
-                //gamePanel.remove(renderPanel);
-                //gamePanel.add(pausedLabel, BorderLayout.CENTER);
             } else {
                 gamePaused = false;
                 currentGame.setGamePaused(false);
-                //gamePanel.remove(pausedLabel);
-                //gamePanel.add(renderPanel);
                 renderPanel.setPaused(false);
             }
-            //pack();
             repaint();
         }
         updateDisplay();
@@ -603,14 +546,13 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     }
 
 
-    public static void levelCompleteMessage() {
+    public static void levelCompleteMessage(int levelNumber, int timeRemaining) {
 
         String[] options = new String[]{"Next Level", "Play Again", "Save and Exit", "Exit"};
 
-
         JPanel fields = new JPanel(new GridLayout(0, 1));
-        fields.add(new JLabel("You have completed level x"));
-        fields.add(new JLabel("You collected x items in xx seconds (xx seconds remaining)"));
+        fields.add(new JLabel("You have completed level " + levelNumber));
+        fields.add(new JLabel("You collected x items in xx seconds (" + timeRemaining + " seconds remaining)"));
         int response = JOptionPane.showOptionDialog(null, fields, "Level Complete!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
         System.out.println(response);
 
@@ -618,11 +560,11 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             String choice = options[response];
             System.out.println(choice);
         }
-
     }
 
-    public static void main(String args[]) {
-        GraphicalInterface.levelCompleteMessage();
+
+    public void setChipsLeftLabel(int number) {
+        chipsLeftLabel.setText(String.valueOf(number));
     }
 
 
