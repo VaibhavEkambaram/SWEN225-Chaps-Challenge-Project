@@ -214,6 +214,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         movementPanel = new JPanel(new GridLayout(2, 3));
 
         gamePanel = new JPanel(new GridLayout(1, 1));
+        gamePanel.setBorder(new EmptyBorder(0,0,0,0));
 
 
         rightPanel = new JPanel(new BorderLayout());
