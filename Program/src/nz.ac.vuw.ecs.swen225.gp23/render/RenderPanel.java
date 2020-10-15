@@ -45,8 +45,6 @@ public class RenderPanel extends JPanel {
         makeInnerPanel();
         this.add(innerPanel);
         this.setVisible(true);
-
-        this.setBackground(new Color(25, 25, 112));
     }
 
     /**

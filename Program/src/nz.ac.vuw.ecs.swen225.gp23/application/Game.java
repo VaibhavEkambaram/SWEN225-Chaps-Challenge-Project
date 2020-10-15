@@ -153,9 +153,11 @@ public class Game {
             nextLoc.setEntityPresent(player.getImage(direction));
             player.setCurrentTile(nextLoc);
             boardRenderPanel.setBoard(board);
+
         } else {
             currentLoc.setEntityPresent(player.getImage(direction));
         }
+        gui.updateInventory();
 
         if(player.getCurrentTile() instanceof Exit){
             System.out.println("End");

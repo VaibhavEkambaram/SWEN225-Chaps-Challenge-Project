@@ -6,6 +6,7 @@ import nz.ac.vuw.ecs.swen225.gp23.persistence.Persistence;
 import nz.ac.vuw.ecs.swen225.gp23.recnplay.RecordReplay;
 import nz.ac.vuw.ecs.swen225.gp23.render.ChipAudioModule;
 import nz.ac.vuw.ecs.swen225.gp23.render.RenderPanel;
+import nz.ac.vuw.ecs.swen225.gp23.render.TileFinder;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -31,6 +32,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     private final JPanel rightPanel;
     private final JPanel informationPanel;
     private final JPanel movementPanel;
+    private JPanel itemsGrid;
+    private final JPanel itemsPanel;
 
     private RenderPanel renderPanel;
 
@@ -218,31 +221,88 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         informationPanel.setLayout(new BoxLayout(informationPanel, BoxLayout.Y_AXIS));
 
 
-
-
-        JPanel levelPanel = new JPanel();
+        JPanel levelPanel = new JPanel(new GridLayout(2, 1));
         levelPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        JLabel level = new JLabel("LEVEL", JLabel.CENTER);
+        JLabel level = new JLabel("Level Number", JLabel.CENTER);
         level.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         levelPanel.add(level);
-       levelPanel.setMinimumSize(new Dimension(240,80));
-        levelPanel.setPreferredSize(new Dimension(240,80));
-        levelPanel.setMaximumSize(new Dimension(240,80));
+        levelPanel.setMinimumSize(new Dimension(240, 120));
+        levelPanel.setPreferredSize(new Dimension(240, 120));
+        levelPanel.setMaximumSize(new Dimension(240, 120));
 
-        JPanel timePanel = new JPanel();
-        levelPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        JLabel time = new JLabel("TIME", JLabel.CENTER);
+
+        levelLabel = new JLabel("", JLabel.CENTER);
+        levelPanel.add(levelLabel, JLabel.CENTER_ALIGNMENT);
+
+
+        JPanel timePanel = new JPanel(new BorderLayout());
+        timePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+
+        JLabel time = new JLabel("Time Left", JLabel.CENTER);
         time.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-        timePanel.add(time);
-        timePanel.setMinimumSize(new Dimension(240,80));
-        timePanel.setPreferredSize(new Dimension(240,80));
-        timePanel.setMaximumSize(new Dimension(240,80));
+        timePanel.add(time, BorderLayout.NORTH);
+        timeLabel = new JLabel("", JLabel.CENTER);
+        timeLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        timePanel.add(timeLabel, BorderLayout.CENTER);
 
+
+
+        /*
+        JPanel timeReadoutPanel = new JPanel(new GridLayout(1, 3));
+        timeReadoutPanel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        timeReadoutPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+//        ImageIcon image = new ImageIcon(makeImageIcon("/record/0.png").getImage().getScaledInstance(65, 65, Image.SCALE_DEFAULT));
+        JLabel label = new JLabel("", JLabel.CENTER);
+        //label.setIcon(image);
+        timeReadoutPanel.add(label);
+        // ImageIcon image2 = new ImageIcon(makeImageIcon("/record/1.png").getImage().getScaledInstance(65, 65, Image.SCALE_DEFAULT));
+        JLabel label2 = new JLabel("", JLabel.CENTER);
+        //label2.setIcon(image2);
+        timeReadoutPanel.add(label2);
+        // ImageIcon image3 = new ImageIcon(makeImageIcon("/record/2.png").getImage().getScaledInstance(65, 65, Image.SCALE_DEFAULT));
+        JLabel label3 = new JLabel("", JLabel.CENTER);
+        //label3.setIcon(image3);
+        timeReadoutPanel.add(label3);
+
+
+        // timePanel.add(timeReadoutPanel,BorderLayout.CENTER);
+        */
+
+        timePanel.setMinimumSize(new Dimension(240, 120));
+        timePanel.setPreferredSize(new Dimension(240, 120));
+        timePanel.setMaximumSize(new Dimension(240, 120));
+
+        JPanel chipsLeftPanel = new JPanel();
+        chipsLeftPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        JLabel chipsLeft = new JLabel("Items Remaining", JLabel.CENTER);
+        chipsLeft.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        chipsLeftPanel.add(chipsLeft);
+        chipsLeftPanel.setMinimumSize(new Dimension(240, 120));
+        chipsLeftPanel.setPreferredSize(new Dimension(240, 120));
+        chipsLeftPanel.setMaximumSize(new Dimension(240, 120));
+
+
+        itemsPanel = new JPanel();
+        itemsPanel.setLayout(new BoxLayout(itemsPanel, BoxLayout.Y_AXIS));
+        itemsPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        JLabel items = new JLabel("Inventory", JLabel.CENTER);
+        items.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        itemsPanel.add(items);
+
+
+        updateInventory();
+
+
+        itemsPanel.setMinimumSize(new Dimension(240, 150));
+        itemsPanel.setPreferredSize(new Dimension(240, 150));
+        itemsPanel.setMaximumSize(new Dimension(240, 150));
 
 
         informationPanel.add(levelPanel);
         informationPanel.add(timePanel);
-
+        informationPanel.add(chipsLeftPanel);
+        informationPanel.add(itemsPanel);
 
 
         // informationPanel.add(new JPanel());
@@ -251,10 +311,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
 
         //JLabel time = new JLabel("TIME");
-        JLabel chipsLeft = new JLabel("ITEMS LEFT");
+        //    JLabel chipsLeft = new JLabel("ITEMS LEFT");
 
-        levelLabel = new JLabel("undefined");
-        timeLabel = new JLabel("undefined");
+
         chipsLeftLabel = new JLabel("undefined");
 
         //   informationPanel.add(level);
@@ -263,8 +322,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         //informationPanel.add(time);
         //informationPanel.add(timeLabel);
-        informationPanel.add(chipsLeft);
-        informationPanel.add(chipsLeftLabel);
+        //  informationPanel.add(chipsLeft);
+        //informationPanel.add(chipsLeftLabel);
 
         rightPanel.add(informationPanel, BorderLayout.CENTER);
 
@@ -336,6 +395,40 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         pack();
         setVisible(true);
+    }
+
+
+    public void updateInventory() {
+
+        TileFinder finder = new TileFinder();
+
+        if (itemsGrid != null) {
+            itemsPanel.remove(itemsGrid);
+        }
+
+        itemsGrid = new JPanel(new GridLayout(0, 4));
+        itemsPanel.add(itemsGrid);
+
+
+        if (currentGame != null) {
+            ArrayList<String> inventory = (ArrayList<String>) currentGame.getPlayer().getInventory();
+
+            for (String s : inventory) {
+                JLabel label = new JLabel("", JLabel.CENTER);
+                ImageIcon image = new ImageIcon(finder.getTile(s).getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+                label.setIcon(image);
+                itemsGrid.add(label);
+
+            }
+        }
+
+
+        // for(int i=0; i < 12; i++) {
+        //
+        //     JLabel label = new JLabel("",JLabel.CENTER);
+        //     label.setIcon(image);
+        //      itemsGrid.add(label);
+        //  }
     }
 
 
