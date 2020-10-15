@@ -227,7 +227,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         JLabel level = new JLabel("Level Number", JLabel.CENTER);
         level.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         levelPanel.add(level);
-        levelPanel.setMinimumSize(new Dimension(240, 120));
+        levelPanel.setMinimumSize(new Dimension(240, 50));
         levelPanel.setPreferredSize(new Dimension(240, 120));
         levelPanel.setMaximumSize(new Dimension(240, 120));
 
@@ -270,18 +270,18 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         // timePanel.add(timeReadoutPanel,BorderLayout.CENTER);
         */
 
-        timePanel.setMinimumSize(new Dimension(240, 120));
-        timePanel.setPreferredSize(new Dimension(240, 120));
-        timePanel.setMaximumSize(new Dimension(240, 120));
+        timePanel.setMinimumSize(new Dimension(240, 50));
+        timePanel.setPreferredSize(new Dimension(240, 100));
+        timePanel.setMaximumSize(new Dimension(240, 100));
 
         JPanel chipsLeftPanel = new JPanel();
         chipsLeftPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         JLabel chipsLeft = new JLabel("Items Remaining", JLabel.CENTER);
         chipsLeft.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         chipsLeftPanel.add(chipsLeft);
-        chipsLeftPanel.setMinimumSize(new Dimension(240, 120));
-        chipsLeftPanel.setPreferredSize(new Dimension(240, 120));
-        chipsLeftPanel.setMaximumSize(new Dimension(240, 120));
+        chipsLeftPanel.setMinimumSize(new Dimension(240, 50));
+        chipsLeftPanel.setPreferredSize(new Dimension(240, 100));
+        chipsLeftPanel.setMaximumSize(new Dimension(240, 100));
 
 
         itemsPanel = new JPanel();
@@ -295,9 +295,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         updateInventory();
 
 
-        itemsPanel.setMinimumSize(new Dimension(240, 150));
-        itemsPanel.setPreferredSize(new Dimension(240, 150));
-        itemsPanel.setMaximumSize(new Dimension(240, 150));
+        itemsPanel.setMinimumSize(new Dimension(240, 120));
+        itemsPanel.setPreferredSize(new Dimension(240, 120));
+        itemsPanel.setMaximumSize(new Dimension(240, 120));
 
 
         informationPanel.add(levelPanel);
