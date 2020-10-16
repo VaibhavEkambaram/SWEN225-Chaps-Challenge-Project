@@ -33,6 +33,7 @@ public class Game {
     private int countdownTimer;
     private int levelNumber;
     private boolean gamePaused;
+    private int timeToComplete;
 
     ChipAudioModule audio;
 
@@ -48,6 +49,7 @@ public class Game {
     public Game(int countFromFile, int levelNumber, GraphicalInterface gui, Board board, ChipAudioModule audio) {
         this.board = board;
         this.countdownTimer = (countFromFile + 1);
+        this.timeToComplete = countFromFile;
         this.gamePaused = false;
         this.gui = gui;
         this.audio = audio;
@@ -174,7 +176,7 @@ public class Game {
             gui.setChipsLeftLabel(board.getChipCount() - player.getChips());
         } else if (currentTile instanceof Exit){
             if(board.getChipCount() - player.getChips() == 0){
-                gui.levelCompleteMessage(levelNumber,countdownTimer);
+                gui.levelCompleteMessage(levelNumber,countdownTimer,timeToComplete-countdownTimer,board.getChipCount());
             }
         }
     }

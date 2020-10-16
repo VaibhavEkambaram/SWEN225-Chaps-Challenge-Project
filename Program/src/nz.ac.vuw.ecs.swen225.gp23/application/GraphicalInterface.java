@@ -546,20 +546,32 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     }
 
 
-    public static void levelCompleteMessage(int levelNumber, int timeRemaining) {
+    public void levelCompleteMessage(int levelNumber, int timeRemaining,int time,int chipCount) {
+        if (currentGame != null) {
+            if (application.getState().equals(Application.gameStates.RUNNING)) {
+                application.transitionToInit();
+                currentGame.terminateTimer();
+                gamePanel.remove(renderPanel);
+                renderPanel = null;
+            }
+            gamePauseMenu.setState(false);
+
+        }
 
         String[] options = new String[]{"Next Level", "Play Again", "Save and Exit", "Exit"};
 
         JPanel fields = new JPanel(new GridLayout(0, 1));
         fields.add(new JLabel("You have completed level " + levelNumber));
-        fields.add(new JLabel("You collected x items in xx seconds (" + timeRemaining + " seconds remaining)"));
-        int response = JOptionPane.showOptionDialog(null, fields, "Level Complete!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+        fields.add(new JLabel("You collected "+chipCount+" items in " + time + " seconds (" + timeRemaining + " seconds remaining)"));
+        int response = JOptionPane.showOptionDialog(this, fields, "Level Complete!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
         System.out.println(response);
 
         if (response >= 0 && response <= 3) {
             String choice = options[response];
             System.out.println(choice);
         }
+
+        onNewGame();
     }
 
 
