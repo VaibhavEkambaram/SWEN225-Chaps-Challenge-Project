@@ -724,11 +724,12 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         int response = JOptionPane.showOptionDialog(this, fields, "Level Complete!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 
         if (response >= 0 && response <= 3) {
-            String choice = options[response];
-            System.out.println(choice);
+            if (response == 0) {
+                onNewGame();
+            } else if (response == 3) {
+                onStopGame();
+            }
         }
-
-        onNewGame();
     }
 
     /**
