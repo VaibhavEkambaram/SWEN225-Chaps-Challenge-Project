@@ -167,14 +167,14 @@ public class TileFinder {
                 return chip_left_grass;
             case "chip_right_grass":
                 return chip_right_grass;
-            case "chip_up_grass":
-                return chip_up_grass;
-            case "chip_down_grass":
-                return chip_down_grass;
-            case "chip_left_grass":
-                return chip_left_grass;
-            case "chip_right_grass":
-                return chip_right_grass;
+            case "chip_up_rock":
+                return chip_up_rock;
+            case "chip_down_rock":
+                return chip_down_rock;
+            case "chip_left_rock":
+                return chip_left_rock;
+            case "chip_right_rock":
+                return chip_right_rock;
             default:
                 throw new Error("TileFinder getChip() - No such chip as: " + tileName);
         }
