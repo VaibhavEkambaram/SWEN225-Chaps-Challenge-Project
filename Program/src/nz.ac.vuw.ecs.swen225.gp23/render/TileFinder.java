@@ -26,6 +26,12 @@ public class TileFinder {
     private final ImageIcon chip_icon = makeImageIcon("/icons/chip_icon.png");
     private final ImageIcon cyclops_icon = makeImageIcon("/icons/cyclops_icon.png");
 
+    // Keys
+    private final ImageIcon key_blue = makeImageIcon("/icons/key_blue.png");
+    private final ImageIcon key_red = makeImageIcon("/icons/key_red.png");
+    private final ImageIcon key_yellow = makeImageIcon("/icons/key_yellow.png");
+    private final ImageIcon key_green = makeImageIcon("/icons/key_green.png");
+
     //--------------------
     // Grass Image Icons
     //--------------------
@@ -108,8 +114,19 @@ public class TileFinder {
      *
      * @author Cameron Li
      */
-    public ImageIcon getTile(String tileName) {
-        if (tileName == null) {
+    public ImageIcon getTile(String tileName, int tileset) {
+        if (tileset >= 0) {
+            StringBuilder newString = new StringBuilder();
+            newString.append(tileName + "_");
+            if (tileset == 0) {
+                newString.append("grass");
+            } else {
+                newString.append("rock");
+            }
+            tileName = newString.toString();
+        }
+
+        if (tileName == null || tileName.startsWith("empty")) {
             return empty;
         }
         if (tileName.endsWith("icon")) {
@@ -139,11 +156,11 @@ public class TileFinder {
      */
     private ImageIcon makeImageIcon(String filename) {
         URL imageURL = this.getClass().getResource(filename);
-        System.out.println(filename);
+        //System.out.println(filename);
         if (imageURL != null) {
             return new ImageIcon(imageURL);
         } else {
-            //System.out.println(imageURL.toString());
+            System.out.println(filename);
             return empty;
         }
     }
@@ -253,8 +270,6 @@ public class TileFinder {
                 return exit_rock;
             case "exit_lock_rock":
                 return exit_lock_rock;
-            case "empty":
-                return empty;
             default:
                 throw new Error("TileFinder getTile() - No such tile as: " + tileName);
         }
@@ -323,6 +338,14 @@ public class TileFinder {
                 return key_blue_rock;
             case "key_red_rock":
                 return key_red_rock;
+            case "key_blue":
+                return key_blue;
+            case "key_red":
+                return key_red;
+            case "key_green":
+                return key_green;
+            case "key_yellow":
+                return key_yellow;
             default:
                 throw new Error("TileFinder getKey() - No such key as: " + tileName);
         }

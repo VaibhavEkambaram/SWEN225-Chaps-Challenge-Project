@@ -27,7 +27,6 @@ public class Persistence {
     int boardY;
     int level;
     int timeLeft;
-    String tileset;
     Game game;
     Board board;
 
@@ -57,8 +56,6 @@ public class Persistence {
                     level = (int) (double) entry.getValue();
                 } else if (entry.getKey().equals("timeLeft")) {
                     timeLeft = (int) (double) entry.getValue();
-                } else if (entry.getKey().equals("tileset")) {
-                    tileset = (String) entry.getValue();
                 }
             }
 
@@ -83,49 +80,49 @@ public class Persistence {
 
             switch (value) {
                 case "B":
-                    board.setTile(xValue, yValue, new LockedDoor("blue", tileset));
+                    board.setTile(xValue, yValue, new LockedDoor("blue"));
                     break;
                 case "G":
-                    board.setTile(xValue, yValue, new LockedDoor("green", tileset));
+                    board.setTile(xValue, yValue, new LockedDoor("green"));
                     break;
                 case "R":
-                    board.setTile(xValue, yValue, new LockedDoor("red", tileset));
+                    board.setTile(xValue, yValue, new LockedDoor("red"));
                     break;
                 case "Y":
-                    board.setTile(xValue, yValue, new LockedDoor("yellow", tileset));
+                    board.setTile(xValue, yValue, new LockedDoor("yellow"));
                     break;
                 case "g":
-                    board.setTile(xValue, yValue, new Key("green", tileset));
+                    board.setTile(xValue, yValue, new Key("green"));
                     break;
                 case "b":
-                    board.setTile(xValue, yValue, new Key("blue", tileset));
+                    board.setTile(xValue, yValue, new Key("blue"));
                     break;
                 case "y":
-                    board.setTile(xValue, yValue, new Key("yellow", tileset));
+                    board.setTile(xValue, yValue, new Key("yellow"));
                     break;
                 case "r":
-                    board.setTile(xValue, yValue, new Key("red", tileset));
+                    board.setTile(xValue, yValue, new Key("red"));
                     break;
                 case "_":
-                    board.setTile(xValue, yValue, new Floor(tileset));
+                    board.setTile(xValue, yValue, new Floor());
                     break;
                 case "#":
-                    board.setTile(xValue, yValue, new Wall(tileset));
+                    board.setTile(xValue, yValue, new Wall());
                     break;
                 case "i":
-                    board.setTile(xValue, yValue, new Hint(tileset));
+                    board.setTile(xValue, yValue, new Hint());
                     break;
                 case "T":
-                    board.setTile(xValue, yValue, new ComputerChip(tileset));
+                    board.setTile(xValue, yValue, new ComputerChip());
                     break;
                 case "l":
-                    board.setTile(xValue, yValue, new ExitLock(tileset));
+                    board.setTile(xValue, yValue, new ExitLock());
                     break;
                 case "E":
-                    board.setTile(xValue, yValue, new Exit(tileset));
+                    board.setTile(xValue, yValue, new Exit());
                     break;
                 case "P":
-                    Tile playerStart = new Floor(tileset);
+                    Tile playerStart = new Floor();
                     playerStart.setEntityPresent("chip_down.png");
                     board.setTile(xValue,yValue, playerStart);
                     break;

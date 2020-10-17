@@ -10,14 +10,12 @@ import java.io.Writer;
 
 public class ComputerChip extends Tile {
     private boolean pickedUp = false;
-    private String tileset;
 
-    public ComputerChip(String tileset){
+    public ComputerChip(){
         super(Tiles.ComputerChip);
         this.isPassable = true;
         this.currentImage = "computer_chip.png";
         this.defaultImage = "computer_chip.png";
-        this.tileset = tileset;
     }
 
     @Override

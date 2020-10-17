@@ -34,6 +34,7 @@ public class Game {
     private int levelNumber;
     private boolean gamePaused;
     private int timeToComplete;
+    private int tileset;
 
     ChipAudioModule audio;
 
@@ -46,7 +47,7 @@ public class Game {
      * @param gui           gui class
      * @param board         board class
      */
-    public Game(int countFromFile, int levelNumber, GraphicalInterface gui, Board board, ChipAudioModule audio) {
+    public Game(int countFromFile, int levelNumber, GraphicalInterface gui, Board board, ChipAudioModule audio, int tileset) {
         this.board = board;
         this.countdownTimer = (countFromFile + 1);
         this.timeToComplete = countFromFile;
@@ -54,6 +55,7 @@ public class Game {
         this.gui = gui;
         this.audio = audio;
         this.levelNumber = levelNumber;
+        this.tileset = tileset;
         gui.updateInventory();
         gui.getLevelLabel().setText(String.valueOf(levelNumber));
         board.setup();
@@ -71,7 +73,7 @@ public class Game {
     public void initBoardRenderer() {
         assetManager aM = new assetManager();
         levelM.load(aM);
-        boardRenderPanel = new RenderPanel(9, 9);
+        boardRenderPanel = new RenderPanel(9, 9, tileset);
         gui.setRenderPanel(boardRenderPanel);
         boardRenderPanel.setBoard(board);
     }
@@ -240,5 +242,9 @@ public class Game {
      */
     public int getLevelNumber() {
         return board.getCurrentLevel();
+    }
+
+    public int getTileset() {
+        return tileset;
     }
 }

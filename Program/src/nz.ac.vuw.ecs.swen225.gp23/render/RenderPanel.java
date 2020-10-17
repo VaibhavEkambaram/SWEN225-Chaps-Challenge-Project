@@ -21,6 +21,7 @@ public class RenderPanel extends JPanel {
     private final int rows;
     private final int cols;
 
+    private int tileset;
     private boolean isPaused;
 
     // Render Display
@@ -37,10 +38,11 @@ public class RenderPanel extends JPanel {
      *
      * @author Cameron Li
      */
-    public RenderPanel(int rows, int cols) {
+    public RenderPanel(int rows, int cols, int tileset) {
         this.tileFinder = new TileFinder();
         this.rows = rows;
         this.cols = cols;
+        this.tileset = tileset;
 
         makeInnerPanel();
         this.add(innerPanel);
@@ -103,7 +105,7 @@ public class RenderPanel extends JPanel {
 
         for (int row = 0; row < rows; row++) { // Create JLabels (that reference ImageIcons) for each tile
             for (int col = 0; col < cols; col++) {
-                tileGrid[row][col] = new JLabel(tileFinder.getTile("empty"));
+                tileGrid[row][col] = new JLabel(tileFinder.getTile("empty", -1));
             }
         }
 
@@ -132,11 +134,10 @@ public class RenderPanel extends JPanel {
         int width = this.getWidth() - margin;
         int height = this.getHeight() - margin;
         int size = width < height ? width/cols : height/rows;
-        super.paint(g);
         if (!isPaused) {
             for (int row = 0; row < rows; row++) {
                 for (int col = 0; col < cols; col++) {
-                    ImageIcon foundTile = tileFinder.getTile(displayBoard[row][col]);
+                    ImageIcon foundTile = tileFinder.getTile(displayBoard[row][col], tileset);
                     Image resizeImage = foundTile.getImage().getScaledInstance(size, size, Image.SCALE_SMOOTH);
                     tileGrid[row][col].setIcon(new ImageIcon(resizeImage));
                 }
@@ -157,6 +158,7 @@ public class RenderPanel extends JPanel {
             g.setFont(font);
             g.drawString(text, x, y);
         }
+        super.paint(g);
     }
 
 }

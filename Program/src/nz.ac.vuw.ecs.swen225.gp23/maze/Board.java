@@ -37,13 +37,13 @@ public class Board {
            for(int y = 0; y < boardYDimension; y++){
                Tile t = tilesXY[x][y];
                int leftOrd = Tile.Directions.Left.ordinal();
-               t.adjacentTiles.add(leftOrd, x != 0 ? tilesXY[x - 1][y] : new Wall("grass"));
+               t.adjacentTiles.add(leftOrd, x != 0 ? tilesXY[x - 1][y] : new Wall());
                int rightOrd = Tile.Directions.Right.ordinal();
-               t.adjacentTiles.add(rightOrd, x != boardXDimension - 1 ? tilesXY[x + 1][y] : new Wall("grass"));
+               t.adjacentTiles.add(rightOrd, x != boardXDimension - 1 ? tilesXY[x + 1][y] : new Wall());
                int upOrd = Tile.Directions.Up.ordinal();
-               t.adjacentTiles.add(upOrd, y != 0 ? tilesXY[x][y - 1] : new Wall("grass"));
+               t.adjacentTiles.add(upOrd, y != 0 ? tilesXY[x][y - 1] : new Wall());
                int downOrd = Tile.Directions.Down.ordinal();
-               t.adjacentTiles.add(downOrd, y != boardYDimension - 1 ? tilesXY[x][y+1] : new Wall("grass"));
+               t.adjacentTiles.add(downOrd, y != boardYDimension - 1 ? tilesXY[x][y+1] : new Wall());
            }
        }
     }

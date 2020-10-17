@@ -10,16 +10,14 @@ import java.io.Writer;
 
 public class Key extends Tile {
     private String colour;
-    private String tileset;
     private boolean pickedUp = false;
 
-    public Key(String colour, String tileset){
+    public Key(String colour){
         super(Tiles.Key);
         this.isPassable = true;
         this.colour = colour;
         this.currentImage = "key_" + colour + ".png";
         this.defaultImage = "key_" + colour + ".png";
-
     }
 
     @Override

@@ -12,7 +12,7 @@ public class TestRender {
 
     public TestRender() {
         this.testFrame = new JFrame();
-        this.testRenderPanel = new RenderPanel(5, 5);
+        this.testRenderPanel = new RenderPanel(5, 5, 0);
 
         this.testFrame.add(testRenderPanel);
         this.testFrame.setVisible(true);

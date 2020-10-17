@@ -35,7 +35,7 @@ public abstract class Tile {
         this.currentImage = this.defaultImage;
     }
 
-    public  String toString(){
+    public String toString(){
         return currentImage.substring(0, currentImage.length()-4);
     }
 

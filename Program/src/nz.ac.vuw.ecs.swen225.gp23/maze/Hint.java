@@ -9,13 +9,11 @@ import java.io.StringWriter;
 import java.io.Writer;
 
 public class Hint extends Tile {
-    private String tileset;
-    public Hint(String tileset){
+    public Hint(){
         super(Tiles.Hint);
         this.isPassable = true;
         this.currentImage = "hint.png";
         this.defaultImage = "hint.png";
-        this.tileset = tileset;
     }
 
     @Override

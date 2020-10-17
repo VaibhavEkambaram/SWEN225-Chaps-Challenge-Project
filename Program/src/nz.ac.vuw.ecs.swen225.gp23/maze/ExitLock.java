@@ -10,14 +10,11 @@ import java.io.Writer;
 
 public class ExitLock extends Tile {
     private int chipsNeeded;
-    private String tileset;
-
-    public ExitLock(String tileset){
+    public ExitLock(){
         super(Tiles.ExitLock);
         this.isPassable = false;
         this.currentImage = "exit_lock.png";
         this.defaultImage = "exit_lock.png";
-        this.tileset = tileset;
     }
 
     @Override
