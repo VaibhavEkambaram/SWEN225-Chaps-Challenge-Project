@@ -656,6 +656,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
      */
     public void onStopGame() {
         if (currentGame != null) {
+
             application.transitionToInit();
             currentGame.terminateTimer();
             gamePanel.remove(renderPanel);

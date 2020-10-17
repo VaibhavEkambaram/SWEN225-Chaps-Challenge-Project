@@ -137,6 +137,8 @@ public class Game {
             return;
         }
 
+        System.out.println(printOutBoard());
+
         Tile currentLoc = player.getCurrentTile();
         Tile nextLoc;
 
@@ -185,6 +187,8 @@ public class Game {
         } else if (currentTile instanceof Key || currentTile instanceof LockedDoor) {
             gui.updateInventory();
         }
+
+
     }
 
     /**
