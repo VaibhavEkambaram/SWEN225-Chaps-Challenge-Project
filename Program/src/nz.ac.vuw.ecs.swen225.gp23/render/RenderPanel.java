@@ -142,6 +142,7 @@ public class RenderPanel extends JPanel {
                     tileGrid[row][col].setIcon(new ImageIcon(resizeImage));
                 }
             }
+            super.paint(g);
         } else {
             // draw pause string
             g.setColor(Color.BLACK);
@@ -158,7 +159,6 @@ public class RenderPanel extends JPanel {
             g.setFont(font);
             g.drawString(text, x, y);
         }
-        super.paint(g);
     }
 
 }
