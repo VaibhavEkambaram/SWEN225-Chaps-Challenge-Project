@@ -45,8 +45,6 @@ import java.util.List;
  */
 public class GraphicalInterface extends JFrame implements KeyListener {
 
-    private final List<Integer> pressedKeys = new ArrayList<>();
-
     private final JPanel gamePanel;
     private final JPanel rightPanel;
     private final JPanel informationPanel;
@@ -543,57 +541,51 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
 
-        // add keys to array of pressed keys
-        if (!pressedKeys.contains(e.getKeyCode())) {
-            pressedKeys.add(e.getKeyCode());
-        }
+        int keyCode = e.getKeyCode();
 
-        // Perform action based on keys that are currently pressed by checking the array of pressed keys
-        if (pressedKeys.size() == 1) {
-            if (pressedKeys.contains(32)) {
+        switch (keyCode) {
+            case 32:
                 onPauseGame(true);
-            } else if (pressedKeys.contains(27)) {
+                break;
+            case 27:
                 onPauseGame(false);
-            } else if (pressedKeys.contains(38)) {
+                break;
+            case 38:
                 if (application.getState().equals(Application.gameStates.RUNNING) && !gamePaused) {
                     currentGame.onMovement(Tile.Directions.Up);
                 }
-            } else if (pressedKeys.contains(40)) {
+                break;
+            case 40:
                 if (application.getState().equals(Application.gameStates.RUNNING) && !gamePaused) {
                     currentGame.onMovement(Tile.Directions.Down);
                 }
-            } else if (pressedKeys.contains(37)) {
+                break;
+            case 37:
                 if (application.getState().equals(Application.gameStates.RUNNING) && !gamePaused) {
                     currentGame.onMovement(Tile.Directions.Left);
                 }
-            } else if (pressedKeys.contains(39)) {
+                break;
+            case 39:
                 if (application.getState().equals(Application.gameStates.RUNNING) && !gamePaused) {
                     currentGame.onMovement(Tile.Directions.Right);
                 }
-            }
+                break;
         }
     }
 
-    /**
-     * Out of time.
-     * Display message when the player has run out of time
-     */
-    public void outOfTime() {
-        JOptionPane.showMessageDialog(null, "Oh no! It appears you have run out of time.", "Ran out of Time", JOptionPane.PLAIN_MESSAGE);
-    }
+
+
 
 
     /**
      * Detect Key Released.
-     * If a key has been released, then remove it from the array of pressed keys
+     * Doesn't do anything
      *
      * @param e key event
      */
     @Override
     public void keyReleased(KeyEvent e) {
-        if (pressedKeys.contains(e.getKeyCode())) {
-            pressedKeys.remove((Integer) e.getKeyCode());
-        }
+        // doesn't do anything
     }
 
 
@@ -699,7 +691,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
                 renderPanel = null;
             }
             gamePauseMenu.setState(false);
-
         }
 
         String[] options = new String[]{"Next Level", "Play Again", "Save and Exit", "Exit"};
@@ -716,6 +707,27 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         }
 
         onNewGame();
+    }
+
+    /**
+     * Out of time.
+     * Display message when the player has run out of time
+     */
+    public void outOfTime() {
+        if (currentGame != null) {
+            if (application.getState().equals(Application.gameStates.RUNNING)) {
+                application.transitionToInit();
+                currentGame.terminateTimer();
+                gamePanel.remove(renderPanel);
+                renderPanel = null;
+            }
+            gamePauseMenu.setState(false);
+        }
+
+        String[] options = new String[]{"Play Again","Exit"};
+        JPanel fields = new JPanel(new GridLayout(0, 1));
+        fields.add(new JLabel("Oh no! You have run out of time."));
+        int response = JOptionPane.showOptionDialog(this, fields, "Out of Time", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
     }
 
 
