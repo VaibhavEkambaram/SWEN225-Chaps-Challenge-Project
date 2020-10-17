@@ -8,11 +8,31 @@ import nz.ac.vuw.ecs.swen225.gp23.render.ChipAudioModule;
 import nz.ac.vuw.ecs.swen225.gp23.render.RenderPanel;
 import nz.ac.vuw.ecs.swen225.gp23.render.TileFinder;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.KeyStroke;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
-import java.awt.event.*;
-import java.net.URL;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,29 +51,32 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     private final JPanel rightPanel;
     private final JPanel informationPanel;
     private final JPanel movementPanel;
-    private JPanel itemsGrid;
     private final JPanel itemsPanel;
+    private JPanel itemsGrid;
 
     private RenderPanel renderPanel;
 
-    private final JLabel timeLabel, levelLabel, chipsLeftLabel;
+    private final JLabel timeLabel;
+    private final JLabel levelLabel;
+    private final JLabel chipsLeftLabel;
     private final JButton upButton;
     private final JButton downButton;
     private final JButton leftButton;
     private final JButton rightButton;
 
+
     final JCheckBoxMenuItem gamePauseMenu;
-
-    private Game currentGame;
-
     private boolean gamePaused = false;
     private boolean audioStatus = true;
 
     private final Application application;
+    private final ChipAudioModule audio;
+    private Game currentGame;
 
-    private ChipAudioModule audio;
 
-    JLabel pausedLabel;
+    private final JLabel pausedLabel;
+
+    private final TileFinder tileFinder;
 
     /**
      * Interface Constructor Method.
@@ -74,6 +97,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         pausedLabel = new JLabel("Game has been paused...press ESC to resume");
         audio = new ChipAudioModule();
+        tileFinder = new TileFinder();
 
         setPreferredSize(new Dimension(800, 600));
         setMinimumSize(new Dimension(600, 450));
@@ -100,9 +124,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         final JMenuItem resumeSavedMenu = new JMenuItem("Resume Saved Game");
         resumeSavedMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK));
-        resumeSavedMenu.addActionListener(e -> {
-            System.out.println("resume a saved game using persistence");
-        });
+        resumeSavedMenu.addActionListener(e -> System.out.println("resume a saved game using persistence"));
 
         final JMenuItem saveAndExitMenu = new JMenuItem("Save and Exit");
         saveAndExitMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK));
@@ -195,45 +217,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         // ------------------------------------------------------------------------------------------------
         final JMenu helpMenu = new JMenu("Help");
 
-        final JMenuItem howToPlayMenu = new JMenuItem("How to Play");
-        howToPlayMenu.addActionListener(e -> {
-            JPanel fields = new JPanel(new GridLayout(0, 1));
 
-            fields.add(new JLabel("Hello and welcome to Chaps Challenge. Here is how to play the game:"));
-
-
-            JOptionPane.showMessageDialog(null, fields, "How to Play", JOptionPane.PLAIN_MESSAGE);
-        });
-
-
-        final JMenuItem aboutMenu = new JMenuItem("About");
-        aboutMenu.addActionListener(e -> {
-            JPanel fields = new JPanel(new GridLayout(0, 1));
-
-            JLabel title = new JLabel("Chaps Challenge Version 1.0");
-            title.setFont(title.getFont().deriveFont(title.getFont().getStyle() | Font.BOLD));
-            fields.add(title);
-            fields.add(new JLabel(""));
-
-            JLabel subtitle = new JLabel("A group project by: ");
-            subtitle.setFont(subtitle.getFont().deriveFont(subtitle.getFont().getStyle() | Font.ITALIC));
-
-            fields.add(subtitle);
-            fields.add(new JLabel("Vaibhav Ekambaram - Application"));
-            fields.add(new JLabel("Baxter Kirikiri - Maze"));
-            fields.add(new JLabel("Cameron Li - Renderer"));
-            fields.add(new JLabel("Rahul Mahasuriya - Persistence"));
-            fields.add(new JLabel("Tyla Turner - Record and Replay"));
-            fields.add(new JLabel("Sushil Sharma - Monkey Tests"));
-
-
-
-
-            JOptionPane.showMessageDialog(null, fields, "About", JOptionPane.PLAIN_MESSAGE);
-        });
-
-        helpMenu.add(howToPlayMenu);
-        helpMenu.add(aboutMenu);
+        helpMenu.add(displayHelpMenu());
+        helpMenu.add(displayAboutMenu());
         // ------------------------------------------------------------------------------------------------
 
         tableMenuBar.add(gameMenu);
@@ -386,9 +372,138 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     }
 
 
-    public void updateInventory() {
+    /**
+     * Help Menu showing how to play the game.
+     *
+     * @return Help Menu Panel Component
+     */
+    public JMenuItem displayHelpMenu() {
+        final JMenuItem howToPlayMenu = new JMenuItem("How to Play");
+        howToPlayMenu.addActionListener(e -> {
 
-        TileFinder finder = new TileFinder();
+            // Panels
+            JPanel primaryOptionPaneField = new JPanel();
+            JPanel firstInnerPanel = new JPanel();
+            JPanel secondInnerPanel = new JPanel();
+
+            // Layouts
+            BorderLayout optionPaneLayout = new BorderLayout();
+            optionPaneLayout.setHgap(60);
+            optionPaneLayout.setVgap(20);
+            primaryOptionPaneField.setLayout(optionPaneLayout);
+
+            GridLayout InnerPanelInfoLayout = new GridLayout(0, 1);
+            firstInnerPanel.setLayout(InnerPanelInfoLayout);
+            secondInnerPanel.setLayout(InnerPanelInfoLayout);
+
+
+            JLabel titleTextLabel = new JLabel("Hello and welcome to Chaps Challenge");
+            titleTextLabel.setFont(titleTextLabel.getFont().deriveFont(titleTextLabel.getFont().getStyle() | Font.BOLD));
+            primaryOptionPaneField.add(titleTextLabel, BorderLayout.NORTH);
+
+            JLabel controlsHeadingLabel = new JLabel("Controls");
+            controlsHeadingLabel.setFont(controlsHeadingLabel.getFont().deriveFont(controlsHeadingLabel.getFont().getStyle() | Font.BOLD));
+            firstInnerPanel.add(controlsHeadingLabel);
+
+            JLabel generalControlsSubtitleLabel = new JLabel("   General ");
+            generalControlsSubtitleLabel.setFont(generalControlsSubtitleLabel.getFont().deriveFont(generalControlsSubtitleLabel.getFont().getStyle() | Font.ITALIC));
+            firstInnerPanel.add(generalControlsSubtitleLabel);
+            firstInnerPanel.add(new JLabel("      Pause Game - [Space]"));
+            firstInnerPanel.add(new JLabel("      Unpause Game - [Escape]"));
+            firstInnerPanel.add(new JLabel("      New Game from First level - [Ctrl-1]"));
+            firstInnerPanel.add(new JLabel("      Exit Game without Saving - [Ctrl-X]"));
+            firstInnerPanel.add(new JLabel(""));
+            JLabel gameplayControlsSubtitleLabel = new JLabel("   Gameplay ");
+            gameplayControlsSubtitleLabel.setFont(gameplayControlsSubtitleLabel.getFont().deriveFont(gameplayControlsSubtitleLabel.getFont().getStyle() | Font.ITALIC));
+            firstInnerPanel.add(gameplayControlsSubtitleLabel);
+            firstInnerPanel.add(new JLabel("      Movement Up - [Up Arrow]"));
+            firstInnerPanel.add(new JLabel("      Movement Down - [Down Arrow]"));
+            firstInnerPanel.add(new JLabel("      Movement Left - [Left Arrow]"));
+            firstInnerPanel.add(new JLabel("      Movement Right - [Right Arrow]"));
+            firstInnerPanel.add(new JLabel(" "));
+
+            JLabel itemsHeadingLabel = new JLabel("Items");
+            itemsHeadingLabel.setFont(itemsHeadingLabel.getFont().deriveFont(itemsHeadingLabel.getFont().getStyle() | Font.BOLD));
+            secondInnerPanel.add(itemsHeadingLabel);
+
+            JLabel chipItemLabel = new JLabel("Chap - Your Player Character");
+            chipItemLabel.setIcon(tileFinder.getTile("chip_icon"));
+            secondInnerPanel.add(chipItemLabel);
+            JLabel chipItemLabel2 = new JLabel("Room Portals - These must be opened using a key with the same colour");
+            chipItemLabel2.setIcon(tileFinder.getTile("door_icon"));
+            secondInnerPanel.add(chipItemLabel2);
+            JLabel chipItemLabel3 = new JLabel("Crystals - These are used to open doors corresponding with their colour");
+            chipItemLabel3.setIcon(tileFinder.getTile("key_blue_grass"));
+            secondInnerPanel.add(chipItemLabel3);
+            JLabel chipItemLabel4 = new JLabel("Shards - These must be collected to open the exit gate");
+            chipItemLabel4.setIcon(tileFinder.getTile("computer_chip_icon"));
+            secondInnerPanel.add(chipItemLabel4);
+            JLabel chipItemLabel5 = new JLabel("Exit Gate - All of these shards must be collected to reach the exit portal");
+            chipItemLabel5.setIcon(tileFinder.getTile("exit_lock_icon"));
+            secondInnerPanel.add(chipItemLabel5);
+            JLabel chipItemLabel6 = new JLabel("Exit Portal - This portal is used to finish the level");
+            chipItemLabel6.setIcon(tileFinder.getTile("exit_icon"));
+            secondInnerPanel.add(chipItemLabel6);
+
+            primaryOptionPaneField.add(firstInnerPanel, BorderLayout.WEST);
+            primaryOptionPaneField.add(secondInnerPanel, BorderLayout.EAST);
+
+            JPanel infoText = new JPanel();
+            GridLayout layout3 = new GridLayout(0, 1);
+            infoText.setLayout(layout3);
+
+            JLabel subtitle3 = new JLabel("Game Objective ");
+            subtitle3.setFont(subtitle3.getFont().deriveFont(subtitle3.getFont().getStyle() | Font.BOLD));
+            infoText.add(subtitle3);
+            infoText.add(new JLabel("The objective of the game is for Chap (The player character) to reach the exit portal within the amount of time allocated."));
+            infoText.add(new JLabel("This is done by collecting all the shards scattered around the level in order to open the exit gate."));
+            infoText.add(new JLabel("Several of these shards are hidden in various rooms. In order to access these rooms, room portals must be unlocked using crystals corresponding to the portal colours."));
+            primaryOptionPaneField.add(infoText, BorderLayout.SOUTH);
+
+
+            JOptionPane.showMessageDialog(this, primaryOptionPaneField, "How to Play", JOptionPane.PLAIN_MESSAGE);
+        });
+        return howToPlayMenu;
+    }
+
+
+    /**
+     * About Menu showing Software Version and Contributors.
+     *
+     * @return About Menu Panel Component
+     */
+    public JMenuItem displayAboutMenu() {
+        final JMenuItem aboutMenu = new JMenuItem("About");
+        aboutMenu.addActionListener(e -> {
+            JPanel fieldPanel = new JPanel(new GridLayout(2, 1));
+
+            JLabel titleLabel = new JLabel("Chaps Challenge, Version 1.0");
+            titleLabel.setFont(titleLabel.getFont().deriveFont(titleLabel.getFont().getStyle() | Font.BOLD));
+            titleLabel.setIcon(tileFinder.getTile("chip_icon"));
+            fieldPanel.add(titleLabel);
+
+            fieldPanel.add(new JLabel(""));
+
+            JPanel subPanel = new JPanel(new GridLayout(0, 1));
+
+            JLabel subtitleLabel = new JLabel("A SWEN225 group project by: ");
+            subtitleLabel.setFont(subtitleLabel.getFont().deriveFont(subtitleLabel.getFont().getStyle() | Font.ITALIC));
+            subPanel.add(subtitleLabel);
+            subPanel.add(new JLabel("Vaibhav Ekambaram - Application"));
+            subPanel.add(new JLabel("Baxter Kirikiri - Maze"));
+            subPanel.add(new JLabel("Cameron Li - Renderer"));
+            subPanel.add(new JLabel("Rahul Mahasuriya - Persistence"));
+            subPanel.add(new JLabel("Tyla Turner - Record and Replay"));
+            subPanel.add(new JLabel("Sushil Sharma - Monkey Tests"));
+            fieldPanel.add(subPanel);
+
+            JOptionPane.showMessageDialog(null, fieldPanel, "About", JOptionPane.PLAIN_MESSAGE);
+        });
+        return aboutMenu;
+    }
+
+
+    public void updateInventory() {
 
         if (itemsGrid != null) {
             itemsPanel.remove(itemsGrid);
@@ -401,7 +516,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             ArrayList<String> inventory = (ArrayList<String>) currentGame.getPlayer().getInventory();
             inventory.forEach(s -> {
                 JLabel label = new JLabel("", JLabel.CENTER);
-                ImageIcon image = new ImageIcon(finder.getTile(s).getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+                ImageIcon image = new ImageIcon(tileFinder.getTile(s).getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
                 label.setIcon(image);
                 itemsGrid.add(label);
             });
@@ -412,7 +527,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     /**
      * Key Typed - Doesn't really do anything
      *
-     * @param e
+     * @param e key event
      */
     @Override
     public void keyTyped(KeyEvent e) {
@@ -572,7 +687,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     }
 
 
-    public void levelCompleteMessage(int levelNumber, int timeRemaining,int time,int chipCount) {
+    public void levelCompleteMessage(int levelNumber, int timeRemaining, int time, int chipCount) {
         if (currentGame != null) {
             if (application.getState().equals(Application.gameStates.RUNNING)) {
                 application.transitionToInit();
@@ -588,7 +703,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         JPanel fields = new JPanel(new GridLayout(0, 1));
         fields.add(new JLabel("You have completed level " + levelNumber));
-        fields.add(new JLabel("You collected "+chipCount+" items in " + time + " seconds (" + timeRemaining + " seconds remaining)"));
+        fields.add(new JLabel("You collected " + chipCount + " items in " + time + " seconds (" + timeRemaining + " seconds remaining)"));
         int response = JOptionPane.showOptionDialog(this, fields, "Level Complete!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
         System.out.println(response);
 
@@ -601,6 +716,11 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     }
 
 
+    /**
+     * Set the number of chips left.
+     *
+     * @param number chip count
+     */
     public void setChipsLeftLabel(int number) {
         chipsLeftLabel.setText(String.valueOf(number));
     }
@@ -637,20 +757,11 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     }
 
     /**
-     * Get Current game
+     * Get Current game.
      *
      * @return game
      */
     public Game getCurrentGame() {
         return currentGame;
-    }
-
-    private ImageIcon makeImageIcon(String filename) {
-        URL imageURL = this.getClass().getResource(filename);
-        if (imageURL != null) {
-            return new ImageIcon(imageURL);
-        } else {
-            throw new Error("File not found!");
-        }
     }
 }
