@@ -133,11 +133,6 @@ public class Game {
      * @param direction north/south/east/west direction
      */
     public void onMovement(Tile.Directions direction) {
-        if (gamePaused) {
-            return;
-        }
-
-        System.out.println(printOutBoard());
 
         Tile currentLoc = player.getCurrentTile();
         Tile nextLoc;
@@ -169,26 +164,19 @@ public class Game {
             nextLoc.setEntityPresent(player.getImage(direction));
             player.setCurrentTile(nextLoc);
             boardRenderPanel.setBoard(board);
-
         } else {
             currentLoc.setEntityPresent(player.getImage(direction));
         }
 
-
         Tile currentTile = player.getCurrentTile();
 
-        if (currentTile instanceof Hint) {
-        } else if (currentTile instanceof ComputerChip) {
+        if (currentTile instanceof ComputerChip) {
             gui.setChipsLeftLabel(board.getChipCount() - player.getChips());
         } else if (currentTile instanceof Exit) {
-            if (board.getChipCount() - player.getChips() == 0) {
-                gui.levelCompleteMessage(levelNumber, countdownTimer, timeToComplete - countdownTimer, board.getChipCount());
-            }
+            gui.levelCompleteMessage(levelNumber, countdownTimer, timeToComplete - countdownTimer, board.getChipCount());
         } else if (currentTile instanceof Key || currentTile instanceof LockedDoor) {
             gui.updateInventory();
         }
-
-
     }
 
     /**

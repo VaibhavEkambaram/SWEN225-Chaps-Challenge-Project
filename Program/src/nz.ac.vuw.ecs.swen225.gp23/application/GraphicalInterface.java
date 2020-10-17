@@ -64,7 +64,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
     final JCheckBoxMenuItem gamePauseMenu;
     private boolean gamePaused = false;
-    private boolean audioStatus = true;
 
     private final Application application;
     private final ChipAudioModule audio;
@@ -98,7 +97,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         setPreferredSize(new Dimension(800, 600));
         setMinimumSize(new Dimension(800, 600));
-
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -136,7 +134,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             int closeDialogButton = JOptionPane.YES_NO_OPTION;
             int closeDialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit? Game progress will NOT be saved.", "Warning", closeDialogButton);
             if (closeDialogResult == JOptionPane.YES_OPTION) {
-                onStopGame();
                 dispose();
                 setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             } else {
@@ -157,23 +154,18 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         gamePauseMenu.setState(false);
 
         gamePauseMenu.addActionListener(e -> {
-            boolean paused;
-
             if (gamePaused) {
-                paused = false;
                 onPauseGame(false);
+                gamePauseMenu.setState(false);
             } else {
-                paused = true;
                 onPauseGame(true);
+                gamePauseMenu.setState(true);
             }
-            gamePauseMenu.setState(paused);
+
         });
 
 
-
-
         final JMenu recordAndReplayMenu = new JMenu("Record and Replay");
-
 
         final JMenuItem startRecordingMenu = new JMenuItem("Start Recording");
         startRecordingMenu.addActionListener(e -> {
@@ -362,7 +354,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         stepToNext.addActionListener(e -> RecordReplay.iterateReplay(currentGame));
 
 
-
         stepToNext.setEnabled(true);
 
 
@@ -372,7 +363,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
                 int closeDialogButton = JOptionPane.YES_NO_OPTION;
                 int closeDialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit? Game progress will NOT be saved.", "Warning", closeDialogButton);
                 if (closeDialogResult == JOptionPane.YES_OPTION) {
-                    onStopGame();
                     dispose();
                     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 } else {
@@ -548,19 +538,17 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             itemsPanel.remove(itemsGrid);
         }
 
-        TileFinder findKey = new TileFinder();
-
-        itemsGrid = new JPanel(new GridLayout(0, 4));
-        itemsPanel.add(itemsGrid);
 
         if (currentGame != null) {
+            itemsGrid = new JPanel(new GridLayout(0, 4));
             ArrayList<String> inventory = (ArrayList<String>) currentGame.getPlayer().getInventory();
-            inventory.forEach(s -> {
-                JLabel label = new JLabel("", JLabel.CENTER);
-                ImageIcon image = new ImageIcon(findKey.getTile(s, -1).getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
-                label.setIcon(image);
+
+            for (String s : inventory) {
+
+                JLabel label = new JLabel(new ImageIcon(tileFinder.getTile(s, -1).getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT)), JLabel.CENTER);
                 itemsGrid.add(label);
-            });
+            }
+            itemsPanel.add(itemsGrid);
         }
     }
 
@@ -632,23 +620,13 @@ public class GraphicalInterface extends JFrame implements KeyListener {
      * This class loads from the file using the persistence model.
      */
     public void onNewGame() {
-        if (currentGame != null) {
-            if (application.getState().equals(Application.gameStates.RUNNING)) {
-                application.transitionToInit();
-                currentGame.terminateTimer();
-                gamePanel.remove(renderPanel);
-                renderPanel = null;
-            }
-            gamePauseMenu.setState(false);
-        }
-
+        onStopGame();
         Persistence p = new Persistence(currentGame);
         Board board = p.loadFile("Program/src/levels/level1.json");
         int tileset = 1;
         currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board, audio, tileset);
         application.transitionToRunning();
-        // if there is a recording it is removed here to prevent issues arising
-        RecordReplay.endRecording();
+
     }
 
     /**
@@ -657,14 +635,20 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     public void onStopGame() {
         if (currentGame != null) {
 
-            application.transitionToInit();
-            currentGame.terminateTimer();
-            gamePanel.remove(renderPanel);
-            renderPanel = null;
+            if (application.getState().equals(Application.gameStates.RUNNING)) {
+                application.transitionToInit();
+                currentGame.terminateTimer();
+                gamePanel.remove(renderPanel);
+                renderPanel = null;
+                currentGame = null;
+                updateInventory();
+                itemsGrid = null;
+            }
+
             timeLabel.setText("");
             levelLabel.setText("");
             chipsLeftLabel.setText("");
-            repaint();
+
         }
         gamePauseMenu.setState(false);
         RecordReplay.endRecording();
@@ -689,7 +673,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
                 currentGame.setGamePaused(false);
                 renderPanel.setPaused(false);
             }
-            repaint();
+            renderPanel.repaint();
         }
         updateDisplay();
     }
@@ -738,7 +722,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         fields.add(new JLabel("You have completed level " + levelNumber));
         fields.add(new JLabel("You collected " + chipCount + " items in " + time + " seconds (" + timeRemaining + " seconds remaining)"));
         int response = JOptionPane.showOptionDialog(this, fields, "Level Complete!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
-        System.out.println(response);
 
         if (response >= 0 && response <= 3) {
             String choice = options[response];
