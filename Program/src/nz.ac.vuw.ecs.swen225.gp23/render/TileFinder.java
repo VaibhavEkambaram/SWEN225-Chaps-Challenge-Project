@@ -167,6 +167,14 @@ public class TileFinder {
                 return chip_left_grass;
             case "chip_right_grass":
                 return chip_right_grass;
+            case "chip_up_grass":
+                return chip_up_grass;
+            case "chip_down_grass":
+                return chip_down_grass;
+            case "chip_left_grass":
+                return chip_left_grass;
+            case "chip_right_grass":
+                return chip_right_grass;
             default:
                 throw new Error("TileFinder getChip() - No such chip as: " + tileName);
         }
@@ -193,6 +201,14 @@ public class TileFinder {
                 return cyclops_left_grass;
             case "cyclops_right_grass":
                 return cyclops_right_grass;
+            case "cyclops_up_rock":
+                return cyclops_up_rock;
+            case "cyclops_down_rock":
+                return cyclops_down_rock;
+            case "cyclops_left_rock":
+                return cyclops_left_rock;
+            case "cyclops_right_rock":
+                return cyclops_right_rock;
             default:
                 throw new Error("TileFinder getChip() - No such chip as: " + tileName);
         }
@@ -223,6 +239,18 @@ public class TileFinder {
                 return exit_grass;
             case "exit_lock_grass":
                 return exit_lock_grass;
+            case "hint_rock":
+                return hint_rock;
+            case "computer_chip_rock":
+                return computer_chip_rock;
+            case "floor_rock":
+                return floor_rock;
+            case "wall_rock":
+                return wall_rock;
+            case "exit_rock":
+                return exit_rock;
+            case "exit_lock_rock":
+                return exit_lock_rock;
             default:
                 throw new Error("TileFinder getTile() - No such tile as: " + tileName);
         }
@@ -249,6 +277,14 @@ public class TileFinder {
                 return door_blue_grass;
             case "door_red_grass":
                 return door_red_grass;
+            case "door_green_rock":
+                return door_green_rock;
+            case "door_yellow_rock":
+                return door_yellow_rock;
+            case "door_blue_rock":
+                return door_blue_rock;
+            case "door_red_rock":
+                return door_red_rock;
             default:
                 throw new Error("TileFinder getKey() - No such key as: " + tileName);
         }
@@ -275,6 +311,14 @@ public class TileFinder {
                 return key_blue_grass;
             case "key_red_grass":
                 return key_red_grass;
+            case "key_green_rock":
+                return key_green_rock;
+            case "key_yellow_rock":
+                return key_yellow_rock;
+            case "key_blue_rock":
+                return key_blue_rock;
+            case "key_red_rock":
+                return key_red_rock;
             default:
                 throw new Error("TileFinder getKey() - No such key as: " + tileName);
         }
