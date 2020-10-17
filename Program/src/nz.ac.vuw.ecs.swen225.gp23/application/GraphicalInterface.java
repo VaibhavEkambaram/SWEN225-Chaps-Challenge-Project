@@ -33,6 +33,8 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -133,8 +135,16 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         final JMenuItem exitMenu = new JMenuItem("Exit");
         exitMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK));
         exitMenu.addActionListener(e -> {
-            System.out.println("exit the game, the current game state will be lost, the next time the game is started, it will resume from the last unfinished level");
-            System.exit(0);
+            //TODO: save current map here
+            int closeDialogButton = JOptionPane.YES_NO_OPTION;
+            int closeDialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit? Game progress will NOT be saved.", "Warning", closeDialogButton);
+            if (closeDialogResult == JOptionPane.YES_OPTION) {
+                onStopGame();
+                dispose();
+                setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            } else {
+                setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            }
         });
 
         gameMenu.add(newMenu);
@@ -347,6 +357,22 @@ public class GraphicalInterface extends JFrame implements KeyListener {
                 currentGame.onMovement(Tile.Directions.Right);
             }
         });
+
+        // Window Close Listener
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent evt) {
+                int closeDialogButton = JOptionPane.YES_NO_OPTION;
+                int closeDialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit? Game progress will NOT be saved.", "Warning", closeDialogButton);
+                if (closeDialogResult == JOptionPane.YES_OPTION) {
+                    onStopGame();
+                    dispose();
+                    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                } else {
+                    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                }
+            }
+        });
+
 
 
         movementPanel.add(new JLabel());
@@ -630,6 +656,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             renderPanel = null;
             timeLabel.setText("");
             levelLabel.setText("");
+            chipsLeftLabel.setText("");
             repaint();
 
         }
