@@ -204,7 +204,33 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
             JOptionPane.showMessageDialog(null, fields, "How to Play", JOptionPane.PLAIN_MESSAGE);
         });
+
+
         final JMenuItem aboutMenu = new JMenuItem("About");
+        aboutMenu.addActionListener(e -> {
+            JPanel fields = new JPanel(new GridLayout(0, 1));
+
+            JLabel title = new JLabel("Chaps Challenge Version 1.0");
+            title.setFont(title.getFont().deriveFont(title.getFont().getStyle() | Font.BOLD));
+            fields.add(title);
+            fields.add(new JLabel(""));
+
+            JLabel subtitle = new JLabel("A group project by: ");
+            subtitle.setFont(subtitle.getFont().deriveFont(subtitle.getFont().getStyle() | Font.ITALIC));
+
+            fields.add(subtitle);
+            fields.add(new JLabel("Vaibhav Ekambaram - Application"));
+            fields.add(new JLabel("Baxter Kirikiri - Maze"));
+            fields.add(new JLabel("Cameron Li - Renderer"));
+            fields.add(new JLabel("Rahul Mahasuriya - Persistence"));
+            fields.add(new JLabel("Tyla Turner - Record and Replay"));
+            fields.add(new JLabel("Sushil Sharma - Monkey Tests"));
+
+
+
+
+            JOptionPane.showMessageDialog(null, fields, "About", JOptionPane.PLAIN_MESSAGE);
+        });
 
         helpMenu.add(howToPlayMenu);
         helpMenu.add(aboutMenu);
