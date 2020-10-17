@@ -73,12 +73,12 @@ public class TileFinder {
     //--------------------
 
     // Basic Tiles
-    private final ImageIcon floor_rock = makeImageIcon("/tiles/floor.png");
-    private final ImageIcon wall_rock = makeImageIcon("/tiles/wall.png");
-    private final ImageIcon exit_rock = makeImageIcon("/tiles/exit.png");
-    private final ImageIcon exit_lock_rock = makeImageIcon("/tiles/exit_lock.png");
-    private final ImageIcon computer_chip_rock = makeImageIcon("/items/computer_chip.png");
-    private final ImageIcon hint_rock = makeImageIcon("/tiles/hint.png");
+    private final ImageIcon floor_rock = makeImageIcon("/tiles/floor_rock.png");
+    private final ImageIcon wall_rock = makeImageIcon("/tiles/wall_rock.png");
+    private final ImageIcon exit_rock = makeImageIcon("/tiles/exit_rock.png");
+    private final ImageIcon exit_lock_rock = makeImageIcon("/tiles/exit_lock_rock.png");
+    private final ImageIcon computer_chip_rock = makeImageIcon("/items/computer_chip_rock.png");
+    private final ImageIcon hint_rock = makeImageIcon("/tiles/hint_rock.png");
 
     // Chip
     private final ImageIcon chip_up_rock = makeImageIcon("/chip/chip_up_rock.png");
@@ -156,7 +156,6 @@ public class TileFinder {
      */
     private ImageIcon makeImageIcon(String filename) {
         URL imageURL = this.getClass().getResource(filename);
-        //System.out.println(filename);
         if (imageURL != null) {
             return new ImageIcon(imageURL);
         } else {
