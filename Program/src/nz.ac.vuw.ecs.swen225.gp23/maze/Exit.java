@@ -9,11 +9,14 @@ import java.io.StringWriter;
 import java.io.Writer;
 
 public class Exit extends Tile {
-    public Exit(){
+    private String tileset;
+
+    public Exit(String tileset){
         super(Tiles.Exit);
         this.isPassable = true;
         this.currentImage = "exit.png";
         this.defaultImage = "exit.png";
+        this.tileset = tileset;
     }
 
     @Override

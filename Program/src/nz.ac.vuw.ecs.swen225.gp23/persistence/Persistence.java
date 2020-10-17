@@ -95,37 +95,37 @@ public class Persistence {
                     board.setTile(xValue, yValue, new LockedDoor("yellow", tileset));
                     break;
                 case "g":
-                    board.setTile(xValue, yValue, new Key("green"));
+                    board.setTile(xValue, yValue, new Key("green", tileset));
                     break;
                 case "b":
-                    board.setTile(xValue, yValue, new Key("blue"));
+                    board.setTile(xValue, yValue, new Key("blue", tileset));
                     break;
                 case "y":
-                    board.setTile(xValue, yValue, new Key("yellow"));
+                    board.setTile(xValue, yValue, new Key("yellow", tileset));
                     break;
                 case "r":
-                    board.setTile(xValue, yValue, new Key("red"));
+                    board.setTile(xValue, yValue, new Key("red", tileset));
                     break;
                 case "_":
-                    board.setTile(xValue, yValue, new Floor());
+                    board.setTile(xValue, yValue, new Floor(tileset));
                     break;
                 case "#":
-                    board.setTile(xValue, yValue, new Wall());
+                    board.setTile(xValue, yValue, new Wall(tileset));
                     break;
                 case "i":
-                    board.setTile(xValue, yValue, new Hint());
+                    board.setTile(xValue, yValue, new Hint(tileset));
                     break;
                 case "T":
-                    board.setTile(xValue, yValue, new ComputerChip());
+                    board.setTile(xValue, yValue, new ComputerChip(tileset));
                     break;
                 case "l":
-                    board.setTile(xValue, yValue, new ExitLock());
+                    board.setTile(xValue, yValue, new ExitLock(tileset));
                     break;
                 case "E":
-                    board.setTile(xValue, yValue, new Exit());
+                    board.setTile(xValue, yValue, new Exit(tileset));
                     break;
                 case "P":
-                    Tile playerStart = new Floor();
+                    Tile playerStart = new Floor(tileset);
                     playerStart.setEntityPresent("chip_down.png");
                     board.setTile(xValue,yValue, playerStart);
                     break;

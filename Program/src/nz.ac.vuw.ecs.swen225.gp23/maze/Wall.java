@@ -9,11 +9,13 @@ import java.io.StringWriter;
 import java.io.Writer;
 
 public class Wall extends Tile {
-    public Wall(){
+    private String tileset;
+    public Wall(String tileset){
         super(Tiles.Wall);
         this.isPassable = false;
         this.currentImage = "wall.png";
         this.defaultImage = "wall.png";
+        this.tileset = tileset;
     }
 
     @Override

@@ -9,11 +9,14 @@ import java.io.StringWriter;
 import java.io.Writer;
 
 public class Floor extends Tile {
-    public Floor(){
+    private String tileset;
+
+    public Floor(String tileset){
         super(Tiles.Floor);
         this.isPassable = true;
         this.currentImage = "floor.png";
         this.defaultImage = "floor.png";
+        this.tileset = tileset;
     }
 
     @Override
