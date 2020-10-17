@@ -170,8 +170,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         });
 
 
-        JCheckBoxMenuItem gameAudioMenu = new JCheckBoxMenuItem("Toggle Game Audio");
-        gameAudioMenu.setState(true);
 
 
         final JMenu recordAndReplayMenu = new JMenu("Record and Replay");
@@ -200,7 +198,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
 
         optionsMenu.add(gamePauseMenu);
-        optionsMenu.add(gameAudioMenu);
 
         recordAndReplayMenu.add(startRecordingMenu);
         recordAndReplayMenu.add(stopRecordingMenu);

@@ -33,10 +33,10 @@ public class Game {
     private Timer timer;
 
     private int countdownTimer;
-    private int levelNumber;
+    private final int levelNumber;
     private boolean gamePaused;
-    private int timeToComplete;
-    private int tileset;
+    private final int timeToComplete;
+    private final int tileset;
 
     ChipAudioModule audio;
 
@@ -76,7 +76,7 @@ public class Game {
         assetManager aM = new assetManager();
         levelM.load(aM);
         boardRenderPanel = new RenderPanel(9, 9, tileset);
-        
+
         gui.setRenderPanel(boardRenderPanel);
         boardRenderPanel.setBoard(board);
     }
@@ -175,15 +175,14 @@ public class Game {
 
         Tile currentTile = player.getCurrentTile();
 
-        if(currentTile instanceof Hint){
-            System.out.println("This is a hint!");
-        } else if (currentTile instanceof ComputerChip){
+        if (currentTile instanceof Hint) {
+        } else if (currentTile instanceof ComputerChip) {
             gui.setChipsLeftLabel(board.getChipCount() - player.getChips());
-        } else if (currentTile instanceof Exit){
-            if(board.getChipCount() - player.getChips() == 0){
-                gui.levelCompleteMessage(levelNumber,countdownTimer,timeToComplete-countdownTimer,board.getChipCount());
+        } else if (currentTile instanceof Exit) {
+            if (board.getChipCount() - player.getChips() == 0) {
+                gui.levelCompleteMessage(levelNumber, countdownTimer, timeToComplete - countdownTimer, board.getChipCount());
             }
-        } else if (currentTile instanceof Key || currentTile instanceof LockedDoor){
+        } else if (currentTile instanceof Key || currentTile instanceof LockedDoor) {
             gui.updateInventory();
         }
     }
