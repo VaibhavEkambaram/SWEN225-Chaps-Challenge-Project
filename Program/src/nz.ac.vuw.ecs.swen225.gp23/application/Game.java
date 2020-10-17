@@ -4,6 +4,8 @@ import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
 import nz.ac.vuw.ecs.swen225.gp23.maze.ComputerChip;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Exit;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Hint;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Key;
+import nz.ac.vuw.ecs.swen225.gp23.maze.LockedDoor;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Player;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
 import nz.ac.vuw.ecs.swen225.gp23.recnplay.RecordReplay;
@@ -168,7 +170,7 @@ public class Game {
         } else {
             currentLoc.setEntityPresent(player.getImage(direction));
         }
-        gui.updateInventory();
+
 
         Tile currentTile = player.getCurrentTile();
 
@@ -180,6 +182,8 @@ public class Game {
             if(board.getChipCount() - player.getChips() == 0){
                 gui.levelCompleteMessage(levelNumber,countdownTimer,timeToComplete-countdownTimer,board.getChipCount());
             }
+        } else if (currentTile instanceof Key || currentTile instanceof LockedDoor){
+            gui.updateInventory();
         }
     }
 

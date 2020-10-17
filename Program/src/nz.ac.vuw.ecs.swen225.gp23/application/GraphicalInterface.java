@@ -509,6 +509,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             itemsPanel.remove(itemsGrid);
         }
 
+        TileFinder findKey = new TileFinder();
+
         itemsGrid = new JPanel(new GridLayout(0, 4));
         itemsPanel.add(itemsGrid);
 
@@ -516,7 +518,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             ArrayList<String> inventory = (ArrayList<String>) currentGame.getPlayer().getInventory();
             inventory.forEach(s -> {
                 JLabel label = new JLabel("", JLabel.CENTER);
-                ImageIcon image = new ImageIcon(tileFinder.getTile(s, -1).getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+                ImageIcon image = new ImageIcon(findKey.getTile(s, -1).getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
                 label.setIcon(image);
                 itemsGrid.add(label);
             });
