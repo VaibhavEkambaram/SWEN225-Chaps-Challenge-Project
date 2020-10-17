@@ -442,6 +442,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             JLabel chipItemLabel6 = new JLabel("Exit Portal - This portal is used to finish the level");
             chipItemLabel6.setIcon(tileFinder.getTile("exit_icon", -1));
             secondInnerPanel.add(chipItemLabel6);
+            JLabel chipItemLabel7 = new JLabel("Cyclops - Very scary, avoid!");
+            chipItemLabel7.setIcon(tileFinder.getTile("cyclops_icon", -1));
+            secondInnerPanel.add(chipItemLabel7);
 
             primaryOptionPaneField.add(firstInnerPanel, BorderLayout.WEST);
             primaryOptionPaneField.add(secondInnerPanel, BorderLayout.EAST);
@@ -458,8 +461,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             infoText.add(new JLabel("Several of these shards are hidden in various rooms. In order to access these rooms, room portals must be unlocked using crystals corresponding to the portal colours."));
             primaryOptionPaneField.add(infoText, BorderLayout.SOUTH);
 
-
+            onPauseGame(true);
             JOptionPane.showMessageDialog(this, primaryOptionPaneField, "How to Play", JOptionPane.PLAIN_MESSAGE);
+            onPauseGame(false);
         });
         return howToPlayMenu;
     }
@@ -495,7 +499,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             subPanel.add(new JLabel("Sushil Sharma - Monkey Tests"));
             fieldPanel.add(subPanel);
 
+            onPauseGame(true);
             JOptionPane.showMessageDialog(null, fieldPanel, "About", JOptionPane.PLAIN_MESSAGE);
+            onPauseGame(false);
         });
         return aboutMenu;
     }
@@ -602,7 +608,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
                 renderPanel = null;
             }
             gamePauseMenu.setState(false);
-
         }
 
         Persistence p = new Persistence(currentGame);
@@ -718,11 +723,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             if (application.getState().equals(Application.gameStates.RUNNING)) {
                 application.transitionToInit();
                 currentGame.terminateTimer();
-                timeLabel.setText("");
 
-
-                repaint();
-                renderPanel = null;
             }
             gamePauseMenu.setState(false);
         }
@@ -732,8 +733,13 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         fields.add(new JLabel("Oh no! You have run out of time."));
         int response = JOptionPane.showOptionDialog(this, fields, "Out of Time", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 
+        timeLabel.setText("");
+        chipsLeftLabel.setText("");
+        levelLabel.setText("");
+        gamePanel.remove(renderPanel);
+        renderPanel = null;
         if(response==0){
-
+            onNewGame();
         }
     }
 
