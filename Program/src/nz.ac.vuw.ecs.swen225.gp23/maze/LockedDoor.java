@@ -10,15 +10,17 @@ import java.io.Writer;
 
 public class LockedDoor extends Tile {
     private String colour;
+    private String tileset;
     private boolean locked = true;
 
 
-    public LockedDoor(String colour){
+    public LockedDoor(String colour, String tileset){
         super(Tiles.LockedDoor);
         this.isPassable = false;
         this.colour = colour;
         this.currentImage = "door_key_" + colour + ".png";
         this.defaultImage = "door_key_" + colour + ".png";
+        this.tileset = tileset;
     }
 
     @Override

@@ -109,7 +109,7 @@ public class TileFinder {
      * @author Cameron Li
      */
     public ImageIcon getTile(String tileName) {
-        if (tileName == null || tileName == "empty") {
+        if (tileName == null) {
             return empty;
         }
         if (tileName.endsWith("icon")) {
@@ -251,6 +251,8 @@ public class TileFinder {
                 return exit_rock;
             case "exit_lock_rock":
                 return exit_lock_rock;
+            case "empty":
+                return empty;
             default:
                 throw new Error("TileFinder getTile() - No such tile as: " + tileName);
         }

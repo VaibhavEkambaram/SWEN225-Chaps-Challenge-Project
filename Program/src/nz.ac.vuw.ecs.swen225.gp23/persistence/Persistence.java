@@ -83,16 +83,16 @@ public class Persistence {
 
             switch (value) {
                 case "B":
-                    board.setTile(xValue, yValue, new LockedDoor("blue"));
+                    board.setTile(xValue, yValue, new LockedDoor("blue", tileset));
                     break;
                 case "G":
-                    board.setTile(xValue, yValue, new LockedDoor("green"));
+                    board.setTile(xValue, yValue, new LockedDoor("green", tileset));
                     break;
                 case "R":
-                    board.setTile(xValue, yValue, new LockedDoor("red"));
+                    board.setTile(xValue, yValue, new LockedDoor("red", tileset));
                     break;
                 case "Y":
-                    board.setTile(xValue, yValue, new LockedDoor("yellow"));
+                    board.setTile(xValue, yValue, new LockedDoor("yellow", tileset));
                     break;
                 case "g":
                     board.setTile(xValue, yValue, new Key("green"));
