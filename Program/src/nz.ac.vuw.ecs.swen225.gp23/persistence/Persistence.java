@@ -35,12 +35,12 @@ public class Persistence {
         this.game = game;
     }
 
-    public Board loadFile() {
+    public Board loadFile(String filepath) {
 
         try {
             Gson gson = new Gson();
 
-            Reader reader = Files.newBufferedReader(Paths.get("Program/src/levels/level1.json"));
+            Reader reader = Files.newBufferedReader(Paths.get(filepath));
 
             Map<?, ?> map = gson.fromJson(reader, Map.class);
 

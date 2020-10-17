@@ -606,7 +606,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         }
 
         Persistence p = new Persistence(currentGame);
-        Board board = p.loadFile();
+        Board board = p.loadFile("Program/src/levels/level1.json");
         int tileset = 1;
         currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board, audio, tileset);
         application.transitionToRunning();
@@ -718,7 +718,10 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             if (application.getState().equals(Application.gameStates.RUNNING)) {
                 application.transitionToInit();
                 currentGame.terminateTimer();
-                gamePanel.remove(renderPanel);
+                timeLabel.setText("");
+
+
+                repaint();
                 renderPanel = null;
             }
             gamePauseMenu.setState(false);
@@ -728,6 +731,10 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         JPanel fields = new JPanel(new GridLayout(0, 1));
         fields.add(new JLabel("Oh no! You have run out of time."));
         int response = JOptionPane.showOptionDialog(this, fields, "Out of Time", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+
+        if(response==0){
+
+        }
     }
 
 
