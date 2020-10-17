@@ -22,7 +22,7 @@ public class MazeTests {
      */
     @Test
     public void blueKey(){
-        Key key = new Key("Blue");
+        Key key = new Key("Blue", "grass");
         String keyCol = key.toString();
         assertEquals(keyCol, "key_Blue");
     }
@@ -32,7 +32,7 @@ public class MazeTests {
      */
     @Test
     public void redKey(){
-        Key key = new Key("Red");
+        Key key = new Key("Red", "grass");
         String keyCol = key.toString();
         assertEquals(keyCol, "key_Red");
     }
@@ -42,7 +42,7 @@ public class MazeTests {
      */
     @Test
     public void greenKey(){
-        Key key = new Key("Green");
+        Key key = new Key("Green", "grass");
         String keyCol = key.toString();
         assertEquals(keyCol, "key_Green");
     }
@@ -52,7 +52,7 @@ public class MazeTests {
      */
     @Test
     public void yellowKey(){
-        Key key = new Key("Yellow");
+        Key key = new Key("Yellow", "grass");
         String keyCol = key.toString();
         assertEquals(keyCol, "key_Yellow");
     }

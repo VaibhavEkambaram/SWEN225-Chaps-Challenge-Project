@@ -31,18 +31,19 @@ public class Board {
         setExitLock();
     }
 
+
     private void setAdjacentTiles(){
        for(int x = 0; x < boardXDimension; x++){
            for(int y = 0; y < boardYDimension; y++){
                Tile t = tilesXY[x][y];
                int leftOrd = Tile.Directions.Left.ordinal();
-               t.adjacentTiles.add(leftOrd, x != 0 ? tilesXY[x - 1][y] : new Wall());
+               t.adjacentTiles.add(leftOrd, x != 0 ? tilesXY[x - 1][y] : new Wall("grass"));
                int rightOrd = Tile.Directions.Right.ordinal();
-               t.adjacentTiles.add(rightOrd, x != boardXDimension - 1 ? tilesXY[x + 1][y] : new Wall());
+               t.adjacentTiles.add(rightOrd, x != boardXDimension - 1 ? tilesXY[x + 1][y] : new Wall("grass"));
                int upOrd = Tile.Directions.Up.ordinal();
-               t.adjacentTiles.add(upOrd, y != 0 ? tilesXY[x][y - 1] : new Wall());
+               t.adjacentTiles.add(upOrd, y != 0 ? tilesXY[x][y - 1] : new Wall("grass"));
                int downOrd = Tile.Directions.Down.ordinal();
-               t.adjacentTiles.add(downOrd, y != boardYDimension - 1 ? tilesXY[x][y+1] : new Wall());
+               t.adjacentTiles.add(downOrd, y != boardYDimension - 1 ? tilesXY[x][y+1] : new Wall("grass"));
            }
        }
     }
