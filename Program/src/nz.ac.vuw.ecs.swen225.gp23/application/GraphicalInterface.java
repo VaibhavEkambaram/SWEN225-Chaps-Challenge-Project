@@ -31,10 +31,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,7 +97,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         tileFinder = new TileFinder();
 
         setPreferredSize(new Dimension(800, 600));
-        setMinimumSize(new Dimension(600, 450));
+        setMinimumSize(new Dimension(800, 600));
 
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -182,7 +179,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         final JMenuItem startRecordingMenu = new JMenuItem("Start Recording");
         startRecordingMenu.addActionListener(e -> {
-            new RecordReplayInterface();
             String fileName = JOptionPane.showInputDialog(this, "Enter a file name (.json will be appended)");
             if (fileName != null) {
                 RecordReplay.newSave(currentGame, fileName + ".json");
@@ -203,25 +199,12 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         });
 
 
-        final JMenuItem runReplayMenu = new JMenuItem("Run Recorded Game");
-        runReplayMenu.addActionListener(e -> {
-            long value;
-            String delaySpeedString = JOptionPane.showInputDialog(this, "Enter playback delay speed");
-
-            if (delaySpeedString != null) {
-                value = Long.parseLong(delaySpeedString);
-                RecordReplay.setDelay(value);
-            }
-            RecordReplay.runReplay(currentGame);
-        });
-
         optionsMenu.add(gamePauseMenu);
         optionsMenu.add(gameAudioMenu);
-        optionsMenu.add(recordAndReplayMenu);
+
         recordAndReplayMenu.add(startRecordingMenu);
         recordAndReplayMenu.add(stopRecordingMenu);
         recordAndReplayMenu.add(loadRecordedMenu);
-        recordAndReplayMenu.add(runReplayMenu);
         // ------------------------------------------------------------------------------------------------
         final JMenu helpMenu = new JMenu("Help");
 
@@ -232,13 +215,14 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         tableMenuBar.add(gameMenu);
         tableMenuBar.add(optionsMenu);
+        tableMenuBar.add(recordAndReplayMenu);
         tableMenuBar.add(helpMenu);
 
         JPanel mainPanel = new JPanel(new BorderLayout(20, 0));
         mainPanel.setBorder(new EmptyBorder(50, 50, 50, 50));
         movementPanel = new JPanel(new GridLayout(2, 3));
 
-        gamePanel = new JPanel(new GridLayout(1, 1));
+        gamePanel = new JPanel(new BorderLayout());
         gamePanel.setBorder(new EmptyBorder(0, 0, 0, 0));
 
 
@@ -261,16 +245,16 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         levelPanel.add(levelLabel, JLabel.CENTER_ALIGNMENT);
 
 
-        JPanel timePanel = new JPanel(new BorderLayout());
+        JPanel timePanel = new JPanel(new GridLayout(2, 1));
         timePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
 
         JLabel time = new JLabel("Time Left", JLabel.CENTER);
         time.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-        timePanel.add(time, BorderLayout.NORTH);
+        timePanel.add(time);
         timeLabel = new JLabel("", JLabel.CENTER);
         timeLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-        timePanel.add(timeLabel, BorderLayout.CENTER);
+        timePanel.add(timeLabel);
 
 
         timePanel.setMinimumSize(new Dimension(240, 50));
@@ -296,7 +280,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         JLabel items = new JLabel("Inventory", JLabel.CENTER);
         items.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         itemsPanel.add(items);
-
 
         itemsPanel.setMinimumSize(new Dimension(240, 120));
         itemsPanel.setPreferredSize(new Dimension(240, 120));
@@ -326,7 +309,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         movementPanel.setBorder(BorderFactory.createRaisedBevelBorder());
 
 
-        upButton = new JButton("^");
+        upButton = new JButton("⇑");
         upButton.setToolTipText("Move Chap Up");
         upButton.addActionListener(e -> {
             if (application.getState().equals(Application.gameStates.RUNNING) && !gamePaused) {
@@ -334,7 +317,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             }
         });
 
-        downButton = new JButton("v");
+        downButton = new JButton("⇓");
         downButton.setToolTipText("Move Chap Down");
         downButton.addActionListener(e -> {
             if (application.getState().equals(Application.gameStates.RUNNING) && !gamePaused) {
@@ -342,7 +325,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             }
         });
 
-        leftButton = new JButton("<");
+        leftButton = new JButton("⇐");
         leftButton.setToolTipText("Move Chap to the Left");
         leftButton.addActionListener(e -> {
             if (application.getState().equals(Application.gameStates.RUNNING) && !gamePaused) {
@@ -350,13 +333,41 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             }
         });
 
-        rightButton = new JButton(">");
+        rightButton = new JButton("⇒");
         rightButton.setToolTipText("Move Chap to the Right");
         rightButton.addActionListener(e -> {
             if (application.getState().equals(Application.gameStates.RUNNING) && !gamePaused) {
                 currentGame.onMovement(Tile.Directions.Right);
             }
         });
+
+        JButton playback = new JButton("\t\uD83C\uDFC3");
+        playback.setToolTipText("Playback Recorded Moves");
+
+
+        playback.addActionListener(e -> {
+            long value;
+            String delaySpeedString = JOptionPane.showInputDialog(this, "Enter playback delay speed");
+
+            if (delaySpeedString != null) {
+                value = Long.parseLong(delaySpeedString);
+                RecordReplay.setDelay(value);
+            }
+            RecordReplay.runReplay(currentGame);
+        });
+
+
+        playback.setEnabled(true);
+
+        JButton stepToNext = new JButton("⏭");
+        stepToNext.setToolTipText("Step to Next Recorded Movement");
+
+        stepToNext.addActionListener(e -> RecordReplay.iterateReplay(currentGame));
+
+
+
+        stepToNext.setEnabled(true);
+
 
         // Window Close Listener
         addWindowListener(new WindowAdapter() {
@@ -374,10 +385,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         });
 
 
-
-        movementPanel.add(new JLabel());
+        movementPanel.add(playback);
         movementPanel.add(upButton);
-        movementPanel.add(new JLabel());
+        movementPanel.add(stepToNext);
         movementPanel.add(leftButton);
         movementPanel.add(downButton);
         movementPanel.add(rightButton);
@@ -386,6 +396,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         downButton.setFocusable(false);
         leftButton.setFocusable(false);
         rightButton.setFocusable(false);
+        playback.setFocusable(false);
+        stepToNext.setFocusable(false);
 
         getContentPane().add(mainPanel);
         addKeyListener(this);
@@ -606,9 +618,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     }
 
 
-
-
-
     /**
      * Detect Key Released.
      * Doesn't do anything
@@ -658,8 +667,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             levelLabel.setText("");
             chipsLeftLabel.setText("");
             repaint();
-
         }
+        gamePauseMenu.setState(false);
         RecordReplay.endRecording();
     }
 
@@ -755,7 +764,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             gamePauseMenu.setState(false);
         }
 
-        String[] options = new String[]{"Play Again","Exit"};
+        String[] options = new String[]{"Play Again", "Exit"};
         JPanel fields = new JPanel(new GridLayout(0, 1));
         fields.add(new JLabel("Oh no! You have run out of time."));
         int response = JOptionPane.showOptionDialog(this, fields, "Out of Time", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
@@ -765,7 +774,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         levelLabel.setText("");
         gamePanel.remove(renderPanel);
         renderPanel = null;
-        if(response==0){
+        if (response == 0) {
             onNewGame();
         }
     }
@@ -807,7 +816,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     public void setRenderPanel(RenderPanel renderPanel) {
         this.renderPanel = renderPanel;
         if (renderPanel != null) {
-            gamePanel.add(renderPanel);
+            gamePanel.add(renderPanel, BorderLayout.CENTER);
         }
     }
 

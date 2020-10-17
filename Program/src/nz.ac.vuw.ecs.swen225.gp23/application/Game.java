@@ -76,6 +76,7 @@ public class Game {
         assetManager aM = new assetManager();
         levelM.load(aM);
         boardRenderPanel = new RenderPanel(9, 9, tileset);
+        
         gui.setRenderPanel(boardRenderPanel);
         boardRenderPanel.setBoard(board);
     }
