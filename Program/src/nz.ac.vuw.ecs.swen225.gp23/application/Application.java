@@ -9,18 +9,18 @@ package nz.ac.vuw.ecs.swen225.gp23.application;
 public class Application {
 
     /**
-     * States to track the overall game
+     * States to track the overall game.
      */
     public enum gameStates {
         IDLE, RUNNING
     }
 
     private gameStates state;
-    private GraphicalInterface gui;
+    private final GraphicalInterface gui;
 
 
     /**
-     * Application Constructor
+     * Application Constructor.
      * Create new GUI
      */
     public Application() {
@@ -31,7 +31,7 @@ public class Application {
 
 
     /**
-     * Transition state from IDLE to RUNNING
+     * Transition state from IDLE to RUNNING.
      */
     public void transitionToRunning() {
         if (state == gameStates.IDLE) {
@@ -43,7 +43,7 @@ public class Application {
     }
 
     /**
-     * Transition state from RUNNING to IDLE
+     * Transition state from RUNNING to IDLE.
      */
     public void transitionToInit() {
         if (state == gameStates.RUNNING) {
@@ -56,7 +56,7 @@ public class Application {
 
 
     /**
-     * Get Application state
+     * Get Application state.
      *
      * @return current state
      */

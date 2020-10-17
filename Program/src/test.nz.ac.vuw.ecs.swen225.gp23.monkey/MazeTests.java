@@ -57,45 +57,6 @@ public class MazeTests {
         assertEquals(keyCol, "key_Yellow");
     }
 
-    /**
-     * Checking if the locked door is blue.
-     */
-    @Test
-    public void lockedBlueDoor(){
-        LockedDoor ld = new LockedDoor("Blue");
-        String doorCol = ld.toString();
-        assertEquals(doorCol, "door_key_Blue");
-    }
-
-    /**
-     * Checking if the locked door is red.
-     */
-    @Test
-    public void lockedRedDoor(){
-        LockedDoor ld = new LockedDoor("Red");
-        String doorCol = ld.toString();
-        assertEquals(doorCol, "door_key_Red");
-    }
-
-    /**
-     * Checking if the locked door is green.
-     */
-    @Test
-    public void lockedGreenDoor(){
-        LockedDoor ld = new LockedDoor("Green");
-        String doorCol = ld.toString();
-        assertEquals(doorCol, "door_key_Green");
-    }
-
-    /**
-     * Checking if the locked door is yellow.
-     */
-    @Test
-    public void lockedYellowDoor(){
-        LockedDoor ld = new LockedDoor("Yellow");
-        String doorCol = ld.toString();
-        assertEquals(doorCol, "door_key_Yellow");
-    }
 
     /**
      * Check game init after loading level 1
