@@ -363,10 +363,8 @@ public class TileFinder {
      */
     private ImageIcon getIcon(String tileName) {
         switch (tileName) {
-
             // Basic Tiles
             case "chip_icon":
-                System.out.println("test");
                 return chip_icon;
             case "computer_chip_icon":
                 return computer_chip_icon;
