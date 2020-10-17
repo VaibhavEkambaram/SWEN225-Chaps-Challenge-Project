@@ -18,13 +18,13 @@ public class TileFinder {
     //--------------------
 
     // Basic Tiles
-    private final ImageIcon exit_icon = makeImageIcon("icons/exit_icon.png");
-    private final ImageIcon exit_lock_icon = makeImageIcon("icons/exit_lock_icon.png");
-    private final ImageIcon computer_chip_icon = makeImageIcon("icons/computer_chip_icon.png");
-    private final ImageIcon key_icon = makeImageIcon("icons/key_icon.png");
-    private final ImageIcon door_icon = makeImageIcon("icons/door_icon.png");
-    private final ImageIcon chip_icon = makeImageIcon("icons/chip_icon.png");
-    private final ImageIcon cyclops_icon = makeImageIcon("icons/cyclops_icon.png");
+    private final ImageIcon exit_icon = makeImageIcon("/icons/exit_icon.png");
+    private final ImageIcon exit_lock_icon = makeImageIcon("/icons/exit_lock_icon.png");
+    private final ImageIcon computer_chip_icon = makeImageIcon("/icons/computer_chip_icon.png");
+    private final ImageIcon key_icon = makeImageIcon("/icons/key_icon.png");
+    private final ImageIcon door_icon = makeImageIcon("/icons/door_icon.png");
+    private final ImageIcon chip_icon = makeImageIcon("/icons/chip_icon.png");
+    private final ImageIcon cyclops_icon = makeImageIcon("/icons/cyclops_icon.png");
 
     //--------------------
     // Grass Image Icons
@@ -139,9 +139,11 @@ public class TileFinder {
      */
     private ImageIcon makeImageIcon(String filename) {
         URL imageURL = this.getClass().getResource(filename);
+        System.out.println(filename);
         if (imageURL != null) {
             return new ImageIcon(imageURL);
         } else {
+            //System.out.println(imageURL.toString());
             return empty;
         }
     }
