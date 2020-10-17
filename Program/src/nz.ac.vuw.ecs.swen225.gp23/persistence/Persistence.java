@@ -27,6 +27,7 @@ public class Persistence {
     int boardY;
     int level;
     int timeLeft;
+    String tileset;
     Game game;
     Board board;
 
@@ -56,6 +57,8 @@ public class Persistence {
                     level = (int) (double) entry.getValue();
                 } else if (entry.getKey().equals("timeLeft")) {
                     timeLeft = (int) (double) entry.getValue();
+                } else if (entry.getKey().equals("tileset")) {
+                    tileset = (String) entry.getValue();
                 }
             }
 

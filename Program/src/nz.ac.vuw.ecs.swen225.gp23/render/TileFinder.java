@@ -350,6 +350,8 @@ public class TileFinder {
                 return exit_icon;
             case "exit_lock_icon":
                 return exit_lock_icon;
+            case "key_icon":
+                return key_icon;
             default:
                 throw new Error("TileFinder getTile() - No such tile as: " + tileName);
         }
