@@ -10,8 +10,6 @@ import java.util.Map;
 import java.util.Stack;
 
 public class Board {
-    private int viewSize = 9; //the number of tiles in view
-
     int boardXDimension;
     int boardYDimension;
 
@@ -68,18 +66,6 @@ public class Board {
             lock.setChipsNeeded(chipCount);
             tilesXY[exitX][exitY] = lock;
         }
-    }
-
-    public void redraw(RenderPanel boardRenderPanel){
-        String[][] tempBoard = new String[boardYDimension][boardXDimension];
-
-        for (int i = 0; i < boardYDimension; i++) {
-            for (int j = 0; j < boardXDimension; j++) {
-                tempBoard[i][j] = this.getTile(j, i).toString();
-            }
-        }
-
-        boardRenderPanel.repaint();
     }
 
     public void setTile(int x, int y,  Tile t){
