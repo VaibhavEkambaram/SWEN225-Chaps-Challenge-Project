@@ -195,7 +195,7 @@ public class Game {
         }
         System.out.println();
         System.out.println("Board");
-        System.out.println(printOutBoard());
+        System.out.println(board.toString());
     }
 
 

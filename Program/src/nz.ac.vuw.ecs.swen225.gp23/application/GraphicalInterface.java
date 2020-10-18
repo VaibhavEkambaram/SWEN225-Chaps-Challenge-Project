@@ -160,14 +160,15 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         gamePauseMenu.setState(false);
 
         gamePauseMenu.addActionListener(e -> {
-            if (gamePaused) {
-                onPauseGame(false);
-                gamePauseMenu.setState(false);
-            } else {
-                onPauseGame(true);
-                gamePauseMenu.setState(true);
+            if (application.getState().equals(Application.gameStates.RUNNING)) {
+                if (gamePaused) {
+                    onPauseGame(false);
+                    gamePauseMenu.setState(false);
+                } else {
+                    onPauseGame(true);
+                    gamePauseMenu.setState(true);
+                }
             }
-
         });
 
 
@@ -375,6 +376,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         rightButton.setFocusable(false);
         playback.setFocusable(false);
         stepToNext.setFocusable(false);
+
 
         getContentPane().add(mainPanel);
         addKeyListener(this);
@@ -603,6 +605,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
      */
     public void onNewGame() {
         onStopGame();
+        gamePaused = false;
         Persistence p = new Persistence(currentGame);
         Board board = p.loadFile("Program/src/levels/level1.json");
         int tileset = 2;
@@ -628,8 +631,12 @@ public class GraphicalInterface extends JFrame implements KeyListener {
                 application.transitionToInit();
                 currentGame.terminateTimer();
                 currentGame = null;
+
                 updateInventory();
                 itemsGrid = null;
+
+                gamePanel.remove(renderPanel);
+                renderPanel = null;
             }
 
             timeLabel.setText("");
@@ -637,6 +644,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             chipsLeftLabel.setText("");
 
         }
+        onPauseGame(false);
         gamePauseMenu.setState(false);
         RecordReplay.endRecording();
     }
@@ -702,6 +710,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
                 application.transitionToInit();
                 currentGame.terminateTimer();
             }
+            onPauseGame(false);
             gamePauseMenu.setState(false);
         }
 
@@ -731,6 +740,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
                 application.transitionToInit();
                 currentGame.terminateTimer();
             }
+            onPauseGame(false);
             gamePauseMenu.setState(false);
         }
 
