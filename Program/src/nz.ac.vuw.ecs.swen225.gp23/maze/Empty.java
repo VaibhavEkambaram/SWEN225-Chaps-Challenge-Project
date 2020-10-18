@@ -22,8 +22,8 @@ public class Empty extends Tile {
     /**
      * Validates whether the player can travel through this tile.
      *
-     * @param p - the player
-     * @return isPassable - should always be false for an empty tile because the player is not intended to access them.
+     * @param p - the player (Player)
+     * @return isPassable - should always be false for an empty tile because the player is not intended to access them (Boolean)
      */
     @Override
     public boolean action(Player p) {return isPassable;}

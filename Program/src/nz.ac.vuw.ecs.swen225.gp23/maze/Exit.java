@@ -1,14 +1,16 @@
 package nz.ac.vuw.ecs.swen225.gp23.maze;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonReader;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
-
+/**
+ * This class represents the exit tile, used to progress to the next level or complete the game.
+ *
+ * @author Baxter Kirikiri
+ */
 public class Exit extends Tile {
+    /**
+     * Constructor for Exit.
+     * Completes necessary setup for an exit tile.
+     *
+     */
     public Exit(){
         super(Tiles.Exit);
         this.isPassable = true;
@@ -16,6 +18,12 @@ public class Exit extends Tile {
         this.defaultImage = "exit.png";
     }
 
+    /**
+     * Validates whether the player can travel through this tile.
+     *
+     * @param p - the player (Player)
+     * @return isPassable - should always be true for an exit tile so that the player complete the levels (Boolean)
+     */
     @Override
     public boolean action(Player p) {
         return isPassable;

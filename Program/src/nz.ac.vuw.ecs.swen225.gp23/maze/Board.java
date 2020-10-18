@@ -2,11 +2,6 @@ package nz.ac.vuw.ecs.swen225.gp23.maze;
 
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.levelM;
-import nz.ac.vuw.ecs.swen225.gp23.persistence.readWrite;
-import nz.ac.vuw.ecs.swen225.gp23.render.RenderPanel;
-
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Stack;
 
 public class Board {

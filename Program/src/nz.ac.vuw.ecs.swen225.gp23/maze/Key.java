@@ -1,17 +1,22 @@
 package nz.ac.vuw.ecs.swen225.gp23.maze;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonReader;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
-
+/**
+ * This class represents the keys the player collects to open the locked doors in the game.
+ * They are differentiated by colour so that they can be used with doors of a matching colour.
+ * This colour is in string format (ie. "red"). Actual colour values are handled in nz.ac.vuw.ecs.swen225.gp23/render
+ *
+ * @author Baxter Kirikiri
+ */
 public class Key extends Tile {
     private String colour;
     private boolean pickedUp = false;
 
+    /**
+     * Constructor for Key.
+     * Completes necessary setup for a key tile.
+     *
+     * @param colour - The colour of the key (String)
+     */
     public Key(String colour){
         super(Tiles.Key);
         this.isPassable = true;
@@ -20,6 +25,14 @@ public class Key extends Tile {
         this.defaultImage = "key_" + colour + ".png";
     }
 
+    /**
+     * Validates whether the player can travel through this tile.
+     * Applies appropriate logic to ensure the player has the key
+     * and updates the tile so that the key is not shown.
+     *
+     * @param p - the player (Player)
+     * @return isPassable - should always be true for keys so that the player can pick them up(Boolean)
+     */
     @Override
     public boolean action(Player p) {
        if(!pickedUp){
@@ -30,11 +43,4 @@ public class Key extends Tile {
        return isPassable;
     }
 
-
-    //Getters and Setters
-    public String getColour(){return colour;}
-    public void setColour(String newColour){colour = newColour;}
-
-    public boolean getPickedUp(){return pickedUp;}
-    public void setPickedUp(boolean isPickedUp){pickedUp = isPickedUp;}
 }

@@ -37,7 +37,7 @@ public abstract class Tile {
     /**
      * Constructor for tiles
      *
-     * @param t - type of tile
+     * @param t - type of tile (Tile.Tiles)
      */
     public Tile(Tiles t){
         this.type = t;
@@ -47,7 +47,7 @@ public abstract class Tile {
      * Displays an entity to the tile.
      * (e.g. when the player walks on to the tile, the players image should be the parameter)
      *
-     * @param image - the image of the entity occupying this tile
+     * @param image - the image of the entity occupying this tile (String)
      */
     public void setEntityPresent(String image){
         this.currentImage = image;
@@ -64,7 +64,7 @@ public abstract class Tile {
     /**
      * Gets the string of tile in it's current state.
      *
-     * @return The current image being displayed on the tile (with the .png excluded)
+     * @return The current image being displayed on the tile with the .png excluded (String)
      */
     public String toString(){
         return currentImage.substring(0, currentImage.length()-4);
@@ -75,16 +75,16 @@ public abstract class Tile {
      * (e.g. the player tries to move onto a wall tile, action should return false)
      * This validation will vary depending on the tile type.
      *
-     * @param p - the player
-     * @return - true if the player can complete the action
+     * @param p - the player (Player)
+     * @return - true if the player can complete the action (boolean)
      */
     public abstract boolean action(Player p);
 
     /**
      * Gets the adjacent tile in a given direction.
      *
-     * @param d - direction
-     * @return - tile in the given direction
+     * @param d - direction (Tile.Directions)
+     * @return - tile in the given direction (Tile)
      */
     public Tile getDirection(Directions d){
         if (adjacentTiles.size() < 4) {
@@ -97,14 +97,14 @@ public abstract class Tile {
     /**
      * Gets the x location of the tile.
      *
-     * @return - the x location of the tile
+     * @return - the x location of the tile (int)
      */
     public int getXLoc(){return this.xLoc;}
 
     /**
      * Sets the x location of the tile.
      *
-     * @param xLoc - the new x location of the tile
+     * @param xLoc - the new x location of the tile (int)
      */
     public void setXLoc(int xLoc){
         this.xLoc = xLoc;
@@ -113,14 +113,14 @@ public abstract class Tile {
     /**
      * Gets the y location of the tile.
      *
-     * @return - the y location of the tile
+     * @return - the y location of the tile (int)
      */
     public int getYLoc(){return this.yLoc;}
 
     /**
      * Sets the y location of the tile.
      *
-     * @param yLoc - the new y location of the tile
+     * @param yLoc - the new y location of the tile (int)
      */
     public void setYLoc(int yLoc){
         this.yLoc = yLoc;
@@ -129,7 +129,7 @@ public abstract class Tile {
     /**
      * Gets the current image displayed on the tile.
      *
-     * @return - the current image displayed on the tile
+     * @return - the current image displayed on the tile (string)
      */
     public String getCurrentImage(){return this.currentImage;}
 }

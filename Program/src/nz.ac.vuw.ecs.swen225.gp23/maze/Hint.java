@@ -1,14 +1,17 @@
 package nz.ac.vuw.ecs.swen225.gp23.maze;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonReader;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
-
+/**
+ * This class represents the hint tile in the game.
+ * Used to give the player a hint about the game.
+ *
+ * @author Baxter Kirikiri
+ */
 public class Hint extends Tile {
+    /**
+     * Constructor for Hint.
+     * Completes necessary setup for a hint tile.
+     *
+     */
     public Hint(){
         super(Tiles.Hint);
         this.isPassable = true;
@@ -16,6 +19,12 @@ public class Hint extends Tile {
         this.defaultImage = "hint.png";
     }
 
+    /**
+     * Validates whether the player can travel through this tile.
+     *
+     * @param p - the player (Player)
+     * @return isPassable - should always be true for a hint tile so that the player can access the hint (Boolean)
+     */
     @Override
     public boolean action(Player p) {return isPassable;}
 }

@@ -1,14 +1,17 @@
 package nz.ac.vuw.ecs.swen225.gp23.maze;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonReader;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
-
+/**
+ * This class represents a wall tile in the game.
+ *
+ * @author Baxter Kirikiri
+ */
 public class Wall extends Tile {
+
+    /**
+     * Constructor for Wall.
+     * Completes necessary setup for a wall tile.
+     *
+     */
     public Wall(){
         super(Tiles.Wall);
         this.isPassable = false;
@@ -16,6 +19,12 @@ public class Wall extends Tile {
         this.defaultImage = "wall.png";
     }
 
+    /**
+     * Validates whether the player can travel through this tile.
+     *
+     * @param p - the player (Player)
+     * @return isPassable - should always be false for a wall because the player is not intended travel over them (Boolean)
+     */
     @Override
     public boolean action(Player p) {
         return isPassable;

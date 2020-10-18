@@ -22,11 +22,11 @@ public class ComputerChip extends Tile {
 
     /**
      * Validates whether the player can travel through this tile.
-     * Applies appropriate logic to ensure the player has the key
-     * and updates the tile so that the key is not shown.
+     * Applies appropriate logic to ensure the player has the computer chip
+     * and updates the tile so that the computer chip is not shown.
      *
-     * @param p - the player
-     * @return - isPassable (always true for computer chips)
+     * @param p - the player (Player)
+     * @return isPassable - should always be true for computer chips so that the player can pick them up(Boolean)
      */
     @Override
     public boolean action(Player p) {
