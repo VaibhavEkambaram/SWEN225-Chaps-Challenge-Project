@@ -41,8 +41,6 @@ public abstract class Tile {
 
     //Abstract methods
     public abstract boolean action(Player p); //validates whether a player can complete the requested action
-    public abstract String getJson(); //generates json string for a given tile
-    public abstract Tile jsonToTile(JsonReader json); //sets properties for a tile based on json input
 
     //Getters and setters
     public Tile getDirection(Directions d){ //gets the adjacent tile in a given direction
