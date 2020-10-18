@@ -1,15 +1,19 @@
 package nz.ac.vuw.ecs.swen225.gp23.maze;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonReader;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
-
+/**
+ * This class represents the exit lock tile in the game.
+ * This tile is inaccessible until the player has collected a set number of computer chips
+ *
+ * @author Baxter Kirikiri
+ */
 public class ExitLock extends Tile {
     private int chipsNeeded;
+
+    /**
+     * Constructor for ExitLock.
+     * Completes necessary setup for an exit lock tile.
+     *
+     */
     public ExitLock(){
         super(Tiles.ExitLock);
         this.isPassable = false;
@@ -17,6 +21,14 @@ public class ExitLock extends Tile {
         this.defaultImage = "exit_lock.png";
     }
 
+    /**
+     * Validates whether the player can travel through this tile.
+     * Applies appropriate logic to check if the player has the correct number of computer chips.
+     * If the player has the correct number of chips, the tile is updated so that the exit lock is not shown.
+     *
+     * @param p - the player (Player)
+     * @return isPassable - true if the player has the correct number of chips (Boolean)
+     */
     @Override
     public boolean action(Player p) {
         if(chipsNeeded == p.getChips()){
@@ -26,7 +38,17 @@ public class ExitLock extends Tile {
         return isPassable;
     }
 
-    //Getters and Setters
+    /**
+     * Sets the number of chips required to open the exit lock.
+     *
+     * @param numberOfChips - the number of chips required (int)
+     */
     public void setChipsNeeded(int numberOfChips){chipsNeeded = numberOfChips;}
+
+    /**
+     * Gets the number of chips required to open the exit lock.
+     *
+     * @return chipsNeeded - the number of chips required (int)
+     */
     public int getChipsNeeded(){return chipsNeeded;}
 }

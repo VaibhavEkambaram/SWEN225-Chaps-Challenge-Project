@@ -25,8 +25,8 @@ public class ComputerChip extends Tile {
      * Applies appropriate logic to ensure the player has the key
      * and updates the tile so that the key is not shown.
      *
-     * @param p - the player
-     * @return - isPassable (always true for computer chips)
+     * @param p - the player (Player)
+     * @return isPassable - Should always be true for computer chips (Boolean)
      */
     @Override
     public boolean action(Player p) {
