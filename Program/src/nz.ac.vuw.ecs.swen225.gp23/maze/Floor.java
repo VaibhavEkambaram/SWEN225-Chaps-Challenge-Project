@@ -1,14 +1,17 @@
 package nz.ac.vuw.ecs.swen225.gp23.maze;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonReader;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
-
+/**
+ * This class represents the floor tile in the game.
+ *
+ * @author Baxter Kirikiri
+ */
 public class Floor extends Tile {
+
+    /**
+     * Constructor for Floor.
+     * Completes necessary setup for a floor tile.
+     *
+     */
     public Floor(){
         super(Tiles.Floor);
         this.isPassable = true;
@@ -16,6 +19,12 @@ public class Floor extends Tile {
         this.defaultImage = "floor.png";
     }
 
+    /**
+     * Validates whether the player can travel through this tile.
+     *
+     * @param p - the player (Player)
+     * @return isPassable - should always be true for a floor tile so that the player can walk on it (Boolean)
+     */
     @Override
     public boolean action(Player p) {return isPassable;}
 }
