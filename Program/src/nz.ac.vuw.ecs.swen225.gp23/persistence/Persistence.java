@@ -25,6 +25,10 @@ import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * Class for Persistence reading and writing
+ * @author Rahul Mahasuriya
+ */
 public class Persistence {
 
     int boardX;
@@ -39,6 +43,15 @@ public class Persistence {
         this.game = game;
     }
 
+    /**
+     * Loads json file
+     * Uses Gson to convert Json
+     * Checks for correct text input for board, level and time
+     * Applies these to the assigned variables
+     * @param filepath
+     * @return the board
+     * @author Rahul Mahasuriya
+     */
     public Board loadFile(String filepath) {
 
         try {
@@ -72,6 +85,15 @@ public class Persistence {
     }
 
 
+    /**
+     * Saves file
+     * Uses gameState method
+     * Using a writer, a for loop will check through the special characters in the board json file
+     * writes in these special characters between the tile characters
+     * @param game
+     * @param fileName
+     * @author Rahul Mahasuriya
+     */
     public static void saveFile(Game game, String fileName) {
 
         String jGame = gameState(game);
@@ -91,9 +113,16 @@ public class Persistence {
         }
     }
 
+    /**
+     * Saves current game state for the level
+     * Builds a json schema
+     * Assigns variables from current game
+     * Writes these variables to a file in saveFile
+     * @param game
+     * @return schema format
+     * @author Rahul Mahasuriya
+     */
     public static String gameState(Game game) {
-        String jBoard;
-        String jPlayer;
         String jGame;
 
         JsonObjectBuilder builder = Json.createObjectBuilder()
@@ -114,6 +143,15 @@ public class Persistence {
 
     }
 
+    /**
+     * Reads board from json
+     * Uses a Scanner for reading characters
+     * Switch case is used for distinguishing between different characters from the board string
+     * Sets tile depending on what string is read
+     * @param maze
+     * @return the board
+     * @author Rahul Mahasuriya
+     */
     public Board readBoard(String maze) {
         Board board = new Board(game, boardX, boardY);
 
@@ -194,10 +232,20 @@ public class Persistence {
         return board;
     }
 
+    /**
+     * Gets the current time left in the game
+     * @return the current time remaining
+     * @author Rahul Mahasuriya
+     */
     public int getTimeLeft() {
         return timeLeft;
     }
 
+    /**
+     * Gets the current level
+     * @return the current level
+     * @author Rahul Mahasuriya
+     */
     public int getLevel() {
         return level;
     }
