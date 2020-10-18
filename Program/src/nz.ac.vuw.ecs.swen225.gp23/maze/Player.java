@@ -14,7 +14,6 @@ public class Player {
 
     public Player(Tile location){
         currentTile = location;
-
         directionImages.put(Tile.Directions.Left, "chip_left.png");
         directionImages.put(Tile.Directions.Right, "chip_right.png");
         directionImages.put(Tile.Directions.Up, "chip_up.png");

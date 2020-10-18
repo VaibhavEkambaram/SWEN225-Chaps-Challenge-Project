@@ -31,7 +31,20 @@ public abstract class Tile {
      * Possible directions for chap (the player) to be facing
      */
     public enum Directions {
-        Left, Right, Up, Down
+        Left, Right, Up, Down;
+
+        public Directions reverse(){
+            switch(this){
+                case Left:
+                    return Right;
+                case Right:
+                    return Left;
+                case Up:
+                    return Down;
+                default:
+                    return Up;
+            }
+        }
     }
 
     /**
@@ -51,6 +64,11 @@ public abstract class Tile {
      */
     public void setEntityPresent(String image){
         this.currentImage = image;
+        if(image.startsWith("cyclops")){
+            this.hasEntity = true;
+        } else {
+            this.hasEntity = false;
+        }
     }
 
     /**
