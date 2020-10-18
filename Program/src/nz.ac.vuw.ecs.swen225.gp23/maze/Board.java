@@ -106,63 +106,63 @@ public class Board {
             String tileName = tileStack.peek().toString();
             switch (tileName) {
                 case "door_blue":
-                    cases.append("B,");
+                    cases.append("B|");
                     tileStack.pop();
                     break;
                 case "door_green":
-                    cases.append("G,");
+                    cases.append("G|");
                     tileStack.pop();
                     break;
                 case "door_red":
-                    cases.append("R,");
+                    cases.append("R|");
                     tileStack.pop();
                     break;
                 case "door_yellow":
-                    cases.append("Y,");
+                    cases.append("Y|");
                     tileStack.pop();
                     break;
                 case "key_green":
-                    cases.append("g,");
+                    cases.append("g|");
                     tileStack.pop();
                     break;
                 case "key_blue":
-                    cases.append("b,");
+                    cases.append("b|");
                     tileStack.pop();
                     break;
                 case "key_yellow":
-                    cases.append("y,");
+                    cases.append("y|");
                     tileStack.pop();
                     break;
                 case "key_red":
-                    cases.append("r,");
+                    cases.append("r|");
                     tileStack.pop();
                     break;
                 case "floor":
-                    cases.append("_,");
+                    cases.append("_|");
                     tileStack.pop();
                     break;
                 case "wall":
-                    cases.append("#,");
+                    cases.append("#|");
                     tileStack.pop();
                     break;
                 case "hint":
-                    cases.append("i,");
+                    cases.append("i|");
                     tileStack.pop();
                     break;
                 case "computer_chip":
-                    cases.append("T,");
+                    cases.append("T|");
                     tileStack.pop();
                     break;
                 case "exit_lock":
-                    cases.append("l,");
+                    cases.append("l|");
                     tileStack.pop();
                     break;
                 case "exit":
-                    cases.append("E,");
+                    cases.append("E|");
                     tileStack.pop();
                     break;
                 default:
-                    cases.append("P,");
+                    cases.append("P|");
                     tileStack.pop();
                     break;
             }
