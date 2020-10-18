@@ -236,14 +236,13 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             }
         };
 
-        mainPanel.setLayout(new BorderLayout(20, 0));
+        mainPanel.setLayout(new BorderLayout(0, 0));
         mainPanel.setBorder(new EmptyBorder(50, 50, 50, 50));
 
 
         JPanel movementPanel = new JPanel(new GridLayout(2, 3));
 
         gamePanel = new JPanel(new BorderLayout());
-        gamePanel.setBorder(new EmptyBorder(0, 0, 0, 0));
 
 
         JPanel rightPanel = new JPanel(new BorderLayout());
@@ -317,9 +316,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         items.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         itemsPanel.add(items);
 
-        itemsPanel.setMinimumSize(new Dimension(240, 120));
-        itemsPanel.setPreferredSize(new Dimension(240, 120));
-        itemsPanel.setMaximumSize(new Dimension(240, 120));
+       itemsPanel.setMinimumSize(new Dimension(240, 120));
+       itemsPanel.setPreferredSize(new Dimension(240, 120));
+       itemsPanel.setMaximumSize(new Dimension(240, 120));
 
 
         informationPanel.add(levelPanel);
@@ -336,7 +335,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         mainPanel.add(gamePanel, BorderLayout.CENTER);
 
         informationPanel.setPreferredSize(new Dimension(240, 480));
-        gamePanel.setPreferredSize(new Dimension(560, 560));
+       // gamePanel.setPreferredSize(new Dimension(560, 560));
 
         gamePanel.setBackground(Color.LIGHT_GRAY);
         mainPanel.setBackground(new Color(25, 25, 112));
