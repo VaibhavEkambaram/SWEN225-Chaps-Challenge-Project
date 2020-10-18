@@ -2,10 +2,22 @@ package nz.ac.vuw.ecs.swen225.gp23.persistence;
 
 import com.google.gson.Gson;
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
-import nz.ac.vuw.ecs.swen225.gp23.maze.*;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
+import nz.ac.vuw.ecs.swen225.gp23.maze.ComputerChip;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Empty;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Exit;
+import nz.ac.vuw.ecs.swen225.gp23.maze.ExitLock;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Hint;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Key;
+import nz.ac.vuw.ecs.swen225.gp23.maze.LockedDoor;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Wall;
 
 
-import java.io.Reader;
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
@@ -51,6 +63,40 @@ public class Persistence {
 
         System.out.println(boardX + " " + boardY);
         return board;
+    }
+
+    public Board saveFile(Game game, String filePath) throws IOException {
+
+
+
+
+        try {
+            Gson gson = new Gson();
+
+            Writer writer = new BufferedWriter(new FileWriter("newSave.json"));
+
+
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public static String gameState(Game game){
+        String jBoard;
+        String jPlayer;
+        String jGame;
+
+        Board b = game.getBoard();
+        JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+        JsonObjectBuilder builder = Json.createObjectBuilder()
+                .add("level", game.getLevelNumber())
+                .add("timeLeft", game.getTimeLeft())
+                .add("boardx", game.getBoard().getBoardHeight())
+                .add("boardy", game.getBoard().getBoardWidth());
+
+
+
     }
 
     public Board readBoard(String maze) {
@@ -125,6 +171,14 @@ public class Persistence {
             }
         }
         return board;
+    }
+
+    public int getTimeLeft() {
+        return 0;
+    }
+
+    public int getLevel() {
+        return 1;
     }
 }
 
