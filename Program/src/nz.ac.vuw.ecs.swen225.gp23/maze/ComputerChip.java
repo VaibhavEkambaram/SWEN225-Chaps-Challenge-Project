@@ -1,16 +1,18 @@
 package nz.ac.vuw.ecs.swen225.gp23.maze;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonReader;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
-
+/**
+ * This class represents the computer chips or treasure that the player collects in the game.
+ *
+ * @author Baxter Kirikiri
+ */
 public class ComputerChip extends Tile {
     private boolean pickedUp = false;
 
+    /**
+     * Constructor for ComputerChip.
+     * Completes necessary setup for a computer chip tile.
+     *
+     */
     public ComputerChip(){
         super(Tiles.ComputerChip);
         this.isPassable = true;
@@ -18,6 +20,14 @@ public class ComputerChip extends Tile {
         this.defaultImage = "computer_chip.png";
     }
 
+    /**
+     * Validates whether the player can travel through this tile.
+     * Applies appropriate logic to ensure the player has the key
+     * and updates the tile so that the key is not shown.
+     *
+     * @param p - the player
+     * @return - isPassable (always true for computer chips)
+     */
     @Override
     public boolean action(Player p) {
         if(!pickedUp){
@@ -27,40 +37,4 @@ public class ComputerChip extends Tile {
         }
         return isPassable;
     }
-
-
-    @Override
-    public String getJson() {
-        JsonObjectBuilder builder = Json.createObjectBuilder()
-                .add("isPassable", getPassable())
-                .add("type", getType().toString())
-                .add("xLoc", getXLoc())
-                .add("yLoc", getYLoc())
-                .add("image", getCurrentImage())
-                .add("defaultImage", getDefaultImage())
-                .add("pickedUp", getPickedUp());
-
-        try (Writer writer = new StringWriter()) {
-            Json.createWriter(writer).write(builder.build());
-            return writer.toString();
-        } catch (IOException e) {
-            throw new Error("Error parsing " + this.toString() + " to json");
-        }
-    }
-
-    @Override
-    public Tile jsonToTile(JsonReader json) {
-        JsonObject tile = json.readObject();
-        isPassable = tile.getBoolean("isPassable");
-        setXLoc(tile.getInt("xLoc"));
-        setYLoc(tile.getInt("yLoc"));
-        currentImage = tile.getString("image");
-        defaultImage = tile.getString("defaultImage");
-        pickedUp = tile.getBoolean("pickedUp");
-        return this;
-    }
-
-    //Getters and setters
-    public boolean getPickedUp(){return pickedUp;}
-    public void setPickedUp(boolean isPickedUp){pickedUp = isPickedUp;}
 }

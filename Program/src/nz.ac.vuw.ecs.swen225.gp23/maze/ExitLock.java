@@ -26,37 +26,6 @@ public class ExitLock extends Tile {
         return isPassable;
     }
 
-    @Override
-    public String getJson() {
-        JsonObjectBuilder builder = Json.createObjectBuilder()
-                .add("chipsNeeded", getChipsNeeded())
-                .add("isPassable", getPassable())
-                .add("type", getType().toString())
-                .add("xLoc", getXLoc())
-                .add("yLoc", getYLoc())
-                .add("image", getCurrentImage())
-                .add("defaultImage", getDefaultImage());
-
-        try (Writer writer = new StringWriter()) {
-            Json.createWriter(writer).write(builder.build());
-            return writer.toString();
-        } catch (IOException e) {
-            throw new Error("Error parsing " + this.toString() + " to json");
-        }
-    }
-
-    @Override
-    public Tile jsonToTile(JsonReader json) {
-        JsonObject tile = json.readObject();
-        chipsNeeded = tile.getInt("chipsNeeded");
-        isPassable = tile.getBoolean("isPassable");
-        setXLoc(tile.getInt("xLoc"));
-        setYLoc(tile.getInt("yLoc"));
-        currentImage = tile.getString("image");
-        defaultImage = tile.getString("defaultImage");
-        return this;
-    }
-
     //Getters and Setters
     public void setChipsNeeded(int numberOfChips){chipsNeeded = numberOfChips;}
     public int getChipsNeeded(){return chipsNeeded;}

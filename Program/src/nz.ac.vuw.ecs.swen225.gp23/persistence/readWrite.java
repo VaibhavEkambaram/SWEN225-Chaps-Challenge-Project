@@ -32,7 +32,7 @@ public class readWrite {
 
         for(Tile[] t : b.getTilesXY()){
             for(Tile i : t){
-                arrayBuilder.add(i.getJson());
+                //arrayBuilder.add(i.getJson());
             }
         }
 
@@ -53,9 +53,9 @@ public class readWrite {
             arrayBuilder.add(l);
         }
 
-       builder = Json.createObjectBuilder().add("location", p.getCurrentTile().getJson())
-             .add("inventory", arrayBuilder)
-             .add("treasures", p.getChips());
+      // builder = Json.createObjectBuilder().add("location", p.getCurrentTile().getJson())
+            // .add("inventory", arrayBuilder)
+          //   .add("treasures", p.getChips());
 
         try(Writer w = new StringWriter()){
             Json.createWriter(w).write(builder.build());
