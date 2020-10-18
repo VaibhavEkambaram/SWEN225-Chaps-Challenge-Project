@@ -163,7 +163,6 @@ public class Game {
             currentLoc.setEntityAbsent();
             nextLoc.setEntityPresent(player.getImage(direction));
             player.setCurrentTile(nextLoc);
-            boardRenderPanel.setBoard(board);
         } else {
             currentLoc.setEntityPresent(player.getImage(direction));
         }
@@ -177,6 +176,7 @@ public class Game {
         } else if (currentTile instanceof Key || currentTile instanceof LockedDoor) {
             gui.updateInventory();
         }
+        boardRenderPanel.setBoard(board);
     }
 
     /**

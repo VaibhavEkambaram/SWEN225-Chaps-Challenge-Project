@@ -626,7 +626,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         int tileset = 1;
         currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board, audio, tileset);
         application.transitionToRunning();
-
     }
 
     /**
@@ -638,8 +637,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             if (application.getState().equals(Application.gameStates.RUNNING)) {
                 application.transitionToInit();
                 currentGame.terminateTimer();
-                gamePanel.remove(renderPanel);
-                renderPanel = null;
                 currentGame = null;
                 updateInventory();
                 itemsGrid = null;
@@ -673,7 +670,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
                 currentGame.setGamePaused(false);
                 renderPanel.setPaused(false);
             }
-            renderPanel.repaint();
         }
         updateDisplay();
     }
@@ -710,8 +706,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             if (application.getState().equals(Application.gameStates.RUNNING)) {
                 application.transitionToInit();
                 currentGame.terminateTimer();
-                gamePanel.remove(renderPanel);
-                renderPanel = null;
             }
             gamePauseMenu.setState(false);
         }
@@ -754,8 +748,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         timeLabel.setText("");
         chipsLeftLabel.setText("");
         levelLabel.setText("");
-        gamePanel.remove(renderPanel);
-        renderPanel = null;
         if (response == 0) {
             onNewGame();
         }
