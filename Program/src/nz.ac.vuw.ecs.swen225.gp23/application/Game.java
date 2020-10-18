@@ -111,11 +111,11 @@ public class Game {
                 if (countdownTimer > 0 && !gamePaused) {
                     countdownTimer--;
                     // update gui time label
-                    if(countdownTimer <= 15 && countdownTimer > 10){
+                    if (countdownTimer <= 15 && countdownTimer > 10) {
                         gui.getTimeLabel().setForeground(Color.YELLOW);
-                    } else if(countdownTimer <= 10 && countdownTimer > 5){
+                    } else if (countdownTimer <= 10 && countdownTimer > 5) {
                         gui.getTimeLabel().setForeground(Color.ORANGE);
-                    } else if(countdownTimer <= 5){
+                    } else if (countdownTimer <= 5) {
                         gui.getTimeLabel().setForeground(Color.RED);
                     } else {
                         gui.getTimeLabel().setForeground(Color.WHITE);
@@ -182,6 +182,22 @@ public class Game {
         }
         boardRenderPanel.setBoard(board);
     }
+
+
+    public void saveGame() {
+        System.out.println("Level Number: " + levelNumber);
+        System.out.println("Time Remaining: " + timeToComplete);
+        System.out.println("Items Remaining: " +(board.getChipCount() - player.getChips()));
+        System.out.println();
+        System.out.println("Inventory");
+        for(String s : player.getInventory()){
+            System.out.println("\t"+s);
+        }
+        System.out.println();
+        System.out.println("Board");
+        System.out.println(printOutBoard());
+    }
+
 
     /**
      * Get the amount of time left in the countdown.

@@ -118,13 +118,19 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         newFromLastLevelMenu.addActionListener(e -> {
         });
 
-        final JMenuItem resumeSavedMenu = new JMenuItem("Resume Saved Game");
+        final JMenuItem resumeSavedMenu = new JMenuItem("Load Game");
         resumeSavedMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK));
         resumeSavedMenu.addActionListener(e -> System.out.println("resume a saved game using persistence"));
 
         final JMenuItem saveAndExitMenu = new JMenuItem("Save and Exit");
         saveAndExitMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK));
-        saveAndExitMenu.addActionListener(e -> onStopGame());
+        saveAndExitMenu.addActionListener(e -> {
+
+            if (currentGame != null) {
+                currentGame.saveGame();
+            }
+            onStopGame();
+        });
 
         final JMenuItem exitMenu = new JMenuItem("Exit");
         exitMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK));
@@ -599,8 +605,16 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         onStopGame();
         Persistence p = new Persistence(currentGame);
         Board board = p.loadFile("Program/src/levels/level1.json");
-        int tileset = 1;
+        int tileset = 2;
         currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board, audio, tileset);
+        application.transitionToRunning();
+    }
+
+    public void onLoadGame(){
+        onStopGame();
+
+
+
         application.transitionToRunning();
     }
 
