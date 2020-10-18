@@ -7,6 +7,7 @@ import nz.ac.vuw.ecs.swen225.gp23.render.RenderPanel;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 public class Board {
     private int viewSize = 9; //the number of tiles in view
@@ -78,7 +79,6 @@ public class Board {
             }
         }
 
-        //boardRenderPanel.setBoard(tempBoard);
         boardRenderPanel.repaint();
     }
 
@@ -107,6 +107,87 @@ public class Board {
             }
         }
         return null;
+    }
+
+    @Override
+    public String toString(){
+        String boardString;
+        StringBuilder cases = new StringBuilder();
+        Stack<Tile> tileStack = new Stack<>();
+        for (int y = 0; y < boardYDimension; y++) {
+            for (int x = 0; x < boardXDimension; x++) {
+                tileStack.add(this.getTile(x,y));
+            }
+        }
+
+        while(!tileStack.isEmpty()){
+            String tileName = tileStack.peek().toString();
+            switch (tileName) {
+                case "door_blue":
+                    cases.append("B,");
+                    tileStack.pop();
+                    break;
+                case "door_green":
+                    cases.append("G,");
+                    tileStack.pop();
+                    break;
+                case "door_red":
+                    cases.append("R,");
+                    tileStack.pop();
+                    break;
+                case "door_yellow":
+                    cases.append("Y,");
+                    tileStack.pop();
+                    break;
+                case "key_green":
+                    cases.append("g,");
+                    tileStack.pop();
+                    break;
+                case "key_blue":
+                    cases.append("b,");
+                    tileStack.pop();
+                    break;
+                case "key_yellow":
+                    cases.append("y,");
+                    tileStack.pop();
+                    break;
+                case "key_red":
+                    cases.append("r,");
+                    tileStack.pop();
+                    break;
+                case "floor":
+                    cases.append("_,");
+                    tileStack.pop();
+                    break;
+                case "wall":
+                    cases.append("#,");
+                    tileStack.pop();
+                    break;
+                case "hint":
+                    cases.append("i,");
+                    tileStack.pop();
+                    break;
+                case "computer_chip":
+                    cases.append("T,");
+                    tileStack.pop();
+                    break;
+                case "exit_lock":
+                    cases.append("l,");
+                    tileStack.pop();
+                    break;
+                case "exit":
+                    cases.append("E,");
+                    tileStack.pop();
+                    break;
+                default:
+                    cases.append("P,");
+                    tileStack.pop();
+                    break;
+            }
+        }
+
+        boardString = cases.toString();
+        return boardString.substring(0, boardString.length()-1);
     }
 
     public Tile[][] getTilesXY(){ return this.tilesXY;}
