@@ -186,7 +186,7 @@ public class Game {
 
 
     public void saveGame() {
-     //   Persistence p = new Persistence();
+        Persistence p = new Persistence(this);
         System.out.println("Level Number: " + levelNumber);
         System.out.println("Time Remaining: " + timeToComplete);
         System.out.println("Items Remaining: " +(board.getChipCount() - player.getChips()));
@@ -198,7 +198,7 @@ public class Game {
         System.out.println();
         System.out.println("Board");
         System.out.println(board.toString());
-      //  p.saveFile();
+        Persistence.saveFile(this,"savedgame.json");
 
     }
 

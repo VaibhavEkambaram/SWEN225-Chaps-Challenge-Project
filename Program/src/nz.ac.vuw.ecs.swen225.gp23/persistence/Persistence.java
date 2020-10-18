@@ -72,17 +72,22 @@ public class Persistence {
     }
 
 
-
     public static void saveFile(Game game, String fileName) {
 
         String jGame = gameState(game);
 
         try {
             Writer writer = new BufferedWriter(new FileWriter(fileName));
-            writer.write(jGame);
+
+            for (int i = 0; i < jGame.length(); i++) {
+                char next = jGame.charAt(i);
+                if (next == ',' || next == '{') writer.write(next + "\n\t");
+                else if (next == '}') writer.write("\n" + next);
+                else writer.write(next);
+            }
             writer.close();
         } catch (IOException e) {
-            System.out.println("Failed to save game");
+            e.printStackTrace();
         }
     }
 
