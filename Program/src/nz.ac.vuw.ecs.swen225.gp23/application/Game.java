@@ -7,6 +7,7 @@ import nz.ac.vuw.ecs.swen225.gp23.maze.Key;
 import nz.ac.vuw.ecs.swen225.gp23.maze.LockedDoor;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Player;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
+import nz.ac.vuw.ecs.swen225.gp23.persistence.Persistence;
 import nz.ac.vuw.ecs.swen225.gp23.recnplay.RecordReplay;
 import nz.ac.vuw.ecs.swen225.gp23.render.ChipAudioModule;
 import nz.ac.vuw.ecs.swen225.gp23.render.RenderPanel;
@@ -185,6 +186,7 @@ public class Game {
 
 
     public void saveGame() {
+     //   Persistence p = new Persistence();
         System.out.println("Level Number: " + levelNumber);
         System.out.println("Time Remaining: " + timeToComplete);
         System.out.println("Items Remaining: " +(board.getChipCount() - player.getChips()));
@@ -196,6 +198,8 @@ public class Game {
         System.out.println();
         System.out.println("Board");
         System.out.println(board.toString());
+      //  p.saveFile();
+
     }
 
 

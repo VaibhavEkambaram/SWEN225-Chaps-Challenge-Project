@@ -65,36 +65,39 @@ public class Persistence {
         return board;
     }
 
-    public Board saveFile(Game game, String filePath) throws IOException {
+    public static void saveFile(Game game, String fileName) {
 
-
-
+        String jGame = gameState(game);
 
         try {
-            Gson gson = new Gson();
-
-            Writer writer = new BufferedWriter(new FileWriter("newSave.json"));
-
-
+            Writer writer = new BufferedWriter(new FileWriter(fileName));
+            writer.write(jGame);
+            writer.close();
         }
         catch(IOException e){
-            e.printStackTrace();
+            System.out.println("Failed to save game");
         }
     }
 
-    public static String gameState(Game game){
+    public static String gameState(Game game)  {
         String jBoard;
         String jPlayer;
         String jGame;
 
-        Board b = game.getBoard();
-        JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
         JsonObjectBuilder builder = Json.createObjectBuilder()
                 .add("level", game.getLevelNumber())
                 .add("timeLeft", game.getTimeLeft())
                 .add("boardx", game.getBoard().getBoardHeight())
-                .add("boardy", game.getBoard().getBoardWidth());
+                .add("boardy", game.getBoard().getBoardWidth())
+                .add("board", game.getBoard().toString());
 
+        try(Writer writer = new StringWriter()){
+            Json.createWriter(writer).write(builder.build());
+            jGame = writer.toString();
+        } catch (IOException e){
+            throw new Error("Failed to parse game");
+        }
+        return jGame;
 
 
     }
