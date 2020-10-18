@@ -12,7 +12,7 @@ public class Key extends Tile {
     private boolean pickedUp = false;
 
     /**
-     * Constructor for keys.
+     * Constructor for Key.
      * Completes necessary setup for a key tile.
      *
      * @param colour - The colour of the key (String)

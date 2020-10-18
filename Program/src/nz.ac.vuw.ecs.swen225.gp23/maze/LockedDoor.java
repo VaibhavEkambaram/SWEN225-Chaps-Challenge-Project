@@ -1,17 +1,21 @@
 package nz.ac.vuw.ecs.swen225.gp23.maze;
-
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonReader;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
-
+/**
+ * This class represents the locked door tiles in the game.
+ * They are differentiated by colour so that they can be opened with keys of a matching colour.
+ * This colour is in string format (ie. "red"). Actual colour values are handled in nz.ac.vuw.ecs.swen225.gp23/render
+ *
+ * @author Baxter Kirikiri
+ */
 public class LockedDoor extends Tile {
     private String colour;
     private boolean locked = true;
 
+    /**
+     * Constructor for LockedDoor.
+     * Completes necessary setup for a locked door tile.
+     *
+     * @param colour - The colour of the door (String)
+     */
     public LockedDoor(String colour){
         super(Tiles.LockedDoor);
         this.isPassable = false;
@@ -20,6 +24,15 @@ public class LockedDoor extends Tile {
         this.defaultImage = "door_" + colour + ".png";
     }
 
+    /**
+     * Validates whether the player can travel through this tile.
+     * Applies appropriate logic to check if the player has the correct coloured key.
+     * If the player has the correct coloured key, the tile is updated so that the locked door is not shown.
+     * Once this key has been used, it is removed from the players inventory.
+     *
+     * @param p - the player (Player)
+     * @return isPassable - true if the player has the correct coloured key (Boolean)
+     */
     @Override
     public boolean action(Player p) {
         if(!locked){
@@ -33,11 +46,4 @@ public class LockedDoor extends Tile {
         }
         return isPassable;
     }
-
-    //Getters and Setters
-    public String getColour(){return colour;}
-    public void setColour(String newColour){colour = newColour;}
-
-    public Boolean getLocked(){return locked;}
-    public void setLocked(Boolean isLocked){locked = isLocked;}
 }
