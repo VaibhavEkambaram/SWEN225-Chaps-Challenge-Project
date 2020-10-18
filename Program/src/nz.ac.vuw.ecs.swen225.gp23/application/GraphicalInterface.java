@@ -33,7 +33,6 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -45,9 +44,6 @@ import java.util.List;
 public class GraphicalInterface extends JFrame implements KeyListener {
 
     private final JPanel gamePanel;
-    private final JPanel rightPanel;
-    private final JPanel informationPanel;
-    private final JPanel movementPanel;
     private final JPanel itemsPanel;
     private JPanel itemsGrid;
 
@@ -56,13 +52,15 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     private final JLabel timeLabel;
     private final JLabel levelLabel;
     private final JLabel chipsLeftLabel;
-    private final JButton upButton;
-    private final JButton downButton;
-    private final JButton leftButton;
-    private final JButton rightButton;
+    private JButton upButton;
+    private JButton downButton;
+    private JButton leftButton;
+    private JButton rightButton;
+    private JButton playback;
+    private JButton stepToNext;
 
 
-    final JCheckBoxMenuItem gamePauseMenu;
+    private final JCheckBoxMenuItem gamePauseMenu;
     private boolean gamePaused = false;
 
     private final Application application;
@@ -123,9 +121,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         final JMenuItem saveAndExitMenu = new JMenuItem("Save and Exit");
         saveAndExitMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK));
-        saveAndExitMenu.addActionListener(e -> {
-            onStopGame();
-        });
+        saveAndExitMenu.addActionListener(e -> onStopGame());
 
         final JMenuItem exitMenu = new JMenuItem("Exit");
         exitMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK));
@@ -136,6 +132,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             if (closeDialogResult == JOptionPane.YES_OPTION) {
                 dispose();
                 setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                System.exit(0);
             } else {
                 setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             }
@@ -165,6 +162,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         });
 
 
+        createButtons();
+
+
         final JMenu recordAndReplayMenu = new JMenu("Record and Replay");
 
         final JMenuItem startRecordingMenu = new JMenuItem("Start Recording");
@@ -176,15 +176,16 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         });
 
         final JMenuItem stopRecordingMenu = new JMenuItem("Save Recording");
-        stopRecordingMenu.addActionListener(e -> {
-            RecordReplay.saveRecording(currentGame);
-
-        });
+        stopRecordingMenu.addActionListener(e -> RecordReplay.saveRecording(currentGame));
         final JMenuItem loadRecordedMenu = new JMenuItem("Load Recorded Game");
         loadRecordedMenu.addActionListener(e -> {
             String fileName = JOptionPane.showInputDialog(this, "Enter saved file name (.json will be appended)");
             if (fileName != null) {
+                playback.setEnabled(true);
+                stepToNext.setEnabled(true);
                 RecordReplay.loadRecord(fileName + ".json", currentGame);
+
+
             }
         });
 
@@ -209,14 +210,14 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         JPanel mainPanel = new JPanel(new BorderLayout(20, 0));
         mainPanel.setBorder(new EmptyBorder(50, 50, 50, 50));
-        movementPanel = new JPanel(new GridLayout(2, 3));
+        JPanel movementPanel = new JPanel(new GridLayout(2, 3));
 
         gamePanel = new JPanel(new BorderLayout());
         gamePanel.setBorder(new EmptyBorder(0, 0, 0, 0));
 
 
-        rightPanel = new JPanel(new BorderLayout());
-        informationPanel = new JPanel();
+        JPanel rightPanel = new JPanel(new BorderLayout());
+        JPanel informationPanel = new JPanel();
         informationPanel.setLayout(new BoxLayout(informationPanel, BoxLayout.Y_AXIS));
 
 
@@ -298,6 +299,47 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         movementPanel.setBorder(BorderFactory.createRaisedBevelBorder());
 
 
+        // Window Close Listener
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent evt) {
+                int closeDialogButton = JOptionPane.YES_NO_OPTION;
+                int closeDialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit? Game progress will NOT be saved.", "Warning", closeDialogButton);
+                if (closeDialogResult == JOptionPane.YES_OPTION) {
+                    dispose();
+                    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    System.exit(0);
+                } else {
+                    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                }
+            }
+        });
+
+
+        movementPanel.add(playback);
+        movementPanel.add(upButton);
+        movementPanel.add(stepToNext);
+        movementPanel.add(leftButton);
+        movementPanel.add(downButton);
+        movementPanel.add(rightButton);
+
+        upButton.setFocusable(false);
+        downButton.setFocusable(false);
+        leftButton.setFocusable(false);
+        rightButton.setFocusable(false);
+        playback.setFocusable(false);
+        stepToNext.setFocusable(false);
+
+        getContentPane().add(mainPanel);
+        addKeyListener(this);
+        setLocationByPlatform(true);
+
+        pack();
+        setVisible(true);
+    }
+
+
+
+    private void createButtons() {
         upButton = new JButton("⇑");
         upButton.setToolTipText("Move Chap Up");
         upButton.addActionListener(e -> {
@@ -330,7 +372,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             }
         });
 
-        JButton playback = new JButton("\t\uD83C\uDFC3");
+        playback = new JButton("\t\uD83C\uDFC3");
         playback.setToolTipText("Playback Recorded Moves");
 
 
@@ -346,52 +388,10 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         });
 
 
-        playback.setEnabled(true);
-
-        JButton stepToNext = new JButton("⏭");
+        stepToNext = new JButton("⏭");
         stepToNext.setToolTipText("Step to Next Recorded Movement");
 
         stepToNext.addActionListener(e -> RecordReplay.iterateReplay(currentGame));
-
-
-        stepToNext.setEnabled(true);
-
-
-        // Window Close Listener
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent evt) {
-                int closeDialogButton = JOptionPane.YES_NO_OPTION;
-                int closeDialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit? Game progress will NOT be saved.", "Warning", closeDialogButton);
-                if (closeDialogResult == JOptionPane.YES_OPTION) {
-                    dispose();
-                    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                } else {
-                    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-                }
-            }
-        });
-
-
-        movementPanel.add(playback);
-        movementPanel.add(upButton);
-        movementPanel.add(stepToNext);
-        movementPanel.add(leftButton);
-        movementPanel.add(downButton);
-        movementPanel.add(rightButton);
-
-        upButton.setFocusable(false);
-        downButton.setFocusable(false);
-        leftButton.setFocusable(false);
-        rightButton.setFocusable(false);
-        playback.setFocusable(false);
-        stepToNext.setFocusable(false);
-
-        getContentPane().add(mainPanel);
-        addKeyListener(this);
-        setLocationByPlatform(true);
-
-        pack();
-        setVisible(true);
     }
 
 
@@ -509,8 +509,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             titleLabel.setIcon(tileFinder.getTile("chip_icon", -1));
             fieldPanel.add(titleLabel);
 
-            fieldPanel.add(new JLabel(""));
-
             JPanel subPanel = new JPanel(new GridLayout(0, 1));
 
             JLabel subtitleLabel = new JLabel("A SWEN225 group project by: ");
@@ -533,85 +531,19 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
 
     public void updateInventory() {
-
         if (itemsGrid != null) {
             itemsPanel.remove(itemsGrid);
         }
-
 
         if (currentGame != null) {
             itemsGrid = new JPanel(new GridLayout(0, 4));
             ArrayList<String> inventory = (ArrayList<String>) currentGame.getPlayer().getInventory();
 
             for (String s : inventory) {
-
-                JLabel label = new JLabel(new ImageIcon(tileFinder.getTile(s, -1).getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT)), JLabel.CENTER);
-                itemsGrid.add(label);
+                itemsGrid.add(new JLabel(new ImageIcon(tileFinder.getTile(s, -1).getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT)), JLabel.CENTER));
             }
             itemsPanel.add(itemsGrid);
         }
-    }
-
-
-    /**
-     * Key Typed - Doesn't really do anything
-     *
-     * @param e key event
-     */
-    @Override
-    public void keyTyped(KeyEvent e) {
-    }
-
-    /**
-     * Detect Key Presses for keyboard shortcuts and perform actions if applicable
-     *
-     * @param e key event
-     */
-    @Override
-    public void keyPressed(KeyEvent e) {
-
-        int keyCode = e.getKeyCode();
-
-        switch (keyCode) {
-            case 32:
-                onPauseGame(true);
-                break;
-            case 27:
-                onPauseGame(false);
-                break;
-            case 38:
-                if (application.getState().equals(Application.gameStates.RUNNING) && !gamePaused) {
-                    currentGame.onMovement(Tile.Directions.Up);
-                }
-                break;
-            case 40:
-                if (application.getState().equals(Application.gameStates.RUNNING) && !gamePaused) {
-                    currentGame.onMovement(Tile.Directions.Down);
-                }
-                break;
-            case 37:
-                if (application.getState().equals(Application.gameStates.RUNNING) && !gamePaused) {
-                    currentGame.onMovement(Tile.Directions.Left);
-                }
-                break;
-            case 39:
-                if (application.getState().equals(Application.gameStates.RUNNING) && !gamePaused) {
-                    currentGame.onMovement(Tile.Directions.Right);
-                }
-                break;
-        }
-    }
-
-
-    /**
-     * Detect Key Released.
-     * Doesn't do anything
-     *
-     * @param e key event
-     */
-    @Override
-    public void keyReleased(KeyEvent e) {
-        // doesn't do anything
     }
 
 
@@ -661,15 +593,18 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     public void onPauseGame(boolean value) {
         pausedLabel.setHorizontalAlignment(SwingConstants.CENTER);
         if (application.getState().equals(Application.gameStates.RUNNING)) {
+
             if (value) {
                 gamePaused = true;
                 currentGame.setGamePaused(true);
+                System.out.println("pausing");
                 renderPanel.setPaused(true);
             } else {
                 gamePaused = false;
                 currentGame.setGamePaused(false);
                 renderPanel.setPaused(false);
             }
+            renderPanel.repaint();
         }
         updateDisplay();
     }
@@ -693,6 +628,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     public void updateDisplay() {
         if (application.getState().equals(Application.gameStates.IDLE)) {
             setMovementButtonEnabled(false);
+            playback.setEnabled(false);
+            stepToNext.setEnabled(false);
             gamePanel.remove(pausedLabel);
             gamePaused = false;
         } else if (application.getState().equals(Application.gameStates.RUNNING)) {
@@ -735,7 +672,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             if (application.getState().equals(Application.gameStates.RUNNING)) {
                 application.transitionToInit();
                 currentGame.terminateTimer();
-
             }
             gamePauseMenu.setState(false);
         }
@@ -755,22 +691,89 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
 
     /**
-     * Set the number of chips left.
+     * Add the Render Panel to the Board.
      *
-     * @param number chip count
+     * @param renderPanel render Panel created in game class
      */
-    public void setChipsLeftLabel(int number) {
-        chipsLeftLabel.setText(String.valueOf(number));
+    public void setRenderPanel(RenderPanel renderPanel) {
+        this.renderPanel = renderPanel;
+        if (renderPanel != null) {
+            gamePanel.add(renderPanel, BorderLayout.CENTER);
+        }
     }
 
 
     /**
-     * Get Time Level for game to update.
+     * Key Typed - Doesn't really do anything
      *
-     * @return time label
+     * @param e key event
      */
-    public JLabel getTimeLabel() {
-        return timeLabel;
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+    /**
+     * Detect Key Presses for keyboard shortcuts and perform actions if applicable
+     *
+     * @param e key event
+     */
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+        switch (e.getKeyCode()) {
+            case 32:
+                onPauseGame(true);
+                break;
+            case 27:
+                onPauseGame(false);
+                break;
+            case 38:
+                if (application.getState().equals(Application.gameStates.RUNNING) && !gamePaused) {
+                    currentGame.onMovement(Tile.Directions.Up);
+                }
+                break;
+            case 40:
+                if (application.getState().equals(Application.gameStates.RUNNING) && !gamePaused) {
+                    currentGame.onMovement(Tile.Directions.Down);
+                }
+                break;
+            case 37:
+                if (application.getState().equals(Application.gameStates.RUNNING) && !gamePaused) {
+                    currentGame.onMovement(Tile.Directions.Left);
+                }
+                break;
+            case 39:
+                if (application.getState().equals(Application.gameStates.RUNNING) && !gamePaused) {
+                    currentGame.onMovement(Tile.Directions.Right);
+                }
+                break;
+        }
+    }
+
+
+    /**
+     * Detect Key Released.
+     * Doesn't do anything
+     *
+     * @param e key event
+     */
+    @Override
+    public void keyReleased(KeyEvent e) {
+        // doesn't do anything
+    }
+
+
+    // ------------------------------------------------------------------------------------------------
+    // Get and Set Methods
+    // ------------------------------------------------------------------------------------------------
+
+    /**
+     * Get Current game.
+     *
+     * @return game
+     */
+    public Game getCurrentGame() {
+        return currentGame;
     }
 
     /**
@@ -783,23 +786,20 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     }
 
     /**
-     * Add the Render Panel to the Board.
+     * Get Time Level for game to update.
      *
-     * @param renderPanel render Panel created in game class
+     * @return time label
      */
-    public void setRenderPanel(RenderPanel renderPanel) {
-        this.renderPanel = renderPanel;
-        if (renderPanel != null) {
-            gamePanel.add(renderPanel, BorderLayout.CENTER);
-        }
+    public void setTimeLabel(int number) {
+        timeLabel.setText(String.valueOf(number));
     }
 
     /**
-     * Get Current game.
+     * Set the number of chips left.
      *
-     * @return game
+     * @param number chip count
      */
-    public Game getCurrentGame() {
-        return currentGame;
+    public void setChipsLeftLabel(int number) {
+        chipsLeftLabel.setText(String.valueOf(number));
     }
 }

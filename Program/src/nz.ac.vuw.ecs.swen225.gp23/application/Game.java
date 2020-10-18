@@ -3,7 +3,6 @@ package nz.ac.vuw.ecs.swen225.gp23.application;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
 import nz.ac.vuw.ecs.swen225.gp23.maze.ComputerChip;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Exit;
-import nz.ac.vuw.ecs.swen225.gp23.maze.Hint;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Key;
 import nz.ac.vuw.ecs.swen225.gp23.maze.LockedDoor;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Player;
@@ -11,8 +10,6 @@ import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
 import nz.ac.vuw.ecs.swen225.gp23.recnplay.RecordReplay;
 import nz.ac.vuw.ecs.swen225.gp23.render.ChipAudioModule;
 import nz.ac.vuw.ecs.swen225.gp23.render.RenderPanel;
-import nz.ac.vuw.ecs.swen225.gp23.persistence.assetManager;
-import nz.ac.vuw.ecs.swen225.gp23.persistence.levelM;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -38,7 +35,7 @@ public class Game {
     private final int timeToComplete;
     private final int tileset;
 
-    ChipAudioModule audio;
+    final ChipAudioModule audio;
 
 
     /**
@@ -73,10 +70,7 @@ public class Game {
      * Initialise the board renderer.
      */
     public void initBoardRenderer() {
-        assetManager aM = new assetManager();
-        levelM.load(aM);
         boardRenderPanel = new RenderPanel(9, 9, tileset);
-
         gui.setRenderPanel(boardRenderPanel);
         boardRenderPanel.setBoard(board);
     }
@@ -116,7 +110,7 @@ public class Game {
                 if (countdownTimer > 0 && !gamePaused) {
                     countdownTimer--;
                     // update gui time label
-                    gui.getTimeLabel().setText(String.valueOf(countdownTimer));
+                    gui.setTimeLabel(countdownTimer);
                 } else if (!gamePaused) {
                     timer.cancel();
                     gui.outOfTime();
@@ -128,7 +122,7 @@ public class Game {
 
 
     /**
-     * Move player around the board depending on direction passed in from graphical interface
+     * Move player around the board depending on direction passed in from graphical interface.
      *
      * @param direction north/south/east/west direction
      */
@@ -240,7 +234,4 @@ public class Game {
         return board.getCurrentLevel();
     }
 
-    public int getTileset() {
-        return tileset;
-    }
 }
