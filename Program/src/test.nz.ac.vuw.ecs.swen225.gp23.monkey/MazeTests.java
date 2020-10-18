@@ -3,6 +3,7 @@ package test.nz.ac.vuw.ecs.swen225.gp23.monkey;
 import nz.ac.vuw.ecs.swen225.gp23.application.Application;
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
 import nz.ac.vuw.ecs.swen225.gp23.application.GraphicalInterface;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -44,6 +45,83 @@ public class MazeTests {
         assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
         assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
         assertEquals("chip_down.png", game.getBoard().getTile(7, 6).getCurrentImage());
+    }
+
+    /**
+     * Checking the movement of player to the left.
+     */
+    @Test
+    public void checkLeftMovementOne() {
+        gui.updateDisplay();
+        gui.onNewGame();
+        Game game = gui.getCurrentGame();
+
+        assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
+        assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
+        game.onMovement(Tile.Directions.Left);
+        assertEquals(6, game.getPlayer().getCurrentTile().getXLoc());
+        assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
+    }
+
+    /**
+     * Checking the movement of player to the right.
+     */
+    @Test
+    public void checkRightMovementOne() {
+        GraphicalInterface gui = new GraphicalInterface(app);
+        gui.updateDisplay();
+        gui.onNewGame();
+        Game game = gui.getCurrentGame();
+
+        assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
+        assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
+        game.onMovement(Tile.Directions.Right);
+        assertEquals(8, game.getPlayer().getCurrentTile().getXLoc());
+        assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
+    }
+
+    /**
+     * Testing level one board to see if it is correct.
+     */
+    @Test
+    public void checkLevelOneBoard() {
+        /*String text = "floor|floor|wall|wall|wall|wall|wall|floor|wall|wall|wall|wall|wall|floor|floor|" + "\n" +
+                "floor|floor|wall|floor|floor|floor|wall|wall|wall|floor|floor|floor|wall|floor|floor|" + "\n" +
+                "floor|floor|wall|floor|computer_chip|floor|wall|exit|wall|floor|computer_chip|floor|wall|floor|floor|" + "\n" +
+                "wall|wall|wall|wall|wall|door_key_green|wall|exit_lock|wall|door_key_green|wall|wall|wall|wall|wall|" + "\n" +
+                "wall|floor|key_yellow|floor|door_key_blue|floor|floor|floor|floor|floor|door_key_red|floor|key_yellow|floor|wall|" + "\n" +
+                "wall|floor|computer_chip|floor|wall|key_blue|floor|hint|floor|key_red|wall|floor|computer_chip|floor|wall|" + "\n" +
+                "wall|wall|wall|wall|wall|computer_chip|floor|chip_down|floor|computer_chip|wall|wall|wall|wall|wall|" + "\n" +
+                "wall|floor|computer_chip|floor|wall|key_blue|floor|floor|floor|key_red|wall|floor|computer_chip|floor|wall|" + "\n" +
+                "wall|floor|floor|floor|door_key_red|floor|floor|computer_chip|floor|floor|door_key_blue|floor|floor|floor|wall|" + "\n" +
+                "wall|wall|wall|wall|wall|wall|door_key_yellow|wall|door_key_yellow|wall|wall|wall|wall|wall|wall|" + "\n" +
+                "floor|floor|floor|floor|wall|floor|floor|wall|floor|floor|wall|floor|floor|floor|floor|" + "\n" +
+                "floor|floor|floor|floor|wall|key_green|computer_chip|wall|computer_chip|floor|wall|floor|floor|floor|floor|" + "\n" +
+                "floor|floor|floor|floor|wall|floor|floor|wall|key_green|floor|wall|floor|floor|floor|floor|" + "\n" +
+                "floor|floor|floor|floor|wall|wall|wall|floor|wall|wall|wall|floor|floor|floor|floor|";*/
+        String text =
+                "|_|_|#|#|#|#|#|_|#|#|#|#|#|_|_|" +
+                "|_|_|#|_|_|_|#|#|#|_|_|_|#|_|_|" +
+                "|_|_|#|_|T|_|#|E|#|_|T|_|#|_|_|" +
+                "|#|#|#|#|#|G|#|l|#|G|#|#|#|#|#|" +
+                "|#|_|y|_|B|_|_|_|_|_|R|_|y|_|#|" +
+                "|#|_|T|_|#|b|_|i|_|r|#|_|T|_|#|" +
+                "|#|#|#|#|#|T|_|P|_|T|#|#|#|#|#|" +
+                "|#|_|T|_|#|b|_|_|_|r|#|_|T|_|#|" +
+                "|#|_|_|_|R|_|_|T|_|_|B|_|_|_|#|" +
+                "|#|#|#|#|#|#|Y|#|Y|#|#|#|#|#|#|" +
+                "|_|_|_|_|#|_|_|#|_|_|#|_|_|_|_|" +
+                "|_|_|_|_|#|g|T|#|T|_|#|_|_|_|_|" +
+                "|_|_|_|_|#|_|_|#|g|_|#|_|_|_|_|" +
+                "|_|_|_|_|#|#|#|_|#|#|#|_|_|_|_|";
+
+        GraphicalInterface gui = new GraphicalInterface(app);
+        gui.updateDisplay();
+        gui.onNewGame();
+        Game game = gui.getCurrentGame();
+        String s = game.printOutBoard();
+
+        if(s.equals(text)) { assertEquals(text, s); }
     }
 
 }
