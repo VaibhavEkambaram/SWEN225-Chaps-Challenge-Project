@@ -8,6 +8,7 @@ import nz.ac.vuw.ecs.swen225.gp23.render.ChipAudioModule;
 import nz.ac.vuw.ecs.swen225.gp23.render.RenderPanel;
 import nz.ac.vuw.ecs.swen225.gp23.render.TileFinder;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -25,13 +26,11 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -72,6 +71,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
     private final TileFinder tileFinder;
 
+    BufferedImage image;
+
+
     /**
      * Interface Constructor Method.
      * Creates GUI structure and assigns listeners to buttons and menus
@@ -81,6 +83,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         // carry through persistent application class to keep track of game state
         this.application = application;
+
 
         // Set java swing theme to native operating system theme
         try {
@@ -208,8 +211,28 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         tableMenuBar.add(recordAndReplayMenu);
         tableMenuBar.add(helpMenu);
 
-        JPanel mainPanel = new JPanel(new BorderLayout(20, 0));
+
+        //reads the image
+        try {
+            image = ImageIO.read(getClass().getResource("/background.png"));
+
+        } catch (IOException io) {
+            System.out.println("Could not read in the pic");
+        }
+
+        JPanel mainPanel = new JPanel() {
+
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(image, 0, 0, this);
+            }
+        };
+
+        mainPanel.setLayout(new BorderLayout(20, 0));
         mainPanel.setBorder(new EmptyBorder(50, 50, 50, 50));
+
+
         JPanel movementPanel = new JPanel(new GridLayout(2, 3));
 
         gamePanel = new JPanel(new BorderLayout());
@@ -222,8 +245,11 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
 
         JPanel levelPanel = new JPanel(new GridLayout(2, 1));
-        levelPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        levelPanel.setBackground(Color.BLACK);
+        levelPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE));
         JLabel level = new JLabel("Level Number", JLabel.CENTER);
+        level.setForeground(Color.ORANGE);
+        level.setFont(new Font(Font.MONOSPACED, Font.BOLD, 16));
         level.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         levelPanel.add(level);
         levelPanel.setMinimumSize(new Dimension(240, 50));
@@ -232,18 +258,23 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
 
         levelLabel = new JLabel("", JLabel.CENTER);
+        levelLabel.setForeground(Color.WHITE);
+        levelLabel.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 16));
         levelPanel.add(levelLabel, JLabel.CENTER_ALIGNMENT);
 
 
         JPanel timePanel = new JPanel(new GridLayout(2, 1));
-        timePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
+        timePanel.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+        timePanel.setBackground(Color.BLACK);
 
         JLabel time = new JLabel("Time Left", JLabel.CENTER);
+        time.setFont(new Font(Font.MONOSPACED, Font.BOLD, 16));
+        time.setForeground(Color.ORANGE);
         time.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         timePanel.add(time);
         timeLabel = new JLabel("", JLabel.CENTER);
         timeLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        timeLabel.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 16));
         timePanel.add(timeLabel);
 
 
@@ -252,8 +283,11 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         timePanel.setMaximumSize(new Dimension(240, 100));
 
         JPanel chipsLeftPanel = new JPanel(new GridLayout(2, 1));
-        chipsLeftPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        chipsLeftPanel.setBackground(Color.BLACK);
+        chipsLeftPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE));
         JLabel chipsLeft = new JLabel("Items Remaining", JLabel.CENTER);
+        chipsLeft.setForeground(Color.ORANGE);
+        chipsLeft.setFont(new Font(Font.MONOSPACED, Font.BOLD, 16));
         chipsLeft.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         chipsLeftPanel.add(chipsLeft);
         chipsLeftPanel.setMinimumSize(new Dimension(240, 50));
@@ -261,13 +295,18 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         chipsLeftPanel.setMaximumSize(new Dimension(240, 100));
 
         chipsLeftLabel = new JLabel("", JLabel.CENTER);
+        chipsLeftLabel.setForeground(Color.WHITE);
         chipsLeftLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        chipsLeftLabel.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 16));
         chipsLeftPanel.add(chipsLeftLabel);
 
         itemsPanel = new JPanel();
+        itemsPanel.setBackground(Color.BLACK);
         itemsPanel.setLayout(new BoxLayout(itemsPanel, BoxLayout.Y_AXIS));
-        itemsPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        itemsPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE));
         JLabel items = new JLabel("Inventory", JLabel.CENTER);
+        items.setFont(new Font(Font.MONOSPACED, Font.BOLD, 16));
+        items.setForeground(Color.ORANGE);
         items.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         itemsPanel.add(items);
 
@@ -294,6 +333,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         gamePanel.setBackground(Color.LIGHT_GRAY);
         mainPanel.setBackground(new Color(25, 25, 112));
+
+
         informationPanel.setBackground(Color.LIGHT_GRAY);
         informationPanel.setBorder(BorderFactory.createRaisedBevelBorder());
         movementPanel.setBorder(BorderFactory.createRaisedBevelBorder());
@@ -336,7 +377,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         pack();
         setVisible(true);
     }
-
 
 
     private void createButtons() {
@@ -402,6 +442,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
      */
     public JMenuItem displayHelpMenu() {
         final JMenuItem howToPlayMenu = new JMenuItem("How to Play");
+        howToPlayMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, KeyEvent.CTRL_DOWN_MASK));
         howToPlayMenu.addActionListener(e -> {
 
             // Panels
@@ -501,6 +542,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
      */
     public JMenuItem displayAboutMenu() {
         final JMenuItem aboutMenu = new JMenuItem("About");
+        aboutMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK));
         aboutMenu.addActionListener(e -> {
             JPanel fieldPanel = new JPanel(new GridLayout(2, 1));
 
@@ -508,6 +550,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             titleLabel.setFont(titleLabel.getFont().deriveFont(titleLabel.getFont().getStyle() | Font.BOLD));
             titleLabel.setIcon(tileFinder.getTile("chip_icon", -1));
             fieldPanel.add(titleLabel);
+
 
             JPanel subPanel = new JPanel(new GridLayout(0, 1));
 
@@ -537,6 +580,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         if (currentGame != null) {
             itemsGrid = new JPanel(new GridLayout(0, 4));
+            itemsGrid.setBackground(Color.BLACK);
             ArrayList<String> inventory = (ArrayList<String>) currentGame.getPlayer().getInventory();
 
             for (String s : inventory) {
@@ -794,6 +838,10 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         timeLabel.setText(String.valueOf(number));
     }
 
+    public JLabel getTimeLabel() {
+        return timeLabel;
+    }
+
     /**
      * Set the number of chips left.
      *
@@ -802,4 +850,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     public void setChipsLeftLabel(int number) {
         chipsLeftLabel.setText(String.valueOf(number));
     }
+
+
 }

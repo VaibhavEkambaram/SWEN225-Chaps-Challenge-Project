@@ -11,6 +11,7 @@ import nz.ac.vuw.ecs.swen225.gp23.recnplay.RecordReplay;
 import nz.ac.vuw.ecs.swen225.gp23.render.ChipAudioModule;
 import nz.ac.vuw.ecs.swen225.gp23.render.RenderPanel;
 
+import java.awt.*;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -110,6 +111,15 @@ public class Game {
                 if (countdownTimer > 0 && !gamePaused) {
                     countdownTimer--;
                     // update gui time label
+                    if(countdownTimer <= 15 && countdownTimer > 10){
+                        gui.getTimeLabel().setForeground(Color.YELLOW);
+                    } else if(countdownTimer <= 10 && countdownTimer > 5){
+                        gui.getTimeLabel().setForeground(Color.ORANGE);
+                    } else if(countdownTimer <= 5){
+                        gui.getTimeLabel().setForeground(Color.RED);
+                    } else {
+                        gui.getTimeLabel().setForeground(Color.WHITE);
+                    }
                     gui.setTimeLabel(countdownTimer);
                 } else if (!gamePaused) {
                     timer.cancel();

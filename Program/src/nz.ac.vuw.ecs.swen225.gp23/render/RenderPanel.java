@@ -157,7 +157,9 @@ public class RenderPanel extends JPanel {
             int y = (this.getHeight() - metrics.getHeight())/2;
             // Set the font
             g.setFont(font);
+            g.setColor(Color.ORANGE);
             g.drawString(text, x, y);
+            g.setColor(Color.BLACK);
         }
     }
 
