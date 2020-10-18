@@ -2,17 +2,7 @@ package nz.ac.vuw.ecs.swen225.gp23.persistence;
 
 import com.google.gson.Gson;
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
-import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
-import nz.ac.vuw.ecs.swen225.gp23.maze.ComputerChip;
-import nz.ac.vuw.ecs.swen225.gp23.maze.Empty;
-import nz.ac.vuw.ecs.swen225.gp23.maze.Exit;
-import nz.ac.vuw.ecs.swen225.gp23.maze.ExitLock;
-import nz.ac.vuw.ecs.swen225.gp23.maze.Floor;
-import nz.ac.vuw.ecs.swen225.gp23.maze.Hint;
-import nz.ac.vuw.ecs.swen225.gp23.maze.Key;
-import nz.ac.vuw.ecs.swen225.gp23.maze.LockedDoor;
-import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
-import nz.ac.vuw.ecs.swen225.gp23.maze.Wall;
+import nz.ac.vuw.ecs.swen225.gp23.maze.*;
 
 
 import javax.json.Json;
@@ -215,7 +205,18 @@ public class Persistence {
                     playerStart.setEntityPresent("chip_down.png");
                     board.setTile(xValue, yValue, playerStart);
                     break;
-
+                case "v": //vertical cyclops
+                    Tile cyclopsStart = new Floor();
+                    cyclopsStart.setEntityPresent("cyclops_down.png");
+                    cyclopsStart.setEntityDirection(Tile.Directions.Down);
+                    board.setTile(xValue,yValue, cyclopsStart);
+                    break;
+                case "h": //horizontal cyclops
+                    cyclopsStart = new Floor();
+                    cyclopsStart.setEntityPresent("cyclops_right.png");
+                    cyclopsStart.setEntityDirection(Tile.Directions.Right);
+                    board.setTile(xValue,yValue, cyclopsStart);
+                    break;
                 default:
                     board.setTile(xValue, yValue, new Empty());
                     break;

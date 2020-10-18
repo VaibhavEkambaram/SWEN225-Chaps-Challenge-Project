@@ -135,6 +135,8 @@ public class TileFinder {
 
         if (tileName.startsWith("chip")) {
             return getChip(tileName);
+        } else if(tileName.startsWith("cyclops")){
+            return getCyclops(tileName);
         } else if (tileName.startsWith("key")) {
             return getKey(tileName);
         }else if (tileName.startsWith("door")) {

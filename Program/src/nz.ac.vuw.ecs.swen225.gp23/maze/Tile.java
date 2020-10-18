@@ -13,6 +13,7 @@ import java.util.List;
 public abstract class Tile {
     public boolean isPassable;
     public boolean hasEntity;
+    public Directions entityDirection;
     public int yLoc;
     public int xLoc;
     public String currentImage; //for imageURL
@@ -66,9 +67,14 @@ public abstract class Tile {
         this.currentImage = image;
         if(image.startsWith("cyclops")){
             this.hasEntity = true;
-        } else {
-            this.hasEntity = false;
         }
+    }
+
+    public void setEntityDirection(Directions d){
+        this.entityDirection = d;
+    }
+    public Directions getEntityDirection(){
+        return this.entityDirection;
     }
 
     /**
@@ -77,6 +83,7 @@ public abstract class Tile {
      */
     public void setEntityAbsent(){
         this.currentImage = this.defaultImage;
+        this.hasEntity = false;
     }
 
     /**

@@ -91,6 +91,17 @@ public class Board {
         return null;
     }
 
+    public Tile getCyclopsLoc(){
+        for (int x = 0; x < boardXDimension; x++) {
+            for (int y = 0; y < boardYDimension; y++) {
+                if (tilesXY[x][y].getCurrentImage().startsWith("cyclops")) {
+                    return tilesXY[x][y];
+                }
+            }
+        }
+        return null;
+    }
+
     @Override
     public String toString(){
         String boardString;
