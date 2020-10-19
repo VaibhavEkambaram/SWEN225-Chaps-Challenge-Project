@@ -1,6 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp23.recnplay;
 
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
+import nz.ac.vuw.ecs.swen225.gp23.application.GraphicalInterface;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.Persistence;
 
@@ -125,13 +126,15 @@ public class RecordReplay {
      * Loads a recording from a specified file into the Game.
      *
      * @param saveFile - file name.
-     * @param g - instance of game.
+     * @param gui - instance of gui.
      */
-    public static void loadRecord(String saveFile, Game g){
+    public static void loadRecord(String saveFile, GraphicalInterface gui){
         JsonObject obj = null;
 
         movements.clear();
         actors.clear();
+
+        gui.onLoadGame();
 
         try {
             BufferedReader br = new BufferedReader(new FileReader(saveFile));
