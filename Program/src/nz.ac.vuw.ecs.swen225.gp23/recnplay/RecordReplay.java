@@ -78,7 +78,7 @@ public class RecordReplay {
                 a.add(o.build());
             }
 
-            JsonObjectBuilder objectBuilder = Json.createObjectBuilder().add("movements", a).add("timeLeft", g.getTimeLeft());
+            JsonObjectBuilder objectBuilder = Json.createObjectBuilder().add("save", persistenceSave).add("movements", a).add("timeLeft", g.getTimeLeft());
 
             //Attempt to save the moves to a JSON file
             try(Writer writer = new StringWriter()){
@@ -174,17 +174,23 @@ public class RecordReplay {
             }
         }
 
+        if (obj != null) {
+            persistenceSave = obj.getString("save");
+        }
+
         if (movements.size() > 0){
             isGameRunning = true;
         }
         if (obj != null) {
             timeLeft = obj.getInt("timeLeft");
         }
+
         else {
             timeLeft = 0;
         }
         System.out.println("Movements: " + movements);
         System.out.println("ActorID: " + actors);
+        System.out.println("save name: " + persistenceSave);
 
     }
 
