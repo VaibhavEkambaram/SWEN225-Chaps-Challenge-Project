@@ -176,7 +176,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         final JMenuItem startRecordingMenu = new JMenuItem("Start Recording");
         startRecordingMenu.addActionListener(e -> {
-            String fileName = JOptionPane.showInputDialog(this, "Enter a file name (.json will be appended)");
+            String fileName = JOptionPane.showInputDialog(this, "Enter a filename: (.json will be appended)");
             if (fileName != null) {
                 RecordReplay.newSave(currentGame, fileName + ".json");
             }
@@ -422,7 +422,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         playback.addActionListener(e -> {
             long value;
-            String delaySpeedString = JOptionPane.showInputDialog(this, "Enter playback delay speed");
+            String delaySpeedString = JOptionPane.showInputDialog(this, "Enter playback delay speed: (0-1000)");
 
             if (delaySpeedString != null) {
                 value = Long.parseLong(delaySpeedString);
