@@ -443,7 +443,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         playback.addActionListener(e -> {
             long value;
-            String delaySpeedString = JOptionPane.showInputDialog(this, "Enter playback delay speed: (0-1000)");
+            String delaySpeedString = JOptionPane.showInputDialog(this, "Enter playback delay speed: (milliseconds)");
 
             if (delaySpeedString != null) {
                 value = Long.parseLong(delaySpeedString);
