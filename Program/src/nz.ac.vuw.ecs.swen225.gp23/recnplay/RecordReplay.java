@@ -2,10 +2,13 @@ package nz.ac.vuw.ecs.swen225.gp23.recnplay;
 
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
+import nz.ac.vuw.ecs.swen225.gp23.persistence.Persistence;
 
 import javax.json.*;
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * This class is responsible for recording and replaying the game play.
@@ -38,6 +41,12 @@ public class RecordReplay {
         saveFile = s;
         isGameRecording = true;
         movements.clear();
+
+        SimpleDateFormat ts = new SimpleDateFormat("dd-MM-yyyy'_'HH-mm-ss");
+        Date date = new Date(System.currentTimeMillis());
+
+        Persistence.saveFile(g, "ChapsChallenge_SaveFile_" + ts.format(date) + ".json");
+
     }
 
     /**
@@ -86,6 +95,8 @@ public class RecordReplay {
             isGameRecording = false;
             System.out.println("Recorded Movements: " + movements);
         }
+
+
     }
 
     /**
