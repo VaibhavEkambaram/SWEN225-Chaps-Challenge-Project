@@ -15,6 +15,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -106,7 +107,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         final JMenuItem resumeSavedMenu = new JMenuItem("Load Game");
         resumeSavedMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK));
-        resumeSavedMenu.addActionListener(e -> System.out.println("resume a saved game using persistence"));
+        resumeSavedMenu.addActionListener(e -> onLoadGame());
 
         final JMenuItem saveAndExitMenu = new JMenuItem("Save and Exit");
         saveAndExitMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK));
@@ -620,23 +621,32 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         gamePaused = false;
 
-//        JFileChooser chooser = new JFileChooser();
-  //      FileNameExtensionFilter filter = new FileNameExtensionFilter(".json files","json");
+        JFileChooser chooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(".json files","json");
+        chooser.setFileFilter(filter);
+
+        int returnVal = chooser.showOpenDialog(null);
+        if(returnVal == JFileChooser.APPROVE_OPTION){
 
 
+            Persistence p = new Persistence(currentGame);
+            Board board = p.loadFile(chooser.getSelectedFile().toString());
+            int tileset = 2;
+            currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board, audio, tileset);
 
-        Persistence p = new Persistence(currentGame);
-        Board board = p.loadFile("Program/src/levels/savedgame.json");
-        int tileset = 2;
-        currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board, audio, tileset);
+            List<String> inventoryStartingArray = p.setInventory();
 
-        List<String> inventoryStartingArray = p.setInventory();
-
-        if(inventoryStartingArray.size()>0) {
-            currentGame.getPlayer().setInventory(inventoryStartingArray);
-            updateInventory();
+            if(inventoryStartingArray.size()>0) {
+                currentGame.getPlayer().setInventory(inventoryStartingArray);
+                updateInventory();
+            }
+            application.transitionToRunning();
         }
-        application.transitionToRunning();
+
+
+
+
+
     }
 
     /**
