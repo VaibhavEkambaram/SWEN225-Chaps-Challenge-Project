@@ -23,6 +23,7 @@ public class RecordReplay {
     private static ArrayList<Integer> actors = new ArrayList<>();
     private static String saveFile;
     private static String state;
+    private static String persistenceSave;
 
     private static boolean isGameRecording;
     private static boolean isGameRunning;
@@ -45,8 +46,9 @@ public class RecordReplay {
 
         SimpleDateFormat ts = new SimpleDateFormat("dd-MM-yyyy'_'HH-mm-ss");
         Date date = new Date(System.currentTimeMillis());
+        persistenceSave = "ChapsChallenge_SaveFile_" + ts.format(date) + ".json";
+        Persistence.saveFile(g, persistenceSave);
 
-        Persistence.saveFile(g, "ChapsChallenge_SaveFile_" + ts.format(date) + ".json");
 
     }
 
@@ -134,7 +136,7 @@ public class RecordReplay {
         movements.clear();
         actors.clear();
 
-        gui.onLoadGame();
+        gui.onLoadGameNoGui(persistenceSave);
 
         try {
             BufferedReader br = new BufferedReader(new FileReader(saveFile));
