@@ -312,9 +312,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         items.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         itemsPanel.add(items);
 
-       itemsPanel.setMinimumSize(new Dimension(240, 120));
-       itemsPanel.setPreferredSize(new Dimension(240, 120));
-       itemsPanel.setMaximumSize(new Dimension(240, 120));
+        itemsPanel.setMinimumSize(new Dimension(240, 120));
+        itemsPanel.setPreferredSize(new Dimension(240, 120));
+        itemsPanel.setMaximumSize(new Dimension(240, 120));
 
 
         informationPanel.add(levelPanel);
@@ -331,7 +331,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         mainPanel.add(gamePanel, BorderLayout.CENTER);
 
         informationPanel.setPreferredSize(new Dimension(240, 480));
-       // gamePanel.setPreferredSize(new Dimension(560, 560));
+        // gamePanel.setPreferredSize(new Dimension(560, 560));
 
         gamePanel.setBackground(Color.LIGHT_GRAY);
         mainPanel.setBackground(new Color(25, 25, 112));
@@ -609,24 +609,23 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         List<String> inventoryStartingArray = p.setInventory();
 
-        if(inventoryStartingArray.size()>0) {
+        if (inventoryStartingArray.size() > 0) {
             currentGame.getPlayer().setInventory(inventoryStartingArray);
             updateInventory();
         }
         application.transitionToRunning();
     }
 
-    public void onLoadGame(){
+    public void onLoadGame() {
         onStopGame();
 
         gamePaused = false;
-
-        JFileChooser chooser = new JFileChooser("Program/");
-        FileNameExtensionFilter filter = new FileNameExtensionFilter(".json files","json");
+        JFileChooser chooser = new JFileChooser("");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(".json files", "json");
         chooser.setFileFilter(filter);
 
         int returnVal = chooser.showOpenDialog(null);
-        if(returnVal == JFileChooser.APPROVE_OPTION){
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
 
 
             Persistence p = new Persistence();
@@ -636,18 +635,34 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
             List<String> inventoryStartingArray = p.setInventory();
 
-            if(inventoryStartingArray.size()>0) {
+            if (inventoryStartingArray.size() > 0) {
                 currentGame.getPlayer().setInventory(inventoryStartingArray);
                 updateInventory();
             }
             application.transitionToRunning();
         }
-
-
-
-
-
     }
+
+
+    public void onLoadGameNoGui(String filepath) {
+        onStopGame();
+
+        gamePaused = false;
+
+        Persistence p = new Persistence();
+        Board board = p.loadFile(filepath);
+        int tileset = 2;
+        currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board, audio, tileset);
+
+        List<String> inventoryStartingArray = p.setInventory();
+
+        if (inventoryStartingArray.size() > 0) {
+            currentGame.getPlayer().setInventory(inventoryStartingArray);
+            updateInventory();
+        }
+        application.transitionToRunning();
+    }
+
 
     /**
      * Stops the current game
