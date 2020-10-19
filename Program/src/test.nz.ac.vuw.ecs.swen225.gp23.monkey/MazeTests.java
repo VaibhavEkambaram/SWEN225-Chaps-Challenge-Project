@@ -3,6 +3,7 @@ package test.nz.ac.vuw.ecs.swen225.gp23.monkey;
 import nz.ac.vuw.ecs.swen225.gp23.application.Application;
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
 import nz.ac.vuw.ecs.swen225.gp23.application.GraphicalInterface;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Player;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.Persistence;
 import org.junit.Test;
@@ -20,6 +21,7 @@ public class MazeTests {
     private Application app = new Application();
     private GraphicalInterface gui = new GraphicalInterface(app);
     private List<String> levels = new ArrayList<>();
+    Tile currentTile;
 
     /**
      * Check game init after loading level 1
@@ -32,6 +34,22 @@ public class MazeTests {
 
         assertNotNull(game.getBoard());
         assertNotNull(game.getPlayer());
+    }
+
+    @Test
+    public void moveChap(){
+        gui.updateDisplay();
+        gui.onNewGame();
+
+        Game game = gui.getCurrentGame();
+
+        game.getBoard().getTile(7, 6);
+        game.getBoard().getTile(7, 6);
+
+        Player player = new Player(currentTile);
+        Tile nextTile = player.getCurrentTile();
+        assertEquals(nextTile, game.getBoard().getTile(9, 4));
+        assertTrue(nextTile.hasEntity);
     }
 
     /**
@@ -172,7 +190,4 @@ public class MazeTests {
 
         if(s.equals(text)) { assertEquals(text, s); }
     }
-
-
-
 }
