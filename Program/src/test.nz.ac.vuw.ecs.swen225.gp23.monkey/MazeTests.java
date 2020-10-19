@@ -3,10 +3,11 @@ package test.nz.ac.vuw.ecs.swen225.gp23.monkey;
 import nz.ac.vuw.ecs.swen225.gp23.application.Application;
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
 import nz.ac.vuw.ecs.swen225.gp23.application.GraphicalInterface;
-import nz.ac.vuw.ecs.swen225.gp23.maze.Key;
-import nz.ac.vuw.ecs.swen225.gp23.maze.LockedDoor;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
@@ -16,54 +17,14 @@ import static junit.framework.TestCase.assertNotNull;
  */
 public class MazeTests {
     private Application app = new Application();
-
-    /**
-     * Checking if the key is blue.
-     */
-    @Test
-    public void blueKey(){
-        Key key = new Key("Blue");
-        String keyCol = key.toString();
-        assertEquals(keyCol, "key_Blue");
-    }
-
-    /**
-     * Checking if the key is red.
-     */
-    @Test
-    public void redKey(){
-        Key key = new Key("Red");
-        String keyCol = key.toString();
-        assertEquals(keyCol, "key_Red");
-    }
-
-    /**
-     * Checking if the key is green.
-     */
-    @Test
-    public void greenKey(){
-        Key key = new Key("Green");
-        String keyCol = key.toString();
-        assertEquals(keyCol, "key_Green");
-    }
-
-    /**
-     * Checking if the key is yellow.
-     */
-    @Test
-    public void yellowKey(){
-        Key key = new Key("Yellow");
-        String keyCol = key.toString();
-        assertEquals(keyCol, "key_Yellow");
-    }
-
+    private GraphicalInterface gui = new GraphicalInterface(app);
+    private List<String> levels = new ArrayList<>();
 
     /**
      * Check game init after loading level 1
      */
     @Test
     public void checkGameInit(){
-        GraphicalInterface gui = new GraphicalInterface(app);
         gui.updateDisplay();
         gui.onNewGame();
         Game game = gui.getCurrentGame();
@@ -73,11 +34,58 @@ public class MazeTests {
     }
 
     /**
+     * Creating player to see if the player actual is displayed correctly.
+     */
+    @Test
+    public void levelOneGeneratedPlayer() {
+        gui.updateDisplay();
+        gui.onNewGame();
+        Game game = gui.getCurrentGame();
+
+        assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
+        assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
+        assertEquals("chip_down.png", game.getBoard().getTile(7, 6).getCurrentImage());
+    }
+
+    /**
+     * Checking the movement of player to the left.
+     */
+    @Test
+    public void checkLeftMovementOne() {
+        gui.updateDisplay();
+        gui.onNewGame();
+        Game game = gui.getCurrentGame();
+
+        assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
+        assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
+        game.onMovement(Tile.Directions.Left);
+        assertEquals(6, game.getPlayer().getCurrentTile().getXLoc());
+        assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
+    }
+
+    /**
+     * Checking the movement of player to the right.
+     */
+    @Test
+    public void checkRightMovementOne() {
+        GraphicalInterface gui = new GraphicalInterface(app);
+        gui.updateDisplay();
+        gui.onNewGame();
+        Game game = gui.getCurrentGame();
+
+        assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
+        assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
+        game.onMovement(Tile.Directions.Right);
+        assertEquals(8, game.getPlayer().getCurrentTile().getXLoc());
+        assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
+    }
+
+    /**
      * Testing level one board to see if it is correct.
      */
     @Test
     public void checkLevelOneBoard() {
-        String text = "floor|floor|wall|wall|wall|wall|wall|floor|wall|wall|wall|wall|wall|floor|floor|" + "\n" +
+        /*String text = "floor|floor|wall|wall|wall|wall|wall|floor|wall|wall|wall|wall|wall|floor|floor|" + "\n" +
                 "floor|floor|wall|floor|floor|floor|wall|wall|wall|floor|floor|floor|wall|floor|floor|" + "\n" +
                 "floor|floor|wall|floor|computer_chip|floor|wall|exit|wall|floor|computer_chip|floor|wall|floor|floor|" + "\n" +
                 "wall|wall|wall|wall|wall|door_key_green|wall|exit_lock|wall|door_key_green|wall|wall|wall|wall|wall|" + "\n" +
@@ -90,7 +98,22 @@ public class MazeTests {
                 "floor|floor|floor|floor|wall|floor|floor|wall|floor|floor|wall|floor|floor|floor|floor|" + "\n" +
                 "floor|floor|floor|floor|wall|key_green|computer_chip|wall|computer_chip|floor|wall|floor|floor|floor|floor|" + "\n" +
                 "floor|floor|floor|floor|wall|floor|floor|wall|key_green|floor|wall|floor|floor|floor|floor|" + "\n" +
-                "floor|floor|floor|floor|wall|wall|wall|floor|wall|wall|wall|floor|floor|floor|floor|";
+                "floor|floor|floor|floor|wall|wall|wall|floor|wall|wall|wall|floor|floor|floor|floor|";*/
+        String text =
+                "|_|_|#|#|#|#|#|_|#|#|#|#|#|_|_|" +
+                "|_|_|#|_|_|_|#|#|#|_|_|_|#|_|_|" +
+                "|_|_|#|_|T|_|#|E|#|_|T|_|#|_|_|" +
+                "|#|#|#|#|#|G|#|l|#|G|#|#|#|#|#|" +
+                "|#|_|y|_|B|_|_|_|_|_|R|_|y|_|#|" +
+                "|#|_|T|_|#|b|_|i|_|r|#|_|T|_|#|" +
+                "|#|#|#|#|#|T|_|P|_|T|#|#|#|#|#|" +
+                "|#|_|T|_|#|b|_|_|_|r|#|_|T|_|#|" +
+                "|#|_|_|_|R|_|_|T|_|_|B|_|_|_|#|" +
+                "|#|#|#|#|#|#|Y|#|Y|#|#|#|#|#|#|" +
+                "|_|_|_|_|#|_|_|#|_|_|#|_|_|_|_|" +
+                "|_|_|_|_|#|g|T|#|T|_|#|_|_|_|_|" +
+                "|_|_|_|_|#|_|_|#|g|_|#|_|_|_|_|" +
+                "|_|_|_|_|#|#|#|_|#|#|#|_|_|_|_|";
 
         GraphicalInterface gui = new GraphicalInterface(app);
         gui.updateDisplay();
@@ -98,40 +121,7 @@ public class MazeTests {
         Game game = gui.getCurrentGame();
         String s = game.printOutBoard();
 
-        if (s.equals(text)) {
-            assertEquals(text, s);
-        }
+        if(s.equals(text)) { assertEquals(text, s); }
     }
 
-    /**
-     * Creatign player to see if the player actual is displayed correctly.
-     */
-    @Test
-    public void levelOneGeneratedPlayer() {
-
-        GraphicalInterface gui = new GraphicalInterface(app);
-        gui.updateDisplay();
-        gui.onNewGame();
-        Game game = gui.getCurrentGame();
-
-        assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
-        assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
-        assertEquals("chip_down.png", game.getBoard().getTile(7, 6).getCurrentImage());
-
-    }
-
-    @Test
-    public void checkMovementOne() {
-
-        GraphicalInterface gui = new GraphicalInterface(app);
-        gui.updateDisplay();
-        gui.onNewGame();
-        Game game = gui.getCurrentGame();
-
-        assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
-        assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
-        game.onMovement(Tile.Directions.Left);
-        assertEquals(6, game.getPlayer().getCurrentTile().getXLoc());
-        assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
-    }
 }
