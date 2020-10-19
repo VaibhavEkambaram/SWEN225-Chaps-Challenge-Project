@@ -2,6 +2,9 @@ package nz.ac.vuw.ecs.swen225.gp23.maze;
 
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.levelM;
+
+import java.util.ArrayDeque;
+import java.util.Queue;
 import java.util.Stack;
 
 public class Board {
@@ -27,19 +30,19 @@ public class Board {
 
 
     private void setAdjacentTiles(){
-       for(int x = 0; x < boardXDimension; x++){
-           for(int y = 0; y < boardYDimension; y++){
-               Tile t = tilesXY[x][y];
-               int leftOrd = Tile.Directions.Left.ordinal();
-               t.adjacentTiles.add(leftOrd, x != 0 ? tilesXY[x - 1][y] : new Wall());
-               int rightOrd = Tile.Directions.Right.ordinal();
-               t.adjacentTiles.add(rightOrd, x != boardXDimension - 1 ? tilesXY[x + 1][y] : new Wall());
-               int upOrd = Tile.Directions.Up.ordinal();
-               t.adjacentTiles.add(upOrd, y != 0 ? tilesXY[x][y - 1] : new Wall());
-               int downOrd = Tile.Directions.Down.ordinal();
-               t.adjacentTiles.add(downOrd, y != boardYDimension - 1 ? tilesXY[x][y+1] : new Wall());
-           }
-       }
+        for(int x = 0; x < boardXDimension; x++){
+            for(int y = 0; y < boardYDimension; y++){
+                Tile t = tilesXY[x][y];
+                int leftOrd = Tile.Directions.Left.ordinal();
+                t.adjacentTiles.add(leftOrd, x != 0 ? tilesXY[x - 1][y] : new Wall());
+                int rightOrd = Tile.Directions.Right.ordinal();
+                t.adjacentTiles.add(rightOrd, x != boardXDimension - 1 ? tilesXY[x + 1][y] : new Wall());
+                int upOrd = Tile.Directions.Up.ordinal();
+                t.adjacentTiles.add(upOrd, y != 0 ? tilesXY[x][y - 1] : new Wall());
+                int downOrd = Tile.Directions.Down.ordinal();
+                t.adjacentTiles.add(downOrd, y != boardYDimension - 1 ? tilesXY[x][y+1] : new Wall());
+            }
+        }
     }
 
     private void setExitLock(){
@@ -106,7 +109,7 @@ public class Board {
     public String toString(){
         String boardString;
         StringBuilder cases = new StringBuilder();
-        Stack<Tile> tileStack = new Stack<>();
+        Queue<Tile> tileStack = new ArrayDeque<>();
         for (int y = 0; y < boardYDimension; y++) {
             for (int x = 0; x < boardXDimension; x++) {
                 tileStack.add(this.getTile(x,y));
@@ -118,63 +121,63 @@ public class Board {
             switch (tileName) {
                 case "door_blue":
                     cases.append("B|");
-                    tileStack.pop();
+                    tileStack.poll();
                     break;
                 case "door_green":
                     cases.append("G|");
-                    tileStack.pop();
+                    tileStack.poll();
                     break;
                 case "door_red":
                     cases.append("R|");
-                    tileStack.pop();
+                    tileStack.poll();
                     break;
                 case "door_yellow":
                     cases.append("Y|");
-                    tileStack.pop();
+                    tileStack.poll();
                     break;
                 case "key_green":
                     cases.append("g|");
-                    tileStack.pop();
+                    tileStack.poll();
                     break;
                 case "key_blue":
                     cases.append("b|");
-                    tileStack.pop();
+                    tileStack.poll();
                     break;
                 case "key_yellow":
                     cases.append("y|");
-                    tileStack.pop();
+                    tileStack.poll();
                     break;
                 case "key_red":
                     cases.append("r|");
-                    tileStack.pop();
+                    tileStack.poll();
                     break;
                 case "floor":
                     cases.append("_|");
-                    tileStack.pop();
+                    tileStack.poll();
                     break;
                 case "wall":
                     cases.append("#|");
-                    tileStack.pop();
+                    tileStack.poll();
                     break;
                 case "hint":
                     cases.append("i|");
-                    tileStack.pop();
+                    tileStack.poll();
                     break;
                 case "computer_chip":
                     cases.append("T|");
-                    tileStack.pop();
+                    tileStack.poll();
                     break;
                 case "exit_lock":
                     cases.append("l|");
-                    tileStack.pop();
+                    tileStack.poll();
                     break;
                 case "exit":
                     cases.append("E|");
-                    tileStack.pop();
+                    tileStack.poll();
                     break;
                 default:
                     cases.append("P|");
-                    tileStack.pop();
+                    tileStack.poll();
                     break;
             }
         }
