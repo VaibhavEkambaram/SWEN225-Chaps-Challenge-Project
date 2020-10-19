@@ -13,7 +13,7 @@ import java.util.Date;
 
 /**
  * This class is responsible for recording and replaying the game play.
- * Each movement of Chap + actors (level 2) is recorded and saved to allow for a replay of a level.
+ * Each movement of Chap + cyclops (level 2) is recorded and saved to allow for a replay of a level.
  *
  * @author Tyla Turner - 300473374
  */
@@ -47,8 +47,6 @@ public class RecordReplay {
         Date date = new Date(System.currentTimeMillis());
         persistenceSave = "ChapsChallenge_SaveFile_" + ts.format(date) + ".json";
         Persistence.saveFile(g, persistenceSave);
-
-
     }
 
     /**
@@ -97,8 +95,6 @@ public class RecordReplay {
             isGameRecording = false;
             System.out.println("Recorded Movements: " + movements);
         }
-
-
     }
 
     /**
@@ -115,7 +111,7 @@ public class RecordReplay {
 
     }
 
-   //ADD LEVEL 2 STORE CYCLOPS MOVE HERE
+   //todo: ADD LEVEL 2 STORE CYCLOPS MOVE HERE
 
     //=============================================================================================
     //                                        REPLAY
@@ -185,13 +181,10 @@ public class RecordReplay {
             timeLeft = 0;
         }
 
-
         System.out.println("Movements: " + movements);
         System.out.println("ActorID: " + actors);
         System.out.println("save name: " + persistenceSave);
         gui.onLoadGameNoGui(persistenceSave);
-
-
 
     }
 
@@ -201,7 +194,6 @@ public class RecordReplay {
      * @param g - instance of game.
      */
     public static void iterateReplay(Game g){
-
 
         //if there game is running and there are moves to replay
         if(isGameRunning && movements.size() > 0){
@@ -222,7 +214,6 @@ public class RecordReplay {
                 isGameRunning = false;
                 g.setTimeLeft(timeLeft);
             }
-
         }
     }
 
@@ -265,22 +256,6 @@ public class RecordReplay {
      */
     public static ArrayList<Tile.Directions> getMovements() {
         return movements;
-    }
-
-    /**
-     * Returns the arraylist of actor IDs.
-     * @return - actors.
-     */
-    public static ArrayList<Integer> getActors() {
-        return actors;
-    }
-
-    /**
-     * Returns the saveFile string name.
-     * @return - saveFile.
-     */
-    public static String getSaveFile() {
-        return saveFile;
     }
 
 }

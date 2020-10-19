@@ -4,13 +4,14 @@ import nz.ac.vuw.ecs.swen225.gp23.application.Application;
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
 import nz.ac.vuw.ecs.swen225.gp23.application.GraphicalInterface;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
+import nz.ac.vuw.ecs.swen225.gp23.persistence.Persistence;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNotNull;
+import static junit.framework.TestCase.*;
 
 /**
  * @author Sushil Sharma
@@ -32,6 +33,38 @@ public class MazeTests {
         assertNotNull(game.getBoard());
         assertNotNull(game.getPlayer());
     }
+
+    /**
+     * Rejecting invalid game load.
+     */
+    @Test
+    public void invalidLoadGame() {
+        boolean error = false;
+        Game game = gui.getCurrentGame();
+        try{
+            Persistence.readBoard("invalid.txt");
+            throw new IOException("Invalid File");
+        }catch (IOException e) {
+            assertTrue(error = true);
+        }
+        assertTrue(error);
+    }
+
+    /**
+     * Checking to see if the game pauses and un-pauses correctly.
+     */
+    @Test
+    public void pauseGame(){
+        Game game = gui.getCurrentGame();
+        assertFalse(game.isPaused());
+        game.setGamePaused(true);
+
+        assertTrue(game.isPaused());
+        game.setGamePaused(false);
+        assertTrue(game.isPaused());
+    }
+
+
 
     /**
      * Creating player to see if the player actual is displayed correctly.
@@ -81,6 +114,22 @@ public class MazeTests {
     }
 
     /**
+     * Checking the movement of player to up direction.
+     */
+    @Test
+    public void checkUpMovementOne() {
+        gui.updateDisplay();
+        gui.onNewGame();
+        Game game = gui.getCurrentGame();
+
+        assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
+        assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
+        game.onMovement(Tile.Directions.Up);
+        assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
+        assertEquals(5, game.getPlayer().getCurrentTile().getYLoc());
+    }
+
+    /**
      * Testing level one board to see if it is correct.
      */
     @Test
@@ -123,5 +172,7 @@ public class MazeTests {
 
         if(s.equals(text)) { assertEquals(text, s); }
     }
+
+
 
 }
