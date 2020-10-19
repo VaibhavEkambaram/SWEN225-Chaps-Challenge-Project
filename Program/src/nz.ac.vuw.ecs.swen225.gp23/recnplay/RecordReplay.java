@@ -22,7 +22,6 @@ public class RecordReplay {
     private static ArrayList<Tile.Directions> movements = new ArrayList<>();
     private static ArrayList<Integer> actors = new ArrayList<>();
     private static String saveFile;
-    private static String state;
     private static String persistenceSave;
 
     private static boolean isGameRecording;
@@ -111,7 +110,6 @@ public class RecordReplay {
         saveFile = null;
         movements.clear();
         actors.clear();
-        state = null;
         thread = null;
 
 
