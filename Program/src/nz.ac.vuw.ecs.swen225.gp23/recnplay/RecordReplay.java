@@ -136,8 +136,6 @@ public class RecordReplay {
         movements.clear();
         actors.clear();
 
-        gui.onLoadGameNoGui(persistenceSave);
-
         try {
             BufferedReader br = new BufferedReader(new FileReader(saveFile));
             JsonReader jr = Json.createReader(new StringReader(br.readLine()));
@@ -188,9 +186,14 @@ public class RecordReplay {
         else {
             timeLeft = 0;
         }
+
+
         System.out.println("Movements: " + movements);
         System.out.println("ActorID: " + actors);
         System.out.println("save name: " + persistenceSave);
+        gui.onLoadGameNoGui(persistenceSave);
+
+
 
     }
 
