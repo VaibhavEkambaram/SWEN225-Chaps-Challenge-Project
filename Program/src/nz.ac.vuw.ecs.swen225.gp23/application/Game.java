@@ -141,7 +141,6 @@ public class Game {
      * @param direction north/south/east/west direction
      */
     public void onMovement(Tile.Directions direction) {
-
         Tile currentLoc = player.getCurrentTile();
         Tile nextLoc;
 
