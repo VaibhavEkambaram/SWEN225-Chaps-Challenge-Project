@@ -32,12 +32,12 @@ import java.util.*;
  */
 public class Persistence {
 
-    int boardX;
-    int boardY;
+    public static int boardX;
+    public static int boardY;
     int level;
     int timeLeft;
     String inventory;
-    Game game;
+    public static Game game;
     Board board;
 
 
@@ -169,7 +169,7 @@ public class Persistence {
      * @return the board
      * @author Rahul Mahasuriya
      */
-    public Board readBoard(String maze) {
+    public static Board readBoard(String maze) {
         Board board = new Board(game, boardX, boardY);
 
         Scanner sc = new Scanner(maze).useDelimiter("\\|");

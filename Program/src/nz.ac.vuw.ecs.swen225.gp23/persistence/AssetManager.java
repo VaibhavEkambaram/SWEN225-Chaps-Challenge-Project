@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-public class assetManager {
+public class AssetManager {
 
     private static final String pathForAsset = "Program/src/nz.ac.vuw.ecs.swen225.gp23/render/tile_images";
     private boolean scaling = false;
