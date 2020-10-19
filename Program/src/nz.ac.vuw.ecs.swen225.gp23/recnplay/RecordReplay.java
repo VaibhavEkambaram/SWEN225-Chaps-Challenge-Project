@@ -280,16 +280,4 @@ public class RecordReplay {
         return saveFile;
     }
 
-    /**
-     * Returns the current state of the game.
-     * @return - state.
-     */
-    public static String getState() {
-        return state;
-    }
-
-    //Returns the Thread replay.
-    public static Thread getThread() {
-        return thread;
-    }
 }
