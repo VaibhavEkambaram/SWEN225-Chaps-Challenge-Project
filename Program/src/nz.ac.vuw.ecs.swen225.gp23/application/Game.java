@@ -178,8 +178,6 @@ public class Game {
 
         if (currentTile instanceof ComputerChip) {
             gui.setChipsLeftLabel(board.getChipCount() - player.getChips());
-        } else if (currentTile instanceof Hint){
-
         } else if (currentTile instanceof Exit) {
             gui.levelCompleteMessage(levelNumber, countdownTimer, timeToComplete - countdownTimer, board.getChipCount());
         } else if (currentTile instanceof Key || currentTile instanceof LockedDoor) {

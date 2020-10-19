@@ -9,13 +9,34 @@ import nz.ac.vuw.ecs.swen225.gp23.render.RenderPanel;
 import nz.ac.vuw.ecs.swen225.gp23.render.TileFinder;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.KeyStroke;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +80,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     private final TileFinder tileFinder;
 
     BufferedImage image;
+
+    private final Color firstColor = new Color(25, 25, 112);
 
 
     /**
@@ -132,7 +155,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         final JMenuItem exitMenu = new JMenuItem("Exit");
         exitMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK));
         exitMenu.addActionListener(e -> {
-            //TODO: save current map here
             int closeDialogButton = JOptionPane.YES_NO_OPTION;
             int closeDialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit? Game progress will NOT be saved.", "Warning", closeDialogButton);
             if (closeDialogResult == JOptionPane.YES_OPTION) {
@@ -334,7 +356,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         // gamePanel.setPreferredSize(new Dimension(560, 560));
 
         gamePanel.setBackground(Color.LIGHT_GRAY);
-        mainPanel.setBackground(new Color(25, 25, 112));
+        mainPanel.setBackground(firstColor);
 
 
         informationPanel.setBackground(Color.LIGHT_GRAY);
