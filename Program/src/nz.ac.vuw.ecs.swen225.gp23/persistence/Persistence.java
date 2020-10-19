@@ -170,7 +170,7 @@ public class Persistence {
      * @author Rahul Mahasuriya
      */
     public static Board readBoard(String maze) {
-        Board board = new Board(game, boardX, boardY);
+        Board board = new Board(boardX, boardY);
 
         Scanner sc = new Scanner(maze).useDelimiter("\\|");
         int xValue = 0;

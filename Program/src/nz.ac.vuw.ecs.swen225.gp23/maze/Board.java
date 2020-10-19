@@ -12,11 +12,9 @@ public class Board {
 
 
     private Tile[][] tilesXY;
-    private Game game;
     private int chipCount = 0;
 
-    public Board(Game game,int x,int y){
-        this.game = game;
+    public Board(int x,int y){
         this.boardXDimension = x;
         this.boardYDimension = y;
         this.tilesXY = new Tile[boardXDimension][boardYDimension];

@@ -179,21 +179,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         gamePauseMenu = new JCheckBoxMenuItem("Toggle Game Pause");
         gamePauseMenu.setState(false);
 
-        gamePauseMenu.addActionListener(e -> {
-            if (application.getState().equals(Application.gameStates.RUNNING)) {
-                if (gamePaused) {
-                    onPauseGame(false);
-                    gamePauseMenu.setState(false);
-                } else {
-                    onPauseGame(true);
-                    gamePauseMenu.setState(true);
-                }
-            }
-        });
-
-
-
-
         createButtons();
 
 
@@ -412,6 +397,20 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         pack();
         setVisible(true);
+
+        gamePauseMenu.addActionListener(e -> {
+            boolean paused;
+
+            if (gamePaused) {
+                paused = false;
+                onPauseGame(false);
+            } else {
+                paused = true;
+                onPauseGame(true);
+            }
+            gamePauseMenu.setState(paused);
+
+        });
     }
 
 
@@ -711,6 +710,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         }
         application.transitionToRunning();
         renderPanel.setBoard(board);
+        currentGame.getLevelNumber();
     }
 
 
@@ -727,14 +727,18 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
                 updateInventory();
                 itemsGrid = null;
-
-                renderPanel = null;
             }
 
             timeLabel.setText("");
             levelLabel.setText("");
             chipsLeftLabel.setText("");
+
+            if(renderPanel!=null){
+                gamePanel.remove(renderPanel);
+                renderPanel = null;
+            }
         }
+
 
         onPauseGame(false);
         gamePauseMenu.setState(false);
@@ -766,6 +770,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             }
             renderPanel.repaint();
         }
+
         updateDisplay();
     }
 
