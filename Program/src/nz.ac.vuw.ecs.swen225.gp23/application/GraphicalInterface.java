@@ -583,12 +583,12 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         }
 
         if (currentGame != null) {
-            itemsGrid = new JPanel(new GridLayout(0, 4));
+            itemsGrid = new JPanel(new GridLayout(0, 5));
             itemsGrid.setBackground(Color.BLACK);
             ArrayList<String> inventory = (ArrayList<String>) currentGame.getPlayer().getInventory();
 
             for (String s : inventory) {
-                itemsGrid.add(new JLabel(new ImageIcon(tileFinder.getTile(s, -1).getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT)), JLabel.CENTER));
+                itemsGrid.add(new JLabel(new ImageIcon(tileFinder.getTile(s, -1).getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)), JLabel.CENTER));
             }
             itemsPanel.add(itemsGrid);
         }
@@ -603,7 +603,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         onStopGame();
         gamePaused = false;
         Persistence p = new Persistence(currentGame);
-        Board board = p.loadFile("Program/src/levels/savedgame.json");
+        Board board = p.loadFile("Program/src/levels/level1.json");
         int tileset = 2;
         currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board, audio, tileset);
 
@@ -621,7 +621,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         gamePaused = false;
 
-        JFileChooser chooser = new JFileChooser();
+        JFileChooser chooser = new JFileChooser("Program/");
         FileNameExtensionFilter filter = new FileNameExtensionFilter(".json files","json");
         chooser.setFileFilter(filter);
 
