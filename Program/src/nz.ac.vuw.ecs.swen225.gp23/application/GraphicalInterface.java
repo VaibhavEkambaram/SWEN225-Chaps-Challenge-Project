@@ -190,7 +190,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             if (fileName != null) {
                 playback.setEnabled(true);
                 stepToNext.setEnabled(true);
-                RecordReplay.loadRecord(fileName + ".json", currentGame);
+                RecordReplay.loadRecord(fileName + ".json", this);
 
 
             }
