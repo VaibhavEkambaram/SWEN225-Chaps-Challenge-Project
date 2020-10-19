@@ -192,6 +192,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         });
 
 
+
+
         createButtons();
 
 
@@ -220,6 +222,17 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
 
         optionsMenu.add(gamePauseMenu);
+
+        final JMenuItem menu1 = new JMenuItem("Pause");
+        menu1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                onStopGame(false);
+            }
+        });
+        final JMenuItem menu2 = new JMenuItem("Unpause");
+        optionsMenu.add(menu1);
+        optionsMenu.add(menu2);
 
         recordAndReplayMenu.add(startRecordingMenu);
         recordAndReplayMenu.add(stopRecordingMenu);
@@ -650,6 +663,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         onStopGame(false);
 
         gamePaused = false;
+        currentGame = null;
         JFileChooser chooser = new JFileChooser("");
         FileNameExtensionFilter filter = new FileNameExtensionFilter(".json files", "json");
         chooser.setFileFilter(filter);
@@ -678,6 +692,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         onStopGame(true);
 
         gamePaused = false;
+        currentGame = null;
 
         Persistence p = new Persistence();
         Board board = p.loadFile(filepath);
@@ -708,7 +723,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
                 updateInventory();
                 itemsGrid = null;
 
-                gamePanel.remove(renderPanel);
                 renderPanel = null;
             }
 
@@ -798,6 +812,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         if (response >= 0 && response <= 3) {
             if (response == 0) {
+
+                onLoadGameNoGui("Program/src/levels/level2.json");
+            } else if (response == 1) {
                 onNewGame();
             } else if (response == 3) {
                 onStopGame(false);
