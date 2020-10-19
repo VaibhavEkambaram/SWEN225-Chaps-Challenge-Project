@@ -1,6 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp23.persistence;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
 import nz.ac.vuw.ecs.swen225.gp23.maze.ComputerChip;
@@ -16,6 +17,8 @@ import nz.ac.vuw.ecs.swen225.gp23.maze.Wall;
 
 
 import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import java.io.*;
 import java.nio.file.Files;
@@ -289,8 +292,6 @@ public class Persistence {
     public int getLevel() {
         return level;
     }
-
-
 }
 
 

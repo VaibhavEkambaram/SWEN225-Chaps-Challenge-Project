@@ -120,7 +120,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
                 if (currentGame != null) {
                     currentGame.saveGame();
                 }
-                onStopGame();
+                onStopGame(false);
                 dispose();
                 setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 System.exit(0);
@@ -599,7 +599,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
      * This class loads from the file using the persistence model.
      */
     public void onNewGame() {
-        onStopGame();
+        onStopGame(false);
         gamePaused = false;
         currentGame = null;
         Persistence p = new Persistence();
@@ -617,7 +617,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     }
 
     public void onLoadGame() {
-        onStopGame();
+        onStopGame(false);
 
         gamePaused = false;
         JFileChooser chooser = new JFileChooser("");
@@ -645,7 +645,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
 
     public void onLoadGameNoGui(String filepath) {
-        onStopGame();
+        onStopGame(true);
 
         gamePaused = false;
 
@@ -667,7 +667,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     /**
      * Stops the current game
      */
-    public void onStopGame() {
+    public void onStopGame(boolean isLoadingRecordedGame) {
         if (currentGame != null) {
 
             if (application.getState().equals(Application.gameStates.RUNNING)) {
@@ -685,11 +685,13 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             timeLabel.setText("");
             levelLabel.setText("");
             chipsLeftLabel.setText("");
-
         }
+
         onPauseGame(false);
         gamePauseMenu.setState(false);
-        RecordReplay.endRecording();
+        if(!isLoadingRecordedGame){
+            RecordReplay.endRecording();
+        }
     }
 
 
@@ -768,7 +770,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             if (response == 0) {
                 onNewGame();
             } else if (response == 3) {
-                onStopGame();
+                onStopGame(false);
             }
         }
     }
