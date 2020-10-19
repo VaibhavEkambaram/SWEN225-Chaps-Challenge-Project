@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 
 
-public class levelM {
+public class LevelM {
     public static int currentLevel = 0;
 
     static Set<Class> cSet = new HashSet<>();

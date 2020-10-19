@@ -1,11 +1,10 @@
 package nz.ac.vuw.ecs.swen225.gp23.maze;
 
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
-import nz.ac.vuw.ecs.swen225.gp23.persistence.levelM;
+import nz.ac.vuw.ecs.swen225.gp23.persistence.LevelM;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
-import java.util.Stack;
 
 public class Board {
     int boardXDimension;
@@ -210,5 +209,5 @@ public class Board {
         return boardYDimension;
     }
 
-    public int getCurrentLevel(){return levelM.getIntOfCurrentLevel();}
+    public int getCurrentLevel(){return LevelM.getIntOfCurrentLevel();}
 }
