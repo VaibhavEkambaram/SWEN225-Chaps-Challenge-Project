@@ -13,6 +13,9 @@ import nz.ac.vuw.ecs.swen225.gp23.render.ChipAudioModule;
 import nz.ac.vuw.ecs.swen225.gp23.render.RenderPanel;
 
 import java.awt.*;
+import java.security.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -186,23 +189,11 @@ public class Game {
 
 
     public void saveGame() {
-        System.out.println("Level Number: " + levelNumber);
-        System.out.println("Time Remaining: " + timeToComplete);
-        System.out.println("Items Remaining: " +(board.getChipCount() - player.getChips()));
-        System.out.println();
-        System.out.println("Inventory");
-        for(String s : player.getInventory()){
-            System.out.println("\t"+s);
-        }
-        System.out.println();
-        System.out.println("Board");
-        System.out.println(board.toString());
-        Persistence.saveFile(this,"savedgame.json");
+        SimpleDateFormat ts = new SimpleDateFormat("dd-MM-yyyy'_'HH-mm-ss");
+        Date date = new Date(System.currentTimeMillis());
 
+        Persistence.saveFile(this, "ChapsChallenge_SaveFile_" + ts.format(date) + ".json");
     }
-
-
-
 
 
     /**
