@@ -606,9 +606,11 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         onStopGame();
         gamePaused = false;
         Persistence p = new Persistence(currentGame);
-        Board board = p.loadFile("Program/src/levels/level1.json");
+        Board board = p.loadFile("Program/src/levels/savedgame.json");
         int tileset = 2;
         currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board, audio, tileset);
+        currentGame.getPlayer().setInventory(p.setInventory());
+        updateInventory();
         application.transitionToRunning();
     }
 
