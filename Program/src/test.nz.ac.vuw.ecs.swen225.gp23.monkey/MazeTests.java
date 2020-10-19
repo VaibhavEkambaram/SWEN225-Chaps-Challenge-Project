@@ -190,4 +190,37 @@ public class MazeTests {
 
         if(s.equals(text)) { assertEquals(text, s); }
     }
+
+    /**
+     * Testing to see if the door is not opened when not allowed
+     */
+    @Test
+    public void invalidDoorOpen() {
+        String level =
+                "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|" +
+                "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|" +
+                "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|" +
+                "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|" +
+                "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|" +
+                "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|" +
+                "|_|_|_|_|_|K|B|_|_|_|_|_|_|_|_|" +
+                "|_|_|_|_|_|C|_|_|_|_|_|_|_|_|_|" +
+                "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|" +
+                "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|" +
+                "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|" +
+                "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|" +
+                "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|" +
+                "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|";
+
+
+        Game game = gui.getCurrentGame();
+        gui.updateDisplay();
+        gui.onNewGame();
+        game.onMovement(Tile.Directions.Up);
+
+        Tile start = game.getPlayer().getCurrentTile();
+        game.onMovement(Tile.Directions.Right);
+        Tile end = game.getPlayer().getCurrentTile();
+        assertEquals(start, end);
+    }
 }
