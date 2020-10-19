@@ -3,7 +3,6 @@ package nz.ac.vuw.ecs.swen225.gp23.application;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
 import nz.ac.vuw.ecs.swen225.gp23.maze.ComputerChip;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Exit;
-import nz.ac.vuw.ecs.swen225.gp23.maze.Hint;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Key;
 import nz.ac.vuw.ecs.swen225.gp23.maze.LockedDoor;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Player;

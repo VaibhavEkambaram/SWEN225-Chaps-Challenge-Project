@@ -179,19 +179,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         gamePauseMenu = new JCheckBoxMenuItem("Toggle Game Pause");
         gamePauseMenu.setState(false);
 
-        gamePauseMenu.addActionListener(e -> {
-            if (application.getState().equals(Application.gameStates.RUNNING)) {
-                if (gamePaused) {
-                    onPauseGame(false);
-                    gamePauseMenu.setState(false);
-                } else {
-                    onPauseGame(true);
-                    gamePauseMenu.setState(true);
-                }
-            }
-        });
-
-
         createButtons();
 
 
@@ -220,6 +207,17 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
 
         optionsMenu.add(gamePauseMenu);
+
+        final JMenuItem menu1 = new JMenuItem("Pause");
+        menu1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                onStopGame(false);
+            }
+        });
+        final JMenuItem menu2 = new JMenuItem("Unpause");
+        optionsMenu.add(menu1);
+        optionsMenu.add(menu2);
 
         recordAndReplayMenu.add(startRecordingMenu);
         recordAndReplayMenu.add(stopRecordingMenu);
@@ -399,6 +397,20 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         pack();
         setVisible(true);
+
+        gamePauseMenu.addActionListener(e -> {
+            boolean paused;
+
+            if (gamePaused) {
+                paused = false;
+                onPauseGame(false);
+            } else {
+                paused = true;
+                onPauseGame(true);
+            }
+            gamePauseMenu.setState(paused);
+
+        });
     }
 
 
@@ -644,12 +656,15 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             updateInventory();
         }
         application.transitionToRunning();
+        renderPanel.setBoard(board);
+        renderPanel.setPaused(false);
     }
 
     public void onLoadGame() {
         onStopGame(false);
 
         gamePaused = false;
+        currentGame = null;
         JFileChooser chooser = new JFileChooser("");
         FileNameExtensionFilter filter = new FileNameExtensionFilter(".json files", "json");
         chooser.setFileFilter(filter);
@@ -670,6 +685,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
                 updateInventory();
             }
             application.transitionToRunning();
+            renderPanel.setBoard(board);
+            renderPanel.setPaused(false);
         }
     }
 
@@ -678,6 +695,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         onStopGame(true);
 
         gamePaused = false;
+        currentGame = null;
 
         Persistence p = new Persistence();
         Board board = p.loadFile(filepath);
@@ -691,6 +709,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             updateInventory();
         }
         application.transitionToRunning();
+        renderPanel.setBoard(board);
+        currentGame.getLevelNumber();
     }
 
 
@@ -707,15 +727,18 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
                 updateInventory();
                 itemsGrid = null;
-
-                gamePanel.remove(renderPanel);
-                renderPanel = null;
             }
 
             timeLabel.setText("");
             levelLabel.setText("");
             chipsLeftLabel.setText("");
+
+            if(renderPanel!=null){
+                gamePanel.remove(renderPanel);
+                renderPanel = null;
+            }
         }
+
 
         onPauseGame(false);
         gamePauseMenu.setState(false);
@@ -747,6 +770,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             }
             renderPanel.repaint();
         }
+
         updateDisplay();
     }
 
@@ -798,6 +822,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         if (response >= 0 && response <= 3) {
             if (response == 0) {
+                onLoadGameNoGui("Program/src/levels/level2.json");
+            } else if (response == 1) {
                 onNewGame();
             } else if (response == 3) {
                 onStopGame(false);
