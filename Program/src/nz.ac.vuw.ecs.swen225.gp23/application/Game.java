@@ -259,4 +259,8 @@ public class Game {
         return board.getCurrentLevel();
     }
 
+    public boolean isPaused(){
+        return gamePaused;
+    }
+
 }
