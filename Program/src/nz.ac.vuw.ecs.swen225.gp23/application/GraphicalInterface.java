@@ -9,23 +9,9 @@ import nz.ac.vuw.ecs.swen225.gp23.render.RenderPanel;
 import nz.ac.vuw.ecs.swen225.gp23.render.TileFinder;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.KeyStroke;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -632,8 +618,24 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     public void onLoadGame(){
         onStopGame();
 
+        gamePaused = false;
+
+//        JFileChooser chooser = new JFileChooser();
+  //      FileNameExtensionFilter filter = new FileNameExtensionFilter(".json files","json");
 
 
+
+        Persistence p = new Persistence(currentGame);
+        Board board = p.loadFile("Program/src/levels/savedgame.json");
+        int tileset = 2;
+        currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board, audio, tileset);
+
+        List<String> inventoryStartingArray = p.setInventory();
+
+        if(inventoryStartingArray.size()>0) {
+            currentGame.getPlayer().setInventory(inventoryStartingArray);
+            updateInventory();
+        }
         application.transitionToRunning();
     }
 
