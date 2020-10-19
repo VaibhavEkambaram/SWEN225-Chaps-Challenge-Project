@@ -1,8 +1,19 @@
 package nz.ac.vuw.ecs.swen225.gp23.persistence;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
-import nz.ac.vuw.ecs.swen225.gp23.maze.*;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
+import nz.ac.vuw.ecs.swen225.gp23.maze.ComputerChip;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Empty;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Exit;
+import nz.ac.vuw.ecs.swen225.gp23.maze.ExitLock;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Floor;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Hint;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Key;
+import nz.ac.vuw.ecs.swen225.gp23.maze.LockedDoor;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Wall;
 
 
 import javax.json.Json;
@@ -12,11 +23,11 @@ import javax.json.JsonObjectBuilder;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Class for Persistence reading and writing
+ *
  * @author Rahul Mahasuriya
  */
 public class Persistence {
@@ -25,6 +36,7 @@ public class Persistence {
     int boardY;
     int level;
     int timeLeft;
+    String inventory;
     Game game;
     Board board;
 
@@ -38,6 +50,7 @@ public class Persistence {
      * Uses Gson to convert Json
      * Checks for correct text input for board, level and time
      * Applies these to the assigned variables
+     *
      * @param filepath
      * @return the board
      * @author Rahul Mahasuriya
@@ -63,6 +76,8 @@ public class Persistence {
                     level = (int) (double) entry.getValue();
                 } else if (entry.getKey().equals("timeLeft")) {
                     timeLeft = (int) (double) entry.getValue();
+                } else if (entry.getKey().equals("inventory")) {
+                    inventory = (String) entry.getValue();
                 }
             }
 
@@ -80,6 +95,7 @@ public class Persistence {
      * Uses gameState method
      * Using a writer, a for loop will check through the special characters in the board json file
      * writes in these special characters between the tile characters
+     *
      * @param game
      * @param fileName
      * @author Rahul Mahasuriya
@@ -108,6 +124,7 @@ public class Persistence {
      * Builds a json schema
      * Assigns variables from current game
      * Writes these variables to a file in saveFile
+     *
      * @param game
      * @return schema format
      * @author Rahul Mahasuriya
@@ -115,17 +132,27 @@ public class Persistence {
     public static String gameState(Game game) {
         String jGame;
 
+        StringBuilder inventoryString = new StringBuilder();
+        for (String s : game.getPlayer().getInventory()) {
+            inventoryString.append(s + "|");
+        }
+
+
         JsonObjectBuilder builder = Json.createObjectBuilder()
                 .add("level", game.getLevelNumber())
                 .add("timeLeft", game.getTimeLeft())
-                .add("boardx", game.getBoard().getBoardHeight())
-                .add("boardy", game.getBoard().getBoardWidth())
+                .add("boardx", game.getBoard().getBoardWidth())
+                .add("boardy", game.getBoard().getBoardHeight())
+                .add("inventory", inventoryString.toString())
                 .add("board", game.getBoard().toString());
 
-        try (Writer writer = new StringWriter()) {
+
+        try (
+                Writer writer = new StringWriter()) {
             Json.createWriter(writer).write(builder.build());
             jGame = writer.toString();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             throw new Error("Failed to parse game");
         }
         return jGame;
@@ -138,6 +165,7 @@ public class Persistence {
      * Uses a Scanner for reading characters
      * Switch case is used for distinguishing between different characters from the board string
      * Sets tile depending on what string is read
+     *
      * @param maze
      * @return the board
      * @author Rahul Mahasuriya
@@ -145,7 +173,7 @@ public class Persistence {
     public Board readBoard(String maze) {
         Board board = new Board(game, boardX, boardY);
 
-        Scanner sc = new Scanner(maze).useDelimiter(",");
+        Scanner sc = new Scanner(maze).useDelimiter("\\|");
         int xValue = 0;
         int yValue = 0;
 
@@ -209,13 +237,13 @@ public class Persistence {
                     Tile cyclopsStart = new Floor();
                     cyclopsStart.setEntityPresent("cyclops_down.png");
                     cyclopsStart.setEntityDirection(Tile.Directions.Down);
-                    board.setTile(xValue,yValue, cyclopsStart);
+                    board.setTile(xValue, yValue, cyclopsStart);
                     break;
                 case "h": //horizontal cyclops
                     cyclopsStart = new Floor();
                     cyclopsStart.setEntityPresent("cyclops_right.png");
                     cyclopsStart.setEntityDirection(Tile.Directions.Right);
-                    board.setTile(xValue,yValue, cyclopsStart);
+                    board.setTile(xValue, yValue, cyclopsStart);
                     break;
                 default:
                     board.setTile(xValue, yValue, new Empty());
@@ -233,8 +261,22 @@ public class Persistence {
         return board;
     }
 
+    public List<String> setInventory() {
+
+        String[] array = inventory.split("\\|");
+
+        List<String> inventoryList = new ArrayList<>();
+
+        if (inventory.length() > 0) {
+            inventoryList.addAll(Arrays.asList(array));
+        }
+        return inventoryList;
+    }
+
+
     /**
      * Gets the current time left in the game
+     *
      * @return the current time remaining
      * @author Rahul Mahasuriya
      */
@@ -244,6 +286,7 @@ public class Persistence {
 
     /**
      * Gets the current level
+     *
      * @return the current level
      * @author Rahul Mahasuriya
      */
