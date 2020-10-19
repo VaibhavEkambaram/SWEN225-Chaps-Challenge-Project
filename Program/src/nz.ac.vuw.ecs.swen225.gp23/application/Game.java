@@ -253,7 +253,7 @@ public class Game {
      * @return level number
      */
     public int getLevelNumber() {
-        return board.getCurrentLevel();
+        return levelNumber;
     }
 
     public boolean isPaused(){
