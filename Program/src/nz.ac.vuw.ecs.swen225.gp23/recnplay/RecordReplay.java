@@ -103,18 +103,7 @@ public class RecordReplay {
 
     }
 
-    /**
-     * Adds the movements and ID of the actor (level 2) to arraylists.
-     *
-     * @param d - direction of actor.
-     * @param id - ID of actor.
-     */
-    public static void storeActorMove(Tile.Directions d, int id){
-        if(isGameRecording){
-            movements.add(d);
-            actors.add(id);
-        }
-    }
+   //ADD LEVEL 2 STORE CYCLOPS MOVE HERE
 
     //=============================================================================================
     //                                        REPLAY
@@ -190,7 +179,6 @@ public class RecordReplay {
      */
     public static void iterateReplay(Game g){
 
-        //TODO:add try catch for out of bounds?
 
         //if there game is running and there are moves to replay
         if(isGameRunning && movements.size() > 0){
@@ -246,14 +234,6 @@ public class RecordReplay {
      */
     public static void setDelay(long d){
         delay = d;
-    }
-
-    /**
-     * Gets the status of whether the game is running.
-     * @return - isGameRunning.
-     */
-    public static boolean getIsGameRunning(){
-        return isGameRunning;
     }
 
     /**
