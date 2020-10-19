@@ -41,6 +41,7 @@ public class Game {
     private final int tileset;
 
     final ChipAudioModule audio;
+    private final Application application;
 
 
     /**
@@ -51,7 +52,8 @@ public class Game {
      * @param gui           gui class
      * @param board         board class
      */
-    public Game(int countFromFile, int levelNumber, GraphicalInterface gui, Board board, ChipAudioModule audio, int tileset) {
+    public Game(int countFromFile, int levelNumber, GraphicalInterface gui, Board board, ChipAudioModule audio, int tileset, Application application) {
+        this.application = application;
         this.board = board;
         this.countdownTimer = (countFromFile + 1);
         this.timeToComplete = countFromFile;
@@ -141,49 +143,51 @@ public class Game {
      * @param direction north/south/east/west direction
      */
     public void onMovement(Tile.Directions direction) {
-        Tile currentLoc = player.getCurrentTile();
-        Tile nextLoc;
+        if (application.getState().equals(Application.gameStates.RUNNING)) {
+            Tile currentLoc = player.getCurrentTile();
+            Tile nextLoc;
 
-        switch (direction) {
-            case Left:
-                nextLoc = currentLoc.getDirection(Tile.Directions.Left);
-                RecordReplay.addMoves(Tile.Directions.Left);
-                break;
-            case Right:
-                nextLoc = currentLoc.getDirection(Tile.Directions.Right);
-                RecordReplay.addMoves(Tile.Directions.Right);
-                break;
-            case Up:
-                nextLoc = currentLoc.getDirection(Tile.Directions.Up);
-                RecordReplay.addMoves(Tile.Directions.Up);
-                break;
-            case Down:
-                nextLoc = currentLoc.getDirection(Tile.Directions.Down);
-                RecordReplay.addMoves(Tile.Directions.Down);
-                break;
-            default:
-                nextLoc = null;
+            switch (direction) {
+                case Left:
+                    nextLoc = currentLoc.getDirection(Tile.Directions.Left);
+                    RecordReplay.addMoves(Tile.Directions.Left);
+                    break;
+                case Right:
+                    nextLoc = currentLoc.getDirection(Tile.Directions.Right);
+                    RecordReplay.addMoves(Tile.Directions.Right);
+                    break;
+                case Up:
+                    nextLoc = currentLoc.getDirection(Tile.Directions.Up);
+                    RecordReplay.addMoves(Tile.Directions.Up);
+                    break;
+                case Down:
+                    nextLoc = currentLoc.getDirection(Tile.Directions.Down);
+                    RecordReplay.addMoves(Tile.Directions.Down);
+                    break;
+                default:
+                    nextLoc = null;
+            }
+
+            if (nextLoc.action(player)) {
+                audio.moveEffect();
+                currentLoc.setEntityAbsent();
+                nextLoc.setEntityPresent(player.getImage(direction));
+                player.setCurrentTile(nextLoc);
+            } else {
+                currentLoc.setEntityPresent(player.getImage(direction));
+            }
+
+            Tile currentTile = player.getCurrentTile();
+
+            if (currentTile instanceof ComputerChip) {
+                gui.setChipsLeftLabel(board.getChipCount() - player.getChips());
+            } else if (currentTile instanceof Exit) {
+                gui.levelCompleteMessage(levelNumber, countdownTimer, timeToComplete - countdownTimer, board.getChipCount());
+            } else if (currentTile instanceof Key || currentTile instanceof LockedDoor) {
+                gui.updateInventory();
+            }
+            boardRenderPanel.setBoard(board);
         }
-
-        if (nextLoc.action(player)) {
-            audio.moveEffect();
-            currentLoc.setEntityAbsent();
-            nextLoc.setEntityPresent(player.getImage(direction));
-            player.setCurrentTile(nextLoc);
-        } else {
-            currentLoc.setEntityPresent(player.getImage(direction));
-        }
-
-        Tile currentTile = player.getCurrentTile();
-
-        if (currentTile instanceof ComputerChip) {
-            gui.setChipsLeftLabel(board.getChipCount() - player.getChips());
-        } else if (currentTile instanceof Exit) {
-            gui.levelCompleteMessage(levelNumber, countdownTimer, timeToComplete - countdownTimer, board.getChipCount());
-        } else if (currentTile instanceof Key || currentTile instanceof LockedDoor) {
-            gui.updateInventory();
-        }
-        boardRenderPanel.setBoard(board);
     }
 
 

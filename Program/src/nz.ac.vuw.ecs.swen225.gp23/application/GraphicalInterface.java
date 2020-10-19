@@ -596,6 +596,16 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     }
 
 
+    public void sendMessage(String message){
+        if(application.getState().equals(Application.gameStates.RUNNING)) {
+            onPauseGame(true);
+            JOptionPane.showMessageDialog(null, message, "Message", JOptionPane.PLAIN_MESSAGE);
+            onPauseGame(false);
+        }
+    }
+
+
+
     public void updateInventory() {
         if (itemsGrid != null) {
             itemsPanel.remove(itemsGrid);
@@ -625,7 +635,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         Persistence p = new Persistence();
         Board board = p.loadFile("Program/src/levels/level1.json");
         int tileset = 2;
-        currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board, audio, tileset);
+        currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board, audio, tileset,application);
 
         List<String> inventoryStartingArray = p.setInventory();
 
@@ -651,7 +661,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             Persistence p = new Persistence();
             Board board = p.loadFile(chooser.getSelectedFile().toString());
             int tileset = 2;
-            currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board, audio, tileset);
+            currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board, audio, tileset,application);
 
             List<String> inventoryStartingArray = p.setInventory();
 
@@ -672,7 +682,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         Persistence p = new Persistence();
         Board board = p.loadFile(filepath);
         int tileset = 2;
-        currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board, audio, tileset);
+        currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board, audio, tileset,application);
 
         List<String> inventoryStartingArray = p.setInventory();
 
