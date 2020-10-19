@@ -8,7 +8,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 /**
- * This class is responsible for recording and replaying the gameplay.
+ * This class is responsible for recording and replaying the game play.
  * Each movement of Chap + actors (level 2) is recorded and saved to allow for a replay of a level.
  *
  * @author Tyla Turner - 300473374
