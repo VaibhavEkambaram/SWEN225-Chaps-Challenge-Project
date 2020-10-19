@@ -188,11 +188,10 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         loadRecordedMenu.addActionListener(e -> {
             String fileName = JOptionPane.showInputDialog(this, "Enter saved filename: (.json will be appended)");
             if (fileName != null) {
+
+                RecordReplay.loadRecord(fileName + ".json", this);
                 playback.setEnabled(true);
                 stepToNext.setEnabled(true);
-                RecordReplay.loadRecord(fileName + ".json", this);
-
-
             }
         });
 
