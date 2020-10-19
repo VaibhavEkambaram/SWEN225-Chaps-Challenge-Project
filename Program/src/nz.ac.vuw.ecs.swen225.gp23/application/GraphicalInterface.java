@@ -82,6 +82,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     BufferedImage image;
 
     private final Color firstColor = new Color(25, 25, 112);
+    private final Color secondColor = Color.BLACK;
 
 
     /**
@@ -269,7 +270,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
 
         JPanel levelPanel = new JPanel(new GridLayout(2, 1));
-        levelPanel.setBackground(Color.BLACK);
+        levelPanel.setBackground(secondColor);
         levelPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE));
         JLabel level = new JLabel("Level Number", JLabel.CENTER);
         level.setForeground(Color.ORANGE);
@@ -300,7 +301,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         timeLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         timeLabel.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 16));
         timePanel.add(timeLabel);
-
 
         timePanel.setMinimumSize(new Dimension(240, 50));
         timePanel.setPreferredSize(new Dimension(240, 100));
@@ -338,7 +338,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         itemsPanel.setPreferredSize(new Dimension(240, 120));
         itemsPanel.setMaximumSize(new Dimension(240, 120));
 
-
         informationPanel.add(levelPanel);
         informationPanel.add(timePanel);
         informationPanel.add(chipsLeftPanel);
@@ -353,7 +352,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         mainPanel.add(gamePanel, BorderLayout.CENTER);
 
         informationPanel.setPreferredSize(new Dimension(240, 480));
-        // gamePanel.setPreferredSize(new Dimension(560, 560));
 
         gamePanel.setBackground(Color.LIGHT_GRAY);
         mainPanel.setBackground(firstColor);
@@ -598,6 +596,16 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     }
 
 
+    public void sendMessage(String message){
+        if(application.getState().equals(Application.gameStates.RUNNING)) {
+            onPauseGame(true);
+            JOptionPane.showMessageDialog(null, message, "Message", JOptionPane.PLAIN_MESSAGE);
+            onPauseGame(false);
+        }
+    }
+
+
+
     public void updateInventory() {
         if (itemsGrid != null) {
             itemsPanel.remove(itemsGrid);
@@ -627,7 +635,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         Persistence p = new Persistence();
         Board board = p.loadFile("Program/src/levels/level1.json");
         int tileset = 2;
-        currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board, audio, tileset);
+        currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board, audio, tileset,application);
 
         List<String> inventoryStartingArray = p.setInventory();
 
@@ -653,7 +661,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             Persistence p = new Persistence();
             Board board = p.loadFile(chooser.getSelectedFile().toString());
             int tileset = 2;
-            currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board, audio, tileset);
+            currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board, audio, tileset,application);
 
             List<String> inventoryStartingArray = p.setInventory();
 
@@ -674,7 +682,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         Persistence p = new Persistence();
         Board board = p.loadFile(filepath);
         int tileset = 2;
-        currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board, audio, tileset);
+        currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board, audio, tileset,application);
 
         List<String> inventoryStartingArray = p.setInventory();
 
