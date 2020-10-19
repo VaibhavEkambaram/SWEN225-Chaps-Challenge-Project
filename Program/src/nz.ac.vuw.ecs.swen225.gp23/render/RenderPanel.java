@@ -144,6 +144,7 @@ public class RenderPanel extends JPanel {
             }
             super.paint(g);
         } else {
+            super.paint(g);
             // draw pause string
             g.setColor(Color.BLACK);
             g.fillRect(0, 0,  3000, 3000);

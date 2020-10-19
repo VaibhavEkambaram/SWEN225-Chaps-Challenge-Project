@@ -657,6 +657,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             updateInventory();
         }
         application.transitionToRunning();
+        renderPanel.setBoard(board);
+        renderPanel.setPaused(false);
     }
 
     public void onLoadGame() {
@@ -684,6 +686,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
                 updateInventory();
             }
             application.transitionToRunning();
+            renderPanel.setBoard(board);
+            renderPanel.setPaused(false);
         }
     }
 
@@ -706,6 +710,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             updateInventory();
         }
         application.transitionToRunning();
+        renderPanel.setBoard(board);
     }
 
 
@@ -812,7 +817,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
         if (response >= 0 && response <= 3) {
             if (response == 0) {
-
                 onLoadGameNoGui("Program/src/levels/level2.json");
             } else if (response == 1) {
                 onNewGame();
