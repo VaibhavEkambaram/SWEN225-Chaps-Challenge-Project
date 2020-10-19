@@ -29,9 +29,9 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -126,10 +126,20 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         saveAndExitMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK));
         saveAndExitMenu.addActionListener(e -> {
 
-            if (currentGame != null) {
-                currentGame.saveGame();
+
+            int closeDialogButton = JOptionPane.YES_NO_OPTION;
+            int closeDialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit? Game progress WILL be saved.", "Warning", closeDialogButton);
+            if (closeDialogResult == JOptionPane.YES_OPTION) {
+                if (currentGame != null) {
+                    currentGame.saveGame();
+                }
+                onStopGame();
+                dispose();
+                setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                System.exit(0);
+            } else {
+                setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             }
-            onStopGame();
         });
 
         final JMenuItem exitMenu = new JMenuItem("Exit");
@@ -609,8 +619,13 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         Board board = p.loadFile("Program/src/levels/savedgame.json");
         int tileset = 2;
         currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board, audio, tileset);
-        currentGame.getPlayer().setInventory(p.setInventory());
-        updateInventory();
+
+        List<String> inventoryStartingArray = p.setInventory();
+
+        if(inventoryStartingArray.size()>0) {
+            currentGame.getPlayer().setInventory(inventoryStartingArray);
+            updateInventory();
+        }
         application.transitionToRunning();
     }
 
