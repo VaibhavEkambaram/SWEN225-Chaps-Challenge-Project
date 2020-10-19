@@ -28,7 +28,7 @@ import java.util.*;
 /**
  * Class for Persistence reading and writing
  *
- * @author Rahul Mahasuriya
+ * @author Rahul Mahasuriya 300473482
  */
 public class Persistence {
 
@@ -178,11 +178,8 @@ public class Persistence {
 
         while (sc.hasNext()) {
 
-            System.out.print("|");
-            // System.out.print(sc.next());
-
             String value = sc.next();
-            System.out.printf(value);
+
 
             switch (value) {
                 case "B":
@@ -252,7 +249,6 @@ public class Persistence {
 
             // increment one row down
             if (xValue == boardX) {
-                System.out.print("|\n");
                 xValue = 0;
                 yValue++;
             }
@@ -260,6 +256,11 @@ public class Persistence {
         return board;
     }
 
+    /**
+     * Sets inventory for the player
+     * @return list of players inventory
+     * @author Rahul Mahasuriya
+     */
     public List<String> setInventory() {
 
         String[] array = inventory.split("\\|");
