@@ -186,7 +186,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         stopRecordingMenu.addActionListener(e -> RecordReplay.saveRecording(currentGame));
         final JMenuItem loadRecordedMenu = new JMenuItem("Load Recorded Game");
         loadRecordedMenu.addActionListener(e -> {
-            String fileName = JOptionPane.showInputDialog(this, "Enter saved file name (.json will be appended)");
+            String fileName = JOptionPane.showInputDialog(this, "Enter saved filename: (.json will be appended)");
             if (fileName != null) {
                 playback.setEnabled(true);
                 stepToNext.setEnabled(true);
@@ -602,7 +602,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     public void onNewGame() {
         onStopGame();
         gamePaused = false;
-        Persistence p = new Persistence(currentGame);
+        currentGame = null;
+        Persistence p = new Persistence();
         Board board = p.loadFile("Program/src/levels/level1.json");
         int tileset = 2;
         currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board, audio, tileset);
@@ -629,7 +630,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         if(returnVal == JFileChooser.APPROVE_OPTION){
 
 
-            Persistence p = new Persistence(currentGame);
+            Persistence p = new Persistence();
             Board board = p.loadFile(chooser.getSelectedFile().toString());
             int tileset = 2;
             currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board, audio, tileset);

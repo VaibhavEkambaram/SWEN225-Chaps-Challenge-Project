@@ -41,8 +41,7 @@ public class Persistence {
     Board board;
 
 
-    public Persistence(Game game) {
-        this.game = game;
+    public Persistence() {
     }
 
     /**
