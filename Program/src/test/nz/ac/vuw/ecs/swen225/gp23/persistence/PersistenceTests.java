@@ -1,4 +1,4 @@
-package test.nz.ac.vuw.ecs.swen225.gp23.monkey;
+package test.nz.ac.vuw.ecs.swen225.gp23.persistence;
 
 import nz.ac.vuw.ecs.swen225.gp23.application.Application;
 import nz.ac.vuw.ecs.swen225.gp23.application.GraphicalInterface;
@@ -7,9 +7,9 @@ import org.junit.Test;
 import javax.swing.*;
 
 /**
- * JUnit tests for checking all objects are add0ed correctly.
+ * JUnit tests for Persistence
  *
- * @author Sushil Sharma
+ * @author Rahul Mahasuriya
  */
 public class PersistenceTests {
     //private Game game = new Game();
