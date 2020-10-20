@@ -136,6 +136,9 @@ public class RenderPanel extends JPanel {
         int height = this.getHeight();
         int size = width < height ? width/cols : height/rows;
         if (!isPaused) {
+            if (tileGrid == null || displayBoard == null) {
+                return;
+            }
             // Resize images to fill current Dimensions
             for (int row = 0; row < rows; row++) {
                 for (int col = 0; col < cols; col++) {

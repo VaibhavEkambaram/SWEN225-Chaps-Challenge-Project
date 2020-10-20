@@ -388,6 +388,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     playback.setFocusable(false);
     stepToNext.setFocusable(false);
 
+    renderPanel = new RenderPanel(9,9,0);
+    this.setRenderPanel(renderPanel);
 
     getContentPane().add(mainPanel);
     addKeyListener(this);
@@ -656,8 +658,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
       updateInventory();
     }
     application.transitionToRunning();
-    renderPanel.setBoard(board);
     renderPanel.setPaused(false);
+    renderPanel.setBoard(board);
   }
 
   public void onLoadGame() {
@@ -685,8 +687,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         updateInventory();
       }
       application.transitionToRunning();
-      renderPanel.setBoard(board);
       renderPanel.setPaused(false);
+      renderPanel.setBoard(board);
     }
   }
 
@@ -709,6 +711,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
       updateInventory();
     }
     application.transitionToRunning();
+    renderPanel.setPaused(false);
     renderPanel.setBoard(board);
   }
 
@@ -732,12 +735,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
       levelLabel.setText("");
       chipsLeftLabel.setText("");
 
-      if (renderPanel != null) {
-        gamePanel.remove(renderPanel);
-        renderPanel = null;
-      }
     }
-
 
     onPauseGame(false);
     gamePauseMenu.setState(false);
@@ -962,6 +960,10 @@ public class GraphicalInterface extends JFrame implements KeyListener {
   // -----------------------------------------------------------------------------------------------
   // Get and Set Methods
   // -----------------------------------------------------------------------------------------------
+
+  public RenderPanel getRenderPanel() {
+    return renderPanel;
+  }
 
   /**
    * Get Current game.
