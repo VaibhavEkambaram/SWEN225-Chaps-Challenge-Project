@@ -107,6 +107,10 @@ public class LevelM {
         return levels.get(currentLevel);
     }
 
+    public boolean checkMaximumState(){
+        return (currentLevel == levels.size()+1);
+    }
+
 
 
 
