@@ -4,6 +4,7 @@ import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 
 /**
@@ -26,8 +27,7 @@ public class RenderPanel extends JPanel {
 
     // Render Display
     private JLabel[][] tileGrid;
-    private JPanel displayGrid;
-    private JPanel innerPanel;
+    private SquarePanel displayGrid;
 
     /**
      * Intialise the size of the rendered board.
@@ -44,8 +44,9 @@ public class RenderPanel extends JPanel {
         this.cols = cols;
         this.tileset = tileset;
 
-        makeInnerPanel();
-        this.add(innerPanel);
+        this.setLayout(new GridBagLayout());
+        this.setBackground(Color.BLACK);
+        createGrid();
         this.setVisible(true);
     }
 
@@ -58,6 +59,7 @@ public class RenderPanel extends JPanel {
      */
     public void setBoard(Board currentBoard) {
         displayBoard = new String[this.rows][this.cols];
+        // Find current player position to determine center of Render Panel
         Tile centerTile = currentBoard.getPlayerLoc();
         int centerRow = centerTile.getYLoc();
         int centerCol = centerTile.getXLoc();
@@ -65,6 +67,7 @@ public class RenderPanel extends JPanel {
         int colRadius = (this.cols)/2;
         int startRow = centerRow - rowRadius;
         int startCol = centerCol - colRadius;
+        // Get tiles within radius of center, if null -> empty
         for (int row = 0; row < this.rows; row++) {
             int tempCol = startCol;
             for (int col = 0; col < this.cols; col++) {
@@ -82,19 +85,6 @@ public class RenderPanel extends JPanel {
     }
 
     /**
-     * Create the inner panel where the grid is stored.
-     *
-     * @author Cameron Li
-     */
-    private void makeInnerPanel() {
-        tileGrid = new JLabel[rows][cols];
-        displayGrid = new JPanel();
-        innerPanel = new JPanel(new BorderLayout());
-        createGrid();
-        innerPanel.add(displayGrid, BorderLayout.CENTER);
-    }
-
-    /**
      * Create the grid and initialise as empty.
      * Add the grid to the display.
      *
@@ -103,20 +93,33 @@ public class RenderPanel extends JPanel {
     private void createGrid() {
         tileGrid = new JLabel[rows][cols];
 
+        // Initialise as empty grid
         for (int row = 0; row < rows; row++) { // Create JLabels (that reference ImageIcons) for each tile
             for (int col = 0; col < cols; col++) {
                 tileGrid[row][col] = new JLabel(tileFinder.getTile("empty", -1));
             }
         }
 
-        displayGrid = new JPanel(new GridLayout(rows, cols, 0, 0));
+        // Initialise the Display Grid before adding JLabel references to ImageIcons
+        displayGrid = new SquarePanel();
+        displayGrid.setLayout(new GridLayout(rows, cols, 0, 0));
+        displayGrid.setBackground(Color.BLACK);
+        // Add the empty grid to be displayed
         for (int row = 0; row < rows; row++) { // Add JLabels to each tile in the display
             for (int col = 0; col < cols; col++) {
                 displayGrid.add(tileGrid[row][col]);
             }
         }
+        // Add it to main Render Panel
+        this.add(displayGrid);
     }
 
+    /**
+     * Method to set paused
+     * @param pause
+     *
+     * @author Cameron Li
+     */
     public void setPaused(boolean pause) {
         isPaused = pause;
     }
@@ -130,11 +133,12 @@ public class RenderPanel extends JPanel {
      * @author Cameron Li.
      */
     public void paint(Graphics g) {
-        int margin = rows < cols ? rows : cols;
-        int width = this.getWidth() - margin;
-        int height = this.getHeight() - margin;
+        // Determine maximum size by minimum dimension
+        int width = this.getWidth();
+        int height = this.getHeight();
         int size = width < height ? width/cols : height/rows;
         if (!isPaused) {
+            // Resize images to fill current Dimensions
             for (int row = 0; row < rows; row++) {
                 for (int col = 0; col < cols; col++) {
                     ImageIcon foundTile = tileFinder.getTile(displayBoard[row][col], tileset);
@@ -144,11 +148,7 @@ public class RenderPanel extends JPanel {
             }
             super.paint(g);
         } else {
-            super.paint(g);
-            // draw pause string
-            g.setColor(Color.BLACK);
-            g.fillRect(0, 0,  3000, 3000);
-            g.setColor(Color.WHITE);
+            // Get Font Information
             Font font = g.getFont();
             FontMetrics metrics = g.getFontMetrics(font);
             // Determine the X coordinate for the text
@@ -158,10 +158,12 @@ public class RenderPanel extends JPanel {
             int y = (this.getHeight() - metrics.getHeight())/2;
             // Set the font
             g.setFont(font);
+            // Black Background
+            g.setColor(Color.BLACK);
+            g.fillRect(0, 0,  this.getWidth(), this.getHeight());
+            // Pause Menu String
             g.setColor(Color.ORANGE);
             g.drawString(text, x, y);
-            g.setColor(Color.BLACK);
         }
     }
-
 }

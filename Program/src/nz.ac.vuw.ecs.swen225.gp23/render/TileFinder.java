@@ -126,7 +126,7 @@ public class TileFinder {
             tileName = newString.toString();
         }
 
-        if (tileName == null || tileName.startsWith("empty")) {
+        if (tileName == null || tileName.startsWith("empty") || tileName.startsWith("null")) {
             return empty;
         }
         if (tileName.endsWith("icon")) {
