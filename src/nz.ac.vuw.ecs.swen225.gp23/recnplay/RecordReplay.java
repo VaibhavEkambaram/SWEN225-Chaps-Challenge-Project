@@ -197,7 +197,7 @@ public class RecordReplay {
         System.out.println("Movements: " + movements);
         System.out.println("ActorID: " + actors);
         System.out.println("save name: " + persistenceSave);
-        gui.onLoadGameNoGui(persistenceSave);
+        gui.onLoadGameNoGui(persistenceSave,true);
 
     }
 
