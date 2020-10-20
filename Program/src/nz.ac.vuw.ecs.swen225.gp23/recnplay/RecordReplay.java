@@ -258,4 +258,12 @@ public class RecordReplay {
         return movements;
     }
 
+    /**
+     * Returns whether the game is being recorded or not.
+     * @return - isGameRecording
+     */
+    public static boolean getIsGameRecording(){
+        return isGameRecording;
+    }
+
 }
