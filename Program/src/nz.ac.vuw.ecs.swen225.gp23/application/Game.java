@@ -9,6 +9,7 @@ import java.util.TimerTask;
 
 import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
 import nz.ac.vuw.ecs.swen225.gp23.maze.ComputerChip;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Cyclops;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Exit;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Key;
 import nz.ac.vuw.ecs.swen225.gp23.maze.LockedDoor;
@@ -44,6 +45,8 @@ public class Game {
   final ChipAudioModule audio;
   private final Application application;
 
+  Cyclops cyclops;
+
 
   /**
    * Game Constructor
@@ -67,6 +70,10 @@ public class Game {
     gui.getLevelLabel().setText(String.valueOf(levelNumber));
     board.setup();
     this.player = new Player(board.getPlayerLoc());
+
+    if(board.getCyclopsLoc()!=null) {
+      this.cyclops = new Cyclops(board.getCyclopsLoc(), Tile.Directions.Right);
+    }
     initBoardRenderer();
     runTimer();
 
@@ -117,6 +124,9 @@ public class Game {
         // increment timer down if there is still time remaining and the game has not been paused
         if (countdownTimer > 0 && !gamePaused) {
           countdownTimer--;
+          if(cyclops!=null) {
+            cyclops.moveCyclops();
+          }
           // update gui time label
           if (countdownTimer <= 15 && countdownTimer > 10) {
             gui.getTimeLabel().setForeground(Color.YELLOW);
@@ -128,6 +138,7 @@ public class Game {
             gui.getTimeLabel().setForeground(Color.WHITE);
           }
           gui.setTimeLabel(countdownTimer);
+          boardRenderPanel.setBoard(board);
         } else if (!gamePaused) {
           timer.cancel();
           gui.outOfTime();
@@ -180,6 +191,11 @@ public class Game {
 
       Tile currentTile = player.getCurrentTile();
 
+      if(currentTile.hasEntity){
+        System.out.println("dead");
+        gui.onStopGame(false);
+        gui.levelCompleteMessage(-1, -1, -1, -1);
+      }
       if (currentTile instanceof ComputerChip) {
         gui.setChipsLeftLabel(board.getChipCount() - player.getChips());
       } else if (currentTile instanceof Exit) {

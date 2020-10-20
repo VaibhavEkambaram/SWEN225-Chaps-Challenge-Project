@@ -35,6 +35,7 @@ import java.util.List;
 
 import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
+import nz.ac.vuw.ecs.swen225.gp23.persistence.LevelM;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.Persistence;
 import nz.ac.vuw.ecs.swen225.gp23.recnplay.RecordReplay;
 import nz.ac.vuw.ecs.swen225.gp23.render.ChipAudioModule;
@@ -92,6 +93,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
    */
   public GraphicalInterface(Application application) {
     super("Chaps Challenge");
+
+    //LevelM lm = new LevelM();
 
     // carry through persistent application class to keep track of game state
     this.application = application;
@@ -190,11 +193,15 @@ public class GraphicalInterface extends JFrame implements KeyListener {
       String fileName = JOptionPane.showInputDialog(this, "Enter a filename: (.json will be appended)");
       if (fileName != null) {
         RecordReplay.newSave(currentGame, fileName + ".json");
+        updateRecordReplayGUI();
       }
     });
 
     stopRecordingMenu = new JMenuItem("Stop and Save Recording");
-    stopRecordingMenu.addActionListener(e -> RecordReplay.saveRecording(currentGame));
+    stopRecordingMenu.addActionListener(e -> {
+      RecordReplay.saveRecording(currentGame);
+      updateRecordReplayGUI();
+    });
 
 
     loadRecordedMenu = new JMenuItem("Load Recorded Game");
@@ -450,11 +457,12 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     playback.addActionListener(e -> {
       long value;
       String delaySpeedString = JOptionPane.showInputDialog(this, "Enter playback delay speed: (milliseconds)");
-
+      value = 300;
       if (delaySpeedString != null) {
         value = Long.parseLong(delaySpeedString);
         RecordReplay.setDelay(value);
       }
+
       RecordReplay.runReplay(currentGame);
     });
 
@@ -791,12 +799,24 @@ public class GraphicalInterface extends JFrame implements KeyListener {
       stepToNext.setEnabled(false);
       gamePanel.remove(pausedLabel);
       gamePaused = false;
+
+      startRecordingMenu.setEnabled(false);
+      stopRecordingMenu.setEnabled(false);
     } else if (application.getState().equals(Application.GameStates.RUNNING)) {
+
       setMovementButtonEnabled(!gamePaused);
+      startRecordingMenu.setEnabled(true);
     }
+  }
 
-    RecordReplay.
-
+  public void updateRecordReplayGUI(){
+    if(RecordReplay.getIsGameRecording()){
+      startRecordingMenu.setEnabled(false);
+      stopRecordingMenu.setEnabled(true);
+    } else {
+      stopRecordingMenu.setEnabled(false);
+      startRecordingMenu.setEnabled(true);
+    }
   }
 
 
