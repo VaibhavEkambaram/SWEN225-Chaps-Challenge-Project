@@ -8,15 +8,15 @@ import javax.sound.sampled.Clip;
 
 public class ChipAudioModule extends AudioModule {
     // Sound tracks
-    private final String chip_1 = ("/Chip_1.wav");
-    private final String chip_2 = ("/Chip_2.wav");
-    private final String canyon = ("/Canyon.wav");
+    private final String chip_1 = ("/audio/Chip_1.wav");
+    private final String chip_2 = ("/audio/Chip_2.wav");
+    private final String canyon = ("/audio/Canyon.wav");
 
     // Effects
-    private final String exit = ("/Exit.wav");
-    private final String move = ("/Move.wav");
-    private final String pickup = ("/Bling.wav");
-    private final String select = ("/Select.wav");
+    private final String exit = ("/audio/Exit.wav");
+    private final String move = ("/audio/Move.wav");
+    private final String pickup = ("/audio/Bling.wav");
+    private final String select = ("/audio/Select.wav");
 
     private Clip exitClip;
     private Clip moveClip;

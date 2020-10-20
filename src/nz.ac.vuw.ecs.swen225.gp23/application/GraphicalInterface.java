@@ -270,7 +270,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
     // Read background image
     try {
-      backgroundImage = ImageIO.read(getClass().getResource("/background.png"));
+      backgroundImage = ImageIO.read(getClass().getResource("/assets/background.png"));
     } catch (IOException io) {
       JOptionPane.showMessageDialog(new JFrame(), "Could not find background image!",
           "Error",
