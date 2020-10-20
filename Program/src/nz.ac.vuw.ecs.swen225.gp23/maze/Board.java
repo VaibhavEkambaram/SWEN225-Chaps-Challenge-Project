@@ -4,26 +4,42 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Queue;
 
+/**
+ * This class represents the board of the game.
+ * The board stores every tile in the current level
+ *
+ * @author Baxter Kirikiri
+ */
 public class Board {
     int boardXDimension;
     int boardYDimension;
-
-
     private Tile[][] tilesXY;
     private int chipCount = 0;
 
+    /**
+     * Constructor for the board class.
+     *
+     * @param x - The horizontal size of the board in tiles (int)
+     * @param y - The vertical size of the board in tile (int)
+     */
     public Board(int x,int y){
         this.boardXDimension = x;
         this.boardYDimension = y;
         this.tilesXY = new Tile[boardXDimension][boardYDimension];
     }
 
+    /**
+     * Board setup.
+     * Sets up tile adjacency and the exit lock required chips.
+     */
     public void setup(){
         setAdjacentTiles();
         setExitLock();
     }
 
-
+    /**
+     * Sets up tile adjacency so that for each tile, its adjacent tiles are associated with the directions in Tile.Directions.
+     */
     private void setAdjacentTiles(){
         for(int x = 0; x < boardXDimension; x++){
             for(int y = 0; y < boardYDimension; y++){
@@ -40,6 +56,11 @@ public class Board {
         }
     }
 
+    /**
+     * Checks for chips on the board and counts them.
+     * Then checks for exit locks on the board.
+     * If an exit lock exists, setExitLock() sets the number of chips on the board as the required number of chips for the exit lock.
+     */
     private void setExitLock(){
         int exitX = boardXDimension + 1;
         int exitY = boardYDimension + 1;
@@ -61,13 +82,26 @@ public class Board {
         }
     }
 
+    /**
+     * Replaces a tile in the array of all tiles on the board.
+     *
+     * @param x - the horizontal index of the tile to be set (int)
+     * @param y - the vertical index of the tile to be set (int)
+     * @param t - the new tile to be set at tilesXY[x][y] (Tile)
+     */
     public void setTile(int x, int y,  Tile t){
         t.setXLoc(x);
         t.setYLoc(y);
         tilesXY[x][y] = t;
     }
 
-
+    /**
+     * Gets a tile from the array of tiles.
+     *
+     * @param x - the horizontal index of the tile to be retrieved (int)
+     * @param y - the vertical index of the tile to be retrieved (int)
+     * @return Tile - the tile at the given indexes (Tile)
+     */
     public Tile getTile(int x, int y){
         if (x >= boardXDimension || y >= boardYDimension) {
             return null;
@@ -78,6 +112,11 @@ public class Board {
         return tilesXY[x][y];
     }
 
+    /**
+     * Gets the location of the player
+     *
+     * @return Tile - Tile the player is currently on. Null if the player is not included in the level (Tile)
+     */
     public Tile getPlayerLoc() {
         for (int x = 0; x < boardXDimension; x++) {
             for (int y = 0; y < boardYDimension; y++) {
@@ -89,6 +128,11 @@ public class Board {
         return null;
     }
 
+    /**
+     * Gets all the cyclops locations in the current level
+     *
+     * @return cyclops - the tiles occupied by cyclops (ArrayList<Tile>)
+     */
     public ArrayList<Tile> getCyclopsLoc(){
         ArrayList<Tile> cyclops = new ArrayList<>();
         for (int x = 0; x < boardXDimension; x++) {
@@ -101,6 +145,11 @@ public class Board {
         return cyclops;
     }
 
+    /**
+     * Converts the board into string representation in the same format as persistence.
+     *
+     * @return boardString - a string of characters representing the board that can be saved (String)
+     */
     @Override
     public String toString(){
         String boardString;
@@ -186,27 +235,22 @@ public class Board {
         return boardString.substring(0, boardString.length()-1);
     }
 
-    public Tile[][] getTilesXY(){ return this.tilesXY;}
-    public void setTilesXY(Tile[][] newTilesXY){
-        this.tilesXY = newTilesXY;
-    }
-
-    public int getBoardDimension(){return this.boardXDimension;}
-
-    public void setBoardDimension(int newBoardDimension){
-        this.boardXDimension = newBoardDimension;
-    }
-
+    /**
+     * Getter for the number of chips on the board at the time of loading
+     * @return chipCount - the number of chips on the board at the time of loading (int).
+     */
     public int getChipCount(){return this.chipCount;}
-    public void setChipCount(int newCount){
-        this.chipCount = newCount;
-    }
 
-    public int getBoardWidth(){
-        return boardXDimension;
-    }
+    /**
+     * Getter for the horizontal dimension of the board
+     * @return boardXDimension - used for looping through the tilesXY[][] array (int)
+     */
+    public int getBoardWidth(){return boardXDimension;}
 
-    public int getBoardHeight(){
-        return boardYDimension;
-    }
+
+    /**
+     * Getter for the vertical dimension of the board
+     * @return boardYDimension - used for looping through the tilesXY[][] array (int)
+     */
+    public int getBoardHeight(){return boardYDimension;}
 }
