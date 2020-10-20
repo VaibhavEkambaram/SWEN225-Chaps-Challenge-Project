@@ -2,6 +2,7 @@ package nz.ac.vuw.ecs.swen225.gp23.application;
 
 import java.awt.Color;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -45,7 +46,7 @@ public class Game {
   final ChipAudioModule audio;
   private final Application application;
 
-  Cyclops cyclops;
+  ArrayList<Cyclops> cyclops = new ArrayList<>();
 
 
   /**
@@ -71,8 +72,10 @@ public class Game {
     board.setup();
     this.player = new Player(board.getPlayerLoc());
 
-    if(board.getCyclopsLoc()!=null) {
-      this.cyclops = new Cyclops(board.getCyclopsLoc(), Tile.Directions.Right);
+    if(board.getCyclopsLoc().size() >= 1) {
+      for(Tile t : board.getCyclopsLoc()){
+        cyclops.add(new Cyclops(t,Tile.Directions.Right));
+      }
     }
     initBoardRenderer();
     runTimer();
@@ -124,8 +127,10 @@ public class Game {
         // increment timer down if there is still time remaining and the game has not been paused
         if (countdownTimer > 0 && !gamePaused) {
           countdownTimer--;
-          if(cyclops!=null) {
-            cyclops.moveCyclops();
+          if(cyclops.size()>= 1) {
+            for(Cyclops c : cyclops){
+              c.moveCyclops();
+            }
           }
           // update gui time label
           if (countdownTimer <= 15 && countdownTimer > 10) {

@@ -4,6 +4,7 @@ import nz.ac.vuw.ecs.swen225.gp23.application.Game;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.LevelM;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Queue;
 
 public class Board {
@@ -91,15 +92,16 @@ public class Board {
         return null;
     }
 
-    public Tile getCyclopsLoc(){
+    public ArrayList<Tile> getCyclopsLoc(){
+        ArrayList<Tile> cyclops = new ArrayList<>();
         for (int x = 0; x < boardXDimension; x++) {
             for (int y = 0; y < boardYDimension; y++) {
                 if (tilesXY[x][y].getCurrentImage().startsWith("cyclops")) {
-                    return tilesXY[x][y];
+                    cyclops.add(tilesXY[x][y]);
                 }
             }
         }
-        return null;
+        return cyclops;
     }
 
     @Override
