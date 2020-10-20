@@ -11,8 +11,8 @@ import java.util.Queue;
  * @author Baxter Kirikiri
  */
 public class Board {
-    int boardXDimension;
-    int boardYDimension;
+    private int boardXDimension;
+    private int boardYDimension;
     private Tile[][] tilesXY;
     private int chipCount = 0;
 
