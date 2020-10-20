@@ -66,6 +66,10 @@ public class GraphicalInterface extends JFrame implements KeyListener {
   private JButton playback;
   private JButton stepToNext;
 
+  private final JMenuItem startRecordingMenu;
+  private final JMenuItem stopRecordingMenu;
+  private final JMenuItem loadRecordedMenu;
+
 
   private final JCheckBoxMenuItem gamePauseMenu;
   private boolean gamePaused = false;
@@ -181,7 +185,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
     final JMenu recordAndReplayMenu = new JMenu("Record and Replay");
 
-    final JMenuItem startRecordingMenu = new JMenuItem("Start Recording");
+    startRecordingMenu = new JMenuItem("Start Recording");
     startRecordingMenu.addActionListener(e -> {
       String fileName = JOptionPane.showInputDialog(this, "Enter a filename: (.json will be appended)");
       if (fileName != null) {
@@ -189,9 +193,11 @@ public class GraphicalInterface extends JFrame implements KeyListener {
       }
     });
 
-    final JMenuItem stopRecordingMenu = new JMenuItem("Stop and Save Recording");
+    stopRecordingMenu = new JMenuItem("Stop and Save Recording");
     stopRecordingMenu.addActionListener(e -> RecordReplay.saveRecording(currentGame));
-    final JMenuItem loadRecordedMenu = new JMenuItem("Load Recorded Game");
+
+
+    loadRecordedMenu = new JMenuItem("Load Recorded Game");
     loadRecordedMenu.addActionListener(e -> {
       String fileName = JOptionPane.showInputDialog(this, "Enter saved filename: (.json will be appended)");
       if (fileName != null) {
@@ -788,6 +794,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     } else if (application.getState().equals(Application.GameStates.RUNNING)) {
       setMovementButtonEnabled(!gamePaused);
     }
+
+    RecordReplay.
+
   }
 
 
