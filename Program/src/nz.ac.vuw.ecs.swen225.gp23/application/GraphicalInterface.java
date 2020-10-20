@@ -82,8 +82,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
   private final JLabel pausedLabel;
 
-  private final TileFinder tileFinder;
-
   BufferedImage image;
 
 
@@ -109,7 +107,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
     pausedLabel = new JLabel("Game has been paused...press ESC to resume");
     audio = new ChipAudioModule();
-    tileFinder = new TileFinder();
 
     setPreferredSize(new Dimension(800, 600));
     setMinimumSize(new Dimension(800, 600));
@@ -530,25 +527,25 @@ public class GraphicalInterface extends JFrame implements KeyListener {
       secondInnerPanel.add(itemsHeadingLabel);
 
       JLabel chipItemLabel = new JLabel("Chap - Your Player Character");
-      chipItemLabel.setIcon(tileFinder.getTile("chip_icon", -1));
+      chipItemLabel.setIcon(TileFinder.getTile("chip_icon", -1));
       secondInnerPanel.add(chipItemLabel);
       JLabel chipItemLabel2 = new JLabel("Room Portals - These must be opened using a key with the same colour");
-      chipItemLabel2.setIcon(tileFinder.getTile("door_icon", -1));
+      chipItemLabel2.setIcon(TileFinder.getTile("door_icon", -1));
       secondInnerPanel.add(chipItemLabel2);
       JLabel chipItemLabel3 = new JLabel("Crystals - These are used to open doors corresponding with their colour");
-      chipItemLabel3.setIcon(tileFinder.getTile("key_icon", -1));
+      chipItemLabel3.setIcon(TileFinder.getTile("key_icon", -1));
       secondInnerPanel.add(chipItemLabel3);
       JLabel chipItemLabel4 = new JLabel("Shards - These must be collected to open the exit gate");
-      chipItemLabel4.setIcon(tileFinder.getTile("computer_chip_icon", -1));
+      chipItemLabel4.setIcon(TileFinder.getTile("computer_chip_icon", -1));
       secondInnerPanel.add(chipItemLabel4);
       JLabel chipItemLabel5 = new JLabel("Exit Gate - All of these shards must be collected to reach the exit portal");
-      chipItemLabel5.setIcon(tileFinder.getTile("exit_lock_icon", -1));
+      chipItemLabel5.setIcon(TileFinder.getTile("exit_lock_icon", -1));
       secondInnerPanel.add(chipItemLabel5);
       JLabel chipItemLabel6 = new JLabel("Exit Portal - This portal is used to finish the level");
-      chipItemLabel6.setIcon(tileFinder.getTile("exit_icon", -1));
+      chipItemLabel6.setIcon(TileFinder.getTile("exit_icon", -1));
       secondInnerPanel.add(chipItemLabel6);
       JLabel chipItemLabel7 = new JLabel("Cyclops - Very scary, avoid!");
-      chipItemLabel7.setIcon(tileFinder.getTile("cyclops_icon", -1));
+      chipItemLabel7.setIcon(TileFinder.getTile("cyclops_icon", -1));
       secondInnerPanel.add(chipItemLabel7);
 
       primaryOptionPaneField.add(firstInnerPanel, BorderLayout.WEST);
@@ -587,7 +584,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
       JLabel titleLabel = new JLabel("Chaps Challenge, Version 1.0");
       titleLabel.setFont(titleLabel.getFont().deriveFont(titleLabel.getFont().getStyle() | Font.BOLD));
-      titleLabel.setIcon(tileFinder.getTile("chip_icon", -1));
+      titleLabel.setIcon(TileFinder.getTile("chip_icon", -1));
       fieldPanel.add(titleLabel);
 
 
@@ -632,7 +629,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
       ArrayList<String> inventory = (ArrayList<String>) currentGame.getPlayer().getInventory();
 
       for (String s : inventory) {
-        itemsGrid.add(new JLabel(new ImageIcon(tileFinder.getTile(s, -1).getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)), JLabel.CENTER));
+        itemsGrid.add(new JLabel(new ImageIcon(TileFinder.getTile(s, -1).getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)), JLabel.CENTER));
       }
       itemsPanel.add(itemsGrid);
     }
