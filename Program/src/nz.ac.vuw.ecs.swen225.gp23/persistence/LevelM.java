@@ -19,6 +19,19 @@ public class LevelM {
     HashMap<String, Integer> currentLevelInteger = new HashMap<>();
     int currentLevel = 1;
 
+    public LevelM() {
+        File folder = new File("Program/src/levels");
+        File[] listOfFiles = folder.listFiles();
+
+        for (int i = 0; i < listOfFiles.length; i++) {
+            if (listOfFiles[i].isFile()) {
+                if (Files.getFileExtension(listOfFiles[i].getName()).equals("json")) {
+                    levels.put(i + 1, listOfFiles[i].getName());
+                    currentLevelInteger.put(listOfFiles[i].getName(), i + 1);
+                }
+            }
+        }
+    }
 
     public void setLevel(int value) { currentLevel = value; }
 
