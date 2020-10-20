@@ -215,7 +215,6 @@ public class RecordReplay {
                 movements.remove(0);
                 actors.remove(0);
             } else {
-                //TODO: move the actor
                 movements.remove(0);
                 actors.remove(0);
                 if (movements.size() > 0){
@@ -269,6 +268,18 @@ public class RecordReplay {
      */
     public static boolean getIsGameRecording(){
         return isGameRecording;
+    }
+
+    /**
+     * Stores the movement of the cyclops (level 2) character in the arraylists.
+     * @param d - direction of movement
+     * @param id - id of character
+     */
+    public static void storeCyclopsMove(Tile.Directions d, int id){
+        if (isGameRecording){
+            movements.add(d);
+            actors.add(id);
+        }
     }
 
 }
