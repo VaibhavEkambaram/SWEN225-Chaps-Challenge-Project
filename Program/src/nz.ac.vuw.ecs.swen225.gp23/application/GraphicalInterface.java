@@ -27,7 +27,10 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -82,7 +85,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
   private final JLabel pausedLabel;
 
-  BufferedImage image;
+  private BufferedImage image;
+  private final LevelM lm;
 
 
   /**
@@ -92,16 +96,20 @@ public class GraphicalInterface extends JFrame implements KeyListener {
   public GraphicalInterface(Application application) {
     super("Chaps Challenge");
 
-    //LevelM lm = new LevelM();
 
     // carry through persistent application class to keep track of game state
     this.application = application;
+
+    lm = new LevelM();
 
 
     // Set java swing theme to native operating system theme
     try {
       UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-    } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+    } catch (ClassNotFoundException
+        | InstantiationException
+        | IllegalAccessException
+        | UnsupportedLookAndFeelException e) {
       e.printStackTrace();
     }
 
@@ -116,9 +124,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     final JMenuBar tableMenuBar = new JMenuBar();
     this.setJMenuBar(tableMenuBar);
 
-    // ------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     // Menu Bar Structure
-    // ------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     final JMenu gameMenu = new JMenu("Game");
 
     final JMenuItem newMenu = new JMenuItem("New Game");
@@ -126,8 +134,11 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     newMenu.addActionListener(e -> onNewGame());
 
     final JMenuItem newFromLastLevelMenu = new JMenuItem("New Game from Last Level");
-    newFromLastLevelMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK));
+    newFromLastLevelMenu.setAccelerator(
+        KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK));
     newFromLastLevelMenu.addActionListener(e -> {
+
+      onLoadGameNoGui(new LevelM().getCurrentLevel());
     });
 
     final JMenuItem resumeSavedMenu = new JMenuItem("Load Game");
@@ -143,6 +154,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
       int closeDialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit? Game progress WILL be saved.", "Warning", closeDialogButton);
       if (closeDialogResult == JOptionPane.YES_OPTION) {
         if (currentGame != null) {
+          lm.saveLevel();
           currentGame.saveGame();
         }
         onStopGame(false);
@@ -362,7 +374,10 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     addWindowListener(new WindowAdapter() {
       public void windowClosing(WindowEvent evt) {
         int closeDialogButton = JOptionPane.YES_NO_OPTION;
-        int closeDialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit? Game progress will NOT be saved.", "Warning", closeDialogButton);
+        int closeDialogResult = JOptionPane.showConfirmDialog(null,
+            "Are you sure you want to exit? Game progress will NOT be saved.",
+            "Warning",
+            closeDialogButton);
         if (closeDialogResult == JOptionPane.YES_OPTION) {
           dispose();
           setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -388,7 +403,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     playback.setFocusable(false);
     stepToNext.setFocusable(false);
 
-    renderPanel = new RenderPanel(9,9,0);
+    renderPanel = new RenderPanel(9, 9, 0);
     this.setRenderPanel(renderPanel);
 
     getContentPane().add(mainPanel);
@@ -456,7 +471,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     playback.addActionListener(e -> {
       long value;
       String delaySpeedString = JOptionPane.showInputDialog(this, "Enter playback delay speed: (milliseconds)");
-      value = 300;
       if (delaySpeedString != null) {
         value = Long.parseLong(delaySpeedString);
         RecordReplay.setDelay(value);
@@ -500,15 +514,18 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
 
       JLabel titleTextLabel = new JLabel("Hello and welcome to Chaps Challenge");
-      titleTextLabel.setFont(titleTextLabel.getFont().deriveFont(titleTextLabel.getFont().getStyle() | Font.BOLD));
+      titleTextLabel.setFont(titleTextLabel.getFont().deriveFont(
+          titleTextLabel.getFont().getStyle() | Font.BOLD));
       primaryOptionPaneField.add(titleTextLabel, BorderLayout.NORTH);
 
       JLabel controlsHeadingLabel = new JLabel("Controls");
-      controlsHeadingLabel.setFont(controlsHeadingLabel.getFont().deriveFont(controlsHeadingLabel.getFont().getStyle() | Font.BOLD));
+      controlsHeadingLabel.setFont(controlsHeadingLabel.getFont().deriveFont(
+          controlsHeadingLabel.getFont().getStyle() | Font.BOLD));
       firstInnerPanel.add(controlsHeadingLabel);
 
       JLabel generalControlsSubtitleLabel = new JLabel("   General ");
-      generalControlsSubtitleLabel.setFont(generalControlsSubtitleLabel.getFont().deriveFont(generalControlsSubtitleLabel.getFont().getStyle() | Font.ITALIC));
+      generalControlsSubtitleLabel.setFont(generalControlsSubtitleLabel.getFont().deriveFont(
+          generalControlsSubtitleLabel.getFont().getStyle() | Font.ITALIC));
       firstInnerPanel.add(generalControlsSubtitleLabel);
       firstInnerPanel.add(new JLabel("      Pause Game - [Space]"));
       firstInnerPanel.add(new JLabel("      Unpause Game - [Escape]"));
@@ -516,7 +533,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
       firstInnerPanel.add(new JLabel("      Exit Game without Saving - [Ctrl-X]"));
       firstInnerPanel.add(new JLabel(""));
       JLabel gameplayControlsSubtitleLabel = new JLabel("   Gameplay ");
-      gameplayControlsSubtitleLabel.setFont(gameplayControlsSubtitleLabel.getFont().deriveFont(gameplayControlsSubtitleLabel.getFont().getStyle() | Font.ITALIC));
+      gameplayControlsSubtitleLabel.setFont(gameplayControlsSubtitleLabel.getFont().deriveFont(
+          gameplayControlsSubtitleLabel.getFont().getStyle() | Font.ITALIC));
       firstInnerPanel.add(gameplayControlsSubtitleLabel);
       firstInnerPanel.add(new JLabel("      Movement Up - [Up Arrow]"));
       firstInnerPanel.add(new JLabel("      Movement Down - [Down Arrow]"));
@@ -525,22 +543,29 @@ public class GraphicalInterface extends JFrame implements KeyListener {
       firstInnerPanel.add(new JLabel(" "));
 
       JLabel itemsHeadingLabel = new JLabel("Items");
-      itemsHeadingLabel.setFont(itemsHeadingLabel.getFont().deriveFont(itemsHeadingLabel.getFont().getStyle() | Font.BOLD));
+      itemsHeadingLabel.setFont(
+          itemsHeadingLabel.getFont().deriveFont(
+              itemsHeadingLabel.getFont().getStyle() | Font.BOLD));
       secondInnerPanel.add(itemsHeadingLabel);
 
-      JLabel chipItemLabel = new JLabel("Chap - Your Player Character");
+      JLabel chipItemLabel = new JLabel(
+          "Chap - Your Player Character");
       chipItemLabel.setIcon(TileFinder.getTile("chip_icon", -1));
       secondInnerPanel.add(chipItemLabel);
-      JLabel chipItemLabel2 = new JLabel("Room Portals - These must be opened using a key with the same colour");
+      JLabel chipItemLabel2 = new JLabel(
+          "Room Portals - These must be opened using a key with the same colour");
       chipItemLabel2.setIcon(TileFinder.getTile("door_icon", -1));
       secondInnerPanel.add(chipItemLabel2);
-      JLabel chipItemLabel3 = new JLabel("Crystals - These are used to open doors corresponding with their colour");
+      JLabel chipItemLabel3 = new JLabel(
+          "Crystals - These are used to open doors corresponding with their colour");
       chipItemLabel3.setIcon(TileFinder.getTile("key_icon", -1));
       secondInnerPanel.add(chipItemLabel3);
-      JLabel chipItemLabel4 = new JLabel("Shards - These must be collected to open the exit gate");
+      JLabel chipItemLabel4 = new JLabel(
+          "Shards - These must be collected to open the exit gate");
       chipItemLabel4.setIcon(TileFinder.getTile("computer_chip_icon", -1));
       secondInnerPanel.add(chipItemLabel4);
-      JLabel chipItemLabel5 = new JLabel("Exit Gate - All of these shards must be collected to reach the exit portal");
+      JLabel chipItemLabel5 = new JLabel(
+          "Exit Gate - All of these shards must be collected to reach the exit portal");
       chipItemLabel5.setIcon(TileFinder.getTile("exit_lock_icon", -1));
       secondInnerPanel.add(chipItemLabel5);
       JLabel chipItemLabel6 = new JLabel("Exit Portal - This portal is used to finish the level");
@@ -560,13 +585,19 @@ public class GraphicalInterface extends JFrame implements KeyListener {
       JLabel subtitle3 = new JLabel("Game Objective ");
       subtitle3.setFont(subtitle3.getFont().deriveFont(subtitle3.getFont().getStyle() | Font.BOLD));
       infoText.add(subtitle3);
-      infoText.add(new JLabel("The objective of the game is for Chap (The player character) to reach the exit portal within the amount of time allocated."));
-      infoText.add(new JLabel("This is done by collecting all the shards scattered around the level in order to open the exit gate."));
-      infoText.add(new JLabel("Several of these shards are hidden in various rooms. In order to access these rooms, room portals must be unlocked using crystals corresponding to the portal colours."));
+      infoText.add(new JLabel(
+          "The objective of the game is for Chap (The player character) to reach the"
+              + " exit portal within the amount of time allocated."));
+      infoText.add(new JLabel("This is done by collecting all the shards scattered around"
+          + " the level in order to open the exit gate."));
+      infoText.add(new JLabel("Several of these shards are hidden in various rooms."
+          + " In order to access these rooms, room portals must be unlocked using crystals"
+          + " corresponding to the portal colours."));
       primaryOptionPaneField.add(infoText, BorderLayout.SOUTH);
 
       onPauseGame(true);
-      JOptionPane.showMessageDialog(this, primaryOptionPaneField, "How to Play", JOptionPane.PLAIN_MESSAGE);
+      JOptionPane.showMessageDialog(this, primaryOptionPaneField, "How to Play",
+          JOptionPane.PLAIN_MESSAGE);
       onPauseGame(false);
     });
     return howToPlayMenu;
@@ -648,7 +679,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     currentGame = null;
     Persistence p = new Persistence();
     Board board = p.loadFile("Program/src/levels/level1.json");
-    int tileset = (int)(Math.random() * 2);
+    int tileset = (int) (Math.random() * 2);
     currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board, audio, tileset, application);
 
     List<String> inventoryStartingArray = p.setInventory();
@@ -662,6 +693,10 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     renderPanel.setBoard(board);
   }
 
+  /**
+   * Load a Game.
+   * Loads a new game from a file showing a file explorer GUI
+   */
   public void onLoadGame() {
     onStopGame(false);
 
@@ -677,8 +712,14 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
       Persistence p = new Persistence();
       Board board = p.loadFile(chooser.getSelectedFile().toString());
-      int tileset = (int)(Math.random() * 2);
-      currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board, audio, tileset, application);
+      int tileset = (int) (Math.random() * 2);
+      currentGame = new Game(p.getTimeLeft(),
+          p.getLevel(),
+          this,
+          board,
+          audio,
+          tileset,
+          application);
 
       List<String> inventoryStartingArray = p.setInventory();
 
@@ -693,6 +734,11 @@ public class GraphicalInterface extends JFrame implements KeyListener {
   }
 
 
+  /**
+   * Load game without GUI to allow for a custom file to be loaded.
+   *
+   * @param filepath file path string
+   */
   public void onLoadGameNoGui(String filepath) {
     onStopGame(true);
 
@@ -717,7 +763,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
 
   /**
-   * Stops the current game
+   * Stop Game.
+   *
+   * @param isLoadingRecordedGame flag to avoid conflict with record and replay.
    */
   public void onStopGame(boolean isLoadingRecordedGame) {
     if (currentGame != null) {
@@ -775,10 +823,11 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     updateDisplay();
   }
 
+
   /**
-   * Set the movement buttons enabled on and off
+   * Enable or Disable Movement Buttons
    *
-   * @param value enabled or disabled
+   * @param value boolean value
    */
   public void setMovementButtonEnabled(boolean value) {
     upButton.setEnabled(value);
@@ -808,8 +857,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     }
   }
 
-  public void updateRecordReplayGUI(){
-    if(RecordReplay.getIsGameRecording()){
+  public void updateRecordReplayGUI() {
+    if (RecordReplay.getIsGameRecording()) {
       startRecordingMenu.setEnabled(false);
       stopRecordingMenu.setEnabled(true);
     } else {
@@ -838,9 +887,18 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
     if (response >= 0 && response <= 3) {
       if (response == 0) {
-        onLoadGameNoGui("Program/src/levels/level2.json");
+        lm.incrementLevel();
+        onLoadGameNoGui(lm.getCurrentLevel());
       } else if (response == 1) {
         onNewGame();
+      } else if (response == 2) {
+        lm.incrementLevel();
+        lm.saveLevel();
+
+        onStopGame(false);
+        dispose();
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        System.exit(0);
       } else if (response == 3) {
         onStopGame(false);
       }
@@ -848,12 +906,11 @@ public class GraphicalInterface extends JFrame implements KeyListener {
   }
 
 
-
   /**
    * Out of time.
    * Display message when the player has run out of time
    */
-  public void outOfTime(String title,String message) {
+  public void outOfTime(String title, String message) {
     if (currentGame != null) {
       if (application.getState().equals(Application.GameStates.RUNNING)) {
         application.transitionToInit();
@@ -874,13 +931,12 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         null,
         options,
         options[0]);
-
     timeLabel.setText("");
     chipsLeftLabel.setText("");
     levelLabel.setText("");
     if (response == 0) {
-      onNewGame();
-    } else if (response == 1){
+      onLoadGameNoGui(lm.getCurrentLevel());
+    } else if (response == 1) {
       onStopGame(false);
     }
   }
