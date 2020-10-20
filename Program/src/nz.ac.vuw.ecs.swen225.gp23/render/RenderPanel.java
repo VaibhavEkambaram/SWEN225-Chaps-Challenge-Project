@@ -137,6 +137,22 @@ public class RenderPanel extends JPanel {
         int size = width < height ? width/cols : height/rows;
         if (!isPaused) {
             if (tileGrid == null || displayBoard == null) {
+                // Get Font Information
+                Font font = g.getFont();
+                FontMetrics metrics = g.getFontMetrics(font);
+                // Determine the X coordinate for the text
+                String text = "Start a new game using [GAME] menu above or [CTRL + 1]";
+                int x = (this.getWidth() - metrics.stringWidth(text)) / 2;
+                // Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
+                int y = (this.getHeight() - metrics.getHeight())/2;
+                // Set the font
+                g.setFont(font);
+                // Black Background
+                g.setColor(Color.BLACK);
+                g.fillRect(0, 0,  this.getWidth(), this.getHeight());
+                // Pause Menu String
+                g.setColor(Color.ORANGE);
+                g.drawString(text, x, y);
                 return;
             }
             // Resize images to fill current Dimensions

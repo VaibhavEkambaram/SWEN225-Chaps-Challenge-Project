@@ -742,6 +742,10 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     if (!isLoadingRecordedGame) {
       RecordReplay.endRecording();
     }
+
+    if (renderPanel != null) {
+      renderPanel.setPaused(true);
+    }
   }
 
 
