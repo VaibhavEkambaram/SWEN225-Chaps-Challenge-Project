@@ -1,10 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp23.maze;
 
-import nz.ac.vuw.ecs.swen225.gp23.render.RenderPanel;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Timer;
 
 /**
  * This class represents the Cyclops or enemies in the game.
@@ -50,14 +47,4 @@ public class Cyclops {
         }
     }
 
-    public void startMovement(Board b, RenderPanel br) {
-        try {
-            new Timer().schedule(new CyclopsMoveTask(this, b, br), 0, 500);
-            for (int i = 0; i < 3; i++) {
-                Thread.sleep(500);
-            }
-        } catch (InterruptedException e){
-            System.out.println("Timing error");
-        }
-    }
 }
