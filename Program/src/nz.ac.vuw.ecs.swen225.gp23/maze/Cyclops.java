@@ -7,8 +7,7 @@ import java.util.Map;
 
 /**
  * This class represents the Cyclops or enemies in the game.
- * Current intention is for the cyclops to 'bounce' between walls.
- * Meaning it will travel in one direction until it hits a wall, and then travel in the opposite direction.
+ * Handles cyclops movement and stores necessary information for each cyclops.
  *
  * @author Baxter Kirikiri
  */
@@ -34,7 +33,11 @@ public class Cyclops {
 
     /**
      * Moves the cyclops 1 tile in its current direction
-     * If the cyclops cant travel in its direction. Reverse it's direciton.
+     * If the cyclops cant travel in its direction, its direction is reversed.
+     * This means the cyclops will 'bounce' between non passable objects along whichever axis the direction from the constructor is.
+     * If tile where the cyclops is trying to move has the player, end the game.
+     *
+     * @param gui - graphical interface passed from game. Used to end the game (GraphicalInterface)
      */
     public void moveCyclops(GraphicalInterface gui){
         Tile nextTile = currentTile.getDirection(direction);
