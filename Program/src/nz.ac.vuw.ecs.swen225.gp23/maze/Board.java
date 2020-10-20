@@ -206,6 +206,4 @@ public class Board {
     public int getBoardHeight(){
         return boardYDimension;
     }
-
-    public int getCurrentLevel(){return LevelM.getIntOfCurrentLevel();}
 }
