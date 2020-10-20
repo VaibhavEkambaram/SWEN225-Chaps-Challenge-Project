@@ -1,7 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp23.persistence;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
 import nz.ac.vuw.ecs.swen225.gp23.maze.ComputerChip;
@@ -17,8 +16,6 @@ import nz.ac.vuw.ecs.swen225.gp23.maze.Wall;
 
 
 import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import java.io.*;
 import java.nio.file.Files;
@@ -34,11 +31,11 @@ public class Persistence {
 
     public static int boardX;
     public static int boardY;
-    int level;
-    int timeLeft;
-    String inventory;
+    static int level;
+    static int timeLeft;
+    static String inventory;
     public static Game game;
-    Board board;
+    static Board board;
 
 
     public Persistence() {
@@ -54,7 +51,7 @@ public class Persistence {
      * @return the board
      * @author Rahul Mahasuriya
      */
-    public Board loadFile(String filepath) {
+    public static Board loadFile(String filepath) {
 
         try {
             Gson gson = new Gson();
@@ -274,7 +271,7 @@ public class Persistence {
      * @return the current time remaining
      * @author Rahul Mahasuriya
      */
-    public int getTimeLeft() {
+    public static int getTimeLeft() {
         return timeLeft;
     }
 
@@ -284,7 +281,7 @@ public class Persistence {
      * @return the current level
      * @author Rahul Mahasuriya
      */
-    public int getLevel() {
+    public static int getLevel() {
         return level;
     }
 }
