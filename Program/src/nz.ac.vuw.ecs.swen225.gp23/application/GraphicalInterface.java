@@ -199,16 +199,19 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     // ---------------------------------------------------------------------------------------------
     final JMenu recordAndReplayMenu = new JMenu("Record and Replay");
     startRecordingMenu = new JMenuItem("Start Recording");
+    startRecordingMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.SHIFT_DOWN_MASK));
     startRecordingMenu.addActionListener(e -> {
       String fileName = JOptionPane.showInputDialog(this,
           "Enter a filename: (.json will be appended)");
       if (fileName != null) {
+        RecordReplay.endRecording();
         RecordReplay.newSave(currentGame, fileName + ".json");
         updateRecordControls();
       }
     });
 
     stopRecordingMenu = new JMenuItem("Stop and Save Recording");
+    stopRecordingMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.SHIFT_DOWN_MASK));
     stopRecordingMenu.addActionListener(e -> {
       RecordReplay.saveRecording(currentGame);
       updateRecordControls();
@@ -216,6 +219,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
 
     JMenuItem loadRecordedMenu = new JMenuItem("Load Recorded Game");
+    loadRecordedMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, KeyEvent.SHIFT_DOWN_MASK));
     loadRecordedMenu.addActionListener(e -> {
       String fileName = JOptionPane.showInputDialog(this,
           "Enter saved filename: (.json will be appended)");
@@ -542,10 +546,18 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     generalControlsSubtitleLabel.setFont(generalControlsSubtitleLabel.getFont().deriveFont(
         generalControlsSubtitleLabel.getFont().getStyle() | Font.ITALIC));
     firstInnerPanel.add(generalControlsSubtitleLabel);
+    firstInnerPanel.add(new JLabel("      New Game - [Ctrl-1]"));
+    firstInnerPanel.add(new JLabel("      New Game from Last Level - [Ctrl-P]"));
+    firstInnerPanel.add(new JLabel("      Load Game - [Ctrl-R]"));
+    firstInnerPanel.add(new JLabel("      Save and Exit - [Ctrl-S]"));
+    firstInnerPanel.add(new JLabel("      Exit without Saving - [Ctrl-X]"));
+    firstInnerPanel.add(new JLabel(""));
     firstInnerPanel.add(new JLabel("      Pause Game - [Space]"));
     firstInnerPanel.add(new JLabel("      Unpause Game - [Escape]"));
-    firstInnerPanel.add(new JLabel("      New Game from First level - [Ctrl-1]"));
-    firstInnerPanel.add(new JLabel("      Exit Game without Saving - [Ctrl-X]"));
+    firstInnerPanel.add(new JLabel(""));
+    firstInnerPanel.add(new JLabel("      How to Play - [Ctrl-H]"));
+    firstInnerPanel.add(new JLabel("      About - [Ctrl-A]"));
+
     firstInnerPanel.add(new JLabel(""));
     JLabel gameplayControlsSubtitleLabel = new JLabel("   Gameplay ");
     gameplayControlsSubtitleLabel.setFont(gameplayControlsSubtitleLabel.getFont().deriveFont(
@@ -555,6 +567,14 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     firstInnerPanel.add(new JLabel("      Movement Down - [Down Arrow]"));
     firstInnerPanel.add(new JLabel("      Movement Left - [Left Arrow]"));
     firstInnerPanel.add(new JLabel("      Movement Right - [Right Arrow]"));
+    firstInnerPanel.add(new JLabel(" "));
+    JLabel recordingSubtitleLabel = new JLabel("   Recording ");
+    recordingSubtitleLabel.setFont(gameplayControlsSubtitleLabel.getFont().deriveFont(
+        recordingSubtitleLabel.getFont().getStyle() | Font.ITALIC));
+    firstInnerPanel.add(recordingSubtitleLabel);
+    firstInnerPanel.add(new JLabel("      Start Recording State - [Shift-R]"));
+    firstInnerPanel.add(new JLabel("      Stop and Save Recording State - [Shift-S]"));
+    firstInnerPanel.add(new JLabel("      Load Recorded Game - [Shift-L]"));
     firstInnerPanel.add(new JLabel(" "));
 
     JLabel itemsHeadingLabel = new JLabel("Items");
