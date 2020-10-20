@@ -1,8 +1,5 @@
 package nz.ac.vuw.ecs.swen225.gp23.maze;
 
-import nz.ac.vuw.ecs.swen225.gp23.application.Game;
-import nz.ac.vuw.ecs.swen225.gp23.persistence.LevelM;
-
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Queue;
@@ -108,75 +105,79 @@ public class Board {
     public String toString(){
         String boardString;
         StringBuilder cases = new StringBuilder();
-        Queue<Tile> tileStack = new ArrayDeque<>();
+        Queue<Tile> tileQueue = new ArrayDeque<>();
         for (int y = 0; y < boardYDimension; y++) {
             for (int x = 0; x < boardXDimension; x++) {
-                tileStack.add(this.getTile(x,y));
+                tileQueue.add(this.getTile(x,y));
             }
         }
 
-        while(!tileStack.isEmpty()){
-            String tileName = tileStack.peek().toString();
+        while(!tileQueue.isEmpty()){
+            String tileName = tileQueue.peek().toString();
             switch (tileName) {
                 case "door_blue":
                     cases.append("B|");
-                    tileStack.poll();
+                    tileQueue.poll();
                     break;
                 case "door_green":
                     cases.append("G|");
-                    tileStack.poll();
+                    tileQueue.poll();
                     break;
                 case "door_red":
                     cases.append("R|");
-                    tileStack.poll();
+                    tileQueue.poll();
                     break;
                 case "door_yellow":
                     cases.append("Y|");
-                    tileStack.poll();
+                    tileQueue.poll();
                     break;
                 case "key_green":
                     cases.append("g|");
-                    tileStack.poll();
+                    tileQueue.poll();
                     break;
                 case "key_blue":
                     cases.append("b|");
-                    tileStack.poll();
+                    tileQueue.poll();
                     break;
                 case "key_yellow":
                     cases.append("y|");
-                    tileStack.poll();
+                    tileQueue.poll();
                     break;
                 case "key_red":
                     cases.append("r|");
-                    tileStack.poll();
+                    tileQueue.poll();
                     break;
                 case "floor":
                     cases.append("_|");
-                    tileStack.poll();
+                    tileQueue.poll();
                     break;
                 case "wall":
                     cases.append("#|");
-                    tileStack.poll();
+                    tileQueue.poll();
                     break;
                 case "hint":
                     cases.append("i|");
-                    tileStack.poll();
+                    tileQueue.poll();
                     break;
                 case "computer_chip":
                     cases.append("T|");
-                    tileStack.poll();
+                    tileQueue.poll();
                     break;
                 case "exit_lock":
                     cases.append("l|");
-                    tileStack.poll();
+                    tileQueue.poll();
                     break;
                 case "exit":
                     cases.append("E|");
-                    tileStack.poll();
+                    tileQueue.poll();
                     break;
                 default:
-                    cases.append("P|");
-                    tileStack.poll();
+                    if(tileName.startsWith("chip")) {
+                        cases.append("P|");
+                    } else {
+                        cases.append("h|");
+                    }
+                    tileQueue.poll();
                     break;
             }
         }

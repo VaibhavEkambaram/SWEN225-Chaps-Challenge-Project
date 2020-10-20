@@ -229,14 +229,8 @@ public class Persistence {
                     playerStart.setEntityPresent("chip_down.png");
                     board.setTile(xValue, yValue, playerStart);
                     break;
-                case "v": //vertical cyclops
-                    Tile cyclopsStart = new Floor();
-                    cyclopsStart.setEntityPresent("cyclops_down.png");
-                    cyclopsStart.setEntityDirection(Tile.Directions.Down);
-                    board.setTile(xValue, yValue, cyclopsStart);
-                    break;
                 case "h": //horizontal cyclops
-                    cyclopsStart = new Floor();
+                    Tile cyclopsStart = new Floor();
                     cyclopsStart.setEntityPresent("cyclops_right.png");
                     cyclopsStart.setEntityDirection(Tile.Directions.Right);
                     board.setTile(xValue, yValue, cyclopsStart);

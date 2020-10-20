@@ -5,13 +5,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class represents the player in the game.
+ * It is responsible for storing the players inventory, chip count, and directional images.
+ *
+ * @author Baxter Kirikiri
+ */
 public class Player {
-
     private Tile currentTile;
     private List<String> inventory = new ArrayList<>();
     private Map<Tile.Directions, String> directionImages = new HashMap<>();
     private int chips = 0; //how many chips the player has picked up
 
+    /**
+     *
+     *
+     * @param location - The tile to draw the player on
+     */
     public Player(Tile location){
         currentTile = location;
         directionImages.put(Tile.Directions.Left, "chip_left.png");
@@ -20,7 +30,8 @@ public class Player {
         directionImages.put(Tile.Directions.Down, "chip_down.png");
     }
 
-    //Inventory methods
+    /**------ Inventory methods ------ **/
+    /**------------ **/
     public boolean checkItem(String item){return inventory.contains(item);}
     public void addItem(String item){inventory.add(item);}
     public void removeItem(String item){inventory.remove(item);}
@@ -29,7 +40,6 @@ public class Player {
 
     //Getters and Setters
     public int getChips(){return chips;}
-    public void setChips(int numberOfChips){chips = numberOfChips;}
 
     public List<String> getInventory(){return inventory;}
     public void setInventory(List<String> newInventory){inventory = newInventory;}
