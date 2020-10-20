@@ -59,8 +59,10 @@ public class RenderPanel extends JPanel {
         displayBoard = new String[this.rows][this.cols];
         // Find current player position to determine center of Render Panel
         Tile centerTile = currentBoard.getPlayerLoc();
+        // Center Player Location
         int centerRow = centerTile.getYLoc();
         int centerCol = centerTile.getXLoc();
+        // Radius from center
         int rowRadius = (this.rows)/2;
         int colRadius = (this.cols)/2;
         int startRow = centerRow - rowRadius;
@@ -114,7 +116,7 @@ public class RenderPanel extends JPanel {
 
     /**
      * Method to set paused
-     * @param pause
+     * @param pause T/F - Whether or not game should be paused
      *
      * @author Cameron Li
      */
@@ -131,10 +133,10 @@ public class RenderPanel extends JPanel {
      * @author Cameron Li.
      */
     public void paint(Graphics g) {
-        // Determine maximum size by minimum dimension
+        // Determine maximum usable size by minimum dimension
         int width = this.getWidth();
         int height = this.getHeight();
-        int size = width < height ? width/cols : height/rows;
+        int size = width < height ? width/cols : height/rows; // Determine smallest size
 
         if (!isPaused) {
             if (tileGrid == null || displayBoard == null) {
@@ -150,7 +152,7 @@ public class RenderPanel extends JPanel {
                     tileGrid[row][col].setIcon(new ImageIcon(resizeImage));
                 }
             }
-            super.paint(g);
+            super.paint(g); // Redraw the ImageIcons
         } else {
             String text = "Game has been paused...press ESC to resume";
             drawString(g, text);
