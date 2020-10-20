@@ -86,7 +86,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
   private final JLabel pausedLabel;
 
   private BufferedImage image;
-  private final LevelM lm;
+  private final LevelM levelManager; // level manager
+  // added details
 
 
   /**
@@ -100,7 +101,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     // carry through persistent application class to keep track of game state
     this.application = application;
 
-    lm = new LevelM();
+    levelManager = new LevelM();
 
 
     // Set java swing theme to native operating system theme
@@ -154,7 +155,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
       int closeDialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit? Game progress WILL be saved.", "Warning", closeDialogButton);
       if (closeDialogResult == JOptionPane.YES_OPTION) {
         if (currentGame != null) {
-          lm.saveLevel();
+          levelManager.saveLevel();
           currentGame.saveGame();
         }
         onStopGame(false);
@@ -749,7 +750,15 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     currentGame = null;
 
     Persistence p = new Persistence();
-    Board board = p.loadFile(filepath);
+    Board board;
+
+    if (loadingSavedGame) {
+      board = p.loadFile(filepath);
+    } else {
+      board = p.loadFile("Program/src/levels/" + filepath);
+    }
+
+
     int tileset = 2;
     currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board, audio, tileset, application);
     levelManager.setLevel(currentGame.getLevelNumber());
@@ -942,7 +951,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     chipsLeftLabel.setText("");
     levelLabel.setText("");
     if (response == 0) {
-      onLoadGameNoGui(lm.getCurrentLevel());
+      onLoadGameNoGui(levelManager.getCurrentLevel(), false);
     } else if (response == 1) {
       onStopGame(false);
     }
