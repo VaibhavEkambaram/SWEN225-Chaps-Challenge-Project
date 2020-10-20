@@ -1,5 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp23.render;
 
+import nz.ac.vuw.ecs.swen225.gp23.application.Main;
+
 import javax.swing.*;
 import java.net.URL;
 
@@ -11,98 +13,98 @@ import java.net.URL;
  */
 public class TileFinder {
 
-    private final ImageIcon empty = makeImageIcon("/tiles/empty.png");
+    private static final ImageIcon empty = makeImageIcon("/tiles/empty.png");
 
     //--------------------
     // Basic Image Icons
     //--------------------
 
     // Basic Tiles
-    private final ImageIcon exit_icon = makeImageIcon("/icons/exit_icon.png");
-    private final ImageIcon exit_lock_icon = makeImageIcon("/icons/exit_lock_icon.png");
-    private final ImageIcon computer_chip_icon = makeImageIcon("/icons/computer_chip_icon.png");
-    private final ImageIcon key_icon = makeImageIcon("/icons/key_icon.png");
-    private final ImageIcon door_icon = makeImageIcon("/icons/door_icon.png");
-    private final ImageIcon chip_icon = makeImageIcon("/icons/chip_icon.png");
-    private final ImageIcon cyclops_icon = makeImageIcon("/icons/cyclops_icon.png");
+    private static final ImageIcon exit_icon = makeImageIcon("/icons/exit_icon.png");
+    private static final ImageIcon exit_lock_icon = makeImageIcon("/icons/exit_lock_icon.png");
+    private static final ImageIcon computer_chip_icon = makeImageIcon("/icons/computer_chip_icon.png");
+    private static final ImageIcon key_icon = makeImageIcon("/icons/key_icon.png");
+    private static final ImageIcon door_icon = makeImageIcon("/icons/door_icon.png");
+    private static final ImageIcon chip_icon = makeImageIcon("/icons/chip_icon.png");
+    private static final ImageIcon cyclops_icon = makeImageIcon("/icons/cyclops_icon.png");
 
     // Keys
-    private final ImageIcon key_blue = makeImageIcon("/icons/key_blue.png");
-    private final ImageIcon key_red = makeImageIcon("/icons/key_red.png");
-    private final ImageIcon key_yellow = makeImageIcon("/icons/key_yellow.png");
-    private final ImageIcon key_green = makeImageIcon("/icons/key_green.png");
+    private static final ImageIcon key_blue = makeImageIcon("/icons/key_blue.png");
+    private static final ImageIcon key_red = makeImageIcon("/icons/key_red.png");
+    private static final ImageIcon key_yellow = makeImageIcon("/icons/key_yellow.png");
+    private static final ImageIcon key_green = makeImageIcon("/icons/key_green.png");
 
     //--------------------
     // Grass Image Icons
     //--------------------
 
     // Basic Tiles
-    private final ImageIcon floor_grass = makeImageIcon("/tiles/floor_grass.png");
-    private final ImageIcon wall_grass = makeImageIcon("/tiles/wall_grass.png");
-    private final ImageIcon exit_grass = makeImageIcon("/tiles/exit_grass.png");
-    private final ImageIcon exit_lock_grass = makeImageIcon("/tiles/exit_lock_grass.png");
-    private final ImageIcon computer_chip_grass = makeImageIcon("/items/computer_chip_grass.png");
-    private final ImageIcon hint_grass = makeImageIcon("/tiles/hint_grass.png");
+    private static final ImageIcon floor_grass = makeImageIcon("/tiles/floor_grass.png");
+    private static final ImageIcon wall_grass = makeImageIcon("/tiles/wall_grass.png");
+    private static final ImageIcon exit_grass = makeImageIcon("/tiles/exit_grass.png");
+    private static final ImageIcon exit_lock_grass = makeImageIcon("/tiles/exit_lock_grass.png");
+    private static final ImageIcon computer_chip_grass = makeImageIcon("/items/computer_chip_grass.png");
+    private static final ImageIcon hint_grass = makeImageIcon("/tiles/hint_grass.png");
 
     // Chip
-    private final ImageIcon chip_up_grass = makeImageIcon("/chip/chip_up_grass.png");
-    private final ImageIcon chip_down_grass = makeImageIcon("/chip/chip_down_grass.png");
-    private final ImageIcon chip_left_grass = makeImageIcon("/chip/chip_left_grass.png");
-    private final ImageIcon chip_right_grass = makeImageIcon("/chip/chip_right_grass.png");
+    private static final ImageIcon chip_up_grass = makeImageIcon("/chip/chip_up_grass.png");
+    private static final ImageIcon chip_down_grass = makeImageIcon("/chip/chip_down_grass.png");
+    private static final ImageIcon chip_left_grass = makeImageIcon("/chip/chip_left_grass.png");
+    private static final ImageIcon chip_right_grass = makeImageIcon("/chip/chip_right_grass.png");
 
     // Cyclops
-    private final ImageIcon cyclops_up_grass = makeImageIcon("/enemies/cyclops/cyclops_up_grass.png");
-    private final ImageIcon cyclops_down_grass = makeImageIcon("/enemies/cyclops/cyclops_down_grass.png");
-    private final ImageIcon cyclops_left_grass = makeImageIcon("/enemies/cyclops/cyclops_left_grass.png");
-    private final ImageIcon cyclops_right_grass = makeImageIcon("/enemies/cyclops/cyclops_right_grass.png");
+    private static final ImageIcon cyclops_up_grass = makeImageIcon("/enemies/cyclops/cyclops_up_grass.png");
+    private static final ImageIcon cyclops_down_grass = makeImageIcon("/enemies/cyclops/cyclops_down_grass.png");
+    private static final ImageIcon cyclops_left_grass = makeImageIcon("/enemies/cyclops/cyclops_left_grass.png");
+    private static final ImageIcon cyclops_right_grass = makeImageIcon("/enemies/cyclops/cyclops_right_grass.png");
 
     // Keys
-    private final ImageIcon key_green_grass = makeImageIcon("/items/keys/key_green_grass.png");
-    private final ImageIcon key_blue_grass = makeImageIcon("/items/keys/key_blue_grass.png");
-    private final ImageIcon key_yellow_grass = makeImageIcon("/items/keys/key_yellow_grass.png");
-    private final ImageIcon key_red_grass = makeImageIcon("/items/keys/key_red_grass.png");
+    private static final ImageIcon key_green_grass = makeImageIcon("/items/keys/key_green_grass.png");
+    private static final ImageIcon key_blue_grass = makeImageIcon("/items/keys/key_blue_grass.png");
+    private static final ImageIcon key_yellow_grass = makeImageIcon("/items/keys/key_yellow_grass.png");
+    private static final ImageIcon key_red_grass = makeImageIcon("/items/keys/key_red_grass.png");
 
     // Doors
-    private final ImageIcon door_red_grass = makeImageIcon("/tiles/doors/door_red_grass.png");
-    private final ImageIcon door_blue_grass = makeImageIcon("/tiles/doors/door_blue_grass.png");
-    private final ImageIcon door_yellow_grass = makeImageIcon("/tiles/doors/door_yellow_grass.png");
-    private final ImageIcon door_green_grass = makeImageIcon("/tiles/doors/door_green_grass.png");
+    private static final ImageIcon door_red_grass = makeImageIcon("/tiles/doors/door_red_grass.png");
+    private static final ImageIcon door_blue_grass = makeImageIcon("/tiles/doors/door_blue_grass.png");
+    private static final ImageIcon door_yellow_grass = makeImageIcon("/tiles/doors/door_yellow_grass.png");
+    private static final ImageIcon door_green_grass = makeImageIcon("/tiles/doors/door_green_grass.png");
 
     //--------------------
     // Rock Image Icons
     //--------------------
 
     // Basic Tiles
-    private final ImageIcon floor_rock = makeImageIcon("/tiles/floor_rock.png");
-    private final ImageIcon wall_rock = makeImageIcon("/tiles/wall_rock.png");
-    private final ImageIcon exit_rock = makeImageIcon("/tiles/exit_rock.png");
-    private final ImageIcon exit_lock_rock = makeImageIcon("/tiles/exit_lock_rock.png");
-    private final ImageIcon computer_chip_rock = makeImageIcon("/items/computer_chip_rock.png");
-    private final ImageIcon hint_rock = makeImageIcon("/tiles/hint_rock.png");
+    private static final ImageIcon floor_rock = makeImageIcon("/tiles/floor_rock.png");
+    private static final ImageIcon wall_rock = makeImageIcon("/tiles/wall_rock.png");
+    private static final ImageIcon exit_rock = makeImageIcon("/tiles/exit_rock.png");
+    private static final ImageIcon exit_lock_rock = makeImageIcon("/tiles/exit_lock_rock.png");
+    private static final ImageIcon computer_chip_rock = makeImageIcon("/items/computer_chip_rock.png");
+    private static final ImageIcon hint_rock = makeImageIcon("/tiles/hint_rock.png");
 
     // Chip
-    private final ImageIcon chip_up_rock = makeImageIcon("/chip/chip_up_rock.png");
-    private final ImageIcon chip_down_rock = makeImageIcon("/chip/chip_down_rock.png");
-    private final ImageIcon chip_left_rock = makeImageIcon("/chip/chip_left_rock.png");
-    private final ImageIcon chip_right_rock = makeImageIcon("/chip/chip_right_rock.png");
+    private static final ImageIcon chip_up_rock = makeImageIcon("/chip/chip_up_rock.png");
+    private static final ImageIcon chip_down_rock = makeImageIcon("/chip/chip_down_rock.png");
+    private static final ImageIcon chip_left_rock = makeImageIcon("/chip/chip_left_rock.png");
+    private static final ImageIcon chip_right_rock = makeImageIcon("/chip/chip_right_rock.png");
 
     // Cyclops
-    private final ImageIcon cyclops_up_rock = makeImageIcon("/enemies/cyclops/cyclops_up_rock.png");
-    private final ImageIcon cyclops_down_rock = makeImageIcon("/enemies/cyclops/cyclops_down_rock.png");
-    private final ImageIcon cyclops_left_rock = makeImageIcon("/enemies/cyclops/cyclops_left_rock.png");
-    private final ImageIcon cyclops_right_rock = makeImageIcon("/enemies/cyclops/cyclops_right_rock.png");
+    private static final ImageIcon cyclops_up_rock = makeImageIcon("/enemies/cyclops/cyclops_up_rock.png");
+    private static final ImageIcon cyclops_down_rock = makeImageIcon("/enemies/cyclops/cyclops_down_rock.png");
+    private static final ImageIcon cyclops_left_rock = makeImageIcon("/enemies/cyclops/cyclops_left_rock.png");
+    private static final ImageIcon cyclops_right_rock = makeImageIcon("/enemies/cyclops/cyclops_right_rock.png");
 
     // Keys
-    private final ImageIcon key_green_rock = makeImageIcon("/items/keys/key_green_rock.png");
-    private final ImageIcon key_blue_rock = makeImageIcon("/items/keys/key_blue_rock.png");
-    private final ImageIcon key_yellow_rock = makeImageIcon("/items/keys/key_yellow_rock.png");
-    private final ImageIcon key_red_rock = makeImageIcon("/items/keys/key_red_rock.png");
+    private static final ImageIcon key_green_rock = makeImageIcon("/items/keys/key_green_rock.png");
+    private static final ImageIcon key_blue_rock = makeImageIcon("/items/keys/key_blue_rock.png");
+    private static final ImageIcon key_yellow_rock = makeImageIcon("/items/keys/key_yellow_rock.png");
+    private static final ImageIcon key_red_rock = makeImageIcon("/items/keys/key_red_rock.png");
 
     // Doors
-    private final ImageIcon door_red_rock = makeImageIcon("/tiles/doors/door_red_rock.png");
-    private final ImageIcon door_blue_rock = makeImageIcon("/tiles/doors/door_blue_rock.png");
-    private final ImageIcon door_yellow_rock = makeImageIcon("/tiles/doors/door_yellow_rock.png");
-    private final ImageIcon door_green_rock = makeImageIcon("/tiles/doors/door_green_rock.png");
+    private static final ImageIcon door_red_rock = makeImageIcon("/tiles/doors/door_red_rock.png");
+    private static final ImageIcon door_blue_rock = makeImageIcon("/tiles/doors/door_blue_rock.png");
+    private static final ImageIcon door_yellow_rock = makeImageIcon("/tiles/doors/door_yellow_rock.png");
+    private static final ImageIcon door_green_rock = makeImageIcon("/tiles/doors/door_green_rock.png");
 
     /**
      * Get an Image from a string.
@@ -114,7 +116,7 @@ public class TileFinder {
      *
      * @author Cameron Li
      */
-    public ImageIcon getTile(String tileName, int tileset) {
+    public static ImageIcon getTile(String tileName, int tileset) {
         if (tileset >= 0) {
             StringBuilder newString = new StringBuilder();
             newString.append(tileName + "_");
@@ -156,8 +158,8 @@ public class TileFinder {
      *
      * @author Cameron Li
      */
-    private ImageIcon makeImageIcon(String filename) {
-        URL imageURL = this.getClass().getResource(filename);
+    private static ImageIcon makeImageIcon(String filename) {
+        URL imageURL = Main.class.getResource(filename);
         if (imageURL != null) {
             return new ImageIcon(imageURL);
         } else {
@@ -177,7 +179,7 @@ public class TileFinder {
      *
      * @author Cameron Li
      */
-    private ImageIcon getChip(String tileName) {
+    private static ImageIcon getChip(String tileName) {
         switch(tileName) {
             case "chip_up_grass":
                 return chip_up_grass;
@@ -211,7 +213,7 @@ public class TileFinder {
      *
      * @author Cameron Li
      */
-    private ImageIcon getCyclops(String tileName) {
+    private static ImageIcon getCyclops(String tileName) {
         switch(tileName) {
             case "cyclops_up_grass":
                 return cyclops_up_grass;
@@ -244,7 +246,7 @@ public class TileFinder {
      *
      * @author Cameron Li
      */
-    private ImageIcon getBasic(String tileName) {
+    private static ImageIcon getBasic(String tileName) {
         switch (tileName) {
             // Basic Tiles
             case "hint_grass":
@@ -287,7 +289,7 @@ public class TileFinder {
      *
      * @author Cameron Li
      */
-    private ImageIcon getDoor(String tileName){
+    private static ImageIcon getDoor(String tileName){
         switch(tileName) {
             case "door_green_grass":
                 return door_green_grass;
@@ -321,7 +323,7 @@ public class TileFinder {
      *
      * @author Cameron Li
      */
-    private ImageIcon getKey(String tileName) {
+    private static ImageIcon getKey(String tileName) {
         switch(tileName) {
             case "key_green_grass":
                 return key_green_grass;
@@ -363,7 +365,7 @@ public class TileFinder {
      *
      * @author Cameron Li
      */
-    private ImageIcon getIcon(String tileName) {
+    private static ImageIcon getIcon(String tileName) {
         switch (tileName) {
             // Basic Tiles
             case "chip_icon":

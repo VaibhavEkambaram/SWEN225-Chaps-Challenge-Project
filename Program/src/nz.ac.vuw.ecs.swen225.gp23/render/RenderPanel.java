@@ -16,7 +16,6 @@ public class RenderPanel extends JPanel {
 
     // Find Tile
     private String[][] displayBoard; // Current board state to display
-    private final TileFinder tileFinder;
 
     // Size of Grid
     private final int rows;
@@ -39,7 +38,6 @@ public class RenderPanel extends JPanel {
      * @author Cameron Li
      */
     public RenderPanel(int rows, int cols, int tileset) {
-        this.tileFinder = new TileFinder();
         this.rows = rows;
         this.cols = cols;
         this.tileset = tileset;
@@ -96,7 +94,7 @@ public class RenderPanel extends JPanel {
         // Initialise as empty grid
         for (int row = 0; row < rows; row++) { // Create JLabels (that reference ImageIcons) for each tile
             for (int col = 0; col < cols; col++) {
-                tileGrid[row][col] = new JLabel(tileFinder.getTile("empty", -1));
+                tileGrid[row][col] = new JLabel(TileFinder.getTile("empty", -1));
             }
         }
 
@@ -141,7 +139,7 @@ public class RenderPanel extends JPanel {
             // Resize images to fill current Dimensions
             for (int row = 0; row < rows; row++) {
                 for (int col = 0; col < cols; col++) {
-                    ImageIcon foundTile = tileFinder.getTile(displayBoard[row][col], tileset);
+                    ImageIcon foundTile = TileFinder.getTile(displayBoard[row][col], tileset);
                     Image resizeImage = foundTile.getImage().getScaledInstance(size, size, Image.SCALE_SMOOTH);
                     tileGrid[row][col].setIcon(new ImageIcon(resizeImage));
                 }
