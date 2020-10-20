@@ -1,15 +1,28 @@
 package nz.ac.vuw.ecs.swen225.gp23.recnplay;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonReader;
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
 import nz.ac.vuw.ecs.swen225.gp23.application.GraphicalInterface;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.Persistence;
 
-import javax.json.*;
-import java.io.*;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+
 
 /**
  * This class is responsible for recording and replaying the game play.
@@ -248,14 +261,6 @@ public class RecordReplay {
      */
     public static void setDelay(long d){
         delay = d;
-    }
-
-    /**
-     * Returns the arraylist of movements.
-     * @return - movements.
-     */
-    public static ArrayList<Tile.Directions> getMovements() {
-        return movements;
     }
 
     /**
