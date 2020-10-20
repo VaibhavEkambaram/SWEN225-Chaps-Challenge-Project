@@ -19,7 +19,6 @@ import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.Persistence;
 import nz.ac.vuw.ecs.swen225.gp23.recnplay.RecordReplay;
 import nz.ac.vuw.ecs.swen225.gp23.render.ChipAudioModule;
-import nz.ac.vuw.ecs.swen225.gp23.render.RenderPanel;
 
 
 /**
@@ -47,14 +46,19 @@ public class Game {
 
 
   /**
-   * Game Constructor
+   * Game Constructor.
    *
    * @param countFromFile countdown duration
    * @param levelNumber   level number
    * @param gui           gui class
    * @param board         board class
    */
-  public Game(int countFromFile, int levelNumber, GraphicalInterface gui, Board board, ChipAudioModule audio, Application application) {
+  public Game(int countFromFile,
+              int levelNumber,
+              GraphicalInterface gui,
+              Board board,
+              ChipAudioModule audio,
+              Application application) {
     this.application = application;
     this.board = board;
     this.countdownTimer = (countFromFile + 1);
@@ -79,7 +83,7 @@ public class Game {
   }
 
   /**
-   * Create string representation of board
+   * Create string representation of board.
    *
    * @return string
    */
@@ -100,9 +104,11 @@ public class Game {
 
   /**
    * Execute countdown timer.
-   * This timer controls the countdown of the game and updates the GUI time label accordingly. This countdown also
-   * accounts for the game being paused, with the countdown only continuing when un-paused.
-   * This function operates in an asynchronous manner to the main game interface, so is able to operate independently
+   * This timer controls the countdown of the game and updates the GUI time label accordingly.
+   * This countdown also accounts for the game being paused, with the countdown only continuing
+   * when un-paused.
+   * This function operates in an asynchronous manner to the main game interface,
+   * so is able to operate independently
    * of graphics redraw calls.
    */
   public void runTimer() {
@@ -193,7 +199,8 @@ public class Game {
       } else if (currentTile instanceof Hint) {
         gui.helpMenuContents();
       } else if (currentTile instanceof Exit) {
-        gui.levelCompleteMessage(levelNumber, countdownTimer, timeToComplete - countdownTimer, board.getChipCount());
+        gui.levelCompleteMessage(
+            levelNumber, countdownTimer, timeToComplete - countdownTimer, board.getChipCount());
       } else if (currentTile instanceof Key || currentTile instanceof LockedDoor) {
         gui.updateInventory();
       }

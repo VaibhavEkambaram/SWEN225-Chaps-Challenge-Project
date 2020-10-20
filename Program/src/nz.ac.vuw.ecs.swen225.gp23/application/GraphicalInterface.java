@@ -15,7 +15,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -233,6 +232,12 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     // Help
     // ---------------------------------------------------------------------------------------------
     final JMenu helpMenu = new JMenu("Help");
+
+    final JMenuItem howToPlayMenu = new JMenuItem("How to Play");
+    howToPlayMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, KeyEvent.CTRL_DOWN_MASK));
+    howToPlayMenu.addActionListener(e -> helpMenuContents());
+
+
     // ---------------------------------------------------------------------------------------------
 
     // Generate Menu Structure and add to Frame
@@ -248,7 +253,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     recordAndReplayMenu.add(stopRecordingMenu);
     recordAndReplayMenu.add(loadRecordedMenu);
 
-    helpMenu.add(displayHelpMenu());
+    helpMenu.add(howToPlayMenu);
     helpMenu.add(displayAboutMenu());
 
     tableMenuBar.add(gameMenu);
@@ -506,20 +511,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
 
   /**
-   * Help Menu showing how to play the game.
-   *
-   * @return Help Menu Panel Component
+   * Display the Contents of the Help Menu.
    */
-  public JMenuItem displayHelpMenu() {
-    final JMenuItem howToPlayMenu = new JMenuItem("How to Play");
-    howToPlayMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, KeyEvent.CTRL_DOWN_MASK));
-    howToPlayMenu.addActionListener(e -> {
-      helpMenuContents();
-    });
-    return howToPlayMenu;
-  }
-
-  public void helpMenuContents(){
+  public void helpMenuContents() {
     JPanel primaryOptionPaneField = new JPanel();
 
     BorderLayout optionPaneLayout = new BorderLayout();
@@ -666,21 +660,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
 
   /**
-   * Generic GUI Message.
-   *
-   * @param message string to display
-   */
-  public void sendMessage(String message) {
-    if (application.getState().equals(Application.GameStates.RUNNING)) {
-      onPauseGame(true);
-      JOptionPane.showMessageDialog(
-          null, message, "Message", JOptionPane.PLAIN_MESSAGE);
-      onPauseGame(false);
-    }
-  }
-
-
-  /**
    * Update Player Inventory.
    */
   public void updateInventory() {
@@ -711,15 +690,14 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     onStopGame(false);
     gamePaused = false;
     currentGame = null;
-    Persistence p = new Persistence();
     levelManager.setLevel(1);
     levelManager.saveLevel();
-    Board board = p.loadFile("Program/src/levels/" + levelManager.getCurrentLevel());
+    Board board = Persistence.loadFile("Program/src/levels/" + levelManager.getCurrentLevel());
 
     currentGame = new Game(
-        p.getTimeLeft(), p.getLevel(), this, board, audio, application);
+        Persistence.getTimeLeft(), Persistence.getLevel(), this, board, audio, application);
 
-    List<String> inventoryStartingArray = p.setInventory();
+    List<String> inventoryStartingArray = Persistence.setInventory();
 
     if (inventoryStartingArray.size() > 0) {
       currentGame.getPlayer().setInventory(inventoryStartingArray);
@@ -747,18 +725,16 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     int returnVal = chooser.showOpenDialog(null);
     if (returnVal == JFileChooser.APPROVE_OPTION) {
 
-
-      Persistence p = new Persistence();
-      Board board = p.loadFile(chooser.getSelectedFile().toString());
-      currentGame = new Game(p.getTimeLeft(),
-          p.getLevel(),
+      Board board = Persistence.loadFile(chooser.getSelectedFile().toString());
+      currentGame = new Game(Persistence.getTimeLeft(),
+          Persistence.getLevel(),
           this,
           board,
           audio,
           application);
       levelManager.setLevel(currentGame.getLevelNumber());
       levelManager.saveLevel();
-      List<String> inventoryStartingArray = p.setInventory();
+      List<String> inventoryStartingArray = Persistence.setInventory();
 
       if (inventoryStartingArray.size() > 0) {
         currentGame.getPlayer().setInventory(inventoryStartingArray);
@@ -782,20 +758,19 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     gamePaused = false;
     currentGame = null;
 
-    Persistence p = new Persistence();
     Board board;
 
     if (loadingSavedGame) {
-      board = p.loadFile(filepath);
+      board = Persistence.loadFile(filepath);
     } else {
-      board = p.loadFile("Program/src/levels/" + filepath);
+      board = Persistence.loadFile("Program/src/levels/" + filepath);
     }
 
     currentGame = new Game(
-        p.getTimeLeft(), p.getLevel(), this, board, audio, application);
+        Persistence.getTimeLeft(), Persistence.getLevel(), this, board, audio, application);
     levelManager.setLevel(currentGame.getLevelNumber());
     levelManager.saveLevel();
-    List<String> inventoryStartingArray = p.setInventory();
+    List<String> inventoryStartingArray = Persistence.setInventory();
 
     if (inventoryStartingArray.size() > 0) {
       currentGame.getPlayer().setInventory(inventoryStartingArray);
