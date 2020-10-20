@@ -13,7 +13,7 @@ import java.net.URL;
  */
 public class TileFinder {
 
-    private static final ImageIcon empty = makeImageIcon("/tiles/empty.png");
+    private static final ImageIcon empty = makeImageIcon("/tile_images/tiles/empty.png");
 
     //--------------------
     // Basic Image Icons
