@@ -16,7 +16,6 @@ public class RenderPanel extends JPanel {
 
     // Find Tile
     private String[][] displayBoard; // Current board state to display
-    private final TileFinder tileFinder;
 
     // Size of Grid
     private final int rows;
@@ -39,7 +38,6 @@ public class RenderPanel extends JPanel {
      * @author Cameron Li
      */
     public RenderPanel(int rows, int cols, int tileset) {
-        this.tileFinder = new TileFinder();
         this.rows = rows;
         this.cols = cols;
         this.tileset = tileset;
@@ -61,8 +59,10 @@ public class RenderPanel extends JPanel {
         displayBoard = new String[this.rows][this.cols];
         // Find current player position to determine center of Render Panel
         Tile centerTile = currentBoard.getPlayerLoc();
+        // Center Player Location
         int centerRow = centerTile.getYLoc();
         int centerCol = centerTile.getXLoc();
+        // Radius from center
         int rowRadius = (this.rows)/2;
         int colRadius = (this.cols)/2;
         int startRow = centerRow - rowRadius;
@@ -96,7 +96,7 @@ public class RenderPanel extends JPanel {
         // Initialise as empty grid
         for (int row = 0; row < rows; row++) { // Create JLabels (that reference ImageIcons) for each tile
             for (int col = 0; col < cols; col++) {
-                tileGrid[row][col] = new JLabel(tileFinder.getTile("empty", -1));
+                tileGrid[row][col] = new JLabel(TileFinder.getTile("empty", -1));
             }
         }
 
@@ -116,7 +116,7 @@ public class RenderPanel extends JPanel {
 
     /**
      * Method to set paused
-     * @param pause
+     * @param pause T/F - Whether or not game should be paused
      *
      * @author Cameron Li
      */
@@ -133,37 +133,55 @@ public class RenderPanel extends JPanel {
      * @author Cameron Li.
      */
     public void paint(Graphics g) {
-        // Determine maximum size by minimum dimension
+        // Determine maximum usable size by minimum dimension
         int width = this.getWidth();
         int height = this.getHeight();
-        int size = width < height ? width/cols : height/rows;
+        int size = width < height ? width/cols : height/rows; // Determine smallest size
+
         if (!isPaused) {
+            if (tileGrid == null || displayBoard == null) {
+                String text = "Start a new game using [GAME] menu above or [CTRL + 1]";
+                drawString(g, text);
+                return;
+            }
             // Resize images to fill current Dimensions
             for (int row = 0; row < rows; row++) {
                 for (int col = 0; col < cols; col++) {
-                    ImageIcon foundTile = tileFinder.getTile(displayBoard[row][col], tileset);
+                    ImageIcon foundTile = TileFinder.getTile(displayBoard[row][col], tileset);
                     Image resizeImage = foundTile.getImage().getScaledInstance(size, size, Image.SCALE_SMOOTH);
                     tileGrid[row][col].setIcon(new ImageIcon(resizeImage));
                 }
             }
-            super.paint(g);
+            super.paint(g); // Redraw the ImageIcons
         } else {
-            // Get Font Information
-            Font font = g.getFont();
-            FontMetrics metrics = g.getFontMetrics(font);
-            // Determine the X coordinate for the text
             String text = "Game has been paused...press ESC to resume";
-            int x = (this.getWidth() - metrics.stringWidth(text)) / 2;
-            // Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
-            int y = (this.getHeight() - metrics.getHeight())/2;
-            // Set the font
-            g.setFont(font);
-            // Black Background
-            g.setColor(Color.BLACK);
-            g.fillRect(0, 0,  this.getWidth(), this.getHeight());
-            // Pause Menu String
-            g.setColor(Color.ORANGE);
-            g.drawString(text, x, y);
+            drawString(g, text);
         }
+    }
+
+    /**
+     * Draws a string on a black background centered in the middle
+     *
+     * @param g Graphics
+     * @param text Text to draw
+     *
+     * @author Cameron Li
+     */
+    private void drawString(Graphics g, String text) {
+        // Font information
+        Font font = g.getFont();
+        FontMetrics metrics = g.getFontMetrics(font);
+        // Determine the X position
+        int x = (this.getWidth() - metrics.stringWidth(text)) / 2;
+        // Determine the Y position
+        int y = (this.getHeight() - metrics.getHeight())/2;
+        // Set the font
+        g.setFont(font);
+        // Black Background
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0,  this.getWidth(), this.getHeight());
+        // Pause Menu String
+        g.setColor(Color.ORANGE);
+        g.drawString(text, x, y);
     }
 }

@@ -78,20 +78,9 @@ public class Game {
         cyclops.add(new Cyclops(t,Tile.Directions.Right));
       }
     }
-    initBoardRenderer();
     runTimer();
 
     gui.setChipsLeftLabel(board.getChipCount());
-  }
-
-
-  /**
-   * Initialise the board renderer.
-   */
-  public void initBoardRenderer() {
-    boardRenderPanel = new RenderPanel(9, 9, tileset);
-    gui.setRenderPanel(boardRenderPanel);
-    boardRenderPanel.setBoard(board);
   }
 
   /**
@@ -144,7 +133,7 @@ public class Game {
             gui.getTimeLabel().setForeground(Color.WHITE);
           }
           gui.setTimeLabel(countdownTimer);
-          boardRenderPanel.setBoard(board);
+          gui.getRenderPanel().setBoard(board);
         } else if (!gamePaused) {
           timer.cancel();
 
@@ -215,7 +204,7 @@ public class Game {
       } else if (currentTile instanceof Key || currentTile instanceof LockedDoor) {
         gui.updateInventory();
       }
-      boardRenderPanel.setBoard(board);
+      gui.getRenderPanel().setBoard(board);
     }
   }
 
