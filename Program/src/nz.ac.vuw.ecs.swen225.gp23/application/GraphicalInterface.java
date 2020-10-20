@@ -138,7 +138,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK));
     newFromLastLevelMenu.addActionListener(e -> {
 
-      onLoadGameNoGui(new LevelM().getCurrentLevel());
+      onLoadGameNoGui(new LevelM().getCurrentLevel(), false);
     });
 
     final JMenuItem resumeSavedMenu = new JMenuItem("Load Game");
@@ -678,7 +678,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     gamePaused = false;
     currentGame = null;
     Persistence p = new Persistence();
-    Board board = p.loadFile("Program/src/levels/level1.json");
+    levelManager.setLevel(1);
+    levelManager.saveLevel();
+    Board board = p.loadFile("Program/src/levels/" + levelManager.getCurrentLevel());
     int tileset = (int) (Math.random() * 2);
     currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board, audio, tileset, application);
 
@@ -720,7 +722,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
           audio,
           tileset,
           application);
-
+      levelManager.setLevel(currentGame.getLevelNumber());
+      levelManager.saveLevel();
       List<String> inventoryStartingArray = p.setInventory();
 
       if (inventoryStartingArray.size() > 0) {
@@ -739,7 +742,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
    *
    * @param filepath file path string
    */
-  public void onLoadGameNoGui(String filepath) {
+  public void onLoadGameNoGui(String filepath, boolean loadingSavedGame) {
     onStopGame(true);
 
     gamePaused = false;
@@ -749,7 +752,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     Board board = p.loadFile(filepath);
     int tileset = 2;
     currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board, audio, tileset, application);
-
+    levelManager.setLevel(currentGame.getLevelNumber());
+    levelManager.saveLevel();
     List<String> inventoryStartingArray = p.setInventory();
 
     if (inventoryStartingArray.size() > 0) {
@@ -878,29 +882,32 @@ public class GraphicalInterface extends JFrame implements KeyListener {
       gamePauseMenu.setState(false);
     }
 
-    String[] options = new String[]{"Next Level", "Play Again", "Save and Exit", "Exit"};
+    levelManager.incrementLevel();
+    if (levelManager.checkMaximumState()) {
+      JOptionPane.showMessageDialog(null, "Congratulations, you have completed all the levels and have thus won the game!", "Game Complete", JOptionPane.PLAIN_MESSAGE);
+      onStopGame(false);
+    } else {
 
-    JPanel fields = new JPanel(new GridLayout(0, 1));
-    fields.add(new JLabel("You have completed level " + levelNumber));
-    fields.add(new JLabel("You collected " + chipCount + " items in " + time + " seconds (" + timeRemaining + " seconds remaining)"));
-    int response = JOptionPane.showOptionDialog(this, fields, "Level Complete!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+      String[] options = new String[]{"Next Level", "Play Again", "Save and Exit", "Exit"};
 
-    if (response >= 0 && response <= 3) {
-      if (response == 0) {
-        lm.incrementLevel();
-        onLoadGameNoGui(lm.getCurrentLevel());
-      } else if (response == 1) {
-        onNewGame();
-      } else if (response == 2) {
-        lm.incrementLevel();
-        lm.saveLevel();
+      JPanel fields = new JPanel(new GridLayout(0, 1));
+      fields.add(new JLabel("You have completed level " + levelNumber));
+      fields.add(new JLabel("You collected " + chipCount + " items in " + time + " seconds (" + timeRemaining + " seconds remaining)"));
+      int response = JOptionPane.showOptionDialog(this, fields, "Level Complete!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 
-        onStopGame(false);
-        dispose();
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        System.exit(0);
-      } else if (response == 3) {
-        onStopGame(false);
+      if (response >= 0 && response <= 3) {
+        if (response == 0) {
+
+          levelManager.saveLevel();
+          onLoadGameNoGui(levelManager.getCurrentLevel(), false);
+        } else if (response == 1) {
+          onLoadGameNoGui(levelManager.getCurrentLevel(), false);
+        } else if (response == 2) {
+          levelManager.saveLevel();
+          onStopGame(false);
+        } else if (response == 3) {
+          onStopGame(false);
+        }
       }
     }
   }
