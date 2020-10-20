@@ -31,6 +31,69 @@ public class LevelM {
                 }
             }
         }
+        loadFile("ChapsChallenge_PersistenceLevel.json");
+    }
+
+    public void loadFile(String filepath) {
+
+        try {
+            Gson gson = new Gson();
+
+            Reader reader = java.nio.file.Files.newBufferedReader(Paths.get(filepath));
+
+            Map<?, ?> map = gson.fromJson(reader, Map.class);
+
+            for (Map.Entry<?, ?> entry : map.entrySet()) {
+
+                if (entry.getKey().equals("currentLevel")) {
+                    currentLevel = currentLevelInteger.get(entry.getValue().toString());
+                }
+            }
+
+            reader.close();
+        } catch (Exception ex) {
+            saveLevel();
+        }
+
+    }
+
+    public void saveLevel() {
+        String jGame;
+        String levelURL = levels.get(currentLevel);
+
+        JsonObjectBuilder builder = Json.createObjectBuilder()
+                .add("currentLevel", levelURL);
+        try (
+                Writer writer = new StringWriter()) {
+            Json.createWriter(writer).write(builder.build());
+            jGame = writer.toString();
+        } catch (
+                IOException e) {
+            throw new Error("Failed to parse current level");
+        }
+
+        try {
+            Writer writer = new BufferedWriter(new FileWriter("ChapsChallenge_PersistenceLevel.json"));
+
+            for (int i = 0; i < jGame.length(); i++) {
+                char next = jGame.charAt(i);
+                switch (next) {
+                    case ',':
+                    case '{':
+                        writer.write(next + "\n\t");
+                        break;
+                    case '}':
+                        writer.write("\n" + next);
+                        break;
+                    default:
+                        writer.write(next);
+                        break;
+                }
+            }
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setLevel(int value) { currentLevel = value; }
