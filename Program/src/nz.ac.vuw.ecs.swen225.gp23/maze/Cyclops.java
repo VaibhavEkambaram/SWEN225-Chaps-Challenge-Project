@@ -1,5 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp23.maze;
 
+import nz.ac.vuw.ecs.swen225.gp23.application.GraphicalInterface;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,7 +36,7 @@ public class Cyclops {
      * Moves the cyclops 1 tile in its current direction
      * If the cyclops cant travel in its direction. Reverse it's direciton.
      */
-    public void moveCyclops(){
+    public void moveCyclops(GraphicalInterface gui){
         Tile nextTile = currentTile.getDirection(direction);
         Player validator = new Player(currentTile);
         if(nextTile.action(validator)) {
@@ -42,10 +44,14 @@ public class Cyclops {
                 nextTile.setEntityPresent(this.directionImages.get(direction));
                 currentTile.setEntityAbsent();
                 currentTile = nextTile;
+            } else {
+                System.out.println("dead");
+                gui.onStopGame(false);
+                gui.outOfTime("You died","Oh no! You were caught by a cyclops.");
             }
         } else {
             direction = direction.reverse();
-            moveCyclops();
+            moveCyclops(gui);
         }
     }
 

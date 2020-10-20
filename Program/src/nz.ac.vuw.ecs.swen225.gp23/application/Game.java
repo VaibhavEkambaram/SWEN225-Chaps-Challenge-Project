@@ -12,6 +12,7 @@ import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
 import nz.ac.vuw.ecs.swen225.gp23.maze.ComputerChip;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Cyclops;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Exit;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Hint;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Key;
 import nz.ac.vuw.ecs.swen225.gp23.maze.LockedDoor;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Player;
@@ -129,7 +130,7 @@ public class Game {
           countdownTimer--;
           if(cyclops.size()>= 1) {
             for(Cyclops c : cyclops){
-              c.moveCyclops();
+              c.moveCyclops(gui);
             }
           }
           // update gui time label
@@ -146,7 +147,11 @@ public class Game {
           boardRenderPanel.setBoard(board);
         } else if (!gamePaused) {
           timer.cancel();
-          gui.outOfTime();
+
+
+
+
+          gui.outOfTime("Out of Time","Oh no! You have run out of time.");
         }
       }
     };
@@ -199,10 +204,12 @@ public class Game {
       if(currentTile.hasEntity){
         System.out.println("dead");
         gui.onStopGame(false);
-        gui.levelCompleteMessage(-1, -1, -1, -1);
+        gui.outOfTime("You died","Oh no! You were caught by a cyclops.");
       }
       if (currentTile instanceof ComputerChip) {
         gui.setChipsLeftLabel(board.getChipCount() - player.getChips());
+      } else if (currentTile instanceof Hint){
+
       } else if (currentTile instanceof Exit) {
         gui.levelCompleteMessage(levelNumber, countdownTimer, timeToComplete - countdownTimer, board.getChipCount());
       } else if (currentTile instanceof Key || currentTile instanceof LockedDoor) {

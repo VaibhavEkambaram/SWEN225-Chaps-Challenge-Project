@@ -848,11 +848,13 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     }
   }
 
+
+
   /**
    * Out of time.
    * Display message when the player has run out of time
    */
-  public void outOfTime() {
+  public void outOfTime(String title,String message) {
     if (currentGame != null) {
       if (application.getState().equals(Application.GameStates.RUNNING)) {
         application.transitionToInit();
@@ -864,10 +866,10 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
     String[] options = new String[]{"Play Again", "Exit"};
     JPanel fields = new JPanel(new GridLayout(0, 1));
-    fields.add(new JLabel("Oh no! You have run out of time."));
+    fields.add(new JLabel(message));
     int response = JOptionPane.showOptionDialog(this,
         fields,
-        "Out of Time",
+        title,
         JOptionPane.DEFAULT_OPTION,
         JOptionPane.PLAIN_MESSAGE,
         null,
@@ -879,6 +881,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     levelLabel.setText("");
     if (response == 0) {
       onNewGame();
+    } else if (response == 1){
+      onStopGame(false);
     }
   }
 
