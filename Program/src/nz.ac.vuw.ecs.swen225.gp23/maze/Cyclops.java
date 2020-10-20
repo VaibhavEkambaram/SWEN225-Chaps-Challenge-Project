@@ -32,15 +32,17 @@ public class Cyclops {
 
     /**
      * Moves the cyclops 1 tile in its current direction
-     *
+     * If the cyclops cant travel in its direction. Reverse it's direciton.
      */
     public void moveCyclops(){
         Tile nextTile = currentTile.getDirection(direction);
         Player validator = new Player(currentTile);
         if(nextTile.action(validator)) {
-            nextTile.setEntityPresent(this.directionImages.get(direction));
-            currentTile.setEntityAbsent();
-            currentTile = nextTile;
+            if(!nextTile.toString().startsWith("chip")) {
+                nextTile.setEntityPresent(this.directionImages.get(direction));
+                currentTile.setEntityAbsent();
+                currentTile = nextTile;
+            }
         } else {
             direction = direction.reverse();
             moveCyclops();
