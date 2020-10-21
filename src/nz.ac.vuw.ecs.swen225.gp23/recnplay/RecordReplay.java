@@ -67,6 +67,7 @@ public class RecordReplay {
    * @param d - direction of player movement.
    */
   public static void addMoves(Tile.Directions d) {
+    //only add moves if the game is recording
     if (isGameRecording) {
       movements.add(d);
       characters.add(0);
