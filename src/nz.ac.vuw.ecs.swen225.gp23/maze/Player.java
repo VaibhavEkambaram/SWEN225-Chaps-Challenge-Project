@@ -9,7 +9,7 @@ import java.util.Map;
  * This class represents the player in the game.
  * It is responsible for storing the players inventory, chip count, and directional images.
  *
- * @author Baxter Kirikiri
+ * @author Baxter Kirikiri - 300472553
  */
 public class Player {
     private Tile currentTile;

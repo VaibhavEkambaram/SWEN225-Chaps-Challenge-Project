@@ -9,7 +9,7 @@ import java.net.URL;
  * Chip ImageIcon Directory.
  * Contains references to all Images necessary for the game.
  *
- * @author Cameron Li
+ * @author Cameron Li - 300490702
  */
 public class TileFinder {
 
@@ -114,7 +114,7 @@ public class TileFinder {
      * @return
      * Requested tile as an ImageIcon.
      *
-     * @author Cameron Li
+     * @author Cameron Li - 300490702
      */
     public static ImageIcon getTile(String tileName, int tileset) {
         if (tileset >= 0) {
@@ -156,7 +156,7 @@ public class TileFinder {
      * @return
      * Requested Tile as an ImageIcon
      *
-     * @author Cameron Li
+     * @author Cameron Li - 300490702
      */
     private static ImageIcon makeImageIcon(String filename) {
         URL imageURL = Main.class.getResource(filename);
@@ -177,7 +177,7 @@ public class TileFinder {
      * @return
      * Requested Chip Tile as an ImageIcon.
      *
-     * @author Cameron Li
+     * @author Cameron Li - 300490702
      */
     private static ImageIcon getChip(String tileName) {
         switch(tileName) {
@@ -211,7 +211,7 @@ public class TileFinder {
      * @return
      * Requested Chip Tile as an ImageIcon.
      *
-     * @author Cameron Li
+     * @author Cameron Li - 300490702
      */
     private static ImageIcon getCyclops(String tileName) {
         switch(tileName) {
@@ -244,7 +244,7 @@ public class TileFinder {
      * @return
      * Requested Tile as an ImageIcon
      *
-     * @author Cameron Li
+     * @author Cameron Li - 300490702
      */
     private static ImageIcon getBasic(String tileName) {
         switch (tileName) {
@@ -287,7 +287,7 @@ public class TileFinder {
      * @return
      * Requested Door Tile as an ImageIcon.
      *
-     * @author Cameron Li
+     * @author Cameron Li - 300490702
      */
     private static ImageIcon getDoor(String tileName){
         switch(tileName) {
@@ -321,7 +321,7 @@ public class TileFinder {
      * @return
      * Requested key Tile as an ImageIcon.
      *
-     * @author Cameron Li
+     * @author Cameron Li - 300490702
      */
     private static ImageIcon getKey(String tileName) {
         switch(tileName) {
@@ -363,7 +363,7 @@ public class TileFinder {
      * @return
      * Requested Tile as an ImageIcon
      *
-     * @author Cameron Li
+     * @author Cameron Li - 300490702
      */
     private static ImageIcon getIcon(String tileName) {
         switch (tileName) {

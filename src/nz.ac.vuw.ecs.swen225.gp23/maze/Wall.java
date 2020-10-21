@@ -3,7 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp23.maze;
 /**
  * This class represents a wall tile in the game.
  *
- * @author Baxter Kirikiri
+ * @author Baxter Kirikiri - 300472553
  */
 public class Wall extends Tile {
 

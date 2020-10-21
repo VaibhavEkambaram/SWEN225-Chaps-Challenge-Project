@@ -10,7 +10,7 @@ import java.awt.*;
 /**
  * RenderPanel JPanel used for Board Rendering
  *
- * @author Cameron Li
+ * @author Cameron Li - 300490702
  */
 public class RenderPanel extends JPanel {
 
@@ -35,7 +35,7 @@ public class RenderPanel extends JPanel {
      * @param cols
      * Number of cols for the display grid.
      *
-     * @author Cameron Li
+     * @author Cameron Li - 300490702
      */
     public RenderPanel(int rows, int cols, int tileset) {
         this.rows = rows;
@@ -54,7 +54,7 @@ public class RenderPanel extends JPanel {
      * @param currentBoard
      * Next board state.
      *
-     * @author Cameron Li
+     * @author Cameron Li - 300490702
      */
     public void setBoard(Board currentBoard) {
         displayBoard = new String[this.rows][this.cols];
@@ -89,7 +89,7 @@ public class RenderPanel extends JPanel {
      * Create the grid and initialise as empty.
      * Add the grid to the display.
      *
-     * @author Cameron Li
+     * @author Cameron Li - 300490702
      */
     private void createGrid() {
         tileGrid = new JLabel[rows][cols];
@@ -119,7 +119,7 @@ public class RenderPanel extends JPanel {
      * Method to set paused
      * @param pause T/F - Whether or not game should be paused
      *
-     * @author Cameron Li
+     * @author Cameron Li - 300490702
      */
     public void setPaused(boolean pause) {
         isPaused = pause;
@@ -131,7 +131,7 @@ public class RenderPanel extends JPanel {
      *
      * @param tileset which tileset to use (0 for grass, 1+ for rock)
      *
-     * @author Cameron Li
+     * @author Cameron Li - 300490702
      */
     public void setTileset(int tileset) {
         if (tileset < 0) {
@@ -146,7 +146,7 @@ public class RenderPanel extends JPanel {
      * @param g
      * Graphics to draw on.
      *
-     * @author Cameron Li.
+     * @author Cameron Li - 300490702
      */
     public void paint(Graphics g) {
         // Determine maximum usable size by minimum dimension
@@ -181,7 +181,7 @@ public class RenderPanel extends JPanel {
      * @param g Graphics
      * @param text Text to draw
      *
-     * @author Cameron Li
+     * @author Cameron Li - 300490702
      */
     private void drawString(Graphics g, String text) {
         // Font information

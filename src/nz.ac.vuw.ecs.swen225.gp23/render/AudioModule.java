@@ -10,7 +10,7 @@ import javax.sound.sampled.Clip;
  * Audio Modile
  * Used to play audio
  *
- * @author Cameron Li
+ * @author Cameron Li - 300490702
  */
 public class AudioModule {
 
@@ -23,7 +23,7 @@ public class AudioModule {
      * @param audioFile
      * Name of audio file to play
      *
-     * @author Cameron Li
+     * @author Cameron Li - 300490702
      */
     public static void playSoundTrack(Clip clip, String audioFile) {
         try {
@@ -47,7 +47,7 @@ public class AudioModule {
      * @param audioFile
      * Name of audio file to play
      *
-     * @author Cameron Li
+     * @author Cameron Li - 300490702
      */
     public static void playSound(Clip clip, String audioFile) {
         try {
@@ -68,7 +68,7 @@ public class AudioModule {
      * @param clip
      * Clip to play sound track on loop in
      *
-     * @author Cameron Li
+     * @author Cameron Li - 300490702
      */
     public static void pauseSoundTrack(Clip clip) {
         try {
@@ -85,7 +85,7 @@ public class AudioModule {
      * @param clip
      * Clip to play sound in loop
      *
-     * @author Cameron Li
+     * @author Cameron Li - 300490702
      */
     public static void playSoundLoop(Clip clip) {
         try {
@@ -102,7 +102,7 @@ public class AudioModule {
      * @param clip
      * Clip to pause
      *
-     * @author Cameron Li
+     * @author Cameron Li - 300490702
      */
     public static void resetSoundTrack(Clip clip) {
         try {
@@ -123,7 +123,7 @@ public class AudioModule {
      * @param clip
      * Clip to reset current audio to beginning
      *
-     * @author Cameron Li
+     * @author Cameron Li - 300490702
      */
     public static void resetTrack(Clip clip) {
         try {

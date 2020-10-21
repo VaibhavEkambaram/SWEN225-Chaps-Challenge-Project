@@ -3,7 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp23.maze;
 /**
  * This class represents the exit tile, used to progress to the next level or complete the game.
  *
- * @author Baxter Kirikiri
+ * @author Baxter Kirikiri - 300472553
  */
 public class Exit extends Tile {
     /**

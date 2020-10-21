@@ -14,7 +14,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Tests for the Maze Module.
  *
- * @author Baxter Kirikiri
+ * @author Baxter Kirikiri - 300472553
  */
 public class MazeTests {
     private Application app = new Application();
@@ -118,12 +118,7 @@ public class MazeTests {
         assertEquals("floor", game.getBoard().getTile(9, 5).toString());
     }
 
-    /**
-     * Loads the default level 1, picks up only one chip, and attempts to move through the exit lock.
-     * Testing for correct action validation, player position, and exit lock visibility.
-     */
-    @Test
-    public void playerExitLocked(){
+    public void exitTestHelper(int chips){
         game.onMovement(Tile.Directions.Down);
         game.onMovement(Tile.Directions.Down);
         game.onMovement(Tile.Directions.Up);
@@ -132,7 +127,17 @@ public class MazeTests {
         game.onMovement(Tile.Directions.Up);
         game.onMovement(Tile.Directions.Up);
         game.onMovement(Tile.Directions.Right);
+        if(chips!=0){game.getPlayer().setChips(chips);}
         game.onMovement(Tile.Directions.Up);
+    }
+
+    /**
+     * Loads the default level 1, picks up only one chip, and attempts to open the exit lock.
+     * Testing for correct action validation, player position, and exit lock visibility.
+     */
+    @Test
+    public void playerExitLocked(){
+        exitTestHelper(0);
 
         Tile boardLocation = game.getBoard().getPlayerLoc();
 
@@ -148,16 +153,7 @@ public class MazeTests {
      */
     @Test
     public void playerExitUnlocked(){
-        game.onMovement(Tile.Directions.Down);
-        game.onMovement(Tile.Directions.Down);
-        game.onMovement(Tile.Directions.Up);
-        game.onMovement(Tile.Directions.Up);
-        game.onMovement(Tile.Directions.Left);
-        game.onMovement(Tile.Directions.Up);
-        game.onMovement(Tile.Directions.Up);
-        game.onMovement(Tile.Directions.Right);
-        game.getPlayer().setChips(11);
-        game.onMovement(Tile.Directions.Up);
+        exitTestHelper(11);
 
         Tile boardLocation = game.getBoard().getPlayerLoc();
 

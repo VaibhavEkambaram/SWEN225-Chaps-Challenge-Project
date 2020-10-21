@@ -4,7 +4,7 @@ package nz.ac.vuw.ecs.swen225.gp23.maze;
  * This class represents the hint tile in the game.
  * Used to give the player a hint about the game.
  *
- * @author Baxter Kirikiri
+ * @author Baxter Kirikiri - 300472553
  */
 public class Hint extends Tile {
     /**
