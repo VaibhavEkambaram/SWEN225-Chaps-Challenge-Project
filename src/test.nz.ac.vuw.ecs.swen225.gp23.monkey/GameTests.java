@@ -1,5 +1,13 @@
 package test.nz.ac.vuw.ecs.swen225.gp23.monkey;
 
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.assertNotNull;
+import static junit.framework.TestCase.assertTrue;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import nz.ac.vuw.ecs.swen225.gp23.application.Application;
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
 import nz.ac.vuw.ecs.swen225.gp23.application.GraphicalInterface;
@@ -8,11 +16,6 @@ import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.Persistence;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import static junit.framework.TestCase.*;
 
 /**
  * Tests for Game & GUI classes.
@@ -52,7 +55,7 @@ public class GameTests {
   }
 
   /**
-   * Testing to check player movement
+   * Testing to check player movement.
    */
   @Test
   public void moveChap() {
