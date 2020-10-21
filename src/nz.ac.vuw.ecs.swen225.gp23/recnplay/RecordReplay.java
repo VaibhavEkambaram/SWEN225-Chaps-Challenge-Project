@@ -197,7 +197,7 @@ public class RecordReplay {
    *
    * @param g - instance of game.
    */
-  public static void iterateReplay(Game g) {
+  public static void iterateReplay(Game g, GraphicalInterface gui) {
 
     //if there game is running and there are moves to replay
     if (isGameRunning && movements.size() > 0) {
@@ -209,13 +209,14 @@ public class RecordReplay {
         movements.remove(0);
         characters.remove(0);
         if (movements.size() > 0) {
-          iterateReplay(g);
+          iterateReplay(g, gui);
         }
       }
       //if there are no movements left, the game is no longer running.
       if (movements.size() == 0) {
         isGameRunning = false;
         g.setTimeLeft(timeLeft);
+        gui.displayMessage("Warning", "The replay has finished. Press OK to continue the game.");
       }
     }
   }
@@ -225,7 +226,7 @@ public class RecordReplay {
    *
    * @param g - instance of game.
    */
-  public static void runReplay(Game g) {
+  public static void runReplay(Game g, GraphicalInterface gui) {
     Runnable run = () -> {
       while (isGameRunning && movements.size() > 0) {
         try {
@@ -233,7 +234,7 @@ public class RecordReplay {
             Thread.sleep(delay);
           }
           //steps through the replay recursively
-          iterateReplay(g);
+          iterateReplay(g, gui);
         } catch (InterruptedException e) {
           System.out.println(e.getMessage());
         }
