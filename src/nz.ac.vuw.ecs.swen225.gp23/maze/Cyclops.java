@@ -1,7 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp23.maze;
 
 import nz.ac.vuw.ecs.swen225.gp23.application.GraphicalInterface;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,7 +33,8 @@ public class Cyclops {
   /**
    * Moves the cyclops 1 tile in its current direction
    * If the cyclops can't travel in it's direction, it's direction is reversed.
-   * This means the cyclops will 'bounce' between non passable objects along whichever axis the direction from the constructor is.
+   * This means the cyclops will 'bounce' between non passable
+   * objects along whichever axis the direction from the constructor is.
    * If the tile where the cyclops is trying to move has the player, end the game.
    *
    * @param gui - graphical interface passed from game. Used to end the game (GraphicalInterface)
