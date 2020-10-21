@@ -48,7 +48,6 @@ public class Cyclops {
                 currentTile.setEntityAbsent();
                 currentTile = nextTile;
             } else {
-                System.out.println("dead");
                 gui.onStopGame(false);
                 gui.outOfTime("You died","Oh no! You were caught by a cyclops.");
             }

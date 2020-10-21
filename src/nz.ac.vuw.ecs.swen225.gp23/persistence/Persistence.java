@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
 import nz.ac.vuw.ecs.swen225.gp23.maze.ComputerChip;
-import nz.ac.vuw.ecs.swen225.gp23.maze.Empty;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Exit;
 import nz.ac.vuw.ecs.swen225.gp23.maze.ExitLock;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Floor;
@@ -235,7 +234,7 @@ public class Persistence {
                     board.setTile(xValue, yValue, cyclopsStart);
                     break;
                 default:
-                    board.setTile(xValue, yValue, new Empty());
+                    board.setTile(xValue, yValue, new Floor());
                     break;
             }
             xValue++;
