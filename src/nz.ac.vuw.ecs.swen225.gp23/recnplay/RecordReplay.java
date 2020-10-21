@@ -82,6 +82,7 @@ public class RecordReplay {
     if (isGameRecording) {
       JsonArrayBuilder a = Json.createArrayBuilder();
 
+      //initialise JSON object
       for (int i = 0; i < characters.size(); i++) {
         JsonObjectBuilder o = Json.createObjectBuilder().add("actor",
             characters.get(i)).add("movement",
