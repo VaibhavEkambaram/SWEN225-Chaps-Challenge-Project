@@ -1,8 +1,11 @@
 package test.nz.ac.vuw.ecs.swen225.gp23.monkey;
 
+import static junit.framework.TestCase.assertEquals;
+
 import nz.ac.vuw.ecs.swen225.gp23.application.Application;
 import org.junit.Test;
-import static junit.framework.TestCase.assertEquals;
+
+
 
 /**
  * Tests for Application Module.
