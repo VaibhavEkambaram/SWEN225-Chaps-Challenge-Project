@@ -751,6 +751,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     onStopGame(false);
     gamePaused = false;
     currentGame = null;
+    // set level manager level to 1 to reset to first level
     levelManager.setLevel(1);
     levelManager.saveLevel();
     Board board = Persistence.loadFile("levels/" + levelManager.getCurrentLevel());
