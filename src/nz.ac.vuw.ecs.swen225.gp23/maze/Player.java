@@ -75,13 +75,13 @@ public class Player {
 
     /**
      * Getter for the inventory.
-     * @return inventory - the players inventory (List<String>).
+     * @return inventory - the players inventory
      */
     public List<String> getInventory(){return inventory;}
 
     /**
      * Setter for the inventory.
-     * @param newInventory - the new inventory to replace the players current inventory (list<String>)
+     * @param newInventory - the new inventory to replace the players current inventory
      */
     public void setInventory(List<String> newInventory){inventory = newInventory;}
 

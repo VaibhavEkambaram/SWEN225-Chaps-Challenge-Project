@@ -3,14 +3,9 @@ package test.nz.ac.vuw.ecs.swen225.gp23.maze;
 import nz.ac.vuw.ecs.swen225.gp23.application.Application;
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
 import nz.ac.vuw.ecs.swen225.gp23.application.GraphicalInterface;
-import nz.ac.vuw.ecs.swen225.gp23.maze.Player;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
-import nz.ac.vuw.ecs.swen225.gp23.render.ChipAudioModule;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -32,6 +27,7 @@ public class MazeTests {
         gui.updateDisplay();
         gui.onNewGame();
         game = gui.getCurrentGame();
+        game.isRunningTest(true);
         currentTile = game.getBoard().getPlayerLoc();
     }
 

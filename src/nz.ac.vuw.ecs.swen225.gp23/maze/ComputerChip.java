@@ -26,7 +26,7 @@ public class ComputerChip extends Tile {
      * and updates the tile so that the computer chip is not shown.
      *
      * @param p - the player (Player)
-     * @return isPassable - should always be true for computer chips so that the player can pick them up(Boolean)
+     * @return isPassable - should always be true for computer chips so that the player can pick them up (Boolean)
      */
     @Override
     public boolean action(Player p) {

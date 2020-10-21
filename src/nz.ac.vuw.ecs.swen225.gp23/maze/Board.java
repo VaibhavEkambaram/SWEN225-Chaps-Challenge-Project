@@ -131,7 +131,7 @@ public class Board {
     /**
      * Gets all the cyclops locations in the current level
      *
-     * @return cyclops - the tiles occupied by cyclops (ArrayList<Tile>)
+     * @return cyclops - the tiles occupied by cyclops
      */
     public ArrayList<Tile> getCyclopsLoc(){
         ArrayList<Tile> cyclops = new ArrayList<>();
