@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for the Maze Module.
@@ -87,6 +89,59 @@ public class MazeTests {
 
         assertEquals(1, game.getPlayer().getChips());
         assertEquals("floor", game.getBoard().getTile(7, 8).toString());
+    }
+
+    /**
+     * Loads the default level 1 and attempts to move the player over a red key.
+     * Testing for correct key pickup and key removal.
+     */
+    @Test
+    public void playerKeyPickup() {
+        gui.updateDisplay();
+        gui.onNewGame();
+
+        Game game = gui.getCurrentGame();
+        currentTile = game.getBoard().getPlayerLoc();
+
+        game.onMovement(Tile.Directions.Right);
+        game.onMovement(Tile.Directions.Up);
+        game.onMovement(Tile.Directions.Right);
+        game.onMovement(Tile.Directions.Up);
+
+        assertTrue( game.getPlayer().checkItem("key_red"));
+        assertEquals("floor", game.getBoard().getTile(9, 5).toString());
+    }
+
+    /**
+     * Loads the default level 1 and attempts to move the player over a red key and then over a red door.
+     * Testing for correct key pickup, player location, door removal, key removal, and key inventory removal.
+     */
+    @Test
+    public void playerUnlockDoor(){
+        gui.updateDisplay();
+        gui.onNewGame();
+
+        Game game = gui.getCurrentGame();
+        currentTile = game.getBoard().getPlayerLoc();
+
+        game.onMovement(Tile.Directions.Right);
+        game.onMovement(Tile.Directions.Up);
+        game.onMovement(Tile.Directions.Right);
+        game.onMovement(Tile.Directions.Up);
+
+        assertTrue(game.getPlayer().checkItem("key_red"));
+
+        game.onMovement(Tile.Directions.Right);
+        game.onMovement(Tile.Directions.Right);
+
+        Tile boardLocation = game.getBoard().getPlayerLoc();
+
+        assertEquals(game.getBoard().getTile(11, 4), boardLocation);
+        assertEquals(game.getBoard().getTile(11, 4), game.getPlayer().getCurrentTile());
+
+        assertEquals("floor", game.getBoard().getTile(10, 4).toString());
+        assertFalse(game.getPlayer().checkItem("key_red"));
+        assertEquals("floor", game.getBoard().getTile(9, 5).toString());
     }
 
 
