@@ -29,15 +29,17 @@ import java.util.*;
  */
 public class Persistence {
 
-    public static int boardX;
-    public static int boardY;
+    private static int boardX;
+    private static int boardY;
     static int level;
     static int timeLeft;
     static String inventory;
-    public static Game game;
     static Board board;
 
-
+    /**
+     * Empty Persistence constructor
+     * @author Rahul Mahasuriya
+     */
     public Persistence() {
     }
 
@@ -47,7 +49,7 @@ public class Persistence {
      * Checks for correct text input for board, level and time
      * Applies these to the assigned variables
      *
-     * @param filepath
+     * @param filepath file to be loaded
      * @return the board
      * @author Rahul Mahasuriya
      */
@@ -92,8 +94,8 @@ public class Persistence {
      * Using a writer, a for loop will check through the special characters in the board json file
      * writes in these special characters between the tile characters
      *
-     * @param game
-     * @param fileName
+     * @param game current game
+     * @param fileName file to be saved
      * @author Rahul Mahasuriya
      */
     public static void saveFile(Game game, String fileName) {
@@ -121,7 +123,7 @@ public class Persistence {
      * Assigns variables from current game
      * Writes these variables to a file in saveFile
      *
-     * @param game
+     * @param game current game
      * @return schema format
      * @author Rahul Mahasuriya
      */
@@ -162,7 +164,7 @@ public class Persistence {
      * Switch case is used for distinguishing between different characters from the board string
      * Sets tile depending on what string is read
      *
-     * @param maze
+     * @param maze string of the maze
      * @return the board
      * @author Rahul Mahasuriya
      */
@@ -274,6 +276,7 @@ public class Persistence {
     public static int getTimeLeft() {
         return timeLeft;
     }
+
 
     /**
      * Gets the current level
