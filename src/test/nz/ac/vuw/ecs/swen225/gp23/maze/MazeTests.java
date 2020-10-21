@@ -3,13 +3,13 @@ package test.nz.ac.vuw.ecs.swen225.gp23.maze;
 import nz.ac.vuw.ecs.swen225.gp23.application.Application;
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
 import nz.ac.vuw.ecs.swen225.gp23.application.GraphicalInterface;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Cyclops;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
 import org.junit.Before;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Tests for the Maze Module.
@@ -22,6 +22,10 @@ public class MazeTests {
     private Game game;
     private Tile currentTile;
 
+    /**
+     * Setup for tests.
+     * Runs before each test and performs the required setup for each test.
+     */
     @Before
     public void setup(){
         gui.updateDisplay();
@@ -118,7 +122,12 @@ public class MazeTests {
         assertEquals("floor", game.getBoard().getTile(9, 5).toString());
     }
 
-    public void exitTestHelper(int chips){
+    /**
+     * Helper method for tests that involve moving to the exit of level 1.
+     *
+     * @param chips - the number of chips to set for the player (int)
+     */
+    private void exitTestHelper(int chips){
         game.onMovement(Tile.Directions.Down);
         game.onMovement(Tile.Directions.Down);
         game.onMovement(Tile.Directions.Up);
@@ -160,5 +169,23 @@ public class MazeTests {
         assertEquals(11, game.getPlayer().getChips());
         assertEquals("chip_up", boardLocation.toString());
     }
+
+
+    /*
+    TODO: find a way to check the result of these tests without manual input
+
+    @Test
+    public void playerExitCollision(){
+        exitTestHelper(11);
+        game.onMovement(Tile.Directions.Up);
+    }*/
+
+    /*@Test
+    public void playerOrcCollision(){
+        game.getBoard().getTile(7,7).setEntityPresent("cyclops_up");
+        game.onMovement(Tile.Directions.Down);
+    }
+
+    */
 
 }
