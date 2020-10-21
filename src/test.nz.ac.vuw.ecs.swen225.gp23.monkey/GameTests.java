@@ -6,6 +6,7 @@ import nz.ac.vuw.ecs.swen225.gp23.application.GraphicalInterface;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Player;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.Persistence;
+import org.junit.After;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -394,5 +395,13 @@ public class GameTests {
     String expectedBoard = "_|_|#|#|#|#|#|_|#|#|#|#|#|_|_|_|_|#|_|_|_|#|#|#|_|_|_|#|_|_|_|_|#|_|T|_|#|E|#|_|T|_|#|_|_|#|#|#|#|#|G|#|l|#|G|#|#|#|#|#|#|_|y|_|B|_|_|_|_|_|R|_|y|_|#|#|_|T|_|#|b|_|i|_|r|#|_|T|_|#|#|#|#|#|#|T|_|P|_|T|#|#|#|#|#|#|_|T|_|#|b|_|_|_|r|#|_|T|_|#|#|_|_|_|R|_|_|T|_|_|B|_|_|_|#|#|#|#|#|#|#|Y|#|Y|#|#|#|#|#|#|_|_|_|_|#|_|_|#|_|_|#|_|_|_|_|_|_|_|_|#|g|T|#|T|_|#|_|_|_|_|_|_|_|_|#|_|_|#|g|_|#|_|_|_|_|_|_|_|_|#|#|#|_|#|#|#|_|_|_|_";
 
     assertEquals(expectedBoard, game.getBoard().toString());
+  }
+
+  /**
+   * Prevents Null Pointers after test completion.
+   */
+  @After
+  public void teardown() {
+    gui.onStopGame(false);
   }
 }
