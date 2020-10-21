@@ -13,26 +13,31 @@ public abstract class Tile {
   public boolean isPassable;
   public boolean hasEntity;
   public Directions entityDirection;
-  public int yLoc;
-  public int xLoc;
+  public int vertLoc;
+  public int horizLoc;
   public String currentImage; //for imageURL
   public String defaultImage;
   public Tiles type;
   public List<Tile> adjacentTiles = new ArrayList<>();
 
   /**
-   * Possible types of tiles
+   * Possible types of tiles.
    */
   public enum Tiles {
     Empty, Floor, Wall, LockedDoor, Key, Exit, ExitLock, ComputerChip, Hint
   }
 
   /**
-   * Possible directions for chap (the player) to be facing
+   * Possible directions for chap (the player) to be facing.
    */
   public enum Directions {
     Left, Right, Up, Down;
 
+    /**
+     * Reverses a given direction.
+     *
+     * @return - The opposite of the given direction
+     */
     public Directions reverse() {
       switch (this) {
         case Left:
@@ -48,7 +53,7 @@ public abstract class Tile {
   }
 
   /**
-   * Constructor for tiles
+   * Constructor for tiles.
    *
    * @param t - type of tile (Tile.Tiles)
    */
@@ -124,17 +129,17 @@ public abstract class Tile {
    *
    * @return - the x location of the tile (int)
    */
-  public int getXLoc() {
-    return this.xLoc;
+  public int getHorizLoc() {
+    return this.horizLoc;
   }
 
   /**
    * Sets the x location of the tile.
    *
-   * @param xLoc - the new x location of the tile (int)
+   * @param horizLoc - the new x location of the tile (int)
    */
-  public void setXLoc(int xLoc) {
-    this.xLoc = xLoc;
+  public void setHorizLoc(int horizLoc) {
+    this.horizLoc = horizLoc;
   }
 
   /**
@@ -142,17 +147,17 @@ public abstract class Tile {
    *
    * @return - the y location of the tile (int)
    */
-  public int getYLoc() {
-    return this.yLoc;
+  public int getVertLoc() {
+    return this.vertLoc;
   }
 
   /**
    * Sets the y location of the tile.
    *
-   * @param yLoc - the new y location of the tile (int)
+   * @param vertLoc - the new y location of the tile (int)
    */
-  public void setYLoc(int yLoc) {
-    this.yLoc = yLoc;
+  public void setVertLoc(int vertLoc) {
+    this.vertLoc = vertLoc;
   }
 
   /**
