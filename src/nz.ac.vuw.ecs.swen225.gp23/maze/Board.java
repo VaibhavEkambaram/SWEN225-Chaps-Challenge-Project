@@ -92,8 +92,8 @@ public class Board {
    * @param t - the new tile to be set at tilesXY[x][y] (Tile)
    */
   public void setTile(int x, int y, Tile t) {
-    t.setXLoc(x);
-    t.setYLoc(y);
+    t.setHorizLoc(x);
+    t.setVertLoc(y);
     allTiles[x][y] = t;
   }
 

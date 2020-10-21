@@ -123,8 +123,8 @@ public class GameTests {
     gui.onNewGame();
     Game game = gui.getCurrentGame();
 
-    assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
-    assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
+    assertEquals(7, game.getPlayer().getCurrentTile().getHorizLoc());
+    assertEquals(6, game.getPlayer().getCurrentTile().getVertLoc());
     assertEquals("chip_down.png", game.getBoard().getTile(7, 6).getCurrentImage());
   }
 
@@ -137,11 +137,11 @@ public class GameTests {
     gui.onNewGame();
     Game game = gui.getCurrentGame();
 
-    assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
-    assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
+    assertEquals(7, game.getPlayer().getCurrentTile().getHorizLoc());
+    assertEquals(6, game.getPlayer().getCurrentTile().getVertLoc());
     game.onMovement(Tile.Directions.Left);
-    assertEquals(6, game.getPlayer().getCurrentTile().getXLoc());
-    assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
+    assertEquals(6, game.getPlayer().getCurrentTile().getHorizLoc());
+    assertEquals(6, game.getPlayer().getCurrentTile().getVertLoc());
   }
 
   /**
@@ -153,12 +153,12 @@ public class GameTests {
     gui.onNewGame();
     Game game = gui.getCurrentGame();
 
-    assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
-    assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
+    assertEquals(7, game.getPlayer().getCurrentTile().getHorizLoc());
+    assertEquals(6, game.getPlayer().getCurrentTile().getVertLoc());
     game.onMovement(Tile.Directions.Left);
     game.onMovement(Tile.Directions.Left);
-    assertEquals(5, game.getPlayer().getCurrentTile().getXLoc());
-    assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
+    assertEquals(5, game.getPlayer().getCurrentTile().getHorizLoc());
+    assertEquals(6, game.getPlayer().getCurrentTile().getVertLoc());
   }
 
   /**
@@ -171,11 +171,11 @@ public class GameTests {
     gui.onNewGame();
     Game game = gui.getCurrentGame();
 
-    assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
-    assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
+    assertEquals(7, game.getPlayer().getCurrentTile().getHorizLoc());
+    assertEquals(6, game.getPlayer().getCurrentTile().getVertLoc());
     game.onMovement(Tile.Directions.Right);
-    assertEquals(8, game.getPlayer().getCurrentTile().getXLoc());
-    assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
+    assertEquals(8, game.getPlayer().getCurrentTile().getHorizLoc());
+    assertEquals(6, game.getPlayer().getCurrentTile().getVertLoc());
   }
 
   /**
@@ -188,12 +188,12 @@ public class GameTests {
     gui.onNewGame();
     Game game = gui.getCurrentGame();
 
-    assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
-    assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
+    assertEquals(7, game.getPlayer().getCurrentTile().getHorizLoc());
+    assertEquals(6, game.getPlayer().getCurrentTile().getVertLoc());
     game.onMovement(Tile.Directions.Right);
     game.onMovement(Tile.Directions.Right);
-    assertEquals(9, game.getPlayer().getCurrentTile().getXLoc());
-    assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
+    assertEquals(9, game.getPlayer().getCurrentTile().getHorizLoc());
+    assertEquals(6, game.getPlayer().getCurrentTile().getVertLoc());
   }
 
   /**
@@ -205,11 +205,11 @@ public class GameTests {
     gui.onNewGame();
     Game game = gui.getCurrentGame();
 
-    assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
-    assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
+    assertEquals(7, game.getPlayer().getCurrentTile().getHorizLoc());
+    assertEquals(6, game.getPlayer().getCurrentTile().getVertLoc());
     game.onMovement(Tile.Directions.Up);
-    assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
-    assertEquals(5, game.getPlayer().getCurrentTile().getYLoc());
+    assertEquals(7, game.getPlayer().getCurrentTile().getHorizLoc());
+    assertEquals(5, game.getPlayer().getCurrentTile().getVertLoc());
   }
 
   /**
@@ -221,12 +221,12 @@ public class GameTests {
     gui.onNewGame();
     Game game = gui.getCurrentGame();
 
-    assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
-    assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
+    assertEquals(7, game.getPlayer().getCurrentTile().getHorizLoc());
+    assertEquals(6, game.getPlayer().getCurrentTile().getVertLoc());
     game.onMovement(Tile.Directions.Up);
     game.onMovement(Tile.Directions.Up);
-    assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
-    assertEquals(4, game.getPlayer().getCurrentTile().getYLoc());
+    assertEquals(7, game.getPlayer().getCurrentTile().getHorizLoc());
+    assertEquals(4, game.getPlayer().getCurrentTile().getVertLoc());
   }
 
   /**
@@ -238,11 +238,11 @@ public class GameTests {
     gui.onNewGame();
     Game game = gui.getCurrentGame();
 
-    assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
-    assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
+    assertEquals(7, game.getPlayer().getCurrentTile().getHorizLoc());
+    assertEquals(6, game.getPlayer().getCurrentTile().getVertLoc());
     game.onMovement(Tile.Directions.Down);
-    assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
-    assertEquals(7, game.getPlayer().getCurrentTile().getYLoc());
+    assertEquals(7, game.getPlayer().getCurrentTile().getHorizLoc());
+    assertEquals(7, game.getPlayer().getCurrentTile().getVertLoc());
   }
 
   /**
@@ -254,12 +254,12 @@ public class GameTests {
     gui.onNewGame();
     Game game = gui.getCurrentGame();
 
-    assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
-    assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
+    assertEquals(7, game.getPlayer().getCurrentTile().getHorizLoc());
+    assertEquals(6, game.getPlayer().getCurrentTile().getVertLoc());
     game.onMovement(Tile.Directions.Down);
     game.onMovement(Tile.Directions.Down);
-    assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
-    assertEquals(8, game.getPlayer().getCurrentTile().getYLoc());
+    assertEquals(7, game.getPlayer().getCurrentTile().getHorizLoc());
+    assertEquals(8, game.getPlayer().getCurrentTile().getVertLoc());
   }
 
   /**
