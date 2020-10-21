@@ -156,6 +156,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         if (currentGame != null) {
           levelManager.saveLevel();
           currentGame.saveGame();
+          if (RecordReplay.getIsGameRecording()) {
+            RecordReplay.saveRecording(currentGame);
+          }
         }
         onStopGame(false);
         dispose();
@@ -836,7 +839,11 @@ public class GraphicalInterface extends JFrame implements KeyListener {
   public void onStopGame(boolean isLoadingRecordedGame) {
     if (currentGame != null) {
 
+
       if (application.getState().equals(Application.GameStates.RUNNING)) {
+        if (!isLoadingRecordedGame) {
+          RecordReplay.endRecording();
+        }
         application.transitionToInit();
         currentGame.terminateTimer();
         currentGame = null;
@@ -849,9 +856,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
     onPauseGame(false);
     gamePauseMenu.setState(false);
-    if (!isLoadingRecordedGame) {
-      RecordReplay.endRecording();
-    }
+
 
     if (renderPanel != null) {
       renderPanel.setPaused(true);
@@ -980,6 +985,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
           onLoadGameNoGui(levelManager.getCurrentLevel(), false);
         } else if (response == 2) {
           levelManager.saveLevel();
+          if (RecordReplay.getIsGameRecording()) {
+            RecordReplay.saveRecording(currentGame);
+          }
           onStopGame(false);
         } else {
           onStopGame(false);

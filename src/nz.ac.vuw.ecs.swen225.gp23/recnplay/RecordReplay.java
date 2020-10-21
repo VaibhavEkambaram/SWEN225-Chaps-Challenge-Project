@@ -108,7 +108,6 @@ public class RecordReplay {
         throw new Error("Movements were unable to save." + e);
       }
       isGameRecording = false;
-      System.out.println("Recorded Movements: " + movements);
     }
   }
 
