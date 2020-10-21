@@ -1,5 +1,8 @@
 package test.nz.ac.vuw.ecs.swen225.gp23.maze;
 
+import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.*;
+
 import nz.ac.vuw.ecs.swen225.gp23.application.Application;
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
 import nz.ac.vuw.ecs.swen225.gp23.application.GraphicalInterface;
@@ -8,9 +11,6 @@ import nz.ac.vuw.ecs.swen225.gp23.maze.Floor;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
 import org.junit.Before;
 import org.junit.Test;
-
-import static junit.framework.TestCase.assertEquals;
-import static org.junit.Assert.*;
 
 /**
  * Tests for the Maze Module.
@@ -21,7 +21,6 @@ public class MazeTests {
   private Application app = new Application();
   private GraphicalInterface gui = new GraphicalInterface(app);
   private Game game;
-  private Tile currentTile;
 
   /**
    * Setup for tests.
@@ -33,7 +32,7 @@ public class MazeTests {
     gui.onNewGame();
     game = gui.getCurrentGame();
     game.isRunningTest(true);
-    currentTile = game.getBoard().getPlayerLoc();
+    Tile currentTile = game.getBoard().getPlayerLoc();
   }
 
   /**
@@ -50,7 +49,14 @@ public class MazeTests {
    */
   @Test
   public void checkBoardToString() {
-    String level1 = "_|_|#|#|#|#|#|_|#|#|#|#|#|_|_|_|_|#|_|_|_|#|#|#|_|_|_|#|_|_|_|_|#|_|T|_|#|E|#|_|T|_|#|_|_|#|#|#|#|#|G|#|l|#|G|#|#|#|#|#|#|_|y|_|B|_|_|_|_|_|R|_|y|_|#|#|_|T|_|#|b|_|i|_|r|#|_|T|_|#|#|#|#|#|#|T|_|P|_|T|#|#|#|#|#|#|_|T|_|#|b|_|_|_|r|#|_|T|_|#|#|_|_|_|R|_|_|T|_|_|B|_|_|_|#|#|#|#|#|#|#|Y|#|Y|#|#|#|#|#|#|_|_|_|_|#|_|_|#|_|_|#|_|_|_|_|_|_|_|_|#|g|T|#|T|_|#|_|_|_|_|_|_|_|_|#|_|_|#|g|_|#|_|_|_|_|_|_|_|_|#|#|#|_|#|#|#|_|_|_|_";
+    String level1 = "_|_|#|#|#|#|#|_|#|#|#|#|#|_|_|_|_|#|_|_|_|#|#|#|"
+            + "_|_|_|#|_|_|_|_|#|_|T|_|#|E|#|_|T|_|#|_|_|#|#|#|#|#|G|#|"
+            + "l|#|G|#|#|#|#|#|#|_|y|_|B|_|_|_|_|_|R|_|y|_|#|#|_|T|_|#|"
+            + "b|_|i|_|r|#|_|T|_|#|#|#|#|#|#|T|_|P|_|T|#|#|#|#|#|#|_|T|"
+            + "_|#|b|_|_|_|r|#|_|T|_|#|#|_|_|_|R|_|_|T|_|_|B|_|_|_|#|#|"
+            + "#|#|#|#|#|Y|#|Y|#|#|#|#|#|#|_|_|_|_|#|_|_|#|_|_|#|_|_|_|"
+            + "_|_|_|_|_|#|g|T|#|T|_|#|_|_|_|_|_|_|_|_|#|_|_|#|g|_|#|_|"
+            + "_|_|_|_|_|_|_|#|#|#|_|#|#|#|_|_|_|_";
     assertEquals(level1, game.getBoard().toString());
   }
 
@@ -116,8 +122,9 @@ public class MazeTests {
   }
 
   /**
-   * Loads the default level 1 and attempts to move the player over a red key and then over a red door.
-   * Testing for correct key pickup, player location, door removal, key removal, and key inventory removal.
+   * Loads level 1 and attempts to move the player over a red key and then over a red door.
+   * Testing for correct key pickup, player location, door removal, key removal,
+   * and key inventory removal.
    */
   @Test
   public void playerUnlockDoor() {
@@ -177,7 +184,7 @@ public class MazeTests {
   }
 
   /**
-   * Loads the default level 1, sets the players chips to the required amount for the level 1 exit lock and
+   * Loads level 1, sets the players chips to the required amount for the level 1 exit lock and
    * attempts to open the exit lock.
    * Testing for correct action validation, player position, and exit lock visibility.
    */
