@@ -148,6 +148,21 @@ public class MazeTests {
     }
 
     /**
+     * Checking the movement of player to up direction.
+     */
+    @Test
+    public void invalidCheckUpMovement() {
+        gui.updateDisplay();
+        gui.onNewGame();
+        Game game = gui.getCurrentGame();
+
+        Tile prev = game.getPlayer().getCurrentTile();
+        game.onMovement(Tile.Directions.Right);
+        Tile current = game.getPlayer().getCurrentTile();
+
+    }
+
+    /**
      * Testing level one board to see if it is correct.
      */
     @Test
@@ -223,4 +238,7 @@ public class MazeTests {
         Tile end = game.getPlayer().getCurrentTile();
         assertEquals(start, end);
     }
+
+
+
 }
