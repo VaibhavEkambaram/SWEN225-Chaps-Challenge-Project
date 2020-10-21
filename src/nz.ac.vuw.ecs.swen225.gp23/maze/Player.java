@@ -68,6 +68,12 @@ public class Player {
     public int getChips(){return chips;}
 
     /**
+     * Setter for the chips field (for testing purposes).
+     * @param newChips - the new value of chips
+     */
+    public void setChips(int newChips){chips = newChips;}
+
+    /**
      * Getter for the inventory.
      * @return inventory - the players inventory (List<String>).
      */
