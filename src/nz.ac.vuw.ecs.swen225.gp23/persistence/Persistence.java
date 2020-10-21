@@ -29,12 +29,11 @@ import java.util.*;
  */
 public class Persistence {
 
-    public static int boardX;
-    public static int boardY;
+    private static int boardX;
+    private static int boardY;
     static int level;
     static int timeLeft;
     static String inventory;
-    public static Game game;
     static Board board;
 
     /**
@@ -277,6 +276,7 @@ public class Persistence {
     public static int getTimeLeft() {
         return timeLeft;
     }
+
 
     /**
      * Gets the current level

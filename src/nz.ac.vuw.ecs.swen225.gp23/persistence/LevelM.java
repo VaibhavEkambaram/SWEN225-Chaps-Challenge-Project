@@ -27,6 +27,7 @@ public class LevelM {
     File folder = new File("levels");
     File[] listOfFiles = folder.listFiles();
 
+    assert listOfFiles != null;
     for (int i = 0; i < listOfFiles.length; i++) {
       if (listOfFiles[i].isFile()) {
         if (Files.getFileExtension(listOfFiles[i].getName()).equals("json")) {
@@ -86,7 +87,7 @@ public class LevelM {
     }
 
     try {
-      Writer writer = new BufferedWriter(new FileWriter("ChapsChallenge_PersistenceLevel.json"));
+      Writer writer = new FileWriter("ChapsChallenge_PersistenceLevel.json");
 
       for (int i = 0; i < jGame.length(); i++) {
         char next = jGame.charAt(i);
