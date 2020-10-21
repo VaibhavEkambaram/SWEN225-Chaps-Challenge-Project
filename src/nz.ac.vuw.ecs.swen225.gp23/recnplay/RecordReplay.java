@@ -116,6 +116,7 @@ public class RecordReplay {
 
   /**
    * Ends the recording of the game.
+   * Also clears fields to allow for new recordings to be made.
    */
   public static void endRecording() {
     isGameRecording = false;
@@ -227,6 +228,7 @@ public class RecordReplay {
 
   /**
    * Uses a thread to go through the replay at a certain speed/delay.
+   * Uses iterateReplay() to step through recursively.
    *
    * @param g - instance of game.
    * @param gui - instance of gui.
