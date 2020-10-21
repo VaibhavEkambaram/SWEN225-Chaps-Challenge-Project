@@ -23,7 +23,8 @@ public class ExitLock extends Tile {
   /**
    * Validates whether the player can travel through this tile.
    * Applies appropriate logic to check if the player has the correct number of computer chips.
-   * If the player has the correct number of chips, the tile is updated so that the exit lock is not shown.
+   * If the player has the correct number of chips,
+   * the tile is updated so that the exit lock is not shown.
    *
    * @param p - the player (Player)
    * @return isPassable - true if the player has the correct number of chips (Boolean)
@@ -46,12 +47,4 @@ public class ExitLock extends Tile {
     chipsNeeded = numberOfChips;
   }
 
-  /**
-   * Gets the number of chips required to open the exit lock.
-   *
-   * @return chipsNeeded - the number of chips required (int)
-   */
-  public int getChipsNeeded() {
-    return chipsNeeded;
-  }
 }
