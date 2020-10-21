@@ -199,7 +199,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     // ---------------------------------------------------------------------------------------------
     final JMenu recordAndReplayMenu = new JMenu("Record and Replay");
     startRecordingMenu = new JMenuItem("Start Recording");
-    startRecordingMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.SHIFT_DOWN_MASK));
+    startRecordingMenu.setAccelerator(
+        KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.SHIFT_DOWN_MASK));
     startRecordingMenu.addActionListener(e -> {
       String fileName = JOptionPane.showInputDialog(this,
           "Enter a filename: (.json will be appended)");
@@ -211,7 +212,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     });
 
     stopRecordingMenu = new JMenuItem("Stop and Save Recording");
-    stopRecordingMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.SHIFT_DOWN_MASK));
+    stopRecordingMenu.setAccelerator(
+        KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.SHIFT_DOWN_MASK));
     stopRecordingMenu.addActionListener(e -> {
       RecordReplay.saveRecording(currentGame);
       updateRecordControls();
@@ -219,7 +221,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
 
     JMenuItem loadRecordedMenu = new JMenuItem("Load Recorded Game");
-    loadRecordedMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, KeyEvent.SHIFT_DOWN_MASK));
+    loadRecordedMenu.setAccelerator(
+        KeyStroke.getKeyStroke(KeyEvent.VK_L, KeyEvent.SHIFT_DOWN_MASK));
     loadRecordedMenu.addActionListener(e -> {
       String fileName = JOptionPane.showInputDialog(this,
           "Enter saved filename: (.json will be appended)");
@@ -717,6 +720,13 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     currentGame = new Game(
         Persistence.getTimeLeft(), Persistence.getLevel(), this, board, audio, application);
 
+    postLoadStartup();
+  }
+
+  /**
+   * Post Load Configuration.
+   */
+  private void postLoadStartup() {
     List<String> inventoryStartingArray = Persistence.setInventory();
 
     if (inventoryStartingArray.size() > 0) {
@@ -725,8 +735,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     }
     application.transitionToRunning();
     renderPanel.setPaused(false);
-    renderPanel.setBoard(board);
+    renderPanel.setBoard(currentGame.getBoard());
   }
+
 
   /**
    * Load a Game.
@@ -754,15 +765,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
           application);
       levelManager.setLevel(currentGame.getLevelNumber());
       levelManager.saveLevel();
-      List<String> inventoryStartingArray = Persistence.setInventory();
 
-      if (inventoryStartingArray.size() > 0) {
-        currentGame.getPlayer().setInventory(inventoryStartingArray);
-        updateInventory();
-      }
-      application.transitionToRunning();
-      renderPanel.setPaused(false);
-      renderPanel.setBoard(board);
+      postLoadStartup();
     }
   }
 
@@ -790,15 +794,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         Persistence.getTimeLeft(), Persistence.getLevel(), this, board, audio, application);
     levelManager.setLevel(currentGame.getLevelNumber());
     levelManager.saveLevel();
-    List<String> inventoryStartingArray = Persistence.setInventory();
 
-    if (inventoryStartingArray.size() > 0) {
-      currentGame.getPlayer().setInventory(inventoryStartingArray);
-      updateInventory();
-    }
-    application.transitionToRunning();
-    renderPanel.setPaused(false);
-    renderPanel.setBoard(board);
+    postLoadStartup();
   }
 
 
@@ -863,7 +860,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
    *
    * @param value boolean value
    */
-  public void setMovementButtonEnabled(boolean value) {
+  private void setMovementButtonEnabled(boolean value) {
     upButton.setEnabled(value);
     downButton.setEnabled(value);
     leftButton.setEnabled(value);
@@ -894,7 +891,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
   /**
    * Update Controls for Recording.
    */
-  public void updateRecordControls() {
+  private void updateRecordControls() {
     if (RecordReplay.getIsGameRecording()) {
       startRecordingMenu.setEnabled(false);
       stopRecordingMenu.setEnabled(true);
@@ -1000,7 +997,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
   /**
    * Set Labels back to empty values.
    */
-  public void resetLabels() {
+  private void resetLabels() {
     timeLabel.setText("");
     chipsLeftLabel.setText("");
     levelLabel.setText("");
