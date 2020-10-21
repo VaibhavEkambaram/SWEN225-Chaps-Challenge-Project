@@ -41,7 +41,7 @@ public class SquarePanel extends JPanel {
         Container c = getParent();
         int width = c.getWidth();
         int height = c.getHeight();
-        int size = width < height ? width : height;
+        int size = Math.min(width, height);
         return new Dimension(size, size);
     }
 }

@@ -4,7 +4,6 @@ import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 
 /**
@@ -34,6 +33,8 @@ public class RenderPanel extends JPanel {
      * Number of rows for the display grid.
      * @param cols
      * Number of cols for the display grid.
+     * @param tileset
+     * Tileset to use (less than 0 for none, 0 for grass, greater than 0 for rock)
      *
      * @author Cameron Li - 300490702
      */

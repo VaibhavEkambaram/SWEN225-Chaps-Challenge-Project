@@ -170,22 +170,12 @@ public class MazeTests {
         assertEquals("chip_up", boardLocation.toString());
     }
 
-
-    /*
-    TODO: find a way to check the result of these tests without manual input
-
+    /**
+     * Tests that colliding with the cyclops does not cause an error.
+     */
     @Test
-    public void playerExitCollision(){
-        exitTestHelper(11);
-        game.onMovement(Tile.Directions.Up);
-    }*/
-
-    /*@Test
-    public void playerOrcCollision(){
+    public void playerCyclopsCollision(){
         game.getBoard().getTile(7,7).setEntityPresent("cyclops_up");
         game.onMovement(Tile.Directions.Down);
     }
-
-    */
-
 }
