@@ -2,14 +2,15 @@ package test.nz.ac.vuw.ecs.swen225.gp23.monkey;
 
 import nz.ac.vuw.ecs.swen225.gp23.application.Application;
 import org.junit.Test;
-
 import static junit.framework.TestCase.assertEquals;
 
 /**
+ * Tests for Application Module.
+ *
  * @author Sushil Sharma
  */
 public class ApplicationTests {
-  private Application app;
+  private Application app = new Application();
   private Application.GameStates runningState = Application.GameStates.RUNNING;
   private Application.GameStates idleState = Application.GameStates.IDLE;
 

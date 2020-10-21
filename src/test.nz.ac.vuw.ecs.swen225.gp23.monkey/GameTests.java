@@ -15,6 +15,8 @@ import java.util.List;
 import static junit.framework.TestCase.*;
 
 /**
+ * Tests for Game & GUI classes.
+ *
  * @author Sushil Sharma
  */
 public class GameTests {
@@ -23,19 +25,7 @@ public class GameTests {
   Tile currentTile;
 
   /**
-   * setup of the display to not show the help menu while running
-   */
-  @Test
-  public void setup() {
-    gui.updateDisplay();
-    gui.onNewGame();
-
-    Game game = gui.getCurrentGame();
-    game.isRunningTest(true);
-  }
-
-  /**
-   * Testing to check if board is not empty
+   * Testing to check if board is not empty.
    */
   @Test
   public void boardNotEmptyTest() {
@@ -43,11 +33,12 @@ public class GameTests {
     gui.onNewGame();
 
     Game game = gui.getCurrentGame();
+    game.isRunningTest(true);
     assertNotNull(game.getBoard());
   }
 
   /**
-   * Check game init after loading level 1
+   * Check game init after loading level 1.
    */
   @Test
   public void checkGameInit() {
@@ -55,10 +46,14 @@ public class GameTests {
     gui.onNewGame();
     Game game = gui.getCurrentGame();
 
+    game.isRunningTest(true);
     assertNotNull(game.getBoard());
     assertNotNull(game.getPlayer());
   }
 
+  /**
+   * Testing to check player movement
+   */
   @Test
   public void moveChap() {
     gui.updateDisplay();
@@ -68,6 +63,7 @@ public class GameTests {
     game.getBoard().getTile(7, 6);
     game.getBoard().getTile(7, 6);
 
+    game.isRunningTest(true);
     Player player = new Player(currentTile);
     Tile nextTile = player.getCurrentTile();
     assertEquals(nextTile, player.getCurrentTile());
@@ -79,7 +75,11 @@ public class GameTests {
   @Test
   public void invalidLoadGame() {
     boolean error = false;
+    gui.updateDisplay();
+    gui.onNewGame();
     Game game = gui.getCurrentGame();
+    game.isRunningTest(true);
+
     try {
       Persistence.readBoard("invalid.txt");
       throw new IOException("Invalid File");
@@ -123,6 +123,7 @@ public class GameTests {
     gui.onNewGame();
     Game game = gui.getCurrentGame();
 
+    game.isRunningTest(true);
     assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
     assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
     assertEquals("chip_down.png", game.getBoard().getTile(7, 6).getCurrentImage());
@@ -137,6 +138,7 @@ public class GameTests {
     gui.onNewGame();
     Game game = gui.getCurrentGame();
 
+    game.isRunningTest(true);
     assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
     assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
     game.onMovement(Tile.Directions.Left);
@@ -153,6 +155,7 @@ public class GameTests {
     gui.onNewGame();
     Game game = gui.getCurrentGame();
 
+    game.isRunningTest(true);
     assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
     assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
     game.onMovement(Tile.Directions.Left);
@@ -171,6 +174,7 @@ public class GameTests {
     gui.onNewGame();
     Game game = gui.getCurrentGame();
 
+    game.isRunningTest(true);
     assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
     assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
     game.onMovement(Tile.Directions.Right);
@@ -188,6 +192,7 @@ public class GameTests {
     gui.onNewGame();
     Game game = gui.getCurrentGame();
 
+    game.isRunningTest(true);
     assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
     assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
     game.onMovement(Tile.Directions.Right);
@@ -205,6 +210,7 @@ public class GameTests {
     gui.onNewGame();
     Game game = gui.getCurrentGame();
 
+    game.isRunningTest(true);
     assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
     assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
     game.onMovement(Tile.Directions.Up);
@@ -221,6 +227,7 @@ public class GameTests {
     gui.onNewGame();
     Game game = gui.getCurrentGame();
 
+    game.isRunningTest(true);
     assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
     assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
     game.onMovement(Tile.Directions.Up);
@@ -238,6 +245,7 @@ public class GameTests {
     gui.onNewGame();
     Game game = gui.getCurrentGame();
 
+    game.isRunningTest(true);
     assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
     assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
     game.onMovement(Tile.Directions.Down);
@@ -254,6 +262,7 @@ public class GameTests {
     gui.onNewGame();
     Game game = gui.getCurrentGame();
 
+    game.isRunningTest(true);
     assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
     assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
     game.onMovement(Tile.Directions.Down);
@@ -263,7 +272,7 @@ public class GameTests {
   }
 
   /**
-   * Testing to check if the timer works
+   * Testing to check if the timer works.
    */
   @Test
   public void timerWorkingTest() {
@@ -273,6 +282,7 @@ public class GameTests {
     game.setTimeLeft(60);
     game.runTimer();
 
+    game.isRunningTest(true);
     assertEquals(60, game.getTimeLeft());
   }
 
@@ -281,21 +291,21 @@ public class GameTests {
    */
   @Test
   public void checkLevelOneBoard() {
-    String text =
-        "|_|_|#|#|#|#|#|_|#|#|#|#|#|_|_|"
-            + "|_|_|#|_|_|_|#|#|#|_|_|_|#|_|_|"
-            + "|_|_|#|_|T|_|#|E|#|_|T|_|#|_|_|"
-            + "|#|#|#|#|#|G|#|l|#|G|#|#|#|#|#|"
-            + "|#|_|y|_|B|_|_|_|_|_|R|_|y|_|#|"
-            + "|#|_|T|_|#|b|_|i|_|r|#|_|T|_|#|"
-            + "|#|#|#|#|#|T|_|P|_|T|#|#|#|#|#|"
-            + "|#|_|T|_|#|b|_|_|_|r|#|_|T|_|#|"
-            + "|#|_|_|_|R|_|_|T|_|_|B|_|_|_|#|"
-            + "|#|#|#|#|#|#|Y|#|Y|#|#|#|#|#|#|"
-            + "|_|_|_|_|#|_|_|#|_|_|#|_|_|_|_|"
-            + "|_|_|_|_|#|g|T|#|T|_|#|_|_|_|_|"
-            + "|_|_|_|_|#|_|_|#|g|_|#|_|_|_|_|"
-            + "|_|_|_|_|#|#|#|_|#|#|#|_|_|_|_|";
+    String text;
+    text = "|_|_|#|#|#|#|#|_|#|#|#|#|#|_|_|"
+        + "|_|_|#|_|_|_|#|#|#|_|_|_|#|_|_|"
+        + "|_|_|#|_|T|_|#|E|#|_|T|_|#|_|_|"
+        + "|#|#|#|#|#|G|#|l|#|G|#|#|#|#|#|"
+        + "|#|_|y|_|B|_|_|_|_|_|R|_|y|_|#|"
+        + "|#|_|T|_|#|b|_|i|_|r|#|_|T|_|#|"
+        + "|#|#|#|#|#|T|_|P|_|T|#|#|#|#|#|"
+        + "|#|_|T|_|#|b|_|_|_|r|#|_|T|_|#|"
+        + "|#|_|_|_|R|_|_|T|_|_|B|_|_|_|#|"
+        + "|#|#|#|#|#|#|Y|#|Y|#|#|#|#|#|#|"
+        + "|_|_|_|_|#|_|_|#|_|_|#|_|_|_|_|"
+        + "|_|_|_|_|#|g|T|#|T|_|#|_|_|_|_|"
+        + "|_|_|_|_|#|_|_|#|g|_|#|_|_|_|_|"
+        + "|_|_|_|_|#|#|#|_|#|#|#|_|_|_|_|";
 
     GraphicalInterface gui = new GraphicalInterface(app);
     gui.updateDisplay();
@@ -303,14 +313,17 @@ public class GameTests {
     Game game = gui.getCurrentGame();
     String s = game.printOutBoard();
 
+    game.isRunningTest(true);
+
     if (s.equals(text)) {
       assertEquals(text, s);
     }
   }
 
   /**
-   * Perform 1000 movements in level 1 to ensure movement is working.
+   * Perform 1000 movements in level 1 to ensure movement is working correctly.
    */
+  @SuppressWarnings("checkstyle:LineLength")
   @Test
   public void randomMovementTest() {
     gui.onLoadGameNoGui("level1.json", false);
@@ -325,6 +338,7 @@ public class GameTests {
 
     String expectedBoard = "_|_|#|#|#|#|#|_|#|#|#|#|#|_|_|_|_|#|_|_|_|#|#|#|_|_|_|#|_|_|_|_|#|_|T|_|#|E|#|_|T|_|#|_|_|#|#|#|#|#|G|#|l|#|G|#|#|#|#|#|#|_|y|_|B|_|_|_|_|_|R|_|y|_|#|#|_|T|_|#|b|_|i|_|r|#|_|T|_|#|#|#|#|#|#|T|_|P|_|T|#|#|#|#|#|#|_|T|_|#|b|_|_|_|r|#|_|T|_|#|#|_|_|_|R|_|_|T|_|_|B|_|_|_|#|#|#|#|#|#|#|Y|#|Y|#|#|#|#|#|#|_|_|_|_|#|_|_|#|_|_|#|_|_|_|_|_|_|_|_|#|g|T|#|T|_|#|_|_|_|_|_|_|_|_|#|_|_|#|g|_|#|_|_|_|_|_|_|_|_|#|#|#|_|#|#|#|_|_|_|_";
 
+    game.isRunningTest(true);
     assertEquals(expectedBoard, game.getBoard().toString());
     for (int i = 0; i < 1000; i++) {
       int rand = (int) (Math.random() * 4);
@@ -333,9 +347,10 @@ public class GameTests {
   }
 
   /**
-   * Pause the game and then try to perform 1000 moves.
-   * As the game is paused, the board should look like its original state.
+   * Pause the game and then trying to perform 1000 moves.
+   * As the game is paused, the board should look like as it would in its original state.
    */
+  @SuppressWarnings("checkstyle:LineLength")
   @Test
   public void randomMovementPausedTest() {
     gui.onLoadGameNoGui("level1.json", false);
@@ -355,6 +370,9 @@ public class GameTests {
     }
     String expectedBoard = "_|_|#|#|#|#|#|_|#|#|#|#|#|_|_|_|_|#|_|_|_|#|#|#|_|_|_|#|_|_|_|_|#|_|T|_|#|E|#|_|T|_|#|_|_|#|#|#|#|#|G|#|l|#|G|#|#|#|#|#|#|_|y|_|B|_|_|_|_|_|R|_|y|_|#|#|_|T|_|#|b|_|i|_|r|#|_|T|_|#|#|#|#|#|#|T|_|P|_|T|#|#|#|#|#|#|_|T|_|#|b|_|_|_|r|#|_|T|_|#|#|_|_|_|R|_|_|T|_|_|B|_|_|_|#|#|#|#|#|#|#|Y|#|Y|#|#|#|#|#|#|_|_|_|_|#|_|_|#|_|_|#|_|_|_|_|_|_|_|_|#|g|T|#|T|_|#|_|_|_|_|_|_|_|_|#|_|_|#|g|_|#|_|_|_|_|_|_|_|_|#|#|#|_|#|#|#|_|_|_|_";
 
+    game.isRunningTest(true);
     assertEquals(expectedBoard, game.getBoard().toString());
   }
+
+
 }
