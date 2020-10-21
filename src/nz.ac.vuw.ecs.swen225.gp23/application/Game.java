@@ -54,6 +54,8 @@ public class Game {
    * @param levelNumber   level number
    * @param gui           gui class
    * @param board         board class
+   * @param audio         audio module
+   * @param application   keep track of game state
    */
   public Game(int countFromFile,
               int levelNumber,
@@ -205,7 +207,7 @@ public class Game {
           gui.helpMenuContents();
         }
       } else if (currentTile instanceof Exit) {
-        if(RecordReplay.getIsGameRecording()){
+        if (RecordReplay.getIsGameRecording()) {
           RecordReplay.saveRecording(this);
         }
         gui.levelCompleteMessage(
