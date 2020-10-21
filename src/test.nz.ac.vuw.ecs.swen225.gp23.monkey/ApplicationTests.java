@@ -2,6 +2,7 @@ package test.nz.ac.vuw.ecs.swen225.gp23.monkey;
 
 import nz.ac.vuw.ecs.swen225.gp23.application.Application;
 import org.junit.Test;
+
 import static junit.framework.TestCase.assertEquals;
 
 /**
@@ -32,4 +33,6 @@ public class ApplicationTests {
         app = new Application();
         assertEquals(idleState, app.getState());
     }
+
+
 }

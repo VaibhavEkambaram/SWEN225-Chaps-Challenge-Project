@@ -24,6 +24,18 @@ public class GameTests {
     Tile currentTile;
 
     /**
+     * Testing to check if board is not empty
+     */
+    @Test
+    public void main(){
+        gui.updateDisplay();
+        gui.onNewGame();
+
+        Game game = gui.getCurrentGame();
+        assertNotNull(game.getBoard());
+    }
+
+    /**
      * Check game init after loading level 1
      */
     @Test
