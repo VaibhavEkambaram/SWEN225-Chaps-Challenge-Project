@@ -9,7 +9,7 @@ import java.util.Map;
  * This class represents the Cyclops or enemies in the game.
  * Handles cyclops movement and stores necessary information for each cyclops.
  *
- * @author Baxter Kirikiri
+ * @author Baxter Kirikiri - 300472553
  */
 public class Cyclops {
     public Tile currentTile;

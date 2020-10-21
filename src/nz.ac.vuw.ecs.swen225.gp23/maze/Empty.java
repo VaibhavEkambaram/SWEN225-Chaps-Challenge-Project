@@ -3,7 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp23.maze;
 /**
  * This class represents an empty tile in the game (can be used to show the background within a level).
  *
- * @author Baxter Kirikiri
+ * @author Baxter Kirikiri - 300472553
  */
 public class Empty extends Tile {
 

@@ -24,6 +24,18 @@ public class GameTests {
     Tile currentTile;
 
     /**
+     * Testing to check if board is not empty
+     */
+    @Test
+    public void main(){
+        gui.updateDisplay();
+        gui.onNewGame();
+
+        Game game = gui.getCurrentGame();
+        assertNotNull(game.getBoard());
+    }
+
+    /**
      * Check game init after loading level 1
      */
     @Test
@@ -69,17 +81,28 @@ public class GameTests {
     }
 
     /**
-     * Checking to see if the game pauses and un-pauses correctly.
+     * Check that the game pauses when running.
      */
     @Test
-    public void pauseGame(){
+    public void checkGamePaused(){
+        gui.onLoadGameNoGui("level1.json", false);
         Game game = gui.getCurrentGame();
-        assertFalse(game.isPaused());
-        game.setGamePaused(true);
 
-      //  assertTrue(game.isPaused());
-       // game.setGamePaused(false);
-        //assertTrue(game.isPaused());
+        game.isRunningTest(true);
+        gui.onPauseGame(true);
+        assertTrue(game.isPaused());
+    }
+
+    /**
+     * Check that the game is not paused when first running.
+     */
+    @Test
+    public void checkGameNotPaused(){
+        gui.onLoadGameNoGui("level1.json", false);
+        Game game = gui.getCurrentGame();
+
+        game.isRunningTest(true);
+        assertFalse(game.isPaused());
     }
 
 

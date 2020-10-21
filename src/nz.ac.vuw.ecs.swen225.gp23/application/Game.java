@@ -28,23 +28,27 @@ import nz.ac.vuw.ecs.swen225.gp23.render.ChipAudioModule;
  * @author Vaibhav Ekambaram - 300472561
  */
 public class Game {
+
+  // Internal Classes
+  private final Application application;
   private final GraphicalInterface gui;
+
+  // External Classes
   private final Board board;
   private final Player player;
+  private final ChipAudioModule audio;
+
+  // Game Information Store
+  private final int levelNumber;
+  private int countdownTimer;
+  private final int timeToComplete;
+
+  ArrayList<Cyclops> cyclops = new ArrayList<>(); // store cyclops entities
 
   private Timer timer;
 
-  private int countdownTimer;
-  private final int levelNumber;
   private boolean gamePaused;
-  private final int timeToComplete;
-
-  final ChipAudioModule audio;
-  private final Application application;
-
-  boolean isRunningTest = false;
-
-  ArrayList<Cyclops> cyclops = new ArrayList<>();
+  private boolean isRunningTest = false;
 
 
   /**
@@ -54,6 +58,8 @@ public class Game {
    * @param levelNumber   level number
    * @param gui           gui class
    * @param board         board class
+   * @param audio         audio module
+   * @param application   keep track of game state
    */
   public Game(int countFromFile,
               int levelNumber,
@@ -74,18 +80,21 @@ public class Game {
     board.setup();
     this.player = new Player(board.getPlayerLoc());
 
+    // add cyclops enemies
     if (board.getCyclopsLoc().size() >= 1) {
       for (Tile t : board.getCyclopsLoc()) {
         cyclops.add(new Cyclops(t, Tile.Directions.Right));
       }
     }
-    runTimer();
 
+    // start timer
+    runTimer();
     gui.setChipsLeftLabel(board.getChipCount());
   }
 
   /**
    * Create string representation of board.
+   * THIS HAS BEEN DEPRECIATED, USE BOARD TO-STRING INSTEAD
    *
    * @return string
    */
@@ -99,7 +108,6 @@ public class Game {
         text.append(board.getTile(j, i).toString()).append("|");
       }
     }
-
     return text.toString();
   }
 
@@ -125,7 +133,7 @@ public class Game {
               c.moveCyclops(gui);
             }
           }
-          // update gui time label
+          // update gui time label with colour depending on value
           if (countdownTimer <= 15 && countdownTimer > 10) {
             gui.getTimeLabel().setForeground(Color.YELLOW);
           } else if (countdownTimer <= 10 && countdownTimer > 5) {
@@ -139,8 +147,7 @@ public class Game {
           gui.getRenderPanel().setBoard(board);
         } else if (!gamePaused) {
           timer.cancel();
-
-
+          // call out of time message to quit game or restart level
           gui.outOfTime("Out of Time", "Oh no! You have run out of time.");
         }
       }
@@ -159,6 +166,7 @@ public class Game {
       Tile currentLoc = player.getCurrentTile();
       Tile nextLoc;
 
+      // determine movement direction
       switch (direction) {
         case Left:
           nextLoc = currentLoc.getDirection(Tile.Directions.Left);
@@ -182,6 +190,7 @@ public class Game {
 
       if (nextLoc.action(player)) {
         if (!isRunningTest) {
+          // if move is valid then play feedback sound
           audio.moveEffect();
         }
         currentLoc.setEntityAbsent();
@@ -194,23 +203,28 @@ public class Game {
       Tile currentTile = player.getCurrentTile();
 
       if (currentTile.hasEntity) {
-        System.out.println("dead");
         gui.onStopGame(false);
-        gui.outOfTime("You died", "Oh no! You were caught by a cyclops.");
+
+        if (!isRunningTest) {
+          gui.outOfTime("You died", "Oh no! You were caught by a cyclops.");
+        }
       }
       if (currentTile instanceof ComputerChip) {
+        // update counter when player picks up a chip
         gui.setChipsLeftLabel(board.getChipCount() - player.getChips());
       } else if (currentTile instanceof Hint) {
+        // show help menu if player visits the help tile
         if (!isRunningTest) {
           gui.helpMenuContents();
         }
       } else if (currentTile instanceof Exit) {
-        if(RecordReplay.getIsGameRecording()){
+        if (RecordReplay.getIsGameRecording()) {
           RecordReplay.saveRecording(this);
         }
         gui.levelCompleteMessage(
             levelNumber, countdownTimer, timeToComplete - countdownTimer, board.getChipCount());
       } else if (currentTile instanceof Key || currentTile instanceof LockedDoor) {
+        // update inventory if player picks up item
         gui.updateInventory();
       }
       gui.getRenderPanel().setBoard(board);
@@ -224,7 +238,7 @@ public class Game {
   public void saveGame() {
     SimpleDateFormat ts = new SimpleDateFormat("dd-MM-yyyy'_'HH-mm-ss");
     Date date = new Date(System.currentTimeMillis());
-
+    // save file using timestamp as a file name
     Persistence.saveFile(this, "ChapsChallenge_SaveFile_" + ts.format(date) + ".json");
   }
 
@@ -306,6 +320,15 @@ public class Game {
    */
   public void isRunningTest(boolean value) {
     isRunningTest = value;
+  }
+
+  /**
+   * Getter Method for isRunningTest Boolean.
+   *
+   * @return boolean value
+   */
+  public boolean getRunningTest() {
+    return isRunningTest;
   }
 
 }

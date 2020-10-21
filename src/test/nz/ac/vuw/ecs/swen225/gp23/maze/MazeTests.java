@@ -3,18 +3,18 @@ package test.nz.ac.vuw.ecs.swen225.gp23.maze;
 import nz.ac.vuw.ecs.swen225.gp23.application.Application;
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
 import nz.ac.vuw.ecs.swen225.gp23.application.GraphicalInterface;
+import nz.ac.vuw.ecs.swen225.gp23.maze.Cyclops;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
 import org.junit.Before;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Tests for the Maze Module.
  *
- * @author Baxter Kirikiri
+ * @author Baxter Kirikiri - 300472553
  */
 public class MazeTests {
     private Application app = new Application();
@@ -22,6 +22,10 @@ public class MazeTests {
     private Game game;
     private Tile currentTile;
 
+    /**
+     * Setup for tests.
+     * Runs before each test and performs the required setup for each test.
+     */
     @Before
     public void setup(){
         gui.updateDisplay();
@@ -119,11 +123,11 @@ public class MazeTests {
     }
 
     /**
-     * Loads the default level 1, picks up only one chip, and attempts to move through the exit lock.
-     * Testing for correct action validation, player position, and exit lock visibility.
+     * Helper method for tests that involve moving to the exit of level 1.
+     *
+     * @param chips - the number of chips to set for the player (int)
      */
-    @Test
-    public void playerExitLocked(){
+    private void exitTestHelper(int chips){
         game.onMovement(Tile.Directions.Down);
         game.onMovement(Tile.Directions.Down);
         game.onMovement(Tile.Directions.Up);
@@ -132,7 +136,17 @@ public class MazeTests {
         game.onMovement(Tile.Directions.Up);
         game.onMovement(Tile.Directions.Up);
         game.onMovement(Tile.Directions.Right);
+        if(chips!=0){game.getPlayer().setChips(chips);}
         game.onMovement(Tile.Directions.Up);
+    }
+
+    /**
+     * Loads the default level 1, picks up only one chip, and attempts to open the exit lock.
+     * Testing for correct action validation, player position, and exit lock visibility.
+     */
+    @Test
+    public void playerExitLocked(){
+        exitTestHelper(0);
 
         Tile boardLocation = game.getBoard().getPlayerLoc();
 
@@ -148,16 +162,7 @@ public class MazeTests {
      */
     @Test
     public void playerExitUnlocked(){
-        game.onMovement(Tile.Directions.Down);
-        game.onMovement(Tile.Directions.Down);
-        game.onMovement(Tile.Directions.Up);
-        game.onMovement(Tile.Directions.Up);
-        game.onMovement(Tile.Directions.Left);
-        game.onMovement(Tile.Directions.Up);
-        game.onMovement(Tile.Directions.Up);
-        game.onMovement(Tile.Directions.Right);
-        game.getPlayer().setChips(11);
-        game.onMovement(Tile.Directions.Up);
+        exitTestHelper(11);
 
         Tile boardLocation = game.getBoard().getPlayerLoc();
 
@@ -165,4 +170,12 @@ public class MazeTests {
         assertEquals("chip_up", boardLocation.toString());
     }
 
+    /**
+     * Tests that colliding with the cyclops does not cause an error.
+     */
+    @Test
+    public void playerCyclopsCollision(){
+        game.getBoard().getTile(7,7).setEntityPresent("cyclops_up");
+        game.onMovement(Tile.Directions.Down);
+    }
 }

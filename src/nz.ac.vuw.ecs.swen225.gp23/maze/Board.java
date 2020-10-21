@@ -8,7 +8,7 @@ import java.util.Queue;
  * This class represents the board of the game.
  * The board stores every tile in the current level
  *
- * @author Baxter Kirikiri
+ * @author Baxter Kirikiri - 300472553
  */
 public class Board {
     private int boardXDimension;

@@ -195,6 +195,7 @@ public class RecordReplay {
    * Iterates through the replay one movement at a time until there are no movements left to replay.
    *
    * @param g - instance of game.
+   * @param gui - instance of gui.
    */
   public static void iterateReplay(Game g, GraphicalInterface gui) {
 
@@ -224,6 +225,7 @@ public class RecordReplay {
    * Uses a thread to go through the replay at a certain speed/delay.
    *
    * @param g - instance of game.
+   * @param gui - instance of gui.
    */
   public static void runReplay(Game g, GraphicalInterface gui) {
     Runnable run = () -> {

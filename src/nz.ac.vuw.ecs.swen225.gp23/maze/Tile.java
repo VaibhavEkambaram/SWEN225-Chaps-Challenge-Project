@@ -8,7 +8,7 @@ import java.util.List;
  * This class is responsible for the tiles in chap's challenge.
  * Each tile is differentiated by its own sub class.
  *
- * @author Baxter Kirikiri
+ * @author Baxter Kirikiri - 300472553
  */
 public abstract class Tile {
     public boolean isPassable;
