@@ -126,6 +126,8 @@ public class PersistenceTests {
 
   @Test
   public void validSetLevel() {
+    gui.updateDisplay();
+    gui.onNewGame();
     LevelM lm = new LevelM();
 
     assertEquals("level1.json", lm.getCurrentLevel());
