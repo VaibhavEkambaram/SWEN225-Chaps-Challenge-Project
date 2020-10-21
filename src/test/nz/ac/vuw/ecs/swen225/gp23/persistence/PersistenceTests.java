@@ -124,6 +124,9 @@ public class PersistenceTests {
 
   }
 
+  /**
+   * Test for checking valid set level.
+   */
   @Test
   public void validSetLevel() {
     gui.updateDisplay();
