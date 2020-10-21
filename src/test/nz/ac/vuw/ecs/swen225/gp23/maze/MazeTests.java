@@ -4,6 +4,8 @@ import nz.ac.vuw.ecs.swen225.gp23.application.Application;
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
 import nz.ac.vuw.ecs.swen225.gp23.application.GraphicalInterface;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Cyclops;
+
+import nz.ac.vuw.ecs.swen225.gp23.maze.Floor;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,6 +35,24 @@ public class MazeTests {
         game = gui.getCurrentGame();
         game.isRunningTest(true);
         currentTile = game.getBoard().getPlayerLoc();
+    }
+
+    /**
+     * Tests that the board class returns null if there is no player.
+     */
+    @Test
+    public void checkPlayerExists(){
+        game.getBoard().setTile(7,6, new Floor());
+        assertNull(game.getBoard().getPlayerLoc());
+    }
+
+    /**
+     * Tests that the board toString method matches the board string for level 1 in the json file.
+     */
+    @Test
+    public void checkBoardToString(){
+        String level1 = "_|_|#|#|#|#|#|_|#|#|#|#|#|_|_|_|_|#|_|_|_|#|#|#|_|_|_|#|_|_|_|_|#|_|T|_|#|E|#|_|T|_|#|_|_|#|#|#|#|#|G|#|l|#|G|#|#|#|#|#|#|_|y|_|B|_|_|_|_|_|R|_|y|_|#|#|_|T|_|#|b|_|i|_|r|#|_|T|_|#|#|#|#|#|#|T|_|P|_|T|#|#|#|#|#|#|_|T|_|#|b|_|_|_|r|#|_|T|_|#|#|_|_|_|R|_|_|T|_|_|B|_|_|_|#|#|#|#|#|#|#|Y|#|Y|#|#|#|#|#|#|_|_|_|_|#|_|_|#|_|_|#|_|_|_|_|_|_|_|_|#|g|T|#|T|_|#|_|_|_|_|_|_|_|_|#|_|_|#|g|_|#|_|_|_|_|_|_|_|_|#|#|#|_|#|#|#|_|_|_|_";
+        assertEquals(level1, game.getBoard().toString());
     }
 
     /**
@@ -175,7 +195,10 @@ public class MazeTests {
      */
     @Test
     public void playerCyclopsCollision(){
-        game.getBoard().getTile(7,7).setEntityPresent("cyclops_up");
+        game.getBoard().getTile(7,7).setEntityPresent("cyclops_right");
+        Cyclops test = new Cyclops(game.getBoard().getTile(7,7), Tile.Directions.Right);
+        test.moveCyclops(gui);
         game.onMovement(Tile.Directions.Down);
+        game.onMovement(Tile.Directions.Right);
     }
 }
