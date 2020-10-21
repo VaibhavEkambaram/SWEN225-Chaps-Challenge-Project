@@ -11,9 +11,9 @@ import java.util.Queue;
  * @author Baxter Kirikiri - 300472553
  */
 public class Board {
-  private int boardXDimension;
-  private int boardYDimension;
-  private Tile[][] tilesXY;
+  private int boardHorizontal;
+  private int boardVertical;
+  private Tile[][] allTiles;
   private int chipCount = 0;
 
   /**
@@ -23,9 +23,9 @@ public class Board {
    * @param y - The vertical size of the board in tile (int)
    */
   public Board(int x, int y) {
-    this.boardXDimension = x;
-    this.boardYDimension = y;
-    this.tilesXY = new Tile[boardXDimension][boardYDimension];
+    this.boardHorizontal = x;
+    this.boardVertical = y;
+    this.allTiles = new Tile[boardHorizontal][boardVertical];
   }
 
   /**
@@ -38,20 +38,21 @@ public class Board {
   }
 
   /**
-   * Sets up tile adjacency so that for each tile, its adjacent tiles are associated with the directions in Tile.Directions.
+   * Sets up tile adjacency so that for each tile,
+   * its adjacent tiles are associated with the directions in Tile.Directions.
    */
   private void setAdjacentTiles() {
-    for (int x = 0; x < boardXDimension; x++) {
-      for (int y = 0; y < boardYDimension; y++) {
-        Tile t = tilesXY[x][y];
+    for (int x = 0; x < boardHorizontal; x++) {
+      for (int y = 0; y < boardVertical; y++) {
+        Tile t = allTiles[x][y];
         int leftOrd = Tile.Directions.Left.ordinal();
-        t.adjacentTiles.add(leftOrd, x != 0 ? tilesXY[x - 1][y] : new Wall());
+        t.adjacentTiles.add(leftOrd, x != 0 ? allTiles[x - 1][y] : new Wall());
         int rightOrd = Tile.Directions.Right.ordinal();
-        t.adjacentTiles.add(rightOrd, x != boardXDimension - 1 ? tilesXY[x + 1][y] : new Wall());
+        t.adjacentTiles.add(rightOrd, x != boardHorizontal - 1 ? allTiles[x + 1][y] : new Wall());
         int upOrd = Tile.Directions.Up.ordinal();
-        t.adjacentTiles.add(upOrd, y != 0 ? tilesXY[x][y - 1] : new Wall());
+        t.adjacentTiles.add(upOrd, y != 0 ? allTiles[x][y - 1] : new Wall());
         int downOrd = Tile.Directions.Down.ordinal();
-        t.adjacentTiles.add(downOrd, y != boardYDimension - 1 ? tilesXY[x][y + 1] : new Wall());
+        t.adjacentTiles.add(downOrd, y != boardVertical - 1 ? allTiles[x][y + 1] : new Wall());
       }
     }
   }
@@ -59,26 +60,27 @@ public class Board {
   /**
    * Checks for chips on the board and counts them.
    * Then checks for exit locks on the board.
-   * If an exit lock exists, setExitLock() sets the number of chips on the board as the required number of chips for the exit lock.
+   * If an exit lock exists, setExitLock() sets the number
+   * of chips on the board as the required number of chips for the exit lock.
    */
   private void setExitLock() {
-    int exitX = boardXDimension + 1;
-    int exitY = boardYDimension + 1;
-    for (int x = 0; x < boardXDimension; x++) {
-      for (int y = 0; y < boardYDimension; y++) {
-        if (tilesXY[x][y].getCurrentImage().startsWith("computer_chip")) {
+    int exitX = boardHorizontal + 1;
+    int exitY = boardVertical + 1;
+    for (int x = 0; x < boardHorizontal; x++) {
+      for (int y = 0; y < boardVertical; y++) {
+        if (allTiles[x][y].getCurrentImage().startsWith("computer_chip")) {
           chipCount++;
         }
-        if (tilesXY[x][y].getCurrentImage().startsWith("exit_lock")) {
+        if (allTiles[x][y].getCurrentImage().startsWith("exit_lock")) {
           exitX = x;
           exitY = y;
         }
       }
     }
-    if (exitX != boardXDimension + 1) {
-      ExitLock lock = (ExitLock) tilesXY[exitX][exitY];
+    if (exitX != boardHorizontal + 1) {
+      ExitLock lock = (ExitLock) allTiles[exitX][exitY];
       lock.setChipsNeeded(chipCount);
-      tilesXY[exitX][exitY] = lock;
+      allTiles[exitX][exitY] = lock;
     }
   }
 
@@ -92,7 +94,7 @@ public class Board {
   public void setTile(int x, int y, Tile t) {
     t.setXLoc(x);
     t.setYLoc(y);
-    tilesXY[x][y] = t;
+    allTiles[x][y] = t;
   }
 
   /**
@@ -103,25 +105,25 @@ public class Board {
    * @return Tile - the tile at the given indexes (Tile)
    */
   public Tile getTile(int x, int y) {
-    if (x >= boardXDimension || y >= boardYDimension) {
+    if (x >= boardHorizontal || y >= boardVertical) {
       return null;
     }
     if (x < 0 || y < 0) {
       return null;
     }
-    return tilesXY[x][y];
+    return allTiles[x][y];
   }
 
   /**
-   * Gets the location of the player
+   * Gets the location of the player.
    *
-   * @return Tile - Tile the player is currently on. Null if the player is not included in the level (Tile)
+   * @return Tile - Tile the player is currently on. Null if the player not found (Tile)
    */
   public Tile getPlayerLoc() {
-    for (int x = 0; x < boardXDimension; x++) {
-      for (int y = 0; y < boardYDimension; y++) {
-        if (tilesXY[x][y].getCurrentImage().startsWith("chip")) {
-          return tilesXY[x][y];
+    for (int x = 0; x < boardHorizontal; x++) {
+      for (int y = 0; y < boardVertical; y++) {
+        if (allTiles[x][y].getCurrentImage().startsWith("chip")) {
+          return allTiles[x][y];
         }
       }
     }
@@ -129,16 +131,16 @@ public class Board {
   }
 
   /**
-   * Gets all the cyclops locations in the current level
+   * Gets all the cyclops locations in the current level.
    *
    * @return cyclops - the tiles occupied by cyclops
    */
   public ArrayList<Tile> getCyclopsLoc() {
     ArrayList<Tile> cyclops = new ArrayList<>();
-    for (int x = 0; x < boardXDimension; x++) {
-      for (int y = 0; y < boardYDimension; y++) {
-        if (tilesXY[x][y].getCurrentImage().startsWith("cyclops")) {
-          cyclops.add(tilesXY[x][y]);
+    for (int x = 0; x < boardHorizontal; x++) {
+      for (int y = 0; y < boardVertical; y++) {
+        if (allTiles[x][y].getCurrentImage().startsWith("cyclops")) {
+          cyclops.add(allTiles[x][y]);
         }
       }
     }
@@ -155,8 +157,8 @@ public class Board {
     String boardString;
     StringBuilder cases = new StringBuilder();
     Queue<Tile> tileQueue = new ArrayDeque<>();
-    for (int y = 0; y < boardYDimension; y++) {
-      for (int x = 0; x < boardXDimension; x++) {
+    for (int y = 0; y < boardVertical; y++) {
+      for (int x = 0; x < boardHorizontal; x++) {
         tileQueue.add(this.getTile(x, y));
       }
     }
@@ -236,7 +238,7 @@ public class Board {
   }
 
   /**
-   * Getter for the number of chips on the board at the time of loading
+   * Getter for the number of chips on the board at the time of loading.
    *
    * @return chipCount - the number of chips on the board at the time of loading (int).
    */
@@ -245,21 +247,21 @@ public class Board {
   }
 
   /**
-   * Getter for the horizontal dimension of the board
+   * Getter for the horizontal dimension of the board.
    *
    * @return boardXDimension - used for looping through the tilesXY[][] array (int)
    */
   public int getBoardWidth() {
-    return boardXDimension;
+    return boardHorizontal;
   }
 
 
   /**
-   * Getter for the vertical dimension of the board
+   * Getter for the vertical dimension of the board.
    *
    * @return boardYDimension - used for looping through the tilesXY[][] array (int)
    */
   public int getBoardHeight() {
-    return boardYDimension;
+    return boardVertical;
   }
 }
