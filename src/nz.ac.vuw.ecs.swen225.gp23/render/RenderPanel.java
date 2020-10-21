@@ -65,8 +65,8 @@ public class RenderPanel extends JPanel {
     // Find current player position to determine center of Render Panel
     Tile centerTile = currentBoard.getPlayerLoc();
     // Center Player Location
-    int centerRow = centerTile.getYLoc();
-    int centerCol = centerTile.getXLoc();
+    int centerRow = centerTile.getVertLoc();
+    int centerCol = centerTile.getHorizLoc();
     // Radius from center
     int rowRadius = (this.rows) / 2;
     int colRadius = (this.cols) / 2;
