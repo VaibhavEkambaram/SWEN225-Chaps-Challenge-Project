@@ -460,6 +460,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
   }
 
 
+  @SuppressWarnings("checkstyle:WhitespaceAfter")
   private void createButtons() {
     upButton = new JButton("⇑");
     upButton.setToolTipText("Move Chap Up");
@@ -512,8 +513,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
     stepToNext = new JButton("⏭");
     stepToNext.setToolTipText("Step to Next Recorded Movement");
-
-    stepToNext.addActionListener(e -> RecordReplay.iterateReplay(currentGame, this));
+    stepToNext.addActionListener(e -> RecordReplay.iterateReplay(currentGame,this));
   }
 
   /**

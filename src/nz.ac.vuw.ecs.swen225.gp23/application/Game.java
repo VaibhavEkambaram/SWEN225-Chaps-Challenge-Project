@@ -42,6 +42,8 @@ public class Game {
   final ChipAudioModule audio;
   private final Application application;
 
+  boolean isRunningTest = false;
+
   ArrayList<Cyclops> cyclops = new ArrayList<>();
 
 
@@ -153,7 +155,7 @@ public class Game {
    * @param direction north/south/east/west direction
    */
   public void onMovement(Tile.Directions direction) {
-    if (application.getState().equals(Application.GameStates.RUNNING)) {
+    if (application.getState().equals(Application.GameStates.RUNNING) && !gamePaused) {
       Tile currentLoc = player.getCurrentTile();
       Tile nextLoc;
 
@@ -179,7 +181,9 @@ public class Game {
       }
 
       if (nextLoc.action(player)) {
-        audio.moveEffect();
+        if (!isRunningTest) {
+          audio.moveEffect();
+        }
         currentLoc.setEntityAbsent();
         nextLoc.setEntityPresent(player.getImage(direction));
         player.setCurrentTile(nextLoc);
@@ -197,7 +201,9 @@ public class Game {
       if (currentTile instanceof ComputerChip) {
         gui.setChipsLeftLabel(board.getChipCount() - player.getChips());
       } else if (currentTile instanceof Hint) {
-        gui.helpMenuContents();
+        if (!isRunningTest) {
+          gui.helpMenuContents();
+        }
       } else if (currentTile instanceof Exit) {
         gui.levelCompleteMessage(
             levelNumber, countdownTimer, timeToComplete - countdownTimer, board.getChipCount());
@@ -288,6 +294,15 @@ public class Game {
    */
   public boolean isPaused() {
     return gamePaused;
+  }
+
+  /**
+   * Disable certain items when running a test.
+   *
+   * @param value boolean value
+   */
+  public void isRunningTest(boolean value) {
+    isRunningTest = value;
   }
 
 }
