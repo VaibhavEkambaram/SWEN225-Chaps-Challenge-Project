@@ -45,6 +45,7 @@ public class RecordReplay {
 
   /**
    * Creates a new save file of recording.
+   * Also calls persistence to save the current game file.
    *
    * @param g - instance of game.
    * @param s - name of save file.
@@ -142,6 +143,7 @@ public class RecordReplay {
     movements.clear();
     characters.clear();
 
+    //Reads the JSON file
     try {
       BufferedReader br = new BufferedReader(new FileReader(saveFile));
       JsonReader jr = Json.createReader(new StringReader(br.readLine()));
