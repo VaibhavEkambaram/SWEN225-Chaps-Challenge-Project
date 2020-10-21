@@ -112,7 +112,7 @@ public class LevelM {
 
   /**
    * Sets level for game
-   * @param value
+   * @param value Sets value of current level
    * @author Rahul Mahasuriya
    */
   public void setLevel(int value) { currentLevel = value; }
