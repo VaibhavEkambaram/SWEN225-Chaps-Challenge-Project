@@ -506,17 +506,23 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         RecordReplay.setDelay(value);
       }
 
-      RecordReplay.runReplay(currentGame);
+      RecordReplay.runReplay(currentGame,this);
     });
 
 
     stepToNext = new JButton("⏭");
     stepToNext.setToolTipText("Step to Next Recorded Movement");
 
-    stepToNext.addActionListener(e -> RecordReplay.iterateReplay(currentGame,this));
+    stepToNext.addActionListener(e -> RecordReplay.iterateReplay(currentGame, this));
   }
 
-  public void displayMessage(String title, String message){
+  /**
+   * Generic message display which can be used anywhere in the game.
+   *
+   * @param title   title header text.
+   * @param message actual message of popup window.
+   */
+  public void displayMessage(String title, String message) {
     onPauseGame(true);
     JOptionPane.showMessageDialog(
         this, message, title, JOptionPane.PLAIN_MESSAGE);
