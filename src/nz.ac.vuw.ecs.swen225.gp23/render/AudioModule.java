@@ -18,6 +18,11 @@ public class AudioModule {
      * Play specified audio file from url string
      * Audio file is played on background clip and loops
      *
+     * @param clip
+     * Clip to play sound track on loop in
+     * @param audioFile
+     * Name of audio file to play
+     *
      * @author Cameron Li
      */
     public static void playSoundTrack(Clip clip, String audioFile) {
@@ -37,6 +42,11 @@ public class AudioModule {
      * Play specified audio file from url string
      * Audio file is played on effects clip, does not loop
      *
+     * @param clip
+     * Clip to play sound track on loop in
+     * @param audioFile
+     * Name of audio file to play
+     *
      * @author Cameron Li
      */
     public static void playSound(Clip clip, String audioFile) {
@@ -55,6 +65,9 @@ public class AudioModule {
     /**
      * Pause the current sound track on the clip
      *
+     * @param clip
+     * Clip to play sound track on loop in
+     *
      * @author Cameron Li
      */
     public static void pauseSoundTrack(Clip clip) {
@@ -69,6 +82,9 @@ public class AudioModule {
      * Resume/play the current sound track on the background clip
      * Loops
      *
+     * @param clip
+     * Clip to play sound in loop
+     *
      * @author Cameron Li
      */
     public static void playSoundLoop(Clip clip) {
@@ -82,6 +98,9 @@ public class AudioModule {
     /**
      * Reset the sound track of the background clip
      * Does not play anything anymore
+     *
+     * @param clip
+     * Clip to pause
      *
      * @author Cameron Li
      */
@@ -100,6 +119,9 @@ public class AudioModule {
     /**
      * Reset the sound track of the background clip
      * Does not play anything anymore
+     *
+     * @param clip
+     * Clip to reset current audio to beginning
      *
      * @author Cameron Li
      */
