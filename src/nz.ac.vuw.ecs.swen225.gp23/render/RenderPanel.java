@@ -34,6 +34,8 @@ public class RenderPanel extends JPanel {
      * Number of rows for the display grid.
      * @param cols
      * Number of cols for the display grid.
+     * @param tileset
+     * Tileset to use (less than 0 for none, 0 for grass, greater than 0 for rock)
      *
      * @author Cameron Li - 300490702
      */
