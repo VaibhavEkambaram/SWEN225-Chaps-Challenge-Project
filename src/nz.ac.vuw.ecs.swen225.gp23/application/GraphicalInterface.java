@@ -179,6 +179,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
           "Are you sure you want to exit? Game progress will NOT be saved.",
           "Warning", closeDialogButton);
       if (closeDialogResult == JOptionPane.YES_OPTION) {
+        onStopGame(false);
         dispose();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
       } else {
@@ -431,9 +432,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
             "Warning",
             closeDialogButton);
         if (closeDialogResult == JOptionPane.YES_OPTION) {
+          onStopGame(false);
           dispose();
           setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-          System.exit(0);
         } else {
           setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         }
