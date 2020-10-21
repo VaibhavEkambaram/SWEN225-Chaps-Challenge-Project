@@ -126,7 +126,7 @@ public class Player {
   /**
    * Gets the appropriate image for a given direction (used when moving the player).
    *
-   * @param d - direction of the image so that the player is facing the movement direction (Tile.Directions)
+   * @param d - direction of the image (Tile.Directions)
    * @return String - the string of the correct direction image
    */
   public String getImage(Tile.Directions d) {

@@ -24,7 +24,7 @@ public abstract class Tile {
    * Possible types of tiles.
    */
   public enum Tiles {
-    Empty, Floor, Wall, LockedDoor, Key, Exit, ExitLock, ComputerChip, Hint
+    Floor, Wall, LockedDoor, Key, Exit, ExitLock, ComputerChip, Hint
   }
 
   /**
@@ -76,10 +76,6 @@ public abstract class Tile {
 
   public void setEntityDirection(Directions d) {
     this.entityDirection = d;
-  }
-
-  public Directions getEntityDirection() {
-    return this.entityDirection;
   }
 
   /**

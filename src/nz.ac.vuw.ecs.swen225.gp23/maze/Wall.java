@@ -22,7 +22,7 @@ public class Wall extends Tile {
    * Validates whether the player can travel through this tile.
    *
    * @param p - the player (Player)
-   * @return isPassable - should always be false for a wall because the player is not intended travel over them (Boolean)
+   * @return isPassable - should always be false for a wall (Boolean)
    */
   @Override
   public boolean action(Player p) {

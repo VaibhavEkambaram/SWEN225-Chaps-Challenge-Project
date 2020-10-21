@@ -22,7 +22,7 @@ public class Hint extends Tile {
    * Validates whether the player can travel through this tile.
    *
    * @param p - the player (Player)
-   * @return isPassable - should always be true for a hint tile so that the player can access the hint (Boolean)
+   * @return isPassable - should always be true for a hint tile (Boolean)
    */
   @Override
   public boolean action(Player p) {

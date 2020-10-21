@@ -22,7 +22,7 @@ public class Floor extends Tile {
    * Validates whether the player can travel through this tile.
    *
    * @param p - the player (Player)
-   * @return isPassable - should always be true for a floor tile so that the player can walk on it (Boolean)
+   * @return isPassable - should always be true for a floor tile (Boolean)
    */
   @Override
   public boolean action(Player p) {

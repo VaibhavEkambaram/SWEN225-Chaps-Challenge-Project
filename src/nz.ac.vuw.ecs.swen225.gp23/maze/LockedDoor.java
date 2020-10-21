@@ -3,7 +3,8 @@ package nz.ac.vuw.ecs.swen225.gp23.maze;
 /**
  * This class represents the locked door tiles in the game.
  * They are differentiated by colour so that they can be opened with keys of a matching colour.
- * This colour is in string format (ie. "red"). Actual colour values are handled in nz.ac.vuw.ecs.swen225.gp23/render
+ * This colour is in string format (ie. "red").
+ * Actual colour values are handled in nz.ac.vuw.ecs.swen225.gp23/render
  *
  * @author Baxter Kirikiri - 300472553
  */
@@ -28,7 +29,8 @@ public class LockedDoor extends Tile {
   /**
    * Validates whether the player can travel through this tile.
    * Applies appropriate logic to check if the player has the correct coloured key.
-   * If the player has the correct coloured key, the tile is updated so that the locked door is not shown.
+   * If the player has the correct coloured key,
+   * the tile is updated so that the locked door is not shown.
    * Once this key has been used, it is removed from the players inventory.
    *
    * @param p - the player (Player)
