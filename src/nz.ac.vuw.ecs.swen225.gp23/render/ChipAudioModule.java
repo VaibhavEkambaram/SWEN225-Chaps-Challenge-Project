@@ -6,6 +6,12 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
+/**
+ * Extension of AudioModule
+ * Specifically made to handle Chap's Challenge audio effects
+ *
+ * @author Cameron Li - 300490702
+ */
 public class ChipAudioModule extends AudioModule {
     // Sound tracks
     private final String chip_1 = ("/audio/Chip_1.wav");
@@ -28,6 +34,8 @@ public class ChipAudioModule extends AudioModule {
     /**
      * Constructor for Chip Audio Module
      * Initialises all the Effects Clips
+     *
+     * @author Cameron Li - 300490702
      */
     public ChipAudioModule() {
         try {
@@ -47,7 +55,7 @@ public class ChipAudioModule extends AudioModule {
      * @param level
      * Integer used to determine which track to play
      *
-     * @author Cameron Li
+     * @author Cameron Li - 300490702
      */
     public void playCurrentLevelTrack(int level) {
         if (level % 3 == 1) {
@@ -61,6 +69,8 @@ public class ChipAudioModule extends AudioModule {
 
     /**
      * Plays the exit sound effect
+     *
+     * @author Cameron Li - 300490702
      */
     public void exitEffect() {
         playSound(exitClip, exit);
@@ -68,6 +78,8 @@ public class ChipAudioModule extends AudioModule {
 
     /**
      * Plays the move sound effect
+     *
+     * @author Cameron Li - 300490702
      */
     public void moveEffect() {
         playSound(moveClip, move);
@@ -75,6 +87,8 @@ public class ChipAudioModule extends AudioModule {
 
     /**
      * Plays the pickup sound effect
+     *
+     * @author Cameron Li - 300490702
      */
     public void pickupEffect() {
         playSound(pickupClip, pickup);
@@ -82,6 +96,8 @@ public class ChipAudioModule extends AudioModule {
 
     /**
      * Plays the select sound effect
+     *
+     * @author Cameron Li - 300490702
      */
     public void selectEffect() {
         playSound(selectClip, select);
@@ -92,7 +108,7 @@ public class ChipAudioModule extends AudioModule {
      * @param filename
      * Name of the audio file
      *
-     * @author Cameron Li
+     * @author Cameron Li - 300490702
      */
     private void findSound(String filename) {
         // using the URL means the image loads when stored

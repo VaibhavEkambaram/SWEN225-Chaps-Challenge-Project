@@ -8,6 +8,8 @@ public class SquarePanel extends JPanel {
      * See getPreferredSize()
      * @return
      * Minimum Dimension of the JPanel
+     *
+     * @author Cameron Li - 300490702
      */
     @Override
     public Dimension getMinimumSize() {
@@ -18,6 +20,8 @@ public class SquarePanel extends JPanel {
      * See getPreferredSize()
      * @return
      * Maximum Dimension of the JPanel
+     *
+     * @author Cameron Li - 300490702
      */
     @Override
     public Dimension getMaximumSize() {
@@ -29,6 +33,8 @@ public class SquarePanel extends JPanel {
      * Gets the Parent Container dimensions, size is determined off minimum dimension
      * @return
      * Preferred Dimension of the SquarePanel
+     *
+     * @author Cameron Li - 300490702
      */
     @Override
     public Dimension getPreferredSize() {
