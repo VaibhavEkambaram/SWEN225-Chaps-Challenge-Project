@@ -22,10 +22,9 @@ import nz.ac.vuw.ecs.swen225.gp23.application.GraphicalInterface;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.Persistence;
 
-
 /**
  * This class is responsible for recording and replaying the game play.
- * Each movement of Chap + cyclops (level 2) is recorded and saved to allow for a replay of a level.
+ * Each movement of Chap is recorded and saved to allow for a replay of a list of recorded moves.
  *
  * @author Tyla Turner - 300473374
  */
@@ -175,11 +174,11 @@ public class RecordReplay {
         }
       }
     }
-
+    //load the save file from persistence
     if (obj != null) {
       persistenceSave = obj.getString("save");
     }
-
+    //if movements still remain, the game is still running
     if (movements.size() > 0) {
       isGameRunning = true;
     }
@@ -189,7 +188,6 @@ public class RecordReplay {
       timeLeft = 0;
     }
     gui.onLoadGameNoGui(persistenceSave, true);
-
   }
 
   /**
@@ -212,7 +210,7 @@ public class RecordReplay {
           iterateReplay(g);
         }
       }
-
+      //if there are no movements left, the game is no longer running.
       if (movements.size() == 0) {
         isGameRunning = false;
         g.setTimeLeft(timeLeft);
