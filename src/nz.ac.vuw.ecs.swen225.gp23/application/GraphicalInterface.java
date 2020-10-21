@@ -513,7 +513,14 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     stepToNext = new JButton("⏭");
     stepToNext.setToolTipText("Step to Next Recorded Movement");
 
-    stepToNext.addActionListener(e -> RecordReplay.iterateReplay(currentGame));
+    stepToNext.addActionListener(e -> RecordReplay.iterateReplay(currentGame,this));
+  }
+
+  public void displayMessage(String title, String message){
+    onPauseGame(true);
+    JOptionPane.showMessageDialog(
+        this, message, title, JOptionPane.PLAIN_MESSAGE);
+    onPauseGame(false);
   }
 
 
