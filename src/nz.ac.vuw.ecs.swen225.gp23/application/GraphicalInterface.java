@@ -847,10 +847,10 @@ public class GraphicalInterface extends JFrame implements KeyListener {
   public void onStopGame(boolean isLoadingRecordedGame) {
     if (currentGame != null) {
 
-
       if (application.getState().equals(Application.GameStates.RUNNING)) {
         if (!isLoadingRecordedGame) {
-          RecordReplay.endRecording();
+          System.out.println("bruh");
+          RecordReplay.saveRecording(currentGame);
         }
         application.transitionToInit();
         currentGame.terminateTimer();
@@ -1021,11 +1021,10 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
 
     if (currentGame != null) {
-      System.out.println("terminate game");
       if (RecordReplay.getIsGameRecording()) {
         RecordReplay.saveRecording(currentGame);
-        RecordReplay.endRecording();
       }
+
 
       if (application.getState().equals(Application.GameStates.RUNNING)) {
         application.transitionToInit();
@@ -1034,7 +1033,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
       onPauseGame(false);
       gamePauseMenu.setState(false);
     }
-
 
 
     String[] options = new String[]{"Play Again", "Exit"};
