@@ -7,7 +7,10 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -150,7 +153,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     saveAndExitMenu.addActionListener(e -> {
       int closeDialogButton = JOptionPane.YES_NO_OPTION;
       int closeDialogResult = JOptionPane.showConfirmDialog(
-          null, "Are you sure you want to exit? Game progress WILL be saved.",
+          this, "Are you sure you want to exit? Game progress WILL be saved.",
           "Warning", closeDialogButton);
       if (closeDialogResult == JOptionPane.YES_OPTION) {
         if (currentGame != null) {
@@ -193,6 +196,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     gamePauseMenu.setState(false);
     createButtons();
 
+    // allow player to set a map theme (sets render panel value)
     JMenu themeMenu = new JMenu("Select Theme");
     JMenuItem meadowTheme = new JMenuItem("Meadow");
     meadowTheme.addActionListener(e -> {
@@ -209,7 +213,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
     themeMenu.add(meadowTheme);
     themeMenu.add(caveTheme);
-
     // ---------------------------------------------------------------------------------------------
 
     // ---------------------------------------------------------------------------------------------
@@ -305,6 +308,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
       @Override
       protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        // draw background image on
         g.drawImage(backgroundImage, 0, 0, this);
       }
     };
@@ -709,7 +713,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
       onPauseGame(true);
       JOptionPane.showMessageDialog(
-          null, fieldPanel, "About", JOptionPane.PLAIN_MESSAGE);
+          this, fieldPanel, "About", JOptionPane.PLAIN_MESSAGE);
       onPauseGame(false);
     });
     return aboutMenu;
@@ -819,6 +823,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
     Board board;
 
+    // determine whether a prefix level is loaded or special function use
     if (loadingSavedGame) {
       board = Persistence.loadFile(filepath);
     } else {
@@ -885,6 +890,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         currentGame.setGamePaused(false);
         renderPanel.setPaused(false);
       }
+      // repaint render panel to show updated display
       renderPanel.repaint();
     }
 
@@ -909,6 +915,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
    * Does things such as set button visibility depending on game state and pause
    */
   public void updateDisplay() {
+    // ui elements to update if game is in idle state
     if (application.getState().equals(Application.GameStates.IDLE)) {
       setMovementButtonEnabled(false);
       playback.setEnabled(false);
@@ -917,6 +924,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
       startRecordingMenu.setEnabled(false);
       stopRecordingMenu.setEnabled(false);
+      // ui elements to update if game is in running state
     } else if (application.getState().equals(Application.GameStates.RUNNING)) {
 
       setMovementButtonEnabled(!gamePaused);
@@ -929,6 +937,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
    * Update Controls for Recording.
    */
   private void updateRecordControls() {
+    // update menu items based on if recording is on or not
     if (RecordReplay.getIsGameRecording()) {
       startRecordingMenu.setEnabled(false);
       stopRecordingMenu.setEnabled(true);
@@ -959,7 +968,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
     levelManager.incrementLevel();
     if (levelManager.checkMaximumState()) {
-      JOptionPane.showMessageDialog(null,
+      JOptionPane.showMessageDialog(this,
           "Congratulations, you have completed all the levels and have thus won the game!",
           "Game Complete", JOptionPane.PLAIN_MESSAGE);
       onStopGame(false);
@@ -979,7 +988,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
           null,
           options,
           options[0]);
-
+      // determine response from decision popup
       if (response >= 0 && response <= 3) {
         if (response == 0) {
           levelManager.saveLevel();
@@ -1004,7 +1013,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
    * Out of time/Cyclops Death Message.
    * Display message when the player has run out of time or killed by a cyclops
    *
-   * @param title Title of Message
+   * @param title   Title of Message
    * @param message Message Body
    */
   public void outOfTime(String title, String message) {
@@ -1029,6 +1038,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         options,
         options[0]);
     resetLabels();
+    // determine response from decision popup
     if (response == 0) {
       onLoadGameNoGui(levelManager.getCurrentLevel(), false);
     } else if (response == 1) {
@@ -1041,6 +1051,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
    * Set Labels back to empty values.
    */
   private void resetLabels() {
+    // set game information panels to blank values by resetting their text
     timeLabel.setText("");
     chipsLeftLabel.setText("");
     levelLabel.setText("");
@@ -1064,28 +1075,28 @@ public class GraphicalInterface extends JFrame implements KeyListener {
   @Override
   public void keyPressed(KeyEvent e) {
     switch (e.getKeyCode()) {
-      case 32:
+      case 32: // space key
         onPauseGame(true);
         break;
-      case 27:
+      case 27: // esc key
         onPauseGame(false);
         break;
-      case 38:
+      case 38: // up
         if (application.getState().equals(Application.GameStates.RUNNING) && !gamePaused) {
           currentGame.onMovement(Tile.Directions.Up);
         }
         break;
-      case 40:
+      case 40: // down
         if (application.getState().equals(Application.GameStates.RUNNING) && !gamePaused) {
           currentGame.onMovement(Tile.Directions.Down);
         }
         break;
-      case 37:
+      case 37: // left
         if (application.getState().equals(Application.GameStates.RUNNING) && !gamePaused) {
           currentGame.onMovement(Tile.Directions.Left);
         }
         break;
-      case 39:
+      case 39: // right
         if (application.getState().equals(Application.GameStates.RUNNING) && !gamePaused) {
           currentGame.onMovement(Tile.Directions.Right);
         }
