@@ -1,13 +1,5 @@
 package test.nz.ac.vuw.ecs.swen225.gp23.monkey;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.assertTrue;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import nz.ac.vuw.ecs.swen225.gp23.application.Application;
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
 import nz.ac.vuw.ecs.swen225.gp23.application.GraphicalInterface;
@@ -16,6 +8,12 @@ import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.Persistence;
 import org.junit.After;
 import org.junit.Test;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static junit.framework.TestCase.*;
 
 
 /**
@@ -173,7 +171,6 @@ public class GameTests {
    */
   @Test
   public void testRightMovement1() {
-    GraphicalInterface gui = new GraphicalInterface(app);
     gui.updateDisplay();
     gui.onNewGame();
     Game game = gui.getCurrentGame();
@@ -191,7 +188,6 @@ public class GameTests {
    */
   @Test
   public void testRightMovement2() {
-    GraphicalInterface gui = new GraphicalInterface(app);
     gui.updateDisplay();
     gui.onNewGame();
     Game game = gui.getCurrentGame();
@@ -335,7 +331,6 @@ public class GameTests {
         + "|_|_|_|_|#|_|_|#|g|_|#|_|_|_|_|"
         + "|_|_|_|_|#|#|#|_|#|#|#|_|_|_|_|";
 
-    GraphicalInterface gui = new GraphicalInterface(app);
     gui.updateDisplay();
     gui.onNewGame();
     Game game = gui.getCurrentGame();
