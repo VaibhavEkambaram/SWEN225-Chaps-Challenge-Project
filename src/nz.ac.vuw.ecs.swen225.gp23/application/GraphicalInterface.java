@@ -712,7 +712,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     currentGame = null;
     levelManager.setLevel(1);
     levelManager.saveLevel();
-    Board board = Persistence.loadFile("src/levels/" + levelManager.getCurrentLevel());
+    Board board = Persistence.loadFile("levels/" + levelManager.getCurrentLevel());
 
     currentGame = new Game(
         Persistence.getTimeLeft(), Persistence.getLevel(), this, board, audio, application);
@@ -783,7 +783,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     if (loadingSavedGame) {
       board = Persistence.loadFile(filepath);
     } else {
-      board = Persistence.loadFile("src/levels/" + filepath);
+      board = Persistence.loadFile("levels/" + filepath);
     }
 
     currentGame = new Game(

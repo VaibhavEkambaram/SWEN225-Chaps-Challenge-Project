@@ -20,7 +20,7 @@ public class LevelM {
   int currentLevel = 1;
 
   public LevelM() {
-    File folder = new File("src/levels");
+    File folder = new File("levels");
     File[] listOfFiles = folder.listFiles();
 
     for (int i = 0; i < listOfFiles.length; i++) {
