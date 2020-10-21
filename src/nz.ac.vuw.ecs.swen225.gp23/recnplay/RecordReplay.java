@@ -83,11 +83,16 @@ public class RecordReplay {
       JsonArrayBuilder a = Json.createArrayBuilder();
 
       for (int i = 0; i < characters.size(); i++) {
-        JsonObjectBuilder o = Json.createObjectBuilder().add("actor", characters.get(i)).add("movement", movements.get(i).toString());
+        JsonObjectBuilder o = Json.createObjectBuilder().add("actor",
+            characters.get(i)).add("movement",
+            movements.get(i).toString());
         a.add(o.build());
       }
 
-      JsonObjectBuilder objectBuilder = Json.createObjectBuilder().add("save", persistenceSave).add("movements", a).add("timeLeft", g.getTimeLeft());
+      JsonObjectBuilder objectBuilder = Json.createObjectBuilder().add("save",
+          persistenceSave).add("movements",
+          a).add("timeLeft",
+          g.getTimeLeft());
 
       //Attempt to save the moves to a JSON file
       try (Writer writer = new StringWriter()) {
