@@ -23,6 +23,18 @@ public class GameTests {
     Tile currentTile;
 
     /**
+     * setup of the display to not show the help menu while running
+     */
+    @Test
+    public void setup(){
+        gui.updateDisplay();
+        gui.onNewGame();
+
+        Game game = gui.getCurrentGame();
+        game.isRunningTest(true);
+    }
+
+    /**
      * Testing to check if board is not empty
      */
     @Test
@@ -102,13 +114,11 @@ public class GameTests {
         assertFalse(game.isPaused());
     }
 
-
-
     /**
      * Creating player to see if the player actual is displayed correctly.
      */
     @Test
-    public void levelOneGeneratedPlayer() {
+    public void playerLoadTest() {
         gui.updateDisplay();
         gui.onNewGame();
         Game game = gui.getCurrentGame();
@@ -122,7 +132,7 @@ public class GameTests {
      * Checking the movement of player to the left.
      */
     @Test
-    public void checkLeftMovementOne() {
+    public void testLeftMovement1() {
         gui.updateDisplay();
         gui.onNewGame();
         Game game = gui.getCurrentGame();
@@ -135,10 +145,27 @@ public class GameTests {
     }
 
     /**
+     * Checking the movement of player to the left.
+     */
+    @Test
+    public void testLeftMovement2() {
+        gui.updateDisplay();
+        gui.onNewGame();
+        Game game = gui.getCurrentGame();
+
+        assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
+        assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
+        game.onMovement(Tile.Directions.Left);
+        game.onMovement(Tile.Directions.Left);
+        assertEquals(5, game.getPlayer().getCurrentTile().getXLoc());
+        assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
+    }
+
+    /**
      * Checking the movement of player to the right.
      */
     @Test
-    public void checkRightMovementOne() {
+    public void testRightMovement1() {
         GraphicalInterface gui = new GraphicalInterface(app);
         gui.updateDisplay();
         gui.onNewGame();
@@ -152,10 +179,28 @@ public class GameTests {
     }
 
     /**
+     * Checking the movement of player to the right.
+     */
+    @Test
+    public void testRightMovement2() {
+        GraphicalInterface gui = new GraphicalInterface(app);
+        gui.updateDisplay();
+        gui.onNewGame();
+        Game game = gui.getCurrentGame();
+
+        assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
+        assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
+        game.onMovement(Tile.Directions.Right);
+        game.onMovement(Tile.Directions.Right);
+        assertEquals(9, game.getPlayer().getCurrentTile().getXLoc());
+        assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
+    }
+
+    /**
      * Checking the movement of player to up direction.
      */
     @Test
-    public void checkUpMovementOne() {
+    public void testUpMovement1() {
         gui.updateDisplay();
         gui.onNewGame();
         Game game = gui.getCurrentGame();
@@ -171,17 +216,51 @@ public class GameTests {
      * Checking the movement of player to up direction.
      */
     @Test
-    public void invalidCheckUpMovement() {
+    public void testUpMovement2() {
         gui.updateDisplay();
         gui.onNewGame();
         Game game = gui.getCurrentGame();
 
-        Tile prev = game.getPlayer().getCurrentTile();
-        game.onMovement(Tile.Directions.Right);
-        Tile current = game.getPlayer().getCurrentTile();
-
+        assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
+        assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
+        game.onMovement(Tile.Directions.Up);
+        game.onMovement(Tile.Directions.Up);
+        assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
+        assertEquals(4, game.getPlayer().getCurrentTile().getYLoc());
     }
 
+    /**
+     * Checking the movement of player to down direction.
+     */
+    @Test
+    public void testDownMovement1() {
+        gui.updateDisplay();
+        gui.onNewGame();
+        Game game = gui.getCurrentGame();
+
+        assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
+        assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
+        game.onMovement(Tile.Directions.Down);
+        assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
+        assertEquals(7, game.getPlayer().getCurrentTile().getYLoc());
+    }
+
+    /**
+     * Checking the movement of player to down direction.
+     */
+    @Test
+    public void testDownMovement2() {
+        gui.updateDisplay();
+        gui.onNewGame();
+        Game game = gui.getCurrentGame();
+
+        assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
+        assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
+        game.onMovement(Tile.Directions.Down);
+        game.onMovement(Tile.Directions.Down);
+        assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
+        assertEquals(8, game.getPlayer().getCurrentTile().getYLoc());
+    }
 
     /**
      * Testing to check if the timer works
