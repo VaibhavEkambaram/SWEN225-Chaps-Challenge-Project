@@ -4,11 +4,19 @@ import javax.swing.*;
 import java.awt.*;
 
 public class SquarePanel extends JPanel {
+    /**
+     * See getPreferredSize()
+     * @return
+     */
     @Override
     public Dimension getMinimumSize() {
         return getPreferredSize();
     }
 
+    /**
+     * See getPreferredSize()
+     * @return
+     */
     @Override
     public Dimension getMaximumSize() {
         return getPreferredSize();
@@ -16,6 +24,7 @@ public class SquarePanel extends JPanel {
 
     /**
      * Ensures that this JPanel is always square
+     * Gets the Parent Container dimensions, size is determined off minimum dimension
      * @return
      */
     @Override
