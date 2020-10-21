@@ -1,4 +1,4 @@
-package test.nz.ac.vuw.ecs.swen225.gp20.maze;
+package test.nz.ac.vuw.ecs.swen225.gp23.maze;
 
 import nz.ac.vuw.ecs.swen225.gp23.application.Application;
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
@@ -6,6 +6,7 @@ import nz.ac.vuw.ecs.swen225.gp23.application.GraphicalInterface;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Player;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
 import nz.ac.vuw.ecs.swen225.gp23.render.ChipAudioModule;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -23,9 +24,16 @@ import static org.junit.Assert.assertTrue;
 public class MazeTests {
     private Application app = new Application();
     private GraphicalInterface gui = new GraphicalInterface(app);
-    private ChipAudioModule audio = new ChipAudioModule();
-    private List<String> levels = new ArrayList<>();
+    private Game game;
     private Tile currentTile;
+
+    @Before
+    public void setup(){
+        gui.updateDisplay();
+        gui.onNewGame();
+        game = gui.getCurrentGame();
+        currentTile = game.getBoard().getPlayerLoc();
+    }
 
     /**
      * Loads the default level 1 and moves the player 1 tile down on to a passable tile.
@@ -33,12 +41,6 @@ public class MazeTests {
      */
     @Test
     public void movePlayerPassable(){
-        gui.updateDisplay();
-        gui.onNewGame();
-
-        Game game = gui.getCurrentGame();
-        currentTile = game.getBoard().getPlayerLoc();
-
         game.onMovement(Tile.Directions.Down);
         Tile boardLocation = game.getBoard().getPlayerLoc();
 
@@ -53,12 +55,6 @@ public class MazeTests {
      */
     @Test
     public void movePlayerNonPassable(){
-        gui.updateDisplay();
-        gui.onNewGame();
-
-        Game game = gui.getCurrentGame();
-        currentTile = game.getBoard().getPlayerLoc();
-
         game.onMovement(Tile.Directions.Left);
         game.onMovement(Tile.Directions.Up);
         game.onMovement(Tile.Directions.Up);
@@ -77,12 +73,6 @@ public class MazeTests {
      */
     @Test
     public void playerChipPickup(){
-        gui.updateDisplay();
-        gui.onNewGame();
-
-        Game game = gui.getCurrentGame();
-        currentTile = game.getBoard().getPlayerLoc();
-
         game.onMovement(Tile.Directions.Down);
         game.onMovement(Tile.Directions.Down);
         game.onMovement(Tile.Directions.Up);
@@ -97,12 +87,6 @@ public class MazeTests {
      */
     @Test
     public void playerKeyPickup() {
-        gui.updateDisplay();
-        gui.onNewGame();
-
-        Game game = gui.getCurrentGame();
-        currentTile = game.getBoard().getPlayerLoc();
-
         game.onMovement(Tile.Directions.Right);
         game.onMovement(Tile.Directions.Up);
         game.onMovement(Tile.Directions.Right);
@@ -118,12 +102,6 @@ public class MazeTests {
      */
     @Test
     public void playerUnlockDoor(){
-        gui.updateDisplay();
-        gui.onNewGame();
-
-        Game game = gui.getCurrentGame();
-        currentTile = game.getBoard().getPlayerLoc();
-
         game.onMovement(Tile.Directions.Right);
         game.onMovement(Tile.Directions.Up);
         game.onMovement(Tile.Directions.Right);
@@ -144,5 +122,51 @@ public class MazeTests {
         assertEquals("floor", game.getBoard().getTile(9, 5).toString());
     }
 
+    /**
+     * Loads the default level 1, picks up only one chip, and attempts to move through the exit lock.
+     * Testing for correct action validation, player position, and exit lock visibility.
+     */
+    @Test
+    public void playerExitLocked(){
+        game.onMovement(Tile.Directions.Down);
+        game.onMovement(Tile.Directions.Down);
+        game.onMovement(Tile.Directions.Up);
+        game.onMovement(Tile.Directions.Up);
+        game.onMovement(Tile.Directions.Left);
+        game.onMovement(Tile.Directions.Up);
+        game.onMovement(Tile.Directions.Up);
+        game.onMovement(Tile.Directions.Right);
+        game.onMovement(Tile.Directions.Up);
+
+        Tile boardLocation = game.getBoard().getPlayerLoc();
+
+        assertEquals(1, game.getPlayer().getChips());
+        assertEquals("chip_up", boardLocation.toString());
+        assertEquals("exit_lock", game.getBoard().getTile(7, 3).toString());
+    }
+
+    /**
+     * Loads the default level 1, sets the players chips to the required amount for the level 1 exit lock and
+     * attempts to open the exit lock.
+     * Testing for correct action validation, player position, and exit lock visibility.
+     */
+    @Test
+    public void playerExitUnlocked(){
+        game.onMovement(Tile.Directions.Down);
+        game.onMovement(Tile.Directions.Down);
+        game.onMovement(Tile.Directions.Up);
+        game.onMovement(Tile.Directions.Up);
+        game.onMovement(Tile.Directions.Left);
+        game.onMovement(Tile.Directions.Up);
+        game.onMovement(Tile.Directions.Up);
+        game.onMovement(Tile.Directions.Right);
+        game.getPlayer().setChips(11);
+        game.onMovement(Tile.Directions.Up);
+
+        Tile boardLocation = game.getBoard().getPlayerLoc();
+
+        assertEquals(11, game.getPlayer().getChips());
+        assertEquals("chip_up", boardLocation.toString());
+    }
 
 }
