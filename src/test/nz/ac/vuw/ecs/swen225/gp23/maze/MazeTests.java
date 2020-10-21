@@ -4,7 +4,6 @@ import nz.ac.vuw.ecs.swen225.gp23.application.Application;
 import nz.ac.vuw.ecs.swen225.gp23.application.Game;
 import nz.ac.vuw.ecs.swen225.gp23.application.GraphicalInterface;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Cyclops;
-
 import nz.ac.vuw.ecs.swen225.gp23.maze.Floor;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
 import org.junit.Before;
