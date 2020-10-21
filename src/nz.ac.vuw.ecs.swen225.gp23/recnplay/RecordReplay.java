@@ -137,6 +137,7 @@ public class RecordReplay {
      * @param saveFile - file name.
      * @param gui - instance of gui.
      */
+    @SuppressWarnings("checkstyle:Indentation")
     public static void loadRecord(String saveFile, GraphicalInterface gui){
         JsonObject obj = null;
 
@@ -270,16 +271,5 @@ public class RecordReplay {
         return isGameRecording;
     }
 
-    /**
-     * Stores the movement of the cyclops (level 2) character in the arraylists.
-     * @param d - direction of movement
-     * @param id - id of character
-     */
-    public static void storeCyclopsMove(Tile.Directions d, int id){
-        if (isGameRecording){
-            movements.add(d);
-            actors.add(id);
-        }
-    }
 
 }
