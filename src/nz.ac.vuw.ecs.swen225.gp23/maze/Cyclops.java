@@ -1,8 +1,9 @@
 package nz.ac.vuw.ecs.swen225.gp23.maze;
 
-import nz.ac.vuw.ecs.swen225.gp23.application.GraphicalInterface;
 import java.util.HashMap;
 import java.util.Map;
+import nz.ac.vuw.ecs.swen225.gp23.application.GraphicalInterface;
+
 
 /**
  * This class represents the Cyclops or enemies in the game.
