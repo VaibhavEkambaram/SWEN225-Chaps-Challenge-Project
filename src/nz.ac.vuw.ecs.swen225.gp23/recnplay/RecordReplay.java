@@ -54,6 +54,7 @@ public class RecordReplay {
     isGameRecording = true;
     movements.clear();
 
+    //saves the game file when a recording begins - links to persistence.
     SimpleDateFormat ts = new SimpleDateFormat("dd-MM-yyyy'_'HH-mm-ss");
     Date date = new Date(System.currentTimeMillis());
     persistenceSave = "ChapsChallenge_SaveFile_" + ts.format(date) + ".json";
@@ -149,6 +150,7 @@ public class RecordReplay {
       System.out.println("There was an error reading from JSON file." + e);
     }
 
+    //initialise the moves JSON array
     JsonArray movesArray;
     if (obj != null) {
       movesArray = obj.getJsonArray("movements");
@@ -230,6 +232,7 @@ public class RecordReplay {
           if (characters.size() > 0 && characters.get(0) == 0) {
             Thread.sleep(delay);
           }
+          //steps through the replay recursively
           iterateReplay(g);
         } catch (InterruptedException e) {
           System.out.println(e.getMessage());
