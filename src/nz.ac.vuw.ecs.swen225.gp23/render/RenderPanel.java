@@ -126,6 +126,21 @@ public class RenderPanel extends JPanel {
     }
 
     /**
+     * Sets currently used tileset
+     * Changes which tiles are used for display
+     *
+     * @param tileset which tileset to use (0 for grass, 1+ for rock)
+     *
+     * @author Cameron Li
+     */
+    public void setTileset(int tileset) {
+        if (tileset < 0) {
+            return;
+        }
+        this.tileset = tileset;
+    }
+
+    /**
      * Paint method.
      * Used to refresh the board along with GUI.
      * @param g

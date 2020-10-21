@@ -7,10 +7,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -192,6 +189,24 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     gamePauseMenu = new JCheckBoxMenuItem("Toggle Game Pause");
     gamePauseMenu.setState(false);
     createButtons();
+
+    JMenu themeMenu = new JMenu("Select Theme");
+    JMenuItem meadowTheme = new JMenuItem("Meadow");
+    meadowTheme.addActionListener(e -> {
+      if (renderPanel != null) {
+        renderPanel.setTileset(0);
+      }
+    });
+    JMenuItem caveTheme = new JMenuItem("Cave");
+    caveTheme.addActionListener(e -> {
+      if (renderPanel != null) {
+        renderPanel.setTileset(1);
+      }
+    });
+
+    themeMenu.add(meadowTheme);
+    themeMenu.add(caveTheme);
+
     // ---------------------------------------------------------------------------------------------
 
     // ---------------------------------------------------------------------------------------------
@@ -255,6 +270,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     gameMenu.add(exitMenu);
 
     optionsMenu.add(gamePauseMenu);
+    optionsMenu.add(themeMenu);
 
     recordAndReplayMenu.add(startRecordingMenu);
     recordAndReplayMenu.add(stopRecordingMenu);
@@ -462,7 +478,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
   @SuppressWarnings("checkstyle:WhitespaceAfter")
   private void createButtons() {
-    upButton = new JButton("⇑");
+    upButton = new JButton("↑");
     upButton.setToolTipText("Move Chap Up");
     upButton.addActionListener(e -> {
       if (application.getState().equals(Application.GameStates.RUNNING) && !gamePaused) {
@@ -470,7 +486,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
       }
     });
 
-    downButton = new JButton("⇓");
+    downButton = new JButton("↓");
     downButton.setToolTipText("Move Chap Down");
     downButton.addActionListener(e -> {
       if (application.getState().equals(Application.GameStates.RUNNING) && !gamePaused) {
@@ -478,7 +494,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
       }
     });
 
-    leftButton = new JButton("⇐");
+    leftButton = new JButton("←");
     leftButton.setToolTipText("Move Chap to the Left");
     leftButton.addActionListener(e -> {
       if (application.getState().equals(Application.GameStates.RUNNING) && !gamePaused) {
@@ -486,7 +502,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
       }
     });
 
-    rightButton = new JButton("⇒");
+    rightButton = new JButton("→");
     rightButton.setToolTipText("Move Chap to the Right");
     rightButton.addActionListener(e -> {
       if (application.getState().equals(Application.GameStates.RUNNING) && !gamePaused) {
@@ -494,7 +510,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
       }
     });
 
-    playback = new JButton("\t\uD83C\uDFC3");
+    playback = new JButton("Play");
     playback.setToolTipText("Playback Recorded Moves");
 
 
@@ -507,13 +523,13 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         RecordReplay.setDelay(value);
       }
 
-      RecordReplay.runReplay(currentGame,this);
+      RecordReplay.runReplay(currentGame, this);
     });
 
 
-    stepToNext = new JButton("⏭");
+    stepToNext = new JButton("Step");
     stepToNext.setToolTipText("Step to Next Recorded Movement");
-    stepToNext.addActionListener(e -> RecordReplay.iterateReplay(currentGame,this));
+    stepToNext.addActionListener(e -> RecordReplay.iterateReplay(currentGame, this));
   }
 
   /**
