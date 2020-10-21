@@ -1026,6 +1026,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
       gamePauseMenu.setState(false);
     }
 
+    // if recording, save and terminate
     if (RecordReplay.getIsGameRecording()) {
       RecordReplay.saveRecording(currentGame);
       RecordReplay.endRecording();
