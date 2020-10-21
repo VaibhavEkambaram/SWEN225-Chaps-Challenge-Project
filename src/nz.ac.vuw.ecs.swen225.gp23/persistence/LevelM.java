@@ -11,7 +11,11 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.*;
 
-
+/**
+ * Level Manager for making level transitions
+ * loads saved level with use of loadFile method
+ * @author Rahul Mahasuriya
+ */
 public class LevelM {
 
 
@@ -34,6 +38,11 @@ public class LevelM {
     loadFile("ChapsChallenge_PersistenceLevel.json");
   }
 
+  /**
+   * Helper method for loading saved file upon game exit
+   * @param filepath file for loading
+   * @author Rahul Mahasuriya
+   */
   public void loadFile(String filepath) {
 
     try {
@@ -57,6 +66,10 @@ public class LevelM {
 
   }
 
+  /**
+   * Saves level to a json file of current game when exiting
+   * @author Rahul Mahasuriya
+   */
   public void saveLevel() {
     String jGame;
     String levelURL = levels.get(currentLevel);
@@ -96,17 +109,36 @@ public class LevelM {
     }
   }
 
+  /**
+   * Sets level for game
+   * @param value
+   * @author Rahul Mahasuriya
+   */
   public void setLevel(int value) { currentLevel = value; }
 
 
+  /**
+   * Method for incrementing level
+   * @author Rahul Mahasuriya
+   */
   public void incrementLevel() {
     currentLevel++;
   }
 
+  /**
+   * Gets current level
+   * @return the current level
+   * @author Rahul Mahasuriya
+   */
   public String getCurrentLevel() {
     return levels.get(currentLevel);
   }
 
+  /**
+   * Checks maximum state of the level
+   * @return boolean for if this is true
+   * @author Rahul Mahasuriya
+   */
   public boolean checkMaximumState(){
     return (currentLevel == levels.size()+1);
   }
