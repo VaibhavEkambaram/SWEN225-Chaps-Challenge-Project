@@ -2,13 +2,15 @@ package test.nz.ac.vuw.ecs.swen225.gp23.monkey;
 
 import nz.ac.vuw.ecs.swen225.gp23.application.Application;
 import org.junit.Test;
-
 import static junit.framework.TestCase.assertEquals;
 
+/**
+ * @author Sushil Sharma
+ */
 public class ApplicationTests {
     private Application app;
-    private Application.gameStates runningState = Application.gameStates.RUNNING;
-    private Application.gameStates idleState = Application.gameStates.IDLE;
+    private Application.GameStates runningState = Application.GameStates.RUNNING;
+    private Application.GameStates idleState = Application.GameStates.IDLE;
 
     /**
      * Testing to see if the state is correct.
@@ -30,6 +32,4 @@ public class ApplicationTests {
         app = new Application();
         assertEquals(idleState, app.getState());
     }
-
-
 }
