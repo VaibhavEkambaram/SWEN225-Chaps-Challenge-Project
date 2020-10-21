@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
 import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
 import nz.ac.vuw.ecs.swen225.gp23.maze.ComputerChip;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Cyclops;
@@ -20,18 +19,15 @@ import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.Persistence;
 import nz.ac.vuw.ecs.swen225.gp23.recnplay.RecordReplay;
 import nz.ac.vuw.ecs.swen225.gp23.render.ChipAudioModule;
-import nz.ac.vuw.ecs.swen225.gp23.render.RenderPanel;
 
 
 /**
- * Game Class
+ * Game Class.
  * Controls and stores information required for a level to function
  *
  * @author Vaibhav Ekambaram - 300472561
  */
 public class Game {
-
-  private RenderPanel boardRenderPanel;
   private final GraphicalInterface gui;
   private final Board board;
   private final Player player;
@@ -42,7 +38,6 @@ public class Game {
   private final int levelNumber;
   private boolean gamePaused;
   private final int timeToComplete;
-  private final int tileset;
 
   final ChipAudioModule audio;
   private final Application application;
@@ -51,14 +46,19 @@ public class Game {
 
 
   /**
-   * Game Constructor
+   * Game Constructor.
    *
    * @param countFromFile countdown duration
    * @param levelNumber   level number
    * @param gui           gui class
    * @param board         board class
    */
-  public Game(int countFromFile, int levelNumber, GraphicalInterface gui, Board board, ChipAudioModule audio, int tileset, Application application) {
+  public Game(int countFromFile,
+              int levelNumber,
+              GraphicalInterface gui,
+              Board board,
+              ChipAudioModule audio,
+              Application application) {
     this.application = application;
     this.board = board;
     this.countdownTimer = (countFromFile + 1);
@@ -67,15 +67,14 @@ public class Game {
     this.gui = gui;
     this.audio = audio;
     this.levelNumber = levelNumber;
-    this.tileset = tileset;
     gui.updateInventory();
     gui.getLevelLabel().setText(String.valueOf(levelNumber));
     board.setup();
     this.player = new Player(board.getPlayerLoc());
 
-    if(board.getCyclopsLoc().size() >= 1) {
-      for(Tile t : board.getCyclopsLoc()){
-        cyclops.add(new Cyclops(t,Tile.Directions.Right));
+    if (board.getCyclopsLoc().size() >= 1) {
+      for (Tile t : board.getCyclopsLoc()) {
+        cyclops.add(new Cyclops(t, Tile.Directions.Right));
       }
     }
     runTimer();
@@ -84,7 +83,7 @@ public class Game {
   }
 
   /**
-   * Create string representation of board
+   * Create string representation of board.
    *
    * @return string
    */
@@ -105,9 +104,11 @@ public class Game {
 
   /**
    * Execute countdown timer.
-   * This timer controls the countdown of the game and updates the GUI time label accordingly. This countdown also
-   * accounts for the game being paused, with the countdown only continuing when un-paused.
-   * This function operates in an asynchronous manner to the main game interface, so is able to operate independently
+   * This timer controls the countdown of the game and updates the GUI time label accordingly.
+   * This countdown also accounts for the game being paused, with the countdown only continuing
+   * when un-paused.
+   * This function operates in an asynchronous manner to the main game interface,
+   * so is able to operate independently
    * of graphics redraw calls.
    */
   public void runTimer() {
@@ -117,8 +118,8 @@ public class Game {
         // increment timer down if there is still time remaining and the game has not been paused
         if (countdownTimer > 0 && !gamePaused) {
           countdownTimer--;
-          if(cyclops.size()>= 1) {
-            for(Cyclops c : cyclops){
+          if (cyclops.size() >= 1) {
+            for (Cyclops c : cyclops) {
               c.moveCyclops(gui);
             }
           }
@@ -138,9 +139,7 @@ public class Game {
           timer.cancel();
 
 
-
-
-          gui.outOfTime("Out of Time","Oh no! You have run out of time.");
+          gui.outOfTime("Out of Time", "Oh no! You have run out of time.");
         }
       }
     };
@@ -190,17 +189,18 @@ public class Game {
 
       Tile currentTile = player.getCurrentTile();
 
-      if(currentTile.hasEntity){
+      if (currentTile.hasEntity) {
         System.out.println("dead");
         gui.onStopGame(false);
-        gui.outOfTime("You died","Oh no! You were caught by a cyclops.");
+        gui.outOfTime("You died", "Oh no! You were caught by a cyclops.");
       }
       if (currentTile instanceof ComputerChip) {
         gui.setChipsLeftLabel(board.getChipCount() - player.getChips());
-      } else if (currentTile instanceof Hint){
-
+      } else if (currentTile instanceof Hint) {
+        gui.helpMenuContents();
       } else if (currentTile instanceof Exit) {
-        gui.levelCompleteMessage(levelNumber, countdownTimer, timeToComplete - countdownTimer, board.getChipCount());
+        gui.levelCompleteMessage(
+            levelNumber, countdownTimer, timeToComplete - countdownTimer, board.getChipCount());
       } else if (currentTile instanceof Key || currentTile instanceof LockedDoor) {
         gui.updateInventory();
       }
@@ -209,6 +209,9 @@ public class Game {
   }
 
 
+  /**
+   * Save current game by calling persistence.
+   */
   public void saveGame() {
     SimpleDateFormat ts = new SimpleDateFormat("dd-MM-yyyy'_'HH-mm-ss");
     Date date = new Date(System.currentTimeMillis());
@@ -227,14 +230,14 @@ public class Game {
   }
 
   /**
-   * Terminate the countdown timer
+   * Terminate the countdown timer.
    */
   public void terminateTimer() {
     timer.cancel();
   }
 
   /**
-   * Set paused value
+   * Set paused value.
    *
    * @param value game paused value
    */
@@ -243,7 +246,7 @@ public class Game {
   }
 
   /**
-   * Get the current board
+   * Get the current board.
    *
    * @return board
    */
@@ -252,7 +255,7 @@ public class Game {
   }
 
   /**
-   * Get the current player
+   * Get the current player.
    *
    * @return player
    */
@@ -261,7 +264,7 @@ public class Game {
   }
 
   /**
-   * Set the amount of time left
+   * Set the amount of time left.
    *
    * @param countdownTimer new timer value
    */
@@ -270,7 +273,7 @@ public class Game {
   }
 
   /**
-   * Retrieve the level number
+   * Retrieve the level number.
    *
    * @return level number
    */
@@ -278,6 +281,11 @@ public class Game {
     return levelNumber;
   }
 
+  /**
+   * Check if current game is paused.
+   *
+   * @return boolean validator
+   */
   public boolean isPaused() {
     return gamePaused;
   }

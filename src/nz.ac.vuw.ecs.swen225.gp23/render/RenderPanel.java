@@ -44,6 +44,7 @@ public class RenderPanel extends JPanel {
 
         this.setLayout(new GridBagLayout());
         this.setBackground(Color.BLACK);
+        this.setDoubleBuffered(false);
         createGrid();
         this.setVisible(true);
     }

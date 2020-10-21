@@ -1,25 +1,5 @@
 package nz.ac.vuw.ecs.swen225.gp23.application;
 
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.KeyStroke;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.border.EmptyBorder;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -35,6 +15,25 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.KeyStroke;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
@@ -48,21 +47,25 @@ import nz.ac.vuw.ecs.swen225.gp23.render.TileFinder;
 
 /**
  * Graphical Interface Class.
- * This class does not control the game itself, but implements the graphical display of the game
+ * This class does not control the game itself, but implements the graphical display of the game.
+ * This class extends a JFrame, constructing the GUI, then implements a KeyListener for some of the
+ * keyboard shortcuts.
  *
  * @author Vaibhav Ekambaram - 300472561
  */
 public class GraphicalInterface extends JFrame implements KeyListener {
 
+  // UI Panels
   private final JPanel gamePanel;
-  private final JPanel itemsPanel;
-  private JPanel itemsGrid;
+  private final JPanel inventoryPanel;
+  private JPanel inventoryInnerGridPanel;
 
-  private RenderPanel renderPanel;
-
+  // Information Displays
   private final JLabel timeLabel;
   private final JLabel levelLabel;
   private final JLabel chipsLeftLabel;
+
+  // Directional and Record/Replay Playback Buttons
   private JButton upButton;
   private JButton downButton;
   private JButton leftButton;
@@ -70,39 +73,38 @@ public class GraphicalInterface extends JFrame implements KeyListener {
   private JButton playback;
   private JButton stepToNext;
 
+  // Menu
   private final JMenuItem startRecordingMenu;
   private final JMenuItem stopRecordingMenu;
-  private final JMenuItem loadRecordedMenu;
-
-
   private final JCheckBoxMenuItem gamePauseMenu;
-  private boolean gamePaused = false;
 
-  private final Application application;
-  private final ChipAudioModule audio;
+  // Background
+  private BufferedImage backgroundImage;
+
+  // Internal Classes
+  private final Application application; // Controls game states
   private Game currentGame;
 
+  // External Classes
+  private RenderPanel renderPanel; // From Renderer Module - Draws Game on Screen
+  private final ChipAudioModule audio; // From Renderer Module - Controls Audio
+  private final LevelM levelManager; // From Persistence Module - Controls Level Management
 
-  private final JLabel pausedLabel;
-
-  private BufferedImage image;
-  private final LevelM levelManager; // level manager
-  // added details
+  // Keep track of game paused state
+  private boolean gamePaused = false;
 
 
   /**
    * Interface Constructor Method.
    * Creates GUI structure and assigns listeners to buttons and menus
+   *
+   * @param application Application class to keep track of game state
    */
   public GraphicalInterface(Application application) {
     super("Chaps Challenge");
 
-
     // carry through persistent application class to keep track of game state
     this.application = application;
-
-    levelManager = new LevelM();
-
 
     // Set java swing theme to native operating system theme
     try {
@@ -114,22 +116,24 @@ public class GraphicalInterface extends JFrame implements KeyListener {
       e.printStackTrace();
     }
 
-    pausedLabel = new JLabel("Game has been paused...press ESC to resume");
+    // create level and audio manager
+    levelManager = new LevelM();
     audio = new ChipAudioModule();
 
+    // set game dimensions
     setPreferredSize(new Dimension(800, 600));
     setMinimumSize(new Dimension(800, 600));
 
-    setDefaultCloseOperation(EXIT_ON_CLOSE);
-
+    // ---------------------------------------------------------------------------------------------
+    // User Interface Menu Structure
+    // ---------------------------------------------------------------------------------------------
     final JMenuBar tableMenuBar = new JMenuBar();
-    this.setJMenuBar(tableMenuBar);
 
     // ---------------------------------------------------------------------------------------------
-    // Menu Bar Structure
+    // Game
     // ---------------------------------------------------------------------------------------------
     final JMenu gameMenu = new JMenu("Game");
-
+    // ---------------------------------------------------------------------------------------------
     final JMenuItem newMenu = new JMenuItem("New Game");
     newMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, KeyEvent.CTRL_DOWN_MASK));
     newMenu.addActionListener(e -> onNewGame());
@@ -137,10 +141,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     final JMenuItem newFromLastLevelMenu = new JMenuItem("New Game from Last Level");
     newFromLastLevelMenu.setAccelerator(
         KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK));
-    newFromLastLevelMenu.addActionListener(e -> {
-
-      onLoadGameNoGui(new LevelM().getCurrentLevel(), false);
-    });
+    newFromLastLevelMenu.addActionListener(e -> onLoadGameNoGui(
+        new LevelM().getCurrentLevel(), false));
 
     final JMenuItem resumeSavedMenu = new JMenuItem("Load Game");
     resumeSavedMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK));
@@ -149,10 +151,10 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     final JMenuItem saveAndExitMenu = new JMenuItem("Save and Exit");
     saveAndExitMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK));
     saveAndExitMenu.addActionListener(e -> {
-
-
       int closeDialogButton = JOptionPane.YES_NO_OPTION;
-      int closeDialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit? Game progress WILL be saved.", "Warning", closeDialogButton);
+      int closeDialogResult = JOptionPane.showConfirmDialog(
+          null, "Are you sure you want to exit? Game progress WILL be saved.",
+          "Warning", closeDialogButton);
       if (closeDialogResult == JOptionPane.YES_OPTION) {
         if (currentGame != null) {
           levelManager.saveLevel();
@@ -161,7 +163,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         onStopGame(false);
         dispose();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        System.exit(0);
       } else {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
       }
@@ -171,52 +172,57 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     exitMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK));
     exitMenu.addActionListener(e -> {
       int closeDialogButton = JOptionPane.YES_NO_OPTION;
-      int closeDialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit? Game progress will NOT be saved.", "Warning", closeDialogButton);
+      int closeDialogResult = JOptionPane.showConfirmDialog(null,
+          "Are you sure you want to exit? Game progress will NOT be saved.",
+          "Warning", closeDialogButton);
       if (closeDialogResult == JOptionPane.YES_OPTION) {
         dispose();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        System.exit(0);
       } else {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
       }
     });
+    // ---------------------------------------------------------------------------------------------
 
-    gameMenu.add(newMenu);
-    gameMenu.add(newFromLastLevelMenu);
-    gameMenu.add(resumeSavedMenu);
-    gameMenu.add(saveAndExitMenu);
-    gameMenu.add(exitMenu);
-
-    // ------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
+    // Options
+    // ---------------------------------------------------------------------------------------------
     final JMenu optionsMenu = new JMenu("Options");
-
+    // ---------------------------------------------------------------------------------------------
     gamePauseMenu = new JCheckBoxMenuItem("Toggle Game Pause");
     gamePauseMenu.setState(false);
-
     createButtons();
+    // ---------------------------------------------------------------------------------------------
 
-
+    // ---------------------------------------------------------------------------------------------
+    // Record and Replay
+    // ---------------------------------------------------------------------------------------------
     final JMenu recordAndReplayMenu = new JMenu("Record and Replay");
-
     startRecordingMenu = new JMenuItem("Start Recording");
+    startRecordingMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.SHIFT_DOWN_MASK));
     startRecordingMenu.addActionListener(e -> {
-      String fileName = JOptionPane.showInputDialog(this, "Enter a filename: (.json will be appended)");
+      String fileName = JOptionPane.showInputDialog(this,
+          "Enter a filename: (.json will be appended)");
       if (fileName != null) {
+        RecordReplay.endRecording();
         RecordReplay.newSave(currentGame, fileName + ".json");
-        updateRecordReplayGUI();
+        updateRecordControls();
       }
     });
 
     stopRecordingMenu = new JMenuItem("Stop and Save Recording");
+    stopRecordingMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.SHIFT_DOWN_MASK));
     stopRecordingMenu.addActionListener(e -> {
       RecordReplay.saveRecording(currentGame);
-      updateRecordReplayGUI();
+      updateRecordControls();
     });
 
 
-    loadRecordedMenu = new JMenuItem("Load Recorded Game");
+    JMenuItem loadRecordedMenu = new JMenuItem("Load Recorded Game");
+    loadRecordedMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, KeyEvent.SHIFT_DOWN_MASK));
     loadRecordedMenu.addActionListener(e -> {
-      String fileName = JOptionPane.showInputDialog(this, "Enter saved filename: (.json will be appended)");
+      String fileName = JOptionPane.showInputDialog(this,
+          "Enter saved filename: (.json will be appended)");
       if (fileName != null) {
 
         RecordReplay.loadRecord(fileName + ".json", this);
@@ -224,54 +230,71 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         stepToNext.setEnabled(true);
       }
     });
+    // ---------------------------------------------------------------------------------------------
 
+    // ---------------------------------------------------------------------------------------------
+    // Help
+    // ---------------------------------------------------------------------------------------------
+    final JMenu helpMenu = new JMenu("Help");
+
+    final JMenuItem howToPlayMenu = new JMenuItem("How to Play");
+    howToPlayMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, KeyEvent.CTRL_DOWN_MASK));
+    howToPlayMenu.addActionListener(e -> helpMenuContents());
+
+
+    // ---------------------------------------------------------------------------------------------
+
+    // Generate Menu Structure and add to Frame
+    gameMenu.add(newMenu);
+    gameMenu.add(newFromLastLevelMenu);
+    gameMenu.add(resumeSavedMenu);
+    gameMenu.add(saveAndExitMenu);
+    gameMenu.add(exitMenu);
 
     optionsMenu.add(gamePauseMenu);
 
     recordAndReplayMenu.add(startRecordingMenu);
     recordAndReplayMenu.add(stopRecordingMenu);
     recordAndReplayMenu.add(loadRecordedMenu);
-    // ------------------------------------------------------------------------------------------------
-    final JMenu helpMenu = new JMenu("Help");
 
-
-    helpMenu.add(displayHelpMenu());
+    helpMenu.add(howToPlayMenu);
     helpMenu.add(displayAboutMenu());
-    // ------------------------------------------------------------------------------------------------
 
     tableMenuBar.add(gameMenu);
     tableMenuBar.add(optionsMenu);
     tableMenuBar.add(recordAndReplayMenu);
     tableMenuBar.add(helpMenu);
 
+    this.setJMenuBar(tableMenuBar);
 
-    //reads the image
+
+    // Read background image
     try {
-      image = ImageIO.read(getClass().getResource("/background.png"));
-
+      backgroundImage = ImageIO.read(getClass().getResource("/assets/background.png"));
     } catch (IOException io) {
-      System.out.println("Could not read in the pic");
+      JOptionPane.showMessageDialog(new JFrame(), "Could not find background image!",
+          "Error",
+          JOptionPane.ERROR_MESSAGE);
     }
 
+    // Paint background image to main panel
     JPanel mainPanel = new JPanel() {
 
       @Override
       protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(image, 0, 0, this);
+        g.drawImage(backgroundImage, 0, 0, this);
       }
     };
 
+    // Set layout and border of main panel
     mainPanel.setLayout(new BorderLayout(0, 0));
     mainPanel.setBorder(new EmptyBorder(50, 50, 50, 50));
 
 
-    JPanel movementPanel = new JPanel(new GridLayout(2, 3));
-
     gamePanel = new JPanel(new BorderLayout());
 
 
-    JPanel rightPanel = new JPanel(new BorderLayout());
     JPanel informationPanel = new JPanel();
     informationPanel.setLayout(new BoxLayout(informationPanel, BoxLayout.Y_AXIS));
 
@@ -332,29 +355,31 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     chipsLeftLabel.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 16));
     chipsLeftPanel.add(chipsLeftLabel);
 
-    itemsPanel = new JPanel();
-    itemsPanel.setBackground(Color.BLACK);
-    itemsPanel.setLayout(new BoxLayout(itemsPanel, BoxLayout.Y_AXIS));
-    itemsPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+    inventoryPanel = new JPanel();
+    inventoryPanel.setBackground(Color.BLACK);
+    inventoryPanel.setLayout(new BoxLayout(inventoryPanel, BoxLayout.Y_AXIS));
+    inventoryPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE));
     JLabel items = new JLabel("Inventory", JLabel.CENTER);
     items.setFont(new Font(Font.MONOSPACED, Font.BOLD, 16));
     items.setForeground(Color.ORANGE);
     items.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-    itemsPanel.add(items);
+    inventoryPanel.add(items);
 
-    itemsPanel.setMinimumSize(new Dimension(240, 120));
-    itemsPanel.setPreferredSize(new Dimension(240, 120));
-    itemsPanel.setMaximumSize(new Dimension(240, 120));
+    inventoryPanel.setMinimumSize(new Dimension(240, 120));
+    inventoryPanel.setPreferredSize(new Dimension(240, 120));
+    inventoryPanel.setMaximumSize(new Dimension(240, 120));
 
     informationPanel.add(levelPanel);
     informationPanel.add(timePanel);
     informationPanel.add(chipsLeftPanel);
-    informationPanel.add(itemsPanel);
+    informationPanel.add(inventoryPanel);
 
+    JPanel rightPanel = new JPanel(new BorderLayout());
     rightPanel.add(informationPanel, BorderLayout.CENTER);
-
-    rightPanel.add(movementPanel, BorderLayout.SOUTH);
+    JPanel movementPanel = new JPanel(new GridLayout(2, 3));
     movementPanel.setPreferredSize(new Dimension(240, 120));
+    rightPanel.add(movementPanel, BorderLayout.SOUTH);
+
 
     mainPanel.add(rightPanel, BorderLayout.EAST);
     mainPanel.add(gamePanel, BorderLayout.CENTER);
@@ -471,7 +496,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
     playback.addActionListener(e -> {
       long value;
-      String delaySpeedString = JOptionPane.showInputDialog(this, "Enter playback delay speed: (milliseconds)");
+      String delaySpeedString = JOptionPane.showInputDialog(this,
+          "Enter playback delay speed: (milliseconds)");
       if (delaySpeedString != null) {
         value = Long.parseLong(delaySpeedString);
         RecordReplay.setDelay(value);
@@ -489,119 +515,126 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
 
   /**
-   * Help Menu showing how to play the game.
-   *
-   * @return Help Menu Panel Component
+   * Display the Contents of the Help Menu.
    */
-  public JMenuItem displayHelpMenu() {
-    final JMenuItem howToPlayMenu = new JMenuItem("How to Play");
-    howToPlayMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, KeyEvent.CTRL_DOWN_MASK));
-    howToPlayMenu.addActionListener(e -> {
+  public void helpMenuContents() {
+    JPanel primaryOptionPaneField = new JPanel();
 
-      // Panels
-      JPanel primaryOptionPaneField = new JPanel();
-      JPanel firstInnerPanel = new JPanel();
-      JPanel secondInnerPanel = new JPanel();
+    BorderLayout optionPaneLayout = new BorderLayout();
+    optionPaneLayout.setHgap(60);
+    optionPaneLayout.setVgap(20);
+    primaryOptionPaneField.setLayout(optionPaneLayout);
 
-      // Layouts
-      BorderLayout optionPaneLayout = new BorderLayout();
-      optionPaneLayout.setHgap(60);
-      optionPaneLayout.setVgap(20);
-      primaryOptionPaneField.setLayout(optionPaneLayout);
-
-      GridLayout InnerPanelInfoLayout = new GridLayout(0, 1);
-      firstInnerPanel.setLayout(InnerPanelInfoLayout);
-      secondInnerPanel.setLayout(InnerPanelInfoLayout);
+    GridLayout innerPanelInfoLayout = new GridLayout(0, 1);
+    JPanel firstInnerPanel = new JPanel();
+    firstInnerPanel.setLayout(innerPanelInfoLayout);
+    JPanel secondInnerPanel = new JPanel();
+    secondInnerPanel.setLayout(innerPanelInfoLayout);
 
 
-      JLabel titleTextLabel = new JLabel("Hello and welcome to Chaps Challenge");
-      titleTextLabel.setFont(titleTextLabel.getFont().deriveFont(
-          titleTextLabel.getFont().getStyle() | Font.BOLD));
-      primaryOptionPaneField.add(titleTextLabel, BorderLayout.NORTH);
+    JLabel titleTextLabel = new JLabel("Hello and welcome to Chaps Challenge");
+    titleTextLabel.setFont(titleTextLabel.getFont().deriveFont(
+        titleTextLabel.getFont().getStyle() | Font.BOLD));
+    primaryOptionPaneField.add(titleTextLabel, BorderLayout.NORTH);
 
-      JLabel controlsHeadingLabel = new JLabel("Controls");
-      controlsHeadingLabel.setFont(controlsHeadingLabel.getFont().deriveFont(
-          controlsHeadingLabel.getFont().getStyle() | Font.BOLD));
-      firstInnerPanel.add(controlsHeadingLabel);
+    JLabel controlsHeadingLabel = new JLabel("Controls");
+    controlsHeadingLabel.setFont(controlsHeadingLabel.getFont().deriveFont(
+        controlsHeadingLabel.getFont().getStyle() | Font.BOLD));
+    firstInnerPanel.add(controlsHeadingLabel);
 
-      JLabel generalControlsSubtitleLabel = new JLabel("   General ");
-      generalControlsSubtitleLabel.setFont(generalControlsSubtitleLabel.getFont().deriveFont(
-          generalControlsSubtitleLabel.getFont().getStyle() | Font.ITALIC));
-      firstInnerPanel.add(generalControlsSubtitleLabel);
-      firstInnerPanel.add(new JLabel("      Pause Game - [Space]"));
-      firstInnerPanel.add(new JLabel("      Unpause Game - [Escape]"));
-      firstInnerPanel.add(new JLabel("      New Game from First level - [Ctrl-1]"));
-      firstInnerPanel.add(new JLabel("      Exit Game without Saving - [Ctrl-X]"));
-      firstInnerPanel.add(new JLabel(""));
-      JLabel gameplayControlsSubtitleLabel = new JLabel("   Gameplay ");
-      gameplayControlsSubtitleLabel.setFont(gameplayControlsSubtitleLabel.getFont().deriveFont(
-          gameplayControlsSubtitleLabel.getFont().getStyle() | Font.ITALIC));
-      firstInnerPanel.add(gameplayControlsSubtitleLabel);
-      firstInnerPanel.add(new JLabel("      Movement Up - [Up Arrow]"));
-      firstInnerPanel.add(new JLabel("      Movement Down - [Down Arrow]"));
-      firstInnerPanel.add(new JLabel("      Movement Left - [Left Arrow]"));
-      firstInnerPanel.add(new JLabel("      Movement Right - [Right Arrow]"));
-      firstInnerPanel.add(new JLabel(" "));
+    JLabel generalControlsSubtitleLabel = new JLabel("   General ");
+    generalControlsSubtitleLabel.setFont(generalControlsSubtitleLabel.getFont().deriveFont(
+        generalControlsSubtitleLabel.getFont().getStyle() | Font.ITALIC));
+    firstInnerPanel.add(generalControlsSubtitleLabel);
+    firstInnerPanel.add(new JLabel("      New Game - [Ctrl-1]"));
+    firstInnerPanel.add(new JLabel("      New Game from Last Level - [Ctrl-P]"));
+    firstInnerPanel.add(new JLabel("      Load Game - [Ctrl-R]"));
+    firstInnerPanel.add(new JLabel("      Save and Exit - [Ctrl-S]"));
+    firstInnerPanel.add(new JLabel("      Exit without Saving - [Ctrl-X]"));
+    firstInnerPanel.add(new JLabel(""));
+    firstInnerPanel.add(new JLabel("      Pause Game - [Space]"));
+    firstInnerPanel.add(new JLabel("      Unpause Game - [Escape]"));
+    firstInnerPanel.add(new JLabel(""));
+    firstInnerPanel.add(new JLabel("      How to Play - [Ctrl-H]"));
+    firstInnerPanel.add(new JLabel("      About - [Ctrl-A]"));
 
-      JLabel itemsHeadingLabel = new JLabel("Items");
-      itemsHeadingLabel.setFont(
-          itemsHeadingLabel.getFont().deriveFont(
-              itemsHeadingLabel.getFont().getStyle() | Font.BOLD));
-      secondInnerPanel.add(itemsHeadingLabel);
+    firstInnerPanel.add(new JLabel(""));
+    JLabel gameplayControlsSubtitleLabel = new JLabel("   Gameplay ");
+    gameplayControlsSubtitleLabel.setFont(gameplayControlsSubtitleLabel.getFont().deriveFont(
+        gameplayControlsSubtitleLabel.getFont().getStyle() | Font.ITALIC));
+    firstInnerPanel.add(gameplayControlsSubtitleLabel);
+    firstInnerPanel.add(new JLabel("      Movement Up - [Up Arrow]"));
+    firstInnerPanel.add(new JLabel("      Movement Down - [Down Arrow]"));
+    firstInnerPanel.add(new JLabel("      Movement Left - [Left Arrow]"));
+    firstInnerPanel.add(new JLabel("      Movement Right - [Right Arrow]"));
+    firstInnerPanel.add(new JLabel(" "));
+    JLabel recordingSubtitleLabel = new JLabel("   Recording ");
+    recordingSubtitleLabel.setFont(gameplayControlsSubtitleLabel.getFont().deriveFont(
+        recordingSubtitleLabel.getFont().getStyle() | Font.ITALIC));
+    firstInnerPanel.add(recordingSubtitleLabel);
+    firstInnerPanel.add(new JLabel("      Start Recording State - [Shift-R]"));
+    firstInnerPanel.add(new JLabel("      Stop and Save Recording State - [Shift-S]"));
+    firstInnerPanel.add(new JLabel("      Load Recorded Game - [Shift-L]"));
+    firstInnerPanel.add(new JLabel(" "));
 
-      JLabel chipItemLabel = new JLabel(
-          "Chap - Your Player Character");
-      chipItemLabel.setIcon(TileFinder.getTile("chip_icon", -1));
-      secondInnerPanel.add(chipItemLabel);
-      JLabel chipItemLabel2 = new JLabel(
-          "Room Portals - These must be opened using a key with the same colour");
-      chipItemLabel2.setIcon(TileFinder.getTile("door_icon", -1));
-      secondInnerPanel.add(chipItemLabel2);
-      JLabel chipItemLabel3 = new JLabel(
-          "Crystals - These are used to open doors corresponding with their colour");
-      chipItemLabel3.setIcon(TileFinder.getTile("key_icon", -1));
-      secondInnerPanel.add(chipItemLabel3);
-      JLabel chipItemLabel4 = new JLabel(
-          "Shards - These must be collected to open the exit gate");
-      chipItemLabel4.setIcon(TileFinder.getTile("computer_chip_icon", -1));
-      secondInnerPanel.add(chipItemLabel4);
-      JLabel chipItemLabel5 = new JLabel(
-          "Exit Gate - All of these shards must be collected to reach the exit portal");
-      chipItemLabel5.setIcon(TileFinder.getTile("exit_lock_icon", -1));
-      secondInnerPanel.add(chipItemLabel5);
-      JLabel chipItemLabel6 = new JLabel("Exit Portal - This portal is used to finish the level");
-      chipItemLabel6.setIcon(TileFinder.getTile("exit_icon", -1));
-      secondInnerPanel.add(chipItemLabel6);
-      JLabel chipItemLabel7 = new JLabel("Cyclops - Very scary, avoid!");
-      chipItemLabel7.setIcon(TileFinder.getTile("cyclops_icon", -1));
-      secondInnerPanel.add(chipItemLabel7);
+    JLabel itemsHeadingLabel = new JLabel("Items");
+    itemsHeadingLabel.setFont(
+        itemsHeadingLabel.getFont().deriveFont(
+            itemsHeadingLabel.getFont().getStyle() | Font.BOLD));
+    secondInnerPanel.add(itemsHeadingLabel);
 
-      primaryOptionPaneField.add(firstInnerPanel, BorderLayout.WEST);
-      primaryOptionPaneField.add(secondInnerPanel, BorderLayout.EAST);
+    JLabel chipItemLabel = new JLabel(
+        "Chap - Your Player Character");
+    chipItemLabel.setIcon(TileFinder.getTile("chip_icon", -1));
+    secondInnerPanel.add(chipItemLabel);
+    JLabel chipItemLabel2 = new JLabel(
+        "Room Portals - These must be opened using a key with the same colour");
+    chipItemLabel2.setIcon(TileFinder.getTile("door_icon", -1));
+    secondInnerPanel.add(chipItemLabel2);
+    JLabel chipItemLabel3 = new JLabel(
+        "Crystals - These are used to open doors corresponding with their colour");
+    chipItemLabel3.setIcon(TileFinder.getTile("key_icon", -1));
+    secondInnerPanel.add(chipItemLabel3);
+    JLabel chipItemLabel4 = new JLabel(
+        "Shards - These must be collected to open the exit gate");
+    chipItemLabel4.setIcon(TileFinder.getTile("computer_chip_icon", -1));
+    secondInnerPanel.add(chipItemLabel4);
+    JLabel chipItemLabel5 = new JLabel(
+        "Exit Gate - All of these shards must be collected to reach the exit portal");
+    chipItemLabel5.setIcon(TileFinder.getTile("exit_lock_icon", -1));
+    secondInnerPanel.add(chipItemLabel5);
+    JLabel chipItemLabel6 = new JLabel(
+        "Exit Portal - This portal is used to finish the level");
+    chipItemLabel6.setIcon(TileFinder.getTile("exit_icon", -1));
+    secondInnerPanel.add(chipItemLabel6);
+    JLabel chipItemLabel7 = new JLabel("Cyclops - Very scary, avoid!");
+    chipItemLabel7.setIcon(TileFinder.getTile("cyclops_icon", -1));
+    secondInnerPanel.add(chipItemLabel7);
 
-      JPanel infoText = new JPanel();
-      GridLayout layout3 = new GridLayout(0, 1);
-      infoText.setLayout(layout3);
+    primaryOptionPaneField.add(firstInnerPanel, BorderLayout.WEST);
+    primaryOptionPaneField.add(secondInnerPanel, BorderLayout.EAST);
 
-      JLabel subtitle3 = new JLabel("Game Objective ");
-      subtitle3.setFont(subtitle3.getFont().deriveFont(subtitle3.getFont().getStyle() | Font.BOLD));
-      infoText.add(subtitle3);
-      infoText.add(new JLabel(
-          "The objective of the game is for Chap (The player character) to reach the"
-              + " exit portal within the amount of time allocated."));
-      infoText.add(new JLabel("This is done by collecting all the shards scattered around"
-          + " the level in order to open the exit gate."));
-      infoText.add(new JLabel("Several of these shards are hidden in various rooms."
-          + " In order to access these rooms, room portals must be unlocked using crystals"
-          + " corresponding to the portal colours."));
-      primaryOptionPaneField.add(infoText, BorderLayout.SOUTH);
+    JPanel infoText = new JPanel();
+    GridLayout layout3 = new GridLayout(0, 1);
+    infoText.setLayout(layout3);
 
-      onPauseGame(true);
-      JOptionPane.showMessageDialog(this, primaryOptionPaneField, "How to Play",
-          JOptionPane.PLAIN_MESSAGE);
-      onPauseGame(false);
-    });
-    return howToPlayMenu;
+    JLabel subtitle3 = new JLabel("Game Objective ");
+    subtitle3.setFont(subtitle3.getFont().deriveFont(subtitle3.getFont().getStyle() | Font.BOLD));
+    infoText.add(subtitle3);
+    infoText.add(new JLabel(
+        "The objective of the game is for Chap (The player character) to reach the"
+            + " exit portal within the amount of time allocated."));
+    infoText.add(new JLabel("This is done by collecting all the shards scattered around"
+        + " the level in order to open the exit gate."));
+    infoText.add(new JLabel("Several of these shards are hidden in various rooms."
+        + " In order to access these rooms, room portals must be unlocked using crystals"
+        + " corresponding to the portal colours."));
+    primaryOptionPaneField.add(infoText, BorderLayout.SOUTH);
+
+    onPauseGame(true);
+    JOptionPane.showMessageDialog(this, primaryOptionPaneField, "How to Play",
+        JOptionPane.PLAIN_MESSAGE);
+    onPauseGame(false);
   }
 
 
@@ -617,7 +650,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
       JPanel fieldPanel = new JPanel(new GridLayout(2, 1));
 
       JLabel titleLabel = new JLabel("Chaps Challenge, Version 1.0");
-      titleLabel.setFont(titleLabel.getFont().deriveFont(titleLabel.getFont().getStyle() | Font.BOLD));
+      titleLabel.setFont(
+          titleLabel.getFont().deriveFont(titleLabel.getFont().getStyle() | Font.BOLD));
       titleLabel.setIcon(TileFinder.getTile("chip_icon", -1));
       fieldPanel.add(titleLabel);
 
@@ -625,7 +659,8 @@ public class GraphicalInterface extends JFrame implements KeyListener {
       JPanel subPanel = new JPanel(new GridLayout(0, 1));
 
       JLabel subtitleLabel = new JLabel("A SWEN225 group project by: ");
-      subtitleLabel.setFont(subtitleLabel.getFont().deriveFont(subtitleLabel.getFont().getStyle() | Font.ITALIC));
+      subtitleLabel.setFont(
+          subtitleLabel.getFont().deriveFont(subtitleLabel.getFont().getStyle() | Font.ITALIC));
       subPanel.add(subtitleLabel);
       subPanel.add(new JLabel("Vaibhav Ekambaram - Application"));
       subPanel.add(new JLabel("Baxter Kirikiri - Maze"));
@@ -636,36 +671,33 @@ public class GraphicalInterface extends JFrame implements KeyListener {
       fieldPanel.add(subPanel);
 
       onPauseGame(true);
-      JOptionPane.showMessageDialog(null, fieldPanel, "About", JOptionPane.PLAIN_MESSAGE);
+      JOptionPane.showMessageDialog(
+          null, fieldPanel, "About", JOptionPane.PLAIN_MESSAGE);
       onPauseGame(false);
     });
     return aboutMenu;
   }
 
 
-  public void sendMessage(String message) {
-    if (application.getState().equals(Application.GameStates.RUNNING)) {
-      onPauseGame(true);
-      JOptionPane.showMessageDialog(null, message, "Message", JOptionPane.PLAIN_MESSAGE);
-      onPauseGame(false);
-    }
-  }
-
-
+  /**
+   * Update Player Inventory.
+   */
   public void updateInventory() {
-    if (itemsGrid != null) {
-      itemsPanel.remove(itemsGrid);
+    if (inventoryInnerGridPanel != null) {
+      inventoryPanel.remove(inventoryInnerGridPanel);
     }
 
     if (currentGame != null) {
-      itemsGrid = new JPanel(new GridLayout(0, 5));
-      itemsGrid.setBackground(Color.BLACK);
+      inventoryInnerGridPanel = new JPanel(new GridLayout(0, 5));
+      inventoryInnerGridPanel.setBackground(Color.BLACK);
       ArrayList<String> inventory = (ArrayList<String>) currentGame.getPlayer().getInventory();
 
       for (String s : inventory) {
-        itemsGrid.add(new JLabel(new ImageIcon(TileFinder.getTile(s, -1).getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)), JLabel.CENTER));
+        inventoryInnerGridPanel.add(new JLabel(
+            new ImageIcon(TileFinder.getTile(s, -1).getImage().getScaledInstance(
+                30, 30, Image.SCALE_DEFAULT)), JLabel.CENTER));
       }
-      itemsPanel.add(itemsGrid);
+      inventoryPanel.add(inventoryInnerGridPanel);
     }
   }
 
@@ -678,14 +710,14 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     onStopGame(false);
     gamePaused = false;
     currentGame = null;
-    Persistence p = new Persistence();
     levelManager.setLevel(1);
     levelManager.saveLevel();
-    Board board = p.loadFile("Program/src/levels/" + levelManager.getCurrentLevel());
-    int tileset = (int) (Math.random() * 2);
-    currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board, audio, tileset, application);
+    Board board = Persistence.loadFile("levels/" + levelManager.getCurrentLevel());
 
-    List<String> inventoryStartingArray = p.setInventory();
+    currentGame = new Game(
+        Persistence.getTimeLeft(), Persistence.getLevel(), this, board, audio, application);
+
+    List<String> inventoryStartingArray = Persistence.setInventory();
 
     if (inventoryStartingArray.size() > 0) {
       currentGame.getPlayer().setInventory(inventoryStartingArray);
@@ -706,26 +738,23 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     gamePaused = false;
     currentGame = null;
     JFileChooser chooser = new JFileChooser("");
-    FileNameExtensionFilter filter = new FileNameExtensionFilter(".json files", "json");
+    FileNameExtensionFilter filter = new FileNameExtensionFilter(
+        ".json files", "json");
     chooser.setFileFilter(filter);
 
     int returnVal = chooser.showOpenDialog(null);
     if (returnVal == JFileChooser.APPROVE_OPTION) {
 
-
-      Persistence p = new Persistence();
-      Board board = p.loadFile(chooser.getSelectedFile().toString());
-      int tileset = (int) (Math.random() * 2);
-      currentGame = new Game(p.getTimeLeft(),
-          p.getLevel(),
+      Board board = Persistence.loadFile(chooser.getSelectedFile().toString());
+      currentGame = new Game(Persistence.getTimeLeft(),
+          Persistence.getLevel(),
           this,
           board,
           audio,
-          tileset,
           application);
       levelManager.setLevel(currentGame.getLevelNumber());
       levelManager.saveLevel();
-      List<String> inventoryStartingArray = p.setInventory();
+      List<String> inventoryStartingArray = Persistence.setInventory();
 
       if (inventoryStartingArray.size() > 0) {
         currentGame.getPlayer().setInventory(inventoryStartingArray);
@@ -749,21 +778,19 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     gamePaused = false;
     currentGame = null;
 
-    Persistence p = new Persistence();
     Board board;
 
     if (loadingSavedGame) {
-      board = p.loadFile(filepath);
+      board = Persistence.loadFile(filepath);
     } else {
-      board = p.loadFile("Program/src/levels/" + filepath);
+      board = Persistence.loadFile("levels/" + filepath);
     }
 
-
-    int tileset = 2;
-    currentGame = new Game(p.getTimeLeft(), p.getLevel(), this, board, audio, tileset, application);
+    currentGame = new Game(
+        Persistence.getTimeLeft(), Persistence.getLevel(), this, board, audio, application);
     levelManager.setLevel(currentGame.getLevelNumber());
     levelManager.saveLevel();
-    List<String> inventoryStartingArray = p.setInventory();
+    List<String> inventoryStartingArray = Persistence.setInventory();
 
     if (inventoryStartingArray.size() > 0) {
       currentGame.getPlayer().setInventory(inventoryStartingArray);
@@ -789,13 +816,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         currentGame = null;
 
         updateInventory();
-        itemsGrid = null;
+        inventoryInnerGridPanel = null;
       }
-
-      timeLabel.setText("");
-      levelLabel.setText("");
-      chipsLeftLabel.setText("");
-
+      resetLabels();
     }
 
     onPauseGame(false);
@@ -817,13 +840,11 @@ public class GraphicalInterface extends JFrame implements KeyListener {
    * @param value set game pause statue
    */
   public void onPauseGame(boolean value) {
-    pausedLabel.setHorizontalAlignment(SwingConstants.CENTER);
     if (application.getState().equals(Application.GameStates.RUNNING)) {
 
       if (value) {
         gamePaused = true;
         currentGame.setGamePaused(true);
-        System.out.println("pausing");
         renderPanel.setPaused(true);
       } else {
         gamePaused = false;
@@ -838,7 +859,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
 
   /**
-   * Enable or Disable Movement Buttons
+   * Enable or Disable Movement Buttons.
    *
    * @param value boolean value
    */
@@ -858,7 +879,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
       setMovementButtonEnabled(false);
       playback.setEnabled(false);
       stepToNext.setEnabled(false);
-      gamePanel.remove(pausedLabel);
       gamePaused = false;
 
       startRecordingMenu.setEnabled(false);
@@ -870,7 +890,11 @@ public class GraphicalInterface extends JFrame implements KeyListener {
     }
   }
 
-  public void updateRecordReplayGUI() {
+
+  /**
+   * Update Controls for Recording.
+   */
+  public void updateRecordControls() {
     if (RecordReplay.getIsGameRecording()) {
       startRecordingMenu.setEnabled(false);
       stopRecordingMenu.setEnabled(true);
@@ -881,6 +905,14 @@ public class GraphicalInterface extends JFrame implements KeyListener {
   }
 
 
+  /**
+   * Display Message on end of level, if the game has been completed show game over screen.
+   *
+   * @param levelNumber   level number
+   * @param timeRemaining amount of time remaining
+   * @param time          maount of time elapsed
+   * @param chipCount     number of chips
+   */
   public void levelCompleteMessage(int levelNumber, int timeRemaining, int time, int chipCount) {
     if (currentGame != null) {
       if (application.getState().equals(Application.GameStates.RUNNING)) {
@@ -893,7 +925,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
     levelManager.incrementLevel();
     if (levelManager.checkMaximumState()) {
-      JOptionPane.showMessageDialog(null, "Congratulations, you have completed all the levels and have thus won the game!", "Game Complete", JOptionPane.PLAIN_MESSAGE);
+      JOptionPane.showMessageDialog(null,
+          "Congratulations, you have completed all the levels and have thus won the game!",
+          "Game Complete", JOptionPane.PLAIN_MESSAGE);
       onStopGame(false);
     } else {
 
@@ -901,12 +935,19 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
       JPanel fields = new JPanel(new GridLayout(0, 1));
       fields.add(new JLabel("You have completed level " + levelNumber));
-      fields.add(new JLabel("You collected " + chipCount + " items in " + time + " seconds (" + timeRemaining + " seconds remaining)"));
-      int response = JOptionPane.showOptionDialog(this, fields, "Level Complete!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+      fields.add(new JLabel("You collected " + chipCount + " items in " + time + " seconds ("
+          + timeRemaining + " seconds remaining)"));
+      int response = JOptionPane.showOptionDialog(this,
+          fields,
+          "Level Complete!",
+          JOptionPane.DEFAULT_OPTION,
+          JOptionPane.PLAIN_MESSAGE,
+          null,
+          options,
+          options[0]);
 
       if (response >= 0 && response <= 3) {
         if (response == 0) {
-
           levelManager.saveLevel();
           onLoadGameNoGui(levelManager.getCurrentLevel(), false);
         } else if (response == 1) {
@@ -914,7 +955,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         } else if (response == 2) {
           levelManager.saveLevel();
           onStopGame(false);
-        } else if (response == 3) {
+        } else {
           onStopGame(false);
         }
       }
@@ -947,14 +988,22 @@ public class GraphicalInterface extends JFrame implements KeyListener {
         null,
         options,
         options[0]);
-    timeLabel.setText("");
-    chipsLeftLabel.setText("");
-    levelLabel.setText("");
+    resetLabels();
     if (response == 0) {
       onLoadGameNoGui(levelManager.getCurrentLevel(), false);
     } else if (response == 1) {
       onStopGame(false);
     }
+  }
+
+
+  /**
+   * Set Labels back to empty values.
+   */
+  public void resetLabels() {
+    timeLabel.setText("");
+    chipsLeftLabel.setText("");
+    levelLabel.setText("");
   }
 
 

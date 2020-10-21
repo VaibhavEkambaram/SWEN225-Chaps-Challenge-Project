@@ -252,7 +252,7 @@ public class Persistence {
      * @return list of players inventory
      * @author Rahul Mahasuriya
      */
-    public List<String> setInventory() {
+    public static List<String> setInventory() {
 
         String[] array = inventory.split("\\|");
 

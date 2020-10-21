@@ -40,3 +40,7 @@ Thumbs.db
 ###############
 .idea/
 out/
+
+# Files #
+###############
+ChapsChallenge_PersistenceLevel.json

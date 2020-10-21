@@ -8,14 +8,11 @@
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_11" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/Program/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Program/src/nz.ac.vuw.ecs.swen225.gp23/render/audio" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/Program/src/nz.ac.vuw.ecs.swen225.gp23/render/tile_images" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/Program/src/nz.ac.vuw.ecs.swen225.gp23/application/assets" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/resources" type="java-resource" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="json" level="project" />
     <orderEntry type="module-library">
       <library name="JUnit4">
         <CLASSES>
@@ -26,6 +23,8 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="gson" level="project" />
     <orderEntry type="library" name="guava" level="project" />
+    <orderEntry type="library" name="json" level="project" />
   </component>
 </module>
