@@ -1017,7 +1017,16 @@ public class GraphicalInterface extends JFrame implements KeyListener {
    * @param message Message Body
    */
   public void outOfTime(String title, String message) {
+    // if recording, save and terminate
+
+
     if (currentGame != null) {
+      System.out.println("terminate game");
+      if (RecordReplay.getIsGameRecording()) {
+        RecordReplay.saveRecording(currentGame);
+        RecordReplay.endRecording();
+      }
+
       if (application.getState().equals(Application.GameStates.RUNNING)) {
         application.transitionToInit();
         currentGame.terminateTimer();
@@ -1026,11 +1035,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
       gamePauseMenu.setState(false);
     }
 
-    // if recording, save and terminate
-    if (RecordReplay.getIsGameRecording()) {
-      RecordReplay.saveRecording(currentGame);
-      RecordReplay.endRecording();
-    }
+
 
     String[] options = new String[]{"Play Again", "Exit"};
     JPanel fields = new JPanel(new GridLayout(0, 1));
