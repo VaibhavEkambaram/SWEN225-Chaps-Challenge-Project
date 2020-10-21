@@ -205,6 +205,9 @@ public class Game {
           gui.helpMenuContents();
         }
       } else if (currentTile instanceof Exit) {
+        if(RecordReplay.getIsGameRecording()){
+          RecordReplay.saveRecording(this);
+        }
         gui.levelCompleteMessage(
             levelNumber, countdownTimer, timeToComplete - countdownTimer, board.getChipCount());
       } else if (currentTile instanceof Key || currentTile instanceof LockedDoor) {
