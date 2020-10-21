@@ -17,7 +17,7 @@ import static junit.framework.TestCase.*;
 
 
 /**
- * Tests for Game & GUI classes.
+ * Tests for Game and GUI classes.
  *
  * @author Sushil Sharma
  */
