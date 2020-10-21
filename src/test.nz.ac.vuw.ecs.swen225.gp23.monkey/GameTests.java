@@ -272,6 +272,30 @@ public class GameTests {
   }
 
   /**
+   * Checking random movement of player.
+   */
+  @Test
+  public void testRndmMovement1() {
+    gui.updateDisplay();
+    gui.onNewGame();
+    Game game = gui.getCurrentGame();
+
+    game.isRunningTest(true);
+    assertEquals(7, game.getPlayer().getCurrentTile().getXLoc());
+    assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
+    game.onMovement(Tile.Directions.Right);
+    game.onMovement(Tile.Directions.Right);
+    game.onMovement(Tile.Directions.Up);
+    game.onMovement(Tile.Directions.Up);
+    game.onMovement(Tile.Directions.Left);
+    game.onMovement(Tile.Directions.Down);
+    game.onMovement(Tile.Directions.Down);
+
+    assertEquals(8, game.getPlayer().getCurrentTile().getXLoc());
+    assertEquals(6, game.getPlayer().getCurrentTile().getYLoc());
+  }
+
+  /**
    * Testing to check if the timer works.
    */
   @Test
@@ -373,6 +397,4 @@ public class GameTests {
     game.isRunningTest(true);
     assertEquals(expectedBoard, game.getBoard().toString());
   }
-
-
 }
