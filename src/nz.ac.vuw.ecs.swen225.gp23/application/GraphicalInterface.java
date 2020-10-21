@@ -849,7 +849,6 @@ public class GraphicalInterface extends JFrame implements KeyListener {
 
       if (application.getState().equals(Application.GameStates.RUNNING)) {
         if (!isLoadingRecordedGame) {
-          System.out.println("bruh");
           RecordReplay.saveRecording(currentGame);
         }
         application.transitionToInit();
