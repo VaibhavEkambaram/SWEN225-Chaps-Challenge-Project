@@ -23,6 +23,7 @@ Alternatively, this step can be performed by using the "get from version control
     - Open the libraries tab
     - Select gson from the lib folder
     - Select json from the lib folder
+    - Select guava from the lib folder
 
     - Open one of the monkey tests and select the option to import JUnit 4
 
