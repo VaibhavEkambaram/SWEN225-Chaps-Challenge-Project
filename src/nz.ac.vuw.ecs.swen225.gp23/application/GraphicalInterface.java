@@ -490,7 +490,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
    * Create On-Screen Movement and Record/Replay Buttons.
    */
   private void createButtons() {
-    upButton = new JButton("Up");
+    upButton = new JButton("↑");
     upButton.setToolTipText("Move Chap Up");
     upButton.addActionListener(e -> {
       if (application.getState().equals(Application.GameStates.RUNNING) && !gamePaused) {
@@ -498,7 +498,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
       }
     });
 
-    downButton = new JButton("Down");
+    downButton = new JButton("↓");
     downButton.setToolTipText("Move Chap Down");
     downButton.addActionListener(e -> {
       if (application.getState().equals(Application.GameStates.RUNNING) && !gamePaused) {
@@ -506,7 +506,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
       }
     });
 
-    leftButton = new JButton("Left");
+    leftButton = new JButton("←");
     leftButton.setToolTipText("Move Chap to the Left");
     leftButton.addActionListener(e -> {
       if (application.getState().equals(Application.GameStates.RUNNING) && !gamePaused) {
@@ -514,7 +514,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
       }
     });
 
-    rightButton = new JButton("Right");
+    rightButton = new JButton("→");
     rightButton.setToolTipText("Move Chap to the Right");
     rightButton.addActionListener(e -> {
       if (application.getState().equals(Application.GameStates.RUNNING) && !gamePaused) {
