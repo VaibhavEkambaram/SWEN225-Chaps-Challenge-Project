@@ -13,20 +13,6 @@ import javax.sound.sampled.Clip;
  * @author Cameron Li
  */
 public class AudioModule {
-    private Clip backgroundClip; // Clip used for background music/soundtracks (looping)
-
-    /**
-     * Constructor, initialise the Clips
-     *
-     * @author Cameron Li
-     */
-    public AudioModule() {
-        try {
-            backgroundClip = AudioSystem.getClip();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
 
     /**
      * Play specified audio file from url string
@@ -34,14 +20,14 @@ public class AudioModule {
      *
      * @author Cameron Li
      */
-    public void playSoundTrack(final String audioFile) {
+    public static void playSoundTrack(Clip clip, String audioFile) {
         try {
-            if (backgroundClip.isOpen()) {
-                resetSoundTrack();
+            if (clip.isOpen()) {
+                resetSoundTrack(clip);
             }
             AudioInputStream inputStream = AudioSystem.getAudioInputStream(Main.class.getResourceAsStream(audioFile));
-            backgroundClip.open(inputStream);
-            backgroundClip.loop(Clip.LOOP_CONTINUOUSLY);
+            clip.open(inputStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -53,13 +39,13 @@ public class AudioModule {
      *
      * @author Cameron Li
      */
-    public void playSound(Clip clip, String audioFile) {
+    public static void playSound(Clip clip, String audioFile) {
         try {
             if (!clip.isOpen()) {
                 AudioInputStream inputStream = AudioSystem.getAudioInputStream(Main.class.getResourceAsStream(audioFile));
                 clip.open(inputStream);
             }
-            resetEffectTrack(clip);
+            resetTrack(clip);
             clip.start();
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -67,13 +53,13 @@ public class AudioModule {
     }
 
     /**
-     * Pause the current sound track on the background clip
+     * Pause the current sound track on the clip
      *
      * @author Cameron Li
      */
-    public void pauseSoundTrack() {
+    public static void pauseSoundTrack(Clip clip) {
         try {
-            backgroundClip.stop();
+            clip.stop();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -85,9 +71,9 @@ public class AudioModule {
      *
      * @author Cameron Li
      */
-    public void playSoundTrack() {
+    public static void playSoundLoop(Clip clip) {
         try {
-            backgroundClip.loop(Clip.LOOP_CONTINUOUSLY);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -99,12 +85,12 @@ public class AudioModule {
      *
      * @author Cameron Li
      */
-    public void resetSoundTrack() {
+    public static void resetSoundTrack(Clip clip) {
         try {
-            if (backgroundClip.isRunning()) {
-                backgroundClip.stop();
-                backgroundClip.close();
-                backgroundClip.setFramePosition(0);
+            if (clip.isRunning()) {
+                clip.stop();
+                clip.close();
+                clip.setFramePosition(0);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -117,7 +103,7 @@ public class AudioModule {
      *
      * @author Cameron Li
      */
-    public void resetEffectTrack(Clip clip) {
+    public static void resetTrack(Clip clip) {
         try {
             if (clip.isRunning()) {
                 clip.stop();
