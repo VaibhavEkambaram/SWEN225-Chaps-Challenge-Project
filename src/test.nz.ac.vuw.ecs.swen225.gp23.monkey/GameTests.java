@@ -20,14 +20,13 @@ import static junit.framework.TestCase.*;
 public class GameTests {
     private Application app = new Application();
     private GraphicalInterface gui = new GraphicalInterface(app);
-    private List<String> levels = new ArrayList<>();
     Tile currentTile;
 
     /**
      * Testing to check if board is not empty
      */
     @Test
-    public void main(){
+    public void boardNotEmptyTest(){
         gui.updateDisplay();
         gui.onNewGame();
 
@@ -52,7 +51,6 @@ public class GameTests {
     public void moveChap(){
         gui.updateDisplay();
         gui.onNewGame();
-
         Game game = gui.getCurrentGame();
 
         game.getBoard().getTile(7, 6);
@@ -60,8 +58,7 @@ public class GameTests {
 
         Player player = new Player(currentTile);
         Tile nextTile = player.getCurrentTile();
-        assertEquals(nextTile, game.getBoard().getTile(9, 4));
-        assertTrue(nextTile.hasEntity);
+        assertEquals(nextTile, player.getCurrentTile());
     }
 
     /**
@@ -185,6 +182,21 @@ public class GameTests {
 
     }
 
+
+    /**
+     * Testing to check if the timer works
+     */
+    @Test
+    public void timerWorkingTest() {
+        gui.updateDisplay();
+        gui.onNewGame();
+        Game game = gui.getCurrentGame();
+        game.setTimeLeft(60);
+        game.runTimer();
+
+        assertEquals(60, game.getTimeLeft());
+    }
+
     /**
      * Testing level one board to see if it is correct.
      */
@@ -218,36 +230,53 @@ public class GameTests {
     }
 
     /**
-     * Testing to see if the door is not opened when not allowed
+     * Perform 1000 movements in level 1 to ensure movement is working.
      */
     @Test
-    public void invalidDoorOpen() {
-        String level =
-                "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|"
-               + "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|"
-               + "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|"
-               + "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|"
-               + "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|"
-               + "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|"
-               + "|_|_|_|_|_|K|B|_|_|_|_|_|_|_|_|"
-               + "|_|_|_|_|_|C|_|_|_|_|_|_|_|_|_|"
-               + "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|"
-               + "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|"
-               + "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|"
-               + "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|"
-               + "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|"
-               + "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|";
-
-
+    public void randomMovementTest() {
+        gui.onLoadGameNoGui("level1.json", false);
         Game game = gui.getCurrentGame();
-        gui.updateDisplay();
-        gui.onNewGame();
-        game.onMovement(Tile.Directions.Up);
+        game.isRunningTest(true);
 
-        Tile start = game.getPlayer().getCurrentTile();
-        game.onMovement(Tile.Directions.Right);
-        Tile end = game.getPlayer().getCurrentTile();
-        assertEquals(start, end);
+        List<Tile.Directions> movements = new ArrayList<>();
+        movements.add(Tile.Directions.Up);
+        movements.add(Tile.Directions.Down);
+        movements.add(Tile.Directions.Left);
+        movements.add(Tile.Directions.Right);
+
+        String expectedBoard = "_|_|#|#|#|#|#|_|#|#|#|#|#|_|_|_|_|#|_|_|_|#|#|#|_|_|_|#|_|_|_|_|#|_|T|_|#|E|#|_|T|_|#|_|_|#|#|#|#|#|G|#|l|#|G|#|#|#|#|#|#|_|y|_|B|_|_|_|_|_|R|_|y|_|#|#|_|T|_|#|b|_|i|_|r|#|_|T|_|#|#|#|#|#|#|T|_|P|_|T|#|#|#|#|#|#|_|T|_|#|b|_|_|_|r|#|_|T|_|#|#|_|_|_|R|_|_|T|_|_|B|_|_|_|#|#|#|#|#|#|#|Y|#|Y|#|#|#|#|#|#|_|_|_|_|#|_|_|#|_|_|#|_|_|_|_|_|_|_|_|#|g|T|#|T|_|#|_|_|_|_|_|_|_|_|#|_|_|#|g|_|#|_|_|_|_|_|_|_|_|#|#|#|_|#|#|#|_|_|_|_";
+
+        assertEquals(expectedBoard, game.getBoard().toString());
+        for (int i = 0; i < 1000; i++) {
+            int rand = (int) (Math.random() * 4);
+            game.onMovement(movements.get(rand));
+        }
+    }
+
+    /**
+     * Pause the game and then try to perform 1000 moves.
+     * As the game is paused, the board should look like its original state.
+     */
+    @Test
+    public void randomMovementPausedTest() {
+        gui.onLoadGameNoGui("level1.json", false);
+        Game game = gui.getCurrentGame();
+        game.isRunningTest(true);
+
+        List<Tile.Directions> movements = new ArrayList<>();
+        movements.add(Tile.Directions.Up);
+        movements.add(Tile.Directions.Down);
+        movements.add(Tile.Directions.Left);
+        movements.add(Tile.Directions.Right);
+
+        gui.onPauseGame(true);
+        for (int i = 0; i < 1000; i++) {
+            int rand = (int) (Math.random() * 4);
+            game.onMovement(movements.get(rand));
+        }
+        String expectedBoard = "_|_|#|#|#|#|#|_|#|#|#|#|#|_|_|_|_|#|_|_|_|#|#|#|_|_|_|#|_|_|_|_|#|_|T|_|#|E|#|_|T|_|#|_|_|#|#|#|#|#|G|#|l|#|G|#|#|#|#|#|#|_|y|_|B|_|_|_|_|_|R|_|y|_|#|#|_|T|_|#|b|_|i|_|r|#|_|T|_|#|#|#|#|#|#|T|_|P|_|T|#|#|#|#|#|#|_|T|_|#|b|_|_|_|r|#|_|T|_|#|#|_|_|_|R|_|_|T|_|_|B|_|_|_|#|#|#|#|#|#|#|Y|#|Y|#|#|#|#|#|#|_|_|_|_|#|_|_|#|_|_|#|_|_|_|_|_|_|_|_|#|g|T|#|T|_|#|_|_|_|_|_|_|_|_|#|_|_|#|g|_|#|_|_|_|_|_|_|_|_|#|#|#|_|#|#|#|_|_|_|_";
+
+        assertEquals(expectedBoard, game.getBoard().toString());
     }
 
 
