@@ -122,7 +122,7 @@ public class TileFinder {
     public static ImageIcon getTile(String tileName, int tileset) {
         if (tileset >= 0) {
             StringBuilder newString = new StringBuilder();
-            newString.append(tileName + "_");
+            newString.append(tileName).append("_");
             if (tileset == 0) {
                 newString.append("grass");
             } else {

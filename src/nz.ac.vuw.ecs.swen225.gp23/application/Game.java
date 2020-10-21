@@ -202,6 +202,7 @@ public class Game {
       Tile currentTile = player.getCurrentTile();
 
       if (currentTile.hasEntity) {
+
         gui.onStopGame(false);
 
         if (!isRunningTest) {

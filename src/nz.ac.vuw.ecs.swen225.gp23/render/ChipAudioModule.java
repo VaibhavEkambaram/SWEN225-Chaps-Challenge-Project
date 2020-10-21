@@ -1,8 +1,5 @@
 package nz.ac.vuw.ecs.swen225.gp23.render;
 
-import nz.ac.vuw.ecs.swen225.gp23.application.Main;
-
-import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 

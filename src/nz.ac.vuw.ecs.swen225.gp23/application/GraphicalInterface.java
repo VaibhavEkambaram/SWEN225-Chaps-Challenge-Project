@@ -34,6 +34,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
 import nz.ac.vuw.ecs.swen225.gp23.maze.Board;
 import nz.ac.vuw.ecs.swen225.gp23.maze.Tile;
 import nz.ac.vuw.ecs.swen225.gp23.persistence.LevelM;
@@ -846,10 +847,9 @@ public class GraphicalInterface extends JFrame implements KeyListener {
   public void onStopGame(boolean isLoadingRecordedGame) {
     if (currentGame != null) {
 
-
       if (application.getState().equals(Application.GameStates.RUNNING)) {
         if (!isLoadingRecordedGame) {
-          RecordReplay.endRecording();
+          RecordReplay.saveRecording(currentGame);
         }
         application.transitionToInit();
         currentGame.terminateTimer();
@@ -1016,7 +1016,15 @@ public class GraphicalInterface extends JFrame implements KeyListener {
    * @param message Message Body
    */
   public void outOfTime(String title, String message) {
+    // if recording, save and terminate
+
+
     if (currentGame != null) {
+      if (RecordReplay.getIsGameRecording()) {
+        RecordReplay.saveRecording(currentGame);
+      }
+
+
       if (application.getState().equals(Application.GameStates.RUNNING)) {
         application.transitionToInit();
         currentGame.terminateTimer();
@@ -1024,6 +1032,7 @@ public class GraphicalInterface extends JFrame implements KeyListener {
       onPauseGame(false);
       gamePauseMenu.setState(false);
     }
+
 
     String[] options = new String[]{"Play Again", "Exit"};
     JPanel fields = new JPanel(new GridLayout(0, 1));
