@@ -123,6 +123,7 @@ public class GameTests {
     gui.onNewGame();
     Game game = gui.getCurrentGame();
 
+    game.isRunningTest(true);
     assertEquals(7, game.getPlayer().getCurrentTile().getHorizLoc());
     assertEquals(6, game.getPlayer().getCurrentTile().getVertLoc());
     assertEquals("chip_down.png", game.getBoard().getTile(7, 6).getCurrentImage());
@@ -137,6 +138,7 @@ public class GameTests {
     gui.onNewGame();
     Game game = gui.getCurrentGame();
 
+    game.isRunningTest(true);
     assertEquals(7, game.getPlayer().getCurrentTile().getHorizLoc());
     assertEquals(6, game.getPlayer().getCurrentTile().getVertLoc());
     game.onMovement(Tile.Directions.Left);
@@ -153,6 +155,7 @@ public class GameTests {
     gui.onNewGame();
     Game game = gui.getCurrentGame();
 
+    game.isRunningTest(true);
     assertEquals(7, game.getPlayer().getCurrentTile().getHorizLoc());
     assertEquals(6, game.getPlayer().getCurrentTile().getVertLoc());
     game.onMovement(Tile.Directions.Left);
@@ -171,6 +174,7 @@ public class GameTests {
     gui.onNewGame();
     Game game = gui.getCurrentGame();
 
+    game.isRunningTest(true);
     assertEquals(7, game.getPlayer().getCurrentTile().getHorizLoc());
     assertEquals(6, game.getPlayer().getCurrentTile().getVertLoc());
     game.onMovement(Tile.Directions.Right);
@@ -188,6 +192,7 @@ public class GameTests {
     gui.onNewGame();
     Game game = gui.getCurrentGame();
 
+    game.isRunningTest(true);
     assertEquals(7, game.getPlayer().getCurrentTile().getHorizLoc());
     assertEquals(6, game.getPlayer().getCurrentTile().getVertLoc());
     game.onMovement(Tile.Directions.Right);
@@ -205,6 +210,7 @@ public class GameTests {
     gui.onNewGame();
     Game game = gui.getCurrentGame();
 
+    game.isRunningTest(true);
     assertEquals(7, game.getPlayer().getCurrentTile().getHorizLoc());
     assertEquals(6, game.getPlayer().getCurrentTile().getVertLoc());
     game.onMovement(Tile.Directions.Up);
@@ -221,6 +227,7 @@ public class GameTests {
     gui.onNewGame();
     Game game = gui.getCurrentGame();
 
+    game.isRunningTest(true);
     assertEquals(7, game.getPlayer().getCurrentTile().getHorizLoc());
     assertEquals(6, game.getPlayer().getCurrentTile().getVertLoc());
     game.onMovement(Tile.Directions.Up);
@@ -238,6 +245,7 @@ public class GameTests {
     gui.onNewGame();
     Game game = gui.getCurrentGame();
 
+    game.isRunningTest(true);
     assertEquals(7, game.getPlayer().getCurrentTile().getHorizLoc());
     assertEquals(6, game.getPlayer().getCurrentTile().getVertLoc());
     game.onMovement(Tile.Directions.Down);
@@ -254,6 +262,7 @@ public class GameTests {
     gui.onNewGame();
     Game game = gui.getCurrentGame();
 
+    game.isRunningTest(true);
     assertEquals(7, game.getPlayer().getCurrentTile().getHorizLoc());
     assertEquals(6, game.getPlayer().getCurrentTile().getVertLoc());
     game.onMovement(Tile.Directions.Down);
@@ -343,7 +352,6 @@ public class GameTests {
   public void randomMovementTest() {
     gui.onLoadGameNoGui("level1.json", false);
     Game game = gui.getCurrentGame();
-    game.isRunningTest(true);
 
     List<Tile.Directions> movements = new ArrayList<>();
     movements.add(Tile.Directions.Up);
@@ -385,7 +393,6 @@ public class GameTests {
     }
     String expectedBoard = "_|_|#|#|#|#|#|_|#|#|#|#|#|_|_|_|_|#|_|_|_|#|#|#|_|_|_|#|_|_|_|_|#|_|T|_|#|E|#|_|T|_|#|_|_|#|#|#|#|#|G|#|l|#|G|#|#|#|#|#|#|_|y|_|B|_|_|_|_|_|R|_|y|_|#|#|_|T|_|#|b|_|i|_|r|#|_|T|_|#|#|#|#|#|#|T|_|P|_|T|#|#|#|#|#|#|_|T|_|#|b|_|_|_|r|#|_|T|_|#|#|_|_|_|R|_|_|T|_|_|B|_|_|_|#|#|#|#|#|#|#|Y|#|Y|#|#|#|#|#|#|_|_|_|_|#|_|_|#|_|_|#|_|_|_|_|_|_|_|_|#|g|T|#|T|_|#|_|_|_|_|_|_|_|_|#|_|_|#|g|_|#|_|_|_|_|_|_|_|_|#|#|#|_|#|#|#|_|_|_|_";
 
-    game.isRunningTest(true);
     assertEquals(expectedBoard, game.getBoard().toString());
   }
 }
