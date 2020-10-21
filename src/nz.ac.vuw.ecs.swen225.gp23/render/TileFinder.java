@@ -111,6 +111,9 @@ public class TileFinder {
      *
      * @param tileName
      * Name of the requested tile.
+     * @param tileset
+     * Tileset to use (less than 0 for none, 0 for grass, greater than 0 for rock)
+     *
      * @return
      * Requested tile as an ImageIcon.
      *
@@ -232,7 +235,7 @@ public class TileFinder {
             case "cyclops_right_rock":
                 return cyclops_right_rock;
             default:
-                throw new Error("TileFinder getChip() - No such chip as: " + tileName);
+                throw new Error("TileFinder getCyclops() - No such cyclops as: " + tileName);
         }
     }
 
@@ -274,7 +277,7 @@ public class TileFinder {
             case "exit_lock_rock":
                 return exit_lock_rock;
             default:
-                throw new Error("TileFinder getTile() - No such tile as: " + tileName);
+                throw new Error("TileFinder getBasic() - No such tile as: " + tileName);
         }
     }
 
@@ -308,7 +311,7 @@ public class TileFinder {
             case "door_red_rock":
                 return door_red_rock;
             default:
-                throw new Error("TileFinder getKey() - No such key as: " + tileName);
+                throw new Error("TileFinder getDoor() - No such door as: " + tileName);
         }
     }
 
@@ -383,7 +386,7 @@ public class TileFinder {
             case "key_icon":
                 return key_icon;
             default:
-                throw new Error("TileFinder getTile() - No such tile as: " + tileName);
+                throw new Error("TileFinder getIcon() - No such icon as: " + tileName);
         }
     }
 }
