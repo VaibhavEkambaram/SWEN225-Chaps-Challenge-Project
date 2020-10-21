@@ -4,7 +4,7 @@ package nz.ac.vuw.ecs.swen225.gp23.maze;
  * This class represents the exit lock tile in the game.
  * This tile is inaccessible until the player has collected a set number of computer chips
  *
- * @author Baxter Kirikiri
+ * @author Baxter Kirikiri - 300472553
  */
 public class ExitLock extends Tile {
     private int chipsNeeded;

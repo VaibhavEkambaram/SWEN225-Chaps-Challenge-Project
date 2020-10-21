@@ -4,7 +4,7 @@ package nz.ac.vuw.ecs.swen225.gp23.maze;
  * They are differentiated by colour so that they can be opened with keys of a matching colour.
  * This colour is in string format (ie. "red"). Actual colour values are handled in nz.ac.vuw.ecs.swen225.gp23/render
  *
- * @author Baxter Kirikiri
+ * @author Baxter Kirikiri - 300472553
  */
 public class LockedDoor extends Tile {
     private String colour;
