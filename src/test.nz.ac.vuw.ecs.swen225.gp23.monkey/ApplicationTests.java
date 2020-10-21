@@ -19,7 +19,7 @@ public class ApplicationTests {
    * state should be running.
    */
   @Test
-  public void transRunningState() {
+  public void testingTransitionRunningState() {
     app = new Application();
     app.transitionToRunning();
     assertEquals(runningState, app.getState());
@@ -30,7 +30,7 @@ public class ApplicationTests {
    * state should be idle.
    */
   @Test
-  public void transIdleState() {
+  public void testingTransitionIdleState() {
     app = new Application();
     assertEquals(idleState, app.getState());
   }
